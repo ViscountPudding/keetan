@@ -3,6 +3,9 @@ package model;
 import model.message.MessageList;
 import model.gamemap.GameMap;
 
+/**
+ * Contains the game client's version of the game model
+ */
 public class ClientModel {
 
 	private ResourceList bank;

@@ -1,10 +1,27 @@
 package model;
 
+/**
+ * Contains information about the current turn
+ */
 public class TurnTracker {
 	private int currentTurn;
-	private String status;
-	private int LongestRoad;
-	private int LargestArmy;
+	private Status status;
+	private int longestRoad;
+	private int largestArmy;
+
+	/**
+	 * @param currentTurn The current turn (usually 0)
+	 * @param status
+	 * @param longestRoad The size of the current longest road
+	 * @param largestArmy The size of the current largest army
+	 * @post The objects internal values are set to the given params
+	 */
+	public TurnTracker(int currentTurn, Status status, int longestRoad, int largestArmy) {
+		this.currentTurn = currentTurn;
+		this.status = status;
+		this.longestRoad = longestRoad;
+		this.largestArmy = largestArmy;
+	}
 	
 	public int getCurrentTurn() {
 		return currentTurn;
@@ -12,26 +29,22 @@ public class TurnTracker {
 	public void setCurrentTurn(int currentTurn) {
 		this.currentTurn = currentTurn;
 	}
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 	public int getLongestRoad() {
-		return LongestRoad;
+		return longestRoad;
 	}
 	public void setLongestRoad(int longestRoad) {
-		LongestRoad = longestRoad;
+		this.longestRoad = longestRoad;
 	}
 	public int getLargestArmy() {
-		return LargestArmy;
+		return largestArmy;
 	}
 	public void setLargestArmy(int largestArmy) {
-		LargestArmy = largestArmy;
+		this.largestArmy = largestArmy;
 	}
-	
-	
-	
-	
 }

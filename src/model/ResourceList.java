@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * A container to store the number of each resource
+ */
 public class ResourceList {	
 	
 	private int brick;
@@ -7,6 +10,23 @@ public class ResourceList {
 	private int sheep;
 	private int wheat;
 	private int wood;
+	
+	/**
+	 * @pre each parameter must be in the range [0,19]
+	 * @param brick The number of bricks
+	 * @param ore The number of ores
+	 * @param sheep The number of sheep
+	 * @param wheat The number of wheat
+	 * @param wood The number of wood
+	 * @post The object's internal values are set to the given params
+	 */
+	public ResourceList(int brick, int ore, int sheep, int wheat, int wood) {
+		this.brick = brick;
+		this.ore = ore;
+		this.sheep = sheep;
+		this.wheat = wheat;
+		this.wood = wood;
+	}
 	
 	public int getBrick() {
 		return brick;

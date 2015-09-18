@@ -1,24 +1,34 @@
 package model.gamemap;
 
+import model.Resource;
+/**
+ * Contains data about a given hex on the game map.
+ */
 public class Hex {
+	private HexLocation location;
+	private Resource resource;
+	private int diceNumber;
 	
-	public Hex(HexLocation location, String resource, int number) {
+	/**
+	 * @pre diceNumber must be in the range [2,12]
+	 * @param location The HexLocation of this hex
+	 * @param resource The resource produced by this hex
+	 * @param diceNumber The number that, when rolled by the dice, cause this hex to produce resources
+	 * @post The objects internal values are set to the given params
+	 */
+	public Hex(HexLocation location, Resource resource, int diceNumber) {
 		this.location = location;
 		this.resource = resource;
-		this.number = number;
+		this.diceNumber = diceNumber;
 	}
-	
-	private HexLocation location;
-	private String resource;
-	private int number;
 	
 	public HexLocation getLocation() {
 		return location;
 	}
-	public String getResource() {
+	public Resource getResource() {
 		return resource;
 	}
-	public int getNumber() {
-		return number;
+	public int getDiceNumber() {
+		return diceNumber;
 	}
 }

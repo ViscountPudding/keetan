@@ -1,13 +1,26 @@
 package model.gamemap;
 
+import model.Resource;
+
+/**
+ * Contains data for special ports that improve trade ratios
+ */
 public class Port {
 
-	private String resource;
+	private Resource resource;
 	private HexLocation location;
 	private String direction;
 	private int ratio;
 	
-	public Port(String resource, HexLocation location, String direction,
+	/**
+	 * @pre Ratio is in the range [2,3]
+	 * @param resource
+	 * @param location
+	 * @param direction
+	 * @param ratio
+	 * @post The object's values are set to the given params.
+	 */
+	public Port(Resource resource, HexLocation location, String direction,
 			int ratio) {
 		this.resource = resource;
 		this.location = location;
@@ -15,7 +28,7 @@ public class Port {
 		this.ratio = ratio;
 	}
 
-	public String getResource() {
+	public Resource getResource() {
 		return resource;
 	}
 

@@ -1,13 +1,31 @@
 package model;
 
+/**
+ * Contains a list of development cards
+ */
 public class DevCardList {
-
 	private int monopoly;
 	private int monument;
 	private int roadBuilding;
 	private int soldier;
 	private int yearOfPlenty;
-	
+
+	/**
+	 * @pre 
+	 * @param monopoly The number of monopoly cards
+	 * @param monument The number of monument cards
+	 * @param roadBuilding The number of road building cards
+	 * @param soldier The number of soldier cards
+	 * @param yearOfPlenty The number of year of plenty cards
+	 * @post The object's values are set to the given params
+	 */
+	public DevCardList(int monopoly, int monument, int roadBuilding, int soldier, int yearOfPlenty) {
+		this.monopoly = monopoly;
+		this.monument = monument;
+		this.roadBuilding = roadBuilding;
+		this.soldier = soldier;
+		this.yearOfPlenty = yearOfPlenty;
+	}
 	
 	public int getMonopoly() {
 		return monopoly;

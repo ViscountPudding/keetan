@@ -1,25 +1,28 @@
 package model.gamemap;
 
+import model.HexDirection;
+
+/**
+ * Contains information about where an edge is located
+ */
 public class EdgeLocation {
-	private int x;
-	private int y;
-	private String direction;
+	private HexLocation hexLocation;
+	private HexDirection direction;
 	
-	public EdgeLocation(int x, int y, String direction) {
-		this.x = x;
-		this.y = y;
+	/**
+	 * @param location Location of the hex the edge belongs to.
+	 * @param direction The direction from the center of the hex the edge is on.
+	 */
+	public EdgeLocation(HexLocation hexLocation, HexDirection direction) {
+		this.hexLocation = hexLocation;
 		this.direction = direction;
 	}
 
-	public int getX() {
-		return x;
+	public HexLocation getHexLocation() {
+		return hexLocation;
 	}
 
-	public int getY() {
-		return y;
-	}
-
-	public String getDirection() {
+	public HexDirection getDirection() {
 		return direction;
 	}
 	

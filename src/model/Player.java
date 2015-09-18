@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Contains data about a given player
+ */
 public class Player {
 	
 	private int cities;
@@ -18,6 +21,13 @@ public class Player {
 	private int soldiers;
 	private int victoryPoints;
 	
+	/**
+	 * @pre newPlayerIndex must be in the range [0,3], and newName must not be in use
+	 * @param newName The player's name
+	 * @param newPlayerIndex The player's playerIndex
+	 * @param newPlayerID The player's ID
+	 * @post The object's internal values are initialized
+	 */
 	public Player(String newName, int newPlayerIndex, int newPlayerID) {
 		name = newName;
 		playerIndex = newPlayerIndex;
