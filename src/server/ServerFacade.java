@@ -9,11 +9,10 @@ import model.*;
 import java.util.List;
 
 import server.Session;
-import catana.resources.PlayerColor;
-import catana.resources.Resource;
-import catana.resources.EdgeLocation;
-import catana.resources.GridLocation;
-import catana.resources.VertexLocation;
+import model.PlayerColor;
+import model.Resource;
+import model.gamemap.EdgeLocation;
+import model.gamemap.HexLocation;
 import exceptions.CannotSaveGameException;
 import exceptions.IllegalActionException;
 import exceptions.CannotJoinGameException;
@@ -94,7 +93,7 @@ public class ServerFacade {
 	}
 
 	
-	public ClientModel robPlayer(Session user, GridLocation newRobberLocation,
+	public ClientModel robPlayer(Session user, HexLocation newRobberLocation,
 			Player victim) throws ServerException,
 			IllegalActionException {
 		// TODO Auto-generated method stub
@@ -123,7 +122,7 @@ public class ServerFacade {
 	}
 
 	
-	public ClientModel soldier(Session user, GridLocation newRobberLocation,
+	public ClientModel soldier(Session user, HexLocation newRobberLocation,
 			Player victim) throws ServerException,
 			IllegalActionException {
 		// TODO Auto-generated method stub
@@ -145,14 +144,14 @@ public class ServerFacade {
 	}
 
 	
-	public ClientModel buildSettlement(Session user, VertexLocation location,
+	public ClientModel buildSettlement(Session user, EdgeLocation location, //Maybe create vertex location object?
 			boolean free) throws ServerException, IllegalActionException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	
-	public ClientModel buildCity(Session user, VertexLocation location)
+	public ClientModel buildCity(Session user, EdgeLocation location) //Maybe create vertex location object?
 			throws ServerException, IllegalActionException {
 		// TODO Auto-generated method stub
 		return null;

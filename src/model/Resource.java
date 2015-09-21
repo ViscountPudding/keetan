@@ -5,4 +5,6 @@ package model;
  */
 public enum Resource {
 	
+	WOOD, BRICK, SHEEP, WHEAT, ORE
+
 }
