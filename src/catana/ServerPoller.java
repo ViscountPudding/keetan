@@ -3,6 +3,8 @@ package catana;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import server.IServer;
+
 /**
  * @author djoshuac
  * 
@@ -16,7 +18,7 @@ public class ServerPoller {
 		 * This function tells the CLIENTSERVER to check for updates in the model.
 		 * 
 		 * BUT currently it just counts.
-		 * I need the client server (#WILL-TODO) to be implemented since the ServerPoller
+		 * I need the client server Interface (#WILL-TODO) to be implemented since the ServerPoller
 		 * will require a pointer to invoke it's 'UPDATEMODEL()' method #UMT-RUN 
 		 * 
 		 * @pre ServerPoller.clientServer can't be null
@@ -40,7 +42,7 @@ public class ServerPoller {
 	private Timer timer;
 	private static final int ONE_SECOND = 1000; //in milliseconds
 	private static final int NO_DELAY = 0; //in milliseconds
-	//private CLIENTSERVER clientServer
+	private IServer server;
 	
 	/**
 	 * @pre cleintServer must be a non-null CLIENTSERVER
@@ -48,9 +50,21 @@ public class ServerPoller {
 	 * @return A fully functional ServerPoller
 	 * @post A fully functional ServerPoller is created
 	 */
-	public ServerPoller(/*CLIENTSERVER clientServer*/) {
+	public ServerPoller(IServer server) {
 		timer = null;
-		//this.clientServer = clientServer;
+		this.server = server;
+	}
+	
+	/**
+	 * @pre server must not be null
+	 * @param server - the server you want the poller to poll
+	 * @post The server that is polled is changed to the given server. This works even
+	 * if the poller is currently running.
+	 */
+	public void changeServer(IServer server) {
+		if (server == null) {
+			this.server = server;
+		}
 	}
 	
 	/**
@@ -124,7 +138,7 @@ public class ServerPoller {
 	 * @param args - we do not use this here
 	 */
 	public static void main(String[] args) {
-		ServerPoller polls = new ServerPoller();
+		/*ServerPoller polls = new ServerPoller(new ISERVER()); #whybroken
 		
 		System.out.println("START");
 		polls.start(500, 1000);
@@ -138,7 +152,7 @@ public class ServerPoller {
 		}
 		
 		System.out.println("END");
-		polls.stop();
+		polls.stop();*/
 	}
 }
 

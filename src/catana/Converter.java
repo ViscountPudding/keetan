@@ -6,8 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 
-import com.google.gson.Gson;
-
 import model.ClientModel;
 
 /**
@@ -51,6 +49,6 @@ public class Converter {
 			}
 			reader.close();
 		
-		Gson gson = new Gson();
+		//Gson gson = new Gson();
 	}
 }
