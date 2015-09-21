@@ -14,12 +14,12 @@ public class GameMap {
 	private HexLocation robber;
 	
 	/**
-	 * @pre 
-	 * @param hexes
-	 * @param ports
-	 * @param roads
-	 * @param settlements
-	 * @param cities
+	 * @pre The game must be starting or the map must be changing
+	 * @param hexes The array of hexes in the game map
+	 * @param ports The array of port locations in the game map
+	 * @param roads The array of roads in the game map
+	 * @param settlements The array of settlements in the game map 
+	 * @param cities The array of cities in the game map
 	 * @param radius The map's radius
 	 * @param robber The robber's HexLocation
 	 * @post The objects internal values are set to the given params.
@@ -87,7 +87,7 @@ public class GameMap {
 	 * @param city
 	 * @post The settlement at the vertex is removed from the map, and a city put in its place
 	 */
-	public void setCities(VertexObject city) {
+	public void addCity(VertexObject city) {
 		
 	}
 
