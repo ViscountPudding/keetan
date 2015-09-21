@@ -1,2 +1,6 @@
 bin
 bin/**
+.metadata
+.metadata/**
+.recommenders
+.recommenders/*
