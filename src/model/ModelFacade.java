@@ -4,11 +4,27 @@ import model.gamemap.HexLocation;
 
 public class ModelFacade {
 
-	private ClientModel model;
+	private ClientModel model = ClientModel.getInstance();
 	
-	public ModelFacade() {
+	//SINGLETON!
+	private static ModelFacade instance = null;
+	
+	private ModelFacade() {
 		
 	}
+	
+	/** The singleton generator for the ModelFacade
+	 * @pre the game must be starting (there must be a server model to interact with)
+	 * @return the singleton of the ModelFacade
+	 */
+	public static ModelFacade GetInstance() {
+		if(instance == null) {
+			instance = new ModelFacade();
+		}
+		
+		return instance;
+	}
+	
 	/**
 	* @pre Whenever
 	* @param Location of hex

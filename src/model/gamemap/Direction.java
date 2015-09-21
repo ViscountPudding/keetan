@@ -1,6 +1,6 @@
 package model.gamemap;
 /**
- * Various direction types
+ * The possible directions a road can be relative to a Hex center
  * @author Steen
  *
  */
