@@ -1,6 +1,8 @@
 package model;
 
 import model.gamemap.HexLocation;
+import model.gamemap.VertexObject;
+import model.gamemap.EdgeLocation;
 
 public class ModelFacade {
 
@@ -67,10 +69,10 @@ public class ModelFacade {
 	/**
 	* @pre Whenever
 	* @param Player
-	* @return true if the player has an available road and a place to build a road, false if otherwise
+	* @return true if the player has an available road and the location is a valid place to build, false if otherwise
 	* @post Player may build the road if possible
 	*/
-	public boolean canBuildRoad(int playerIndex) {
+	public boolean canBuildRoad(int playerIndex, EdgeLocation location) {
 		return true;
 	}
 	
@@ -78,20 +80,20 @@ public class ModelFacade {
 	/**
 	* @pre Whenever
 	* @param Player
-	* @return true if the player has an available settlement and a place to build a settlement
+	* @return true if the player has an available settlement and the location is a valid place to build
 	* @post Player may build the settlement if possible
 	*/
-	public boolean canBuildSettlement(int playerIndex) {
+	public boolean canBuildSettlement(int playerIndex, VertexObject location) {
 		return true;
 	}
 	
 	/**
 	* @pre Whenever
 	* @param Player
-	* @return true if the player has an available city and settlement to put the city on, false if otherwise
+	* @return true if the player has an available city and the location has an existing settlement, false if otherwise
 	* @post Player may build the city if possible
 	*/
-	public boolean canBuildCity(int playerIndex) {
+	public boolean canBuildCity(int playerIndex, VertexObject location) {
 		return true;
 	}	
 	
