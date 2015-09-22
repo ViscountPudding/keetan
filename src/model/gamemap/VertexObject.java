@@ -1,12 +1,15 @@
 package model.gamemap;
 
+import model.pieces.Settlement;
+
 /**
- * 
+ *  An object representing the vertex of a Hex, containing information about what is located at that hex
  */
 public class VertexObject {
 
 	private int owner;
 	private EdgeLocation location;
+	private Settlement settlement;
 	
 	/**
 	 * @pre owner must be in the range [-1,3], and location must be a valid EdgeLocation
@@ -17,6 +20,7 @@ public class VertexObject {
 	public VertexObject(int owner, EdgeLocation location) {
 		this.owner = owner;
 		this.location = location;
+		this.settlement = null;
 	}
 
 	public int getOwner() {
@@ -26,6 +30,15 @@ public class VertexObject {
 	public EdgeLocation getLocation() {
 		return location;
 	}
+
+	public Settlement getSettlement() {
+		return settlement;
+	}
+
+	public void setSettlement(Settlement settlement) {
+		this.settlement = settlement;
+	}
+	
 	
 	
 }
