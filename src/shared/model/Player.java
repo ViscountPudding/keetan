@@ -1,23 +1,29 @@
 package shared.model;
 
+import java.util.ArrayList;
+
+import shared.model.gamemap.Port;
+import shared.model.pieces.*;
+
 /**
  * Contains data about a given player
  */
 public class Player {
 	
-	private int cities;
-	private String color;
+	private String color = null;
 	private boolean discarded;
 	private int monuments;
-	private String name;
-	private DevCardList newDevCards;
-	private DevCardList oldDevCards;
+	private String name = null;
+	private DevCardList newDevCards = null;
+	private DevCardList oldDevCards = null;
 	private int playerIndex;
 	private boolean playedDevCard;
 	private int playerID;
-	private ResourceList resources;
-	private int roads;
-	private int settlements;
+	private ResourceList resources = new ResourceList(0,0,0,0,0);
+	private ArrayList<City> cities = new ArrayList<City>();
+	private ArrayList<Road> roads = new ArrayList<Road>();
+	private ArrayList<Settlement> settlements = new ArrayList<Settlement>();
+	private ArrayList<Port> ports = new ArrayList<Port>();
 	private int soldiers;
 	private int victoryPoints;
 	
@@ -34,12 +40,12 @@ public class Player {
 		playerID = newPlayerID;
 	}
 
-	public int getCities() {
+	public ArrayList<City> getCities() {
 		return cities;
 	}
 
-	public void setCities(int cities) {
-		this.cities = cities;
+	public void addCity(City city) {
+		cities.add(city);
 	}
 
 	public String getColor() {
@@ -98,20 +104,32 @@ public class Player {
 		this.resources = resources;
 	}
 
-	public int getRoads() {
+	public ArrayList<Road> getRoads() {
 		return roads;
 	}
 
-	public void setRoads(int roads) {
-		this.roads = roads;
+	public void addRoad(Road road) {
+		roads.add(road);
 	}
 
-	public int getSettlements() {
+	public ArrayList<Settlement> getSettlements() {
 		return settlements;
 	}
 
-	public void setSettlements(int settlements) {
-		this.settlements = settlements;
+	public void addSettlement(Settlement settlement) {
+		settlements.add(settlement);
+	}
+	
+	public void removeSettlement(Settlement settlement) {
+		settlements.remove(settlement);
+	}
+	
+	public ArrayList<Port> getPorts() {
+		return ports;
+	}
+	
+	public void addPort(Port port) {
+		ports.add(port);
 	}
 
 	public int getSoldiers() {

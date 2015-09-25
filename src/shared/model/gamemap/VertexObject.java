@@ -23,7 +23,7 @@ public class VertexObject {
 		this.owner = owner;
 		this.location = location;
 		this.settlement = null;
-		this.setCity(null);
+		this.city = null;
 	}
 
 	public int getOwner() {
@@ -46,7 +46,13 @@ public class VertexObject {
 		return city;
 	}
 
+	/**
+	 * @pre A settlement must already exist in this location to build a city
+	 * @param city The new city to place
+	 * @post The old settlement is removed and the new city is placed
+	 */
 	public void setCity(City city) {
+		this.settlement = null;
 		this.city = city;
 	}
 	

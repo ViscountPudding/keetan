@@ -33,7 +33,7 @@ public class EdgeValue {
 	 * @post Internally stored playerIndex is updated.
 	 */
 	public void setPlayerIndex(int playerIndex) {
-		
+		this.playerIndex = playerIndex;
 	}
 
 	public EdgeLocation getLocation() {

@@ -1,5 +1,11 @@
 package shared.model.gamemap;
 
+import java.util.ArrayList;
+
+import shared.model.pieces.City;
+import shared.model.pieces.Road;
+import shared.model.pieces.Settlement;
+
 /**
  * Class is a singleton, and contains the data about the game map
  */
@@ -7,9 +13,9 @@ public class GameMap {
 
 	private Hex[] hexes;
 	private Port[] ports;
-	private EdgeValue[] roads;
-	private VertexObject[] settlements;
-	private VertexObject[] cities;
+	private ArrayList<Road> roads;
+	private ArrayList<Settlement> settlements;
+	private ArrayList<City> cities;
 	private int radius;
 	private HexLocation robber;
 	
@@ -24,8 +30,8 @@ public class GameMap {
 	 * @param robber The robber's HexLocation
 	 * @post The objects internal values are set to the given params.
 	 */
-	public GameMap(Hex[] hexes, Port[] ports, EdgeValue[] roads,
-			VertexObject[] settlements, VertexObject[] cities, int radius,
+	public GameMap(Hex[] hexes, Port[] ports, ArrayList<Road> roads,
+			ArrayList<Settlement> settlements, ArrayList<City> cities, int radius,
 			HexLocation robber) {
 		this.hexes = hexes;
 		this.ports = ports;
@@ -52,7 +58,7 @@ public class GameMap {
 		return ports;
 	}
 
-	public EdgeValue[] getRoads() {
+	public ArrayList<Road> getRoads() {
 		return roads;
 	}
 	
@@ -61,11 +67,11 @@ public class GameMap {
 	 * @param road New location to place road
 	 * @post road is added to the map
 	 */
-	public void addRoad(EdgeValue road) {
-		
+	public void addRoad(Road road) {
+		roads.add(road);
 	}
 
-	public VertexObject[] getSettlements() {
+	public ArrayList<Settlement> getSettlements() {
 		return settlements;
 	}
 	
@@ -74,11 +80,11 @@ public class GameMap {
 	 * @param settlement The location for the new settlement
 	 * @post settlement is added to the map
 	 */
-	public void addSettlement(VertexObject settlement) {
-		
+	public void addSettlement(Settlement settlement) {
+		settlements.add(settlement);
 	}
 
-	public VertexObject[] getCities() {
+	public ArrayList<City> getCities() {
 		return cities;
 	}
 	
@@ -87,8 +93,8 @@ public class GameMap {
 	 * @param city
 	 * @post The settlement at the vertex is removed from the map, and a city put in its place
 	 */
-	public void addCity(VertexObject city) {
-		
+	public void addCity(City city) {
+		cities.add(city);
 	}
 
 	public int getRadius() {

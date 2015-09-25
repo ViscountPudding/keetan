@@ -13,19 +13,22 @@ public class Port {
 	private int ratio;
 	
 	/**
-	 * @pre Ratio is in the range [2,3]
-	 * @param resource
+	 * @pre 
+	 * @param resource Should be null if it's a general port
 	 * @param location
 	 * @param direction
-	 * @param ratio
 	 * @post The object's values are set to the given params.
 	 */
-	public Port(Resource resource, HexLocation location, String direction,
-			int ratio) {
+	public Port(Resource resource, HexLocation location, String direction) {
 		this.resource = resource;
 		this.location = location;
 		this.direction = direction;
-		this.ratio = ratio;
+		if(resource == null) {
+			this.ratio = 3;
+		}
+		else {
+			this.ratio = 2;
+		}
 	}
 
 	public Resource getResource() {

@@ -26,4 +26,8 @@ public class HexLocation {
 	public int getY() {
 		return y;
 	}
+	
+	public boolean equals(HexLocation other) {
+		return other.getX() == this.x && other.getY() == this.y;
+	}
 }
