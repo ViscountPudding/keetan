@@ -24,6 +24,33 @@ public class Player {
 	private ArrayList<Road> roads = new ArrayList<Road>();
 	private ArrayList<Settlement> settlements = new ArrayList<Settlement>();
 	private ArrayList<Port> ports = new ArrayList<Port>();
+	private int unplacedCities;
+	private int unplacedRoads;
+	private int unplacedSettlements;
+	public int getUnplacedCities() {
+		return unplacedCities;
+	}
+
+	public void setUnplacedCities(int unplacedCities) {
+		this.unplacedCities = unplacedCities;
+	}
+
+	public int getUnplacedRoads() {
+		return unplacedRoads;
+	}
+
+	public void setUnplacedRoads(int unplacedRoads) {
+		this.unplacedRoads = unplacedRoads;
+	}
+
+	public int getUnplacedSettlements() {
+		return unplacedSettlements;
+	}
+
+	public void setUnplacedSettlements(int unplacedSettlements) {
+		this.unplacedSettlements = unplacedSettlements;
+	}
+
 	private int soldiers;
 	private int victoryPoints;
 	

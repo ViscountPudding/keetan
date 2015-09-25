@@ -1,7 +1,10 @@
 package shared.model;
 
 import shared.model.gamemap.EdgeLocation;
+import shared.model.gamemap.EdgeValue;
+import shared.model.gamemap.Hex;
 import shared.model.gamemap.HexLocation;
+import shared.model.gamemap.Port;
 import shared.model.gamemap.VertexObject;
 
 public class ModelFacade {
@@ -34,7 +37,22 @@ public class ModelFacade {
 	* @post players with adjacent settlements/cities may get resources if the bank has enough
 	*/
 	public boolean canProduceResource(HexLocation location) {
-		return true;
+		Hex thisHex = null;
+		for(Hex hex : model.getMap().getHexes()) {
+			if(hex.getLocation().equals(location)){
+				thisHex = hex;
+				break;
+			}
+		}
+		for(VertexObject vertex : thisHex.getAdjacentVertices()) {
+			if(vertex.getCity() == null && vertex.getSettlement() == null) {
+				continue;
+			}
+			else {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -43,8 +61,21 @@ public class ModelFacade {
 	* @return true if the bank has enough for all entitled players, false if otherwise
 	* @post players may receive their resources
 	*/
-	public boolean canReceiveResource(int resource_amount) {
-		return true;
+	public boolean canReceiveResource(int resource_amount, Resource resource_type) {
+		switch(resource_type) {
+		case WOOD:
+			return model.getBank().getWood() >= resource_amount;
+		case BRICK:
+			return model.getBank().getBrick() >= resource_amount;
+		case SHEEP:
+			return model.getBank().getSheep() >= resource_amount;
+		case WHEAT:
+			return model.getBank().getWheat() >= resource_amount;
+		case ORE:
+			return model.getBank().getOre() >= resource_amount;
+		default:
+			return false;
+		}
 	}
 	/**
 	* @pre Whenever
@@ -53,7 +84,8 @@ public class ModelFacade {
 	* @post players may trade if possible
 	*/
 	public boolean canDomesticTrade(int playerIndexOne, int playerIndexTwo) {
-		return true;
+		int currentPlayer = model.getTurnTracker().getCurrentPlayer();
+		return playerIndexOne == currentPlayer || playerIndexTwo == currentPlayer;
 	}
 	
 	/**
@@ -62,8 +94,51 @@ public class ModelFacade {
 	* @return true if it is the player's turn and they and the bank have enough resources, false if otherwise
 	* @post Player may trade with boat if possible
 	*/
-	public boolean canMaritimeTrade(int playerIndex, String tradeResource, String desiredResource) {
-		return true;
+	public boolean canMaritimeTrade(int playerIndex, Resource tradeResource, Resource desiredResource) {
+		Player player = model.getPlayers()[playerIndex];
+		
+		//Set tradeRatio. If the player has no applicable ports, this never gets overwritten.
+		int tradeRatio = 4;
+		for(Port port : player.getPorts()) {
+			if(port.getResource() == null) {
+				tradeRatio = 3;
+			}
+			else if(port.getResource() == tradeResource) {
+				//This is a best-case scenario, so we break to keep from overwriting it.
+				tradeRatio = 2;
+				break;
+			}
+		}
+		
+		switch(tradeResource) {
+		case SHEEP:
+			if(player.getResources().getSheep() < tradeRatio) {
+				return false;
+			}
+			return model.getBank().getSheep() > 0;
+		case WOOD:
+			if(player.getResources().getWood() < tradeRatio) {
+				return false;
+			}
+			return model.getBank().getWood() > 0;
+		case BRICK:
+			if(player.getResources().getBrick() < tradeRatio) {
+				return false;
+			}
+			return model.getBank().getBrick() > 0;
+		case ORE:
+			if(player.getResources().getOre() < tradeRatio) {
+				return false;
+			}
+			return model.getBank().getOre() > 0;
+		case WHEAT:
+			if(player.getResources().getWheat() < tradeRatio) {
+				return false;
+			}
+			return model.getBank().getWheat() > 0;
+		default:
+			return false;
+		}
 	}
 	
 	/**
@@ -72,8 +147,46 @@ public class ModelFacade {
 	* @return true if the player has an available road and the location is a valid place to build, false if otherwise
 	* @post Player may build the road if possible
 	*/
-	public boolean canBuildRoad(int playerIndex, EdgeLocation location) {
-		return true;
+	public boolean canBuildRoad(int playerIndex, EdgeValue location) {
+		if(model.getTurnTracker().getCurrentTurn() != 0) {
+			Player player = model.getPlayers()[playerIndex];
+			//Check for unplaced roads
+			if(player.getUnplacedRoads() == 0) {
+				return false;
+			}
+			//Check for resources
+			if(player.getResources().getBrick() == 0 || player.getResources().getWood() == 0) {
+				return false;
+			}
+			//Check for existing road
+			if(location.getRoad() != null) {
+				return false;
+			}
+			for(EdgeValue edge : location.getAdjacentEdges()) {
+				//Avoid null pointer exceptions
+				if(edge.getRoad() == null) {
+					continue;
+				}
+				else if(edge.getRoad().getPlayerIndex() == playerIndex) {
+					return true;
+				}
+			}
+			//No adjacent roads are owned by the player.
+			return false;
+		}
+		else {
+			//It's the setup phase
+			for(VertexObject vertex : location.getAdjacentVertices()) {
+				if(vertex.getSettlement() == null) {
+					continue;
+				}
+				else if(vertex.getSettlement().getPlayerIndex() == playerIndex) {
+					return true;
+				}
+			}
+			//There's not an adjacent settlement
+			return false;
+		}
 	}
 	
 	
@@ -84,7 +197,32 @@ public class ModelFacade {
 	* @post Player may build the settlement if possible
 	*/
 	public boolean canBuildSettlement(int playerIndex, VertexObject location) {
-		return true;
+		Player player = model.getPlayers()[playerIndex];
+		//Check for unplaced settlements
+		if(player.getUnplacedSettlements() == 0) {
+			return false;
+		}
+		//Does player have enough resources?
+		ResourceList rList = player.getResources();
+		if(rList.getBrick() == 0 || rList.getSheep() == 0 || rList.getWheat() == 0 || rList.getWood() == 0) {
+			return false;
+		}
+		//Is the distance rule obeyed?
+		for(VertexObject vertex : location.getAdjacentVertices()) {
+			if(vertex.getSettlement() != null || vertex.getCity() != null) {
+				return false;
+			}
+		}
+		//Is there an adjacent road?
+		for(EdgeValue edge : location.getAdjacentEdges()) {
+			if(edge.getRoad() == null) {
+				continue;
+			}
+			else if(edge.getRoad().getPlayerIndex() == playerIndex) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -94,7 +232,22 @@ public class ModelFacade {
 	* @post Player may build the city if possible
 	*/
 	public boolean canBuildCity(int playerIndex, VertexObject location) {
-		return true;
+		Player player = model.getPlayers()[playerIndex];
+		if(player.getUnplacedCities() == 0) {
+			return false;
+		}
+		else if(player.getResources().getOre() < 3 || player.getResources().getWheat() < 2) {
+			return false;
+		}
+		else if(location.getSettlement() == null) {
+			return false;
+		}
+		else if(location.getSettlement().getPlayerIndex() == playerIndex){
+			return true;
+		}
+		else {
+			return false;
+		}
 	}	
 	
 	/**
@@ -104,7 +257,19 @@ public class ModelFacade {
 	 * @post player may buy a development card if possible
 	 */
 	public boolean canBuyDevelopmentCard(int playerIndex) {
-		return true;
+		ResourceList rList = model.getPlayers()[playerIndex].getResources();
+		if(model.getTurnTracker().getCurrentPlayer() != playerIndex) {
+			return false;
+		}
+		else if(rList.getOre() == 0 || rList.getSheep() == 0 || rList.getWheat() == 0) {
+			return false;
+		}
+		else if(model.getUndrawnDevCards().getTotalCards() > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	/**
@@ -114,7 +279,7 @@ public class ModelFacade {
 	 * @post player is able to lose cards to die roll if they have more than 7 cards
 	 */
 	public boolean canLoseCardsFromDieRoll(int playerIndex) {
-		return true;
+		return model.getPlayers()[playerIndex].getResources().getTotalCards() > 7;
 	}
 	
 	/**
@@ -124,7 +289,25 @@ public class ModelFacade {
 	 * @post player can be robbed
 	 */
 	public boolean canLoseCardsFromRobber(int playerIndex) {
-		return true;
+		if(model.getPlayers()[playerIndex].getResources().getTotalCards() == 0) {
+			return false;
+		}
+		HexLocation robber = model.getMap().getRobber();
+		Hex robberHex;
+		for(Hex hex : model.getMap().getHexes()) {
+			if(hex.getLocation().equals(robber)) {
+				robberHex = hex;
+				break;
+			}
+		}
+		for(VertexObject vertex : robberHex.getAdjacentVertices()) {
+			if(vertex.getSettlement() != null && vertex.getSettlement().getPlayerIndex() == playerIndex) {
+				return true;
+			}
+			else if(vertex.getCity() != null && vertex.getCity().getPlayerIndex() == playerIndex) {
+				return true;
+			}
+		}
 	}
 
 	/**
@@ -134,7 +317,7 @@ public class ModelFacade {
 	 * @post player can be the WINNER!
 	 */
 	public boolean canWin(int playerIndex) {
-		return true;
+		return model.getTurnTracker().getCurrentPlayer() == playerIndex && model.getPlayers()[playerIndex].getVictoryPoints() > 9;
 	}
 	
 }

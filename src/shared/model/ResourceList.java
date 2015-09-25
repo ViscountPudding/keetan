@@ -58,5 +58,8 @@ public class ResourceList {
 	public void setWood(int wood) {
 		this.wood = wood;
 	}
-	
+	public int getTotalCards() {
+		int toReturn = wood + wheat + sheep + ore + brick;
+		return toReturn;
+	}
 }

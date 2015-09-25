@@ -9,6 +9,7 @@ import shared.model.message.MessageList;
 public class ClientModel {
 
 	private ResourceList bank;
+	private DevCardList undrawnDevCards;
 	private MessageList chat;
 	private MessageList log;
 	private GameMap map;
@@ -91,6 +92,14 @@ public class ClientModel {
 
 	public void setWinner(int winner) {
 		this.winner = winner;
+	}
+	
+	public DevCardList getUndrawnDevCards() {
+		return undrawnDevCards;
+	}
+
+	public void setUndrawnDevCards(DevCardList undrawnDevCards) {
+		this.undrawnDevCards = undrawnDevCards;
 	}
 
 	
