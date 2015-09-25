@@ -8,7 +8,8 @@ import shared.model.pieces.Road;
 public class EdgeValue {
 	
 	private int playerIndex;
-	private EdgeLocation location;
+	private EdgeLocation locationNorth;
+	private EdgeLocation locationSouth;
 	private Road road;
 	
 	/**
@@ -19,10 +20,22 @@ public class EdgeValue {
 	 */
 	public EdgeValue(int playerIndex, EdgeLocation location) {
 		this.playerIndex = playerIndex;
-		this.location = location;
+		//this.location = location;
 		this.road = null;
 	}
 
+	private void JUXTAPOSE(EdgeLocation location) {
+		switch (location.getDirection()) 
+		{
+			case North:
+				this.locationNorth = location;
+				//this.locationSouth = new EdgeLocation();
+		
+				
+			default: break;
+		}
+	}
+	
 	public int getPlayerIndex() {
 		return playerIndex;
 	}
@@ -37,7 +50,7 @@ public class EdgeValue {
 	}
 
 	public EdgeLocation getLocation() {
-		return location;
+		return locationNorth;
 	}
 
 	public Road getRoad() {
