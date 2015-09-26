@@ -1,5 +1,7 @@
 package shared.model.gamemap;
 
+import java.util.List;
+
 import shared.model.pieces.Settlement;
 import shared.model.pieces.City;
 
@@ -54,6 +56,16 @@ public class VertexObject {
 	public void setCity(City city) {
 		this.settlement = null;
 		this.city = city;
+	}
+
+	public List<VertexObject> getAdjacentVertices() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<EdgeValue> getAdjacentEdges() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

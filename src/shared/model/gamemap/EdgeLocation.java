@@ -24,5 +24,28 @@ public class EdgeLocation {
 		return direction;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj) {return true;}
+		else if(obj == null) {return false;}
+		else if(this.getClass() != obj.getClass()) {return false;}
+		
+		else {
+			return compareLocations(this, (EdgeLocation) obj);
+		}
+	}
 	
+	private boolean compareLocations(EdgeLocation Edge1, EdgeLocation Edge2){
+		if(Edge1.getHexLocation() == Edge2.getHexLocation()) {
+			if(Edge1.getDirection() == Edge2.getDirection()) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
 }

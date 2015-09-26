@@ -1,5 +1,7 @@
 package shared.model.gamemap;
 
+import java.util.List;
+
 import shared.model.Resource;
 /**
  * Contains data about a given hex on the game map.
@@ -36,5 +38,10 @@ public class Hex {
 	}
 	public VertexObject[] getVertices() {
 		return vertices;
+	}
+
+	public List<VertexObject> getAdjacentVertices() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

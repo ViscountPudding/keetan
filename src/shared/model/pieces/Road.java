@@ -23,6 +23,20 @@ public class Road {
 		return playerIndex;
 	}
 	
-	
+	public boolean equals(Object obj) {
+		if(this == obj) {return true;}
+		else if(obj == null) {return false;}
+		else if(this.getClass() != obj.getClass()) {return false;}
+		
+		else {
+			Road otherRoad = (Road) obj;
+			if(this.getPlayerIndex() == otherRoad.getPlayerIndex()) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
 	
 }
