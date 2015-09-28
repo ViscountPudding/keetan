@@ -11,6 +11,7 @@ public class Hex {
 	private Resource resource;
 	private int diceNumber;
 	private VertexObject[] vertices;
+	private EdgeValue[] edges;
 	
 	/**
 	 * @pre diceNumber must be in the range [2,12], vertices should be of size 6
@@ -20,11 +21,11 @@ public class Hex {
 	 * @param vertices The array of vertices associated with this Hex.
 	 * @post The objects internal values are set to the given params
 	 */
-	public Hex(HexLocation location, Resource resource, int diceNumber, VertexObject[] vertices) {
-		this.location = location;
+	public Hex(Resource resource) {
+		//this.location = location;
 		this.resource = resource;
-		this.diceNumber = diceNumber;
-		this.vertices = vertices;
+		//this.diceNumber = diceNumber;
+		//this.vertices = vertices;
 	}
 	
 	public HexLocation getLocation() {
@@ -40,6 +41,26 @@ public class Hex {
 		return vertices;
 	}
 
+	public EdgeValue[] getEdges() {
+		return edges;
+	}
+	
+	public void setLocation(HexLocation location) {
+		this.location = location;
+	}
+
+	public void setDiceNumber(int diceNumber) {
+		this.diceNumber = diceNumber;
+	}
+
+	public void setVertices(VertexObject[] vertices) {
+		this.vertices = vertices;
+	}
+
+	public void setEdges(EdgeValue[] edges) {
+		this.edges = edges;
+	}
+	
 	public List<VertexObject> getAdjacentVertices() {
 		// TODO Auto-generated method stub
 		return null;

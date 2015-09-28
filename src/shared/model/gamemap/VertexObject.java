@@ -15,6 +15,9 @@ public class VertexObject {
 	private Settlement settlement;
 	private City city;
 	
+	//EXPERIMENTATION! (To be implemented later)
+	private HexLocation[] hexes;
+	
 	/**
 	 * @pre owner must be in the range [-1,3], and location must be a valid EdgeLocation
 	 * @param owner The owner of this vertex; should be -1 if nobody owns it. 

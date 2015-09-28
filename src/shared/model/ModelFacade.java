@@ -41,7 +41,6 @@ public class ModelFacade {
 		for(Hex hex : model.getMap().getHexes()) {
 			if(hex.getLocation().equals(location)){
 				thisHex = hex;
-				break;
 			}
 		}
 		for(VertexObject vertex : thisHex.getAdjacentVertices()) {
@@ -99,14 +98,15 @@ public class ModelFacade {
 		
 		//Set tradeRatio. If the player has no applicable ports, this never gets overwritten.
 		int tradeRatio = 4;
+		boolean foundPort = false;
 		for(Port port : player.getPorts()) {
-			if(port.getResource() == null) {
+			if(port.getResource() == null && foundPort == false) {
 				tradeRatio = 3;
 			}
-			else if(port.getResource() == tradeResource) {
+			else if(port.getResource() == tradeResource && foundPort == false) {
 				//This is a best-case scenario, so we break to keep from overwriting it.
 				tradeRatio = 2;
-				break;
+				foundPort = true;
 			}
 		}
 		
@@ -293,7 +293,7 @@ public class ModelFacade {
 			return false;
 		}
 		HexLocation robber = model.getMap().getRobber();
-		Hex robberHex;
+		Hex robberHex = null;
 		for(Hex hex : model.getMap().getHexes()) {
 			if(hex.getLocation().equals(robber)) {
 				robberHex = hex;
@@ -308,7 +308,9 @@ public class ModelFacade {
 				return true;
 			}
 		}
-	}
+		
+		return false;
+	} 
 
 	/**
 	 * @pre Whenever

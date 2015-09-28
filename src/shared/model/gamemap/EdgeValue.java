@@ -9,7 +9,6 @@ import shared.model.pieces.Road;
  */
 public class EdgeValue {
 	
-	private int playerIndex;
 	private EdgeLocation locationNorth;
 	private EdgeLocation locationSouth;
 	private Road road;
@@ -20,8 +19,7 @@ public class EdgeValue {
 	 * @param location
 	 * @post This object's data is set to the given params. Road is null because there will be no road on the object when it is first constructed
 	 */
-	public EdgeValue(int playerIndex, EdgeLocation location) {
-		this.playerIndex = playerIndex;
+	public EdgeValue(EdgeLocation location) {
 		JUXTAPOSE(location);
 		this.road = null;
 	}
@@ -90,19 +88,6 @@ public class EdgeValue {
 				break;
 			default: break;
 		}
-	}
-	
-	public int getPlayerIndex() {
-		return playerIndex;
-	}
-	
-	/**
-	 * @pre playerIndex must be in the range [0-3]
-	 * @param playerIndex The index of the player placing a road.
-	 * @post Internally stored playerIndex is updated.
-	 */
-	public void setPlayerIndex(int playerIndex) {
-		this.playerIndex = playerIndex;
 	}
 
 	public EdgeLocation getLocationNorth() {

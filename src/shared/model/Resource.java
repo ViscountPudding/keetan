@@ -5,6 +5,6 @@ package shared.model;
  */
 public enum Resource {
 	
-	WOOD, BRICK, SHEEP, WHEAT, ORE
+	WOOD, BRICK, SHEEP, WHEAT, ORE, DESERT
 
 }
