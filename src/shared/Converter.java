@@ -3,7 +3,7 @@ package shared;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import shared.model.gamemap.HexLocation;
+import shared.model.locations.HexLocation;
 
 import com.google.gson.Gson;
 

@@ -1,11 +1,12 @@
 package shared.model;
 
-import shared.model.gamemap.EdgeLocation;
 import shared.model.gamemap.EdgeValue;
 import shared.model.gamemap.Hex;
-import shared.model.gamemap.HexLocation;
 import shared.model.gamemap.Port;
 import shared.model.gamemap.VertexObject;
+
+import shared.model.locations.EdgeLocation;
+import shared.model.locations.HexLocation;
 
 public class ModelFacade {
 

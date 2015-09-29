@@ -4,38 +4,32 @@ import java.util.List;
 
 import shared.model.pieces.Settlement;
 import shared.model.pieces.City;
+import shared.model.locations.VertexLocation;
 
 /**
  *  An object representing the vertex of a Hex, containing information about what is located at that hex
  */
 public class VertexObject {
 
-	private int owner;
-	private EdgeLocation location;
+	private VertexLocation location;
 	private Settlement settlement;
 	private City city;
-	
-	//EXPERIMENTATION! (To be implemented later)
-	private HexLocation[] hexes;
-	
+
 	/**
 	 * @pre owner must be in the range [-1,3], and location must be a valid EdgeLocation
 	 * @param owner The owner of this vertex; should be -1 if nobody owns it. 
 	 * @param location The map location of this vertex
 	 * @post The object's stored owner and location are set to the given params.
 	 */
-	public VertexObject(int owner, EdgeLocation location) {
-		this.owner = owner;
+	public VertexObject(int owner, VertexLocation location) {
+		
 		this.location = location;
+		
 		this.settlement = null;
 		this.city = null;
 	}
 
-	public int getOwner() {
-		return owner;
-	}
-
-	public EdgeLocation getLocation() {
+	public VertexLocation getLocation() {
 		return location;
 	}
 

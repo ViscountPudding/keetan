@@ -1,6 +1,7 @@
 package shared.model.gamemap;
 
 import shared.model.Resource;
+import shared.model.locations.HexLocation;
 
 /**
  * Contains data for special ports that improve trade ratios

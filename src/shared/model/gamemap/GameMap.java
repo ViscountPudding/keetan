@@ -10,6 +10,10 @@ import shared.model.pieces.City;
 import shared.model.pieces.Road;
 import shared.model.pieces.Settlement;
 
+import shared.model.locations.HexLocation;
+import shared.model.locations.EdgeLocation;
+import shared.model.locations.EdgeDirection;
+
 /**
  * Class is a singleton, and contains the data about the game map
  */
@@ -18,6 +22,8 @@ public class GameMap {
 	//private Hex[] hexes;
 	
 	private TreeMap<HexLocation, Hex> hexes;
+	
+	private TreeMap<EdgeLocation, EdgeValue> edges;
 	
 	private Port[] ports;
 	private ArrayList<Road> roads;
@@ -134,9 +140,10 @@ public class GameMap {
 	}
 	
 	
-	//This doesn't have ports yet
+	//This doesn't have ports or vertices yet
 	private void setUpMap(ArrayList<Hex> theHexes, ArrayList<Integer> theChits) {
 		hexes = new TreeMap<HexLocation, Hex>();
+		edges = new TreeMap<EdgeLocation, EdgeValue>();
 		
 		for(int i = -2; i <= 2; i++) {
 			for(int j = -2; j <= 2; j++) {
@@ -147,14 +154,16 @@ public class GameMap {
 				}
 				else
 				{
-					addToMap(i, j, theHexes, theChits);
+					Hex newHex = addToMap(i, j, theHexes, theChits);
+					TreeMap<EdgeDirection, EdgeValue> newEdges = addEdges(i, j);
+					newHex.establishEdges(newEdges);
 				}
 			}
 		}
 	}
 	
-	//RUDIMENTARY!! Need to add edge and vertex overlap and ports
-	private void addToMap(int x, int y, ArrayList<Hex> theHexes, ArrayList<Integer> theChits) {
+	//RUDIMENTARY!!
+	private Hex addToMap(int x, int y, ArrayList<Hex> theHexes, ArrayList<Integer> theChits) {
 		
 		HexLocation coordinates = new HexLocation(x,y);
 		
@@ -170,9 +179,74 @@ public class GameMap {
 		
 		hexes.put(coordinates, theHexes.get(0));
 		
-		theHexes.remove(0);
+		return theHexes.remove(0);
 	}
 	
+	//RUDIMENTARY!!
+	private TreeMap<EdgeDirection, EdgeValue> addEdges(int x, int y) {
+		
+		TreeMap<EdgeDirection, EdgeValue> newEdges = new TreeMap<EdgeDirection, EdgeValue>();
+		
+		
+		HexLocation coordinates = new HexLocation(x,y);
+		
+		//Create new edges in the six directions
+		
+		EdgeLocation northwestLocation = new EdgeLocation(coordinates, EdgeDirection.NorthWest);
+		EdgeValue northwestEdge = new EdgeValue(northwestLocation);
+		
+		EdgeLocation northLocation = new EdgeLocation(coordinates, EdgeDirection.North);
+		EdgeValue northEdge = new EdgeValue(northLocation);
+		
+		EdgeLocation northeastLocation = new EdgeLocation(coordinates, EdgeDirection.NorthEast);
+		EdgeValue northeastEdge = new EdgeValue(northeastLocation);
+		
+		EdgeLocation southeastLocation = new EdgeLocation(coordinates, EdgeDirection.SouthEast);
+		EdgeValue southeastEdge = new EdgeValue(southeastLocation);
+		
+		EdgeLocation southLocation = new EdgeLocation(coordinates, EdgeDirection.South);
+		EdgeValue southEdge = new EdgeValue(southLocation);
+		
+		EdgeLocation southwestLocation = new EdgeLocation(coordinates, EdgeDirection.SouthWest);
+		EdgeValue southwestEdge = new EdgeValue(southwestLocation);
+		
+		//Check edges map, add new edges if they don't already exist
+		
+		if(edges.get(northwestLocation.getNormalizedLocation()) == null) {
+			edges.put(northwestLocation.getNormalizedLocation(), northwestEdge);
+		}
+		
+		if(edges.get(northLocation.getNormalizedLocation()) == null) {
+			edges.put(northLocation.getNormalizedLocation(), northEdge);
+		}
+		
+		if(edges.get(northeastLocation.getNormalizedLocation()) == null) {
+			edges.put(northeastLocation.getNormalizedLocation(), northeastEdge);
+		}
+		
+		if(edges.get(southeastLocation.getNormalizedLocation()) == null) {
+			edges.put(southeastLocation.getNormalizedLocation(), southeastEdge);
+		}
+		
+		if(edges.get(southLocation.getNormalizedLocation()) == null) {
+			edges.put(southLocation.getNormalizedLocation(), southEdge);
+		}
+		
+		if(edges.get(southwestLocation.getNormalizedLocation()) == null) {
+			edges.put(southwestLocation.getNormalizedLocation(), southwestEdge);
+		}
+		
+		//Fill in newEdges with related edges on edges map
+		
+		newEdges.put(EdgeDirection.NorthWest, edges.get(northwestLocation.getNormalizedLocation()));
+		newEdges.put(EdgeDirection.North, edges.get(northLocation.getNormalizedLocation()));
+		newEdges.put(EdgeDirection.NorthEast, edges.get(northeastLocation.getNormalizedLocation()));
+		newEdges.put(EdgeDirection.SouthEast, edges.get(southeastLocation.getNormalizedLocation()));
+		newEdges.put(EdgeDirection.South, edges.get(southLocation.getNormalizedLocation()));
+		newEdges.put(EdgeDirection.SouthWest, edges.get(southwestLocation.getNormalizedLocation()));
+		
+		return newEdges;
+	}
 	
 	public HexLocation getRobber() {
 		return robber;
