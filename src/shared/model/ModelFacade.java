@@ -1,10 +1,12 @@
 package shared.model;
 
+import java.util.Iterator;
+import java.util.Map.Entry;
+
 import shared.model.gamemap.EdgeValue;
 import shared.model.gamemap.Hex;
 import shared.model.gamemap.Port;
 import shared.model.gamemap.VertexValue;
-
 import shared.model.locations.EdgeLocation;
 import shared.model.locations.HexLocation;
 
@@ -39,9 +41,11 @@ public class ModelFacade {
 	*/
 	public boolean canProduceResource(HexLocation location) {
 		Hex thisHex = null;
-		for(Hex hex : model.getMap().getHexes()) {
-			if(hex.getLocation().equals(location)){
-				thisHex = hex;
+		Iterator<Entry<HexLocation, Hex>> hexes = model.getMap().getHexes().entrySet().iterator();
+		while (hexes.hasNext()) {
+			Entry<HexLocation, Hex> hex = hexes.next();
+			if(hex.getKey().equals(location)){
+				thisHex = hex.getValue();
 			}
 		}
 		for(VertexValue vertex : thisHex.getAdjacentVertices()) {
@@ -177,7 +181,7 @@ public class ModelFacade {
 		}
 		else {
 			//It's the setup phase
-			for(VertexObject vertex : location.getAdjacentVertices()) {
+			for(VertexValue vertex : location.getAdjacentVertices()) {
 				if(vertex.getSettlement() == null) {
 					continue;
 				}
@@ -197,7 +201,7 @@ public class ModelFacade {
 	* @return true if the player has an available settlement and the location is a valid place to build
 	* @post Player may build the settlement if possible
 	*/
-	public boolean canBuildSettlement(int playerIndex, VertexObject location) {
+	public boolean canBuildSettlement(int playerIndex, VertexValue location) {
 		Player player = model.getPlayers()[playerIndex];
 		//Check for unplaced settlements
 		if(player.getUnplacedSettlements() == 0) {
@@ -209,7 +213,7 @@ public class ModelFacade {
 			return false;
 		}
 		//Is the distance rule obeyed?
-		for(VertexObject vertex : location.getAdjacentVertices()) {
+		for(VertexValue vertex : location.getAdjacentVertices()) {
 			if(vertex.getSettlement() != null || vertex.getCity() != null) {
 				return false;
 			}
@@ -232,7 +236,7 @@ public class ModelFacade {
 	* @return true if the player has an available city and the location has an existing settlement, false if otherwise
 	* @post Player may build the city if possible
 	*/
-	public boolean canBuildCity(int playerIndex, VertexObject location) {
+	public boolean canBuildCity(int playerIndex, VertexValue location) {
 		Player player = model.getPlayers()[playerIndex];
 		if(player.getUnplacedCities() == 0) {
 			return false;
@@ -295,13 +299,14 @@ public class ModelFacade {
 		}
 		HexLocation robber = model.getMap().getRobber();
 		Hex robberHex = null;
-		for(Hex hex : model.getMap().getHexes()) {
-			if(hex.getLocation().equals(robber)) {
-				robberHex = hex;
-				break;
+		Iterator<Entry<HexLocation, Hex>> hexes = model.getMap().getHexes().entrySet().iterator();
+		while (hexes.hasNext()) {
+			Entry<HexLocation, Hex> hex = hexes.next();
+			if(hex.getKey().equals(robber)){
+				robberHex = hex.getValue();
 			}
 		}
-		for(VertexObject vertex : robberHex.getAdjacentVertices()) {
+		for(VertexValue vertex : robberHex.getAdjacentVertices()) {
 			if(vertex.getSettlement() != null && vertex.getSettlement().getPlayerIndex() == playerIndex) {
 				return true;
 			}
