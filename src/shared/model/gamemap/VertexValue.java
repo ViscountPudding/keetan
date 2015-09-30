@@ -17,11 +17,10 @@ public class VertexValue {
 
 	/**
 	 * @pre owner must be in the range [-1,3], and location must be a valid EdgeLocation
-	 * @param owner The owner of this vertex; should be -1 if nobody owns it. 
 	 * @param location The map location of this vertex
 	 * @post The object's stored owner and location are set to the given params.
 	 */
-	public VertexValue(int owner, VertexLocation location) {
+	public VertexValue(VertexLocation location) {
 		
 		this.location = location;
 		

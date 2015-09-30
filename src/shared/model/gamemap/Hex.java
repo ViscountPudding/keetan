@@ -39,6 +39,9 @@ public class Hex {
 		edges = edgeMap;
 	}
 	
+	public void verifyVertices(TreeMap<VertexDirection, VertexValue> vertices) {
+		this.vertices = vertices;
+	}
 	
 	public HexLocation getLocation() {
 		return location;
@@ -63,10 +66,6 @@ public class Hex {
 
 	public void setDiceNumber(int diceNumber) {
 		this.diceNumber = diceNumber;
-	}
-
-	public void setVertices(TreeMap<VertexDirection, VertexValue> vertices) {
-		this.vertices = vertices;
 	}
 	
 	public List<VertexValue> getAdjacentVertices() {

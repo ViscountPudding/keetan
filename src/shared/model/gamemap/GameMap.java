@@ -27,7 +27,7 @@ public class GameMap {
 	
 	private TreeMap<EdgeLocation, EdgeValue> edges;
 	
-	
+	private TreeMap<VertexLocation, VertexValue> vertices;
 	
 	private Port[] ports;
 	private ArrayList<Road> roads;
@@ -148,6 +148,7 @@ public class GameMap {
 	private void setUpMap(ArrayList<Hex> theHexes, ArrayList<Integer> theChits) {
 		hexes = new TreeMap<HexLocation, Hex>();
 		edges = new TreeMap<EdgeLocation, EdgeValue>();
+		vertices = new TreeMap<VertexLocation, VertexValue>();
 		
 		for(int i = -2; i <= 2; i++) {
 			for(int j = -2; j <= 2; j++) {
@@ -155,14 +156,18 @@ public class GameMap {
 					if((Math.abs(i) + Math.abs(j)) <= radius) { //If the sum of the absolute values is less than or equal to the radius...
 						Hex newHex = addToMap(i, j, theHexes, theChits);
 						TreeMap<EdgeDirection, EdgeValue> newEdges = addEdges(i, j);
+						TreeMap<VertexDirection, VertexValue> newVertices = addVertices(i, j);
 						newHex.establishEdges(newEdges);
+						newHex.verifyVertices(newVertices);
 					}
 				}
 				else
 				{
 					Hex newHex = addToMap(i, j, theHexes, theChits);
 					TreeMap<EdgeDirection, EdgeValue> newEdges = addEdges(i, j);
+					TreeMap<VertexDirection, VertexValue> newVertices = addVertices(i, j);
 					newHex.establishEdges(newEdges);
+					newHex.verifyVertices(newVertices);
 				}
 			}
 		}
@@ -192,7 +197,6 @@ public class GameMap {
 	private TreeMap<EdgeDirection, EdgeValue> addEdges(int x, int y) {
 		
 		TreeMap<EdgeDirection, EdgeValue> newEdges = new TreeMap<EdgeDirection, EdgeValue>();
-		
 		
 		HexLocation coordinates = new HexLocation(x,y);
 		
@@ -256,7 +260,66 @@ public class GameMap {
 	
 	//RUDIMENTARY!!
 	private TreeMap<VertexDirection, VertexValue> addVertices(int x, int y) {
-		return null;
+		
+		TreeMap<VertexDirection, VertexValue> newVertices = new TreeMap<VertexDirection, VertexValue>();
+		
+		HexLocation coordinates = new HexLocation(x,y);
+		
+		//Create new vertices in six directions
+		
+		VertexLocation westLocation = new VertexLocation(coordinates, VertexDirection.West);
+		VertexValue westVertex = new VertexValue(westLocation);
+		
+		VertexLocation northwestLocation = new VertexLocation(coordinates, VertexDirection.NorthWest);
+		VertexValue northwestVertex = new VertexValue(northwestLocation);
+		
+		VertexLocation northeastLocation = new VertexLocation(coordinates, VertexDirection.NorthEast);
+		VertexValue northeastVertex = new VertexValue(northeastLocation);
+		
+		VertexLocation eastLocation = new VertexLocation(coordinates, VertexDirection.East);
+		VertexValue eastVertex = new VertexValue(eastLocation);
+		
+		VertexLocation southeastLocation = new VertexLocation(coordinates, VertexDirection.SouthEast);
+		VertexValue southeastVertex = new VertexValue(southeastLocation);
+		
+		VertexLocation southwestLocation = new VertexLocation(coordinates, VertexDirection.West);
+		VertexValue southwestVertex = new VertexValue(southwestLocation);
+		
+		//check vertices map, adding new vertices if they don't already exist
+		
+		if(vertices.get(westLocation.getNormalizedLocation()) == null) {
+			vertices.put(westLocation.getNormalizedLocation(), westVertex);
+		}
+		
+		if(vertices.get(northwestLocation.getNormalizedLocation()) == null) {
+			vertices.put(northwestLocation.getNormalizedLocation(), northwestVertex);
+		}
+		
+		if(vertices.get(northeastLocation.getNormalizedLocation()) == null) {
+			vertices.put(northeastLocation.getNormalizedLocation(), northeastVertex);
+		}
+		
+		if(vertices.get(eastLocation.getNormalizedLocation()) == null) {
+			vertices.put(eastLocation.getNormalizedLocation(), eastVertex);
+		}
+		
+		if(vertices.get(southeastLocation.getNormalizedLocation()) == null) {
+			vertices.put(southeastLocation.getNormalizedLocation(), southeastVertex);
+		}
+		
+		if(vertices.get(southwestLocation.getNormalizedLocation()) == null) {
+			vertices.put(southwestLocation.getNormalizedLocation(), southwestVertex);
+		}
+		
+		//Fill in newVertices with related vertices on vertices map
+		newVertices.put(VertexDirection.West, vertices.get(westLocation.getNormalizedLocation()));
+		newVertices.put(VertexDirection.NorthWest, vertices.get(northwestLocation.getNormalizedLocation()));
+		newVertices.put(VertexDirection.NorthEast, vertices.get(northeastLocation.getNormalizedLocation()));
+		newVertices.put(VertexDirection.East, vertices.get(eastLocation.getNormalizedLocation()));
+		newVertices.put(VertexDirection.SouthEast, vertices.get(southeastLocation.getNormalizedLocation()));
+		newVertices.put(VertexDirection.SouthWest, vertices.get(southwestLocation.getNormalizedLocation()));
+		
+		return newVertices;
 	}
 	
 	public HexLocation getRobber() {
