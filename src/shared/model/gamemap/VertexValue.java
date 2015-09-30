@@ -9,7 +9,7 @@ import shared.model.locations.VertexLocation;
 /**
  *  An object representing the vertex of a Hex, containing information about what is located at that hex
  */
-public class VertexObject {
+public class VertexValue {
 
 	private VertexLocation location;
 	private Settlement settlement;
@@ -21,7 +21,7 @@ public class VertexObject {
 	 * @param location The map location of this vertex
 	 * @post The object's stored owner and location are set to the given params.
 	 */
-	public VertexObject(int owner, VertexLocation location) {
+	public VertexValue(int owner, VertexLocation location) {
 		
 		this.location = location;
 		
@@ -55,7 +55,7 @@ public class VertexObject {
 		this.city = city;
 	}
 
-	public List<VertexObject> getAdjacentVertices() {
+	public List<VertexValue> getAdjacentVertices() {
 		// TODO Auto-generated method stub
 		return null;
 	}

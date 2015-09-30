@@ -7,6 +7,7 @@ import java.util.TreeMap;
 import shared.model.Resource;
 import shared.model.locations.HexLocation;
 import shared.model.locations.EdgeDirection;
+import shared.model.locations.VertexDirection;
 
 /**
  * Contains data about a given hex on the game map.
@@ -15,9 +16,9 @@ public class Hex {
 	private HexLocation location;
 	private Resource resource;
 	private int diceNumber;
-	private VertexObject[] vertices;
 	
 	private TreeMap<EdgeDirection, EdgeValue> edges;
+	private TreeMap<VertexDirection, VertexValue> vertices;
 	
 	/**
 	 * @pre diceNumber must be in the range [2,12], vertices should be of size 6
@@ -48,7 +49,7 @@ public class Hex {
 	public int getDiceNumber() {
 		return diceNumber;
 	}
-	public VertexObject[] getVertices() {
+	public TreeMap<VertexDirection, VertexValue> getVertices() {
 		return vertices;
 	}
 
@@ -64,11 +65,11 @@ public class Hex {
 		this.diceNumber = diceNumber;
 	}
 
-	public void setVertices(VertexObject[] vertices) {
+	public void setVertices(TreeMap<VertexDirection, VertexValue> vertices) {
 		this.vertices = vertices;
 	}
 	
-	public List<VertexObject> getAdjacentVertices() {
+	public List<VertexValue> getAdjacentVertices() {
 		// TODO Auto-generated method stub
 		return null;
 	}

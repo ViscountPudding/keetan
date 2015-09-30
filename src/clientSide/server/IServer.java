@@ -7,7 +7,7 @@ import shared.model.ResourceList;
 import shared.model.TradeOffer;
 import shared.model.locations.EdgeLocation;
 import shared.model.locations.HexLocation;
-import shared.model.gamemap.VertexObject;
+import shared.model.gamemap.VertexValue;
 import clientSide.exceptions.CannotJoinGameException;
 import clientSide.exceptions.CannotSaveGameException;
 import clientSide.exceptions.IllegalActionException;
@@ -87,7 +87,7 @@ public interface IServer {
 			boolean free) throws ServerException, IllegalActionException;
 
 	
-	abstract public ClientModel buildSettlement(Session user, VertexObject vertex, //Maybe create vertex location object?
+	abstract public ClientModel buildSettlement(Session user, VertexValue vertex, //Maybe create vertex location object?
 			boolean free) throws ServerException, IllegalActionException;
 
 	

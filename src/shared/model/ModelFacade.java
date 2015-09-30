@@ -3,7 +3,7 @@ package shared.model;
 import shared.model.gamemap.EdgeValue;
 import shared.model.gamemap.Hex;
 import shared.model.gamemap.Port;
-import shared.model.gamemap.VertexObject;
+import shared.model.gamemap.VertexValue;
 
 import shared.model.locations.EdgeLocation;
 import shared.model.locations.HexLocation;
@@ -44,7 +44,7 @@ public class ModelFacade {
 				thisHex = hex;
 			}
 		}
-		for(VertexObject vertex : thisHex.getAdjacentVertices()) {
+		for(VertexValue vertex : thisHex.getAdjacentVertices()) {
 			if(vertex.getCity() == null && vertex.getSettlement() == null) {
 				continue;
 			}

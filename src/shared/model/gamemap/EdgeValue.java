@@ -61,7 +61,7 @@ public class EdgeValue {
 	}
 
 
-	public List<VertexObject> getAdjacentVertices() {
+	public List<VertexValue> getAdjacentVertices() {
 		// TODO Auto-generated method stub
 		return null;
 	}

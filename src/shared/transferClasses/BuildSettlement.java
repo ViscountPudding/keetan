@@ -1,17 +1,17 @@
 package shared.transferClasses;
 
-import shared.model.gamemap.VertexObject;
+import shared.model.gamemap.VertexValue;
 
 public class BuildSettlement {
 
-	public BuildSettlement(int playerIndex, VertexObject vertexLocation, Boolean free) {
+	public BuildSettlement(int playerIndex, VertexValue vertexLocation, Boolean free) {
 		this.playerIndex = playerIndex;
 		this.vertexLocation = vertexLocation;
 		this.free = free;
 	}
 	
 	protected int playerIndex;
-	protected VertexObject vertexLocation;
+	protected VertexValue vertexLocation;
 	protected Boolean free;
 	
 	public int getPlayerIndex() {
@@ -20,10 +20,10 @@ public class BuildSettlement {
 	public void setPlayerIndex(int playerIndex) {
 		this.playerIndex = playerIndex;
 	}
-	public VertexObject getSpotOne() {
+	public VertexValue getSpotOne() {
 		return vertexLocation;
 	}
-	public void setSpotOne(VertexObject vertexLocation) {
+	public void setSpotOne(VertexValue vertexLocation) {
 		this.vertexLocation = vertexLocation;
 	}
 	public Boolean getFree() {

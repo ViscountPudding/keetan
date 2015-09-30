@@ -8,7 +8,7 @@ import shared.model.ResourceList;
 import shared.model.TradeOffer;
 import shared.model.locations.EdgeLocation;
 import shared.model.locations.HexLocation;
-import shared.model.gamemap.VertexObject;
+import shared.model.gamemap.VertexValue;
 import clientSide.exceptions.CannotJoinGameException;
 import clientSide.exceptions.CannotSaveGameException;
 import clientSide.exceptions.IllegalActionException;
@@ -141,7 +141,7 @@ public class ServerFacade implements IServer{
 	}
 
 	@Override
-	public ClientModel buildSettlement(Session user, VertexObject vertex,
+	public ClientModel buildSettlement(Session user, VertexValue vertex,
 			boolean free) throws ServerException, IllegalActionException {
 		// TODO Auto-generated method stub
 		return null;

@@ -1,8 +1,6 @@
 package shared.transferClasses;
 
-import java.io.Serializable;
-
-public class AddAIRequest implements Serializable {
+public class AddAIRequest {
 	
 	protected String AIType;
 	

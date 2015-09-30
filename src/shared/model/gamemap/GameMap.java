@@ -13,6 +13,8 @@ import shared.model.pieces.Settlement;
 import shared.model.locations.HexLocation;
 import shared.model.locations.EdgeLocation;
 import shared.model.locations.EdgeDirection;
+import shared.model.locations.VertexLocation;
+import shared.model.locations.VertexDirection;
 
 /**
  * Class is a singleton, and contains the data about the game map
@@ -24,6 +26,8 @@ public class GameMap {
 	private TreeMap<HexLocation, Hex> hexes;
 	
 	private TreeMap<EdgeLocation, EdgeValue> edges;
+	
+	
 	
 	private Port[] ports;
 	private ArrayList<Road> roads;
@@ -148,8 +152,10 @@ public class GameMap {
 		for(int i = -2; i <= 2; i++) {
 			for(int j = -2; j <= 2; j++) {
 				if(((i > 0) && !(j > 0)) || (!(i > 0) && (j > 0))) { //If either i or j (but not both) is greater than 0...
-					if((Math.abs(i) + Math.abs(j)) <= radius) {
-						addToMap(i, j, theHexes, theChits);
+					if((Math.abs(i) + Math.abs(j)) <= radius) { //If the sum of the absolute values is less than or equal to the radius...
+						Hex newHex = addToMap(i, j, theHexes, theChits);
+						TreeMap<EdgeDirection, EdgeValue> newEdges = addEdges(i, j);
+						newHex.establishEdges(newEdges);
 					}
 				}
 				else
@@ -246,6 +252,11 @@ public class GameMap {
 		newEdges.put(EdgeDirection.SouthWest, edges.get(southwestLocation.getNormalizedLocation()));
 		
 		return newEdges;
+	}
+	
+	//RUDIMENTARY!!
+	private TreeMap<VertexDirection, VertexObject> addVertices(int x, int y) {
+		return null;
 	}
 	
 	public HexLocation getRobber() {
