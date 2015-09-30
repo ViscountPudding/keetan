@@ -16,13 +16,21 @@ import clientSide.exceptions.OutOfTurnException;
 import clientSide.exceptions.ServerException;
 import clientSide.exceptions.WrongUserException;
 
+/**
+ * This interface is used by a client to send requests to a Settlers of Catan Server.
+ * @author djoshuac and willvdb
+ *
+ */
 public interface IServer {
-	
-	/**
-	 * when a command is made, theModel will be set to whatever is returned by the corresponding command.
-	 */
-	//private ClientModel theModel;
 
+	/**
+	 * 
+	 * @param username - the username of a user
+	 * @param password - the corresponding password of the user
+	 * @return
+	 * @throws WrongUserException
+	 * @throws ServerException
+	 */
 	abstract public Session login(String username, String password)
 			throws WrongUserException, ServerException;
 
@@ -87,11 +95,11 @@ public interface IServer {
 			boolean free) throws ServerException, IllegalActionException;
 
 	
-	abstract public ClientModel buildSettlement(Session user, VertexValue vertex, //Maybe create vertex location object?
+	abstract public ClientModel buildSettlement(Session user, VertexValue vertex,
 			boolean free) throws ServerException, IllegalActionException;
 
 	
-	abstract public ClientModel buildCity(Session user, EdgeLocation location) //Maybe create vertex location object?
+	abstract public ClientModel buildCity(Session user, EdgeLocation location)
 			throws ServerException, IllegalActionException;
 
 	
