@@ -1,17 +1,17 @@
 package shared.model.gamemap;
 
-import shared.model.Resource;
-import shared.model.locations.HexLocation;
+import shared.definitions.PortType;
+import shared.model.locations.EdgeLocation;
 
 /**
  * Contains data for special ports that improve trade ratios
  */
 public class Port {
-
-	private Resource resource;
-	private HexLocation location;
-	private String direction;
-	private int ratio;
+	
+	//These are the only params we need I think
+	private PortType type;
+	private EdgeLocation adjacentEdge1;
+	private EdgeLocation adjacentEdge2;
 	
 	/**
 	 * @pre 
@@ -20,32 +20,34 @@ public class Port {
 	 * @param direction
 	 * @post The object's values are set to the given params.
 	 */
-	public Port(Resource resource, HexLocation location, String direction) {
-		this.resource = resource;
-		this.location = location;
-		this.direction = direction;
-		if(resource == null) {
-			this.ratio = 3;
-		}
-		else {
-			this.ratio = 2;
-		}
+	public Port(PortType type, EdgeLocation edge1, EdgeLocation edge2) {
+		this.setType(type);
+		this.setAdjacentEdge1(edge1);
+		this.setAdjacentEdge2(edge2);
 	}
 
-	public Resource getResource() {
-		return resource;
+	public PortType getType() {
+		return type;
 	}
 
-	public HexLocation getLocation() {
-		return location;
+	public void setType(PortType type) {
+		this.type = type;
 	}
 
-	public String getDirection() {
-		return direction;
+	public EdgeLocation getAdjacentEdge1() {
+		return adjacentEdge1;
 	}
 
-	public int getRatio() {
-		return ratio;
+	public void setAdjacentEdge1(EdgeLocation adjacentEdge1) {
+		this.adjacentEdge1 = adjacentEdge1;
+	}
+
+	public EdgeLocation getAdjacentEdge2() {
+		return adjacentEdge2;
+	}
+
+	public void setAdjacentEdge2(EdgeLocation adjacentEdge2) {
+		this.adjacentEdge2 = adjacentEdge2;
 	}
 	
 	
