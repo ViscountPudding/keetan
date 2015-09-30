@@ -255,7 +255,7 @@ public class GameMap {
 	}
 	
 	//RUDIMENTARY!!
-	private TreeMap<VertexDirection, VertexObject> addVertices(int x, int y) {
+	private TreeMap<VertexDirection, VertexValue> addVertices(int x, int y) {
 		return null;
 	}
 	
