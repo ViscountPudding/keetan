@@ -1,6 +1,6 @@
 package shared.transferClasses;
 
-import shared.model.gamemap.EdgeLocation;
+import shared.model.locations.EdgeLocation;
 
 /**
  * This plays the road building card, which actually builds two roads.

@@ -1,6 +1,6 @@
 package shared.transferClasses;
 
-import shared.model.gamemap.EdgeLocation;
+import shared.model.locations.EdgeLocation;
 
 public class BuildRoad {
 

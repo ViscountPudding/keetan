@@ -1,7 +1,7 @@
 package shared.transferClasses;
 
-import shared.model.gamemap.EdgeLocation;
-import shared.model.gamemap.HexLocation;
+import shared.model.locations.EdgeLocation;
+import shared.model.locations.HexLocation;
 
 public class Soldier {
 

@@ -1,6 +1,6 @@
 package shared.transferClasses;
 
-import shared.model.gamemap.HexLocation;
+import shared.model.locations.HexLocation;
 
 public class RobPlayer {
 	
