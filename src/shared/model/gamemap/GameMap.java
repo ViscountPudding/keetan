@@ -24,9 +24,7 @@ public class GameMap {
 	//private Hex[] hexes;
 	
 	private TreeMap<HexLocation, Hex> hexes;
-	
 	private TreeMap<EdgeLocation, EdgeValue> edges;
-	
 	private TreeMap<VertexLocation, VertexValue> vertices;
 	
 	private Port[] ports;
@@ -58,7 +56,6 @@ public class GameMap {
 			setUpMap(theHexes, theChits);
 			
 		}
-		
 		
 	}
 	
