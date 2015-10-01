@@ -1,17 +1,16 @@
 package shared.model.gamemap;
 
 import java.util.ArrayList;
-import java.util.TreeMap;
+import java.util.List;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Collections;
 
 import shared.definitions.PortType;
-
 import shared.model.Resource;
 import shared.model.pieces.City;
 import shared.model.pieces.Road;
 import shared.model.pieces.Settlement;
-
 import shared.model.locations.HexLocation;
 import shared.model.locations.EdgeLocation;
 import shared.model.locations.EdgeDirection;
@@ -21,13 +20,20 @@ import shared.model.locations.VertexDirection;
 /**
  * Class is a singleton, and contains the data about the game map
  */
-public class GameMap {
 
+public class GameMap {
+	
+	public static void main(String args[]) { //THIS IS A TEST FUNCTION TO BE DESTROYED LATER
+		GameMap map = new GameMap(false, false, false, false);
+		System.out.println("whee!");
+	}
+	
+	
 	//private Hex[] hexes;
 	
-	private TreeMap<HexLocation, Hex> hexes;
-	private TreeMap<EdgeLocation, EdgeValue> edges;
-	private TreeMap<VertexLocation, VertexValue> vertices;
+	private HashMap<HexLocation, Hex> hexes;
+	private HashMap<EdgeLocation, EdgeValue> edges;
+	private HashMap<VertexLocation, VertexValue> vertices;
 	
 	private ArrayList<Port> ports;
 	private ArrayList<Road> roads;
@@ -195,17 +201,17 @@ public class GameMap {
 	
 	//This doesn't have ports or vertices yet
 	private void setUpMap(ArrayList<Hex> theHexes, ArrayList<Integer> theChits) {
-		hexes = new TreeMap<HexLocation, Hex>();
-		edges = new TreeMap<EdgeLocation, EdgeValue>();
-		vertices = new TreeMap<VertexLocation, VertexValue>();
+		hexes = new HashMap<HexLocation, Hex>();
+		edges = new HashMap<EdgeLocation, EdgeValue>();
+		vertices = new HashMap<VertexLocation, VertexValue>();
 		
 		for(int i = -2; i <= 2; i++) {
 			for(int j = -2; j <= 2; j++) {
 				if(((i > 0) && !(j > 0)) || (!(i > 0) && (j > 0))) { //If either i or j (but not both) is greater than 0...
 					if((Math.abs(i) + Math.abs(j)) <= radius) { //If the sum of the absolute values is less than or equal to the radius...
 						Hex newHex = addToMap(i, j, theHexes, theChits);
-						TreeMap<EdgeDirection, EdgeValue> newEdges = addEdges(i, j);
-						TreeMap<VertexDirection, VertexValue> newVertices = addVertices(i, j);
+						HashMap<EdgeDirection, EdgeValue> newEdges = addEdges(i, j);
+						HashMap<VertexDirection, VertexValue> newVertices = addVertices(i, j);
 						newHex.establishEdges(newEdges);
 						newHex.verifyVertices(newVertices);
 					}
@@ -213,8 +219,8 @@ public class GameMap {
 				else
 				{
 					Hex newHex = addToMap(i, j, theHexes, theChits);
-					TreeMap<EdgeDirection, EdgeValue> newEdges = addEdges(i, j);
-					TreeMap<VertexDirection, VertexValue> newVertices = addVertices(i, j);
+					HashMap<EdgeDirection, EdgeValue> newEdges = addEdges(i, j);
+					HashMap<VertexDirection, VertexValue> newVertices = addVertices(i, j);
 					newHex.establishEdges(newEdges);
 					newHex.verifyVertices(newVertices);
 				}
@@ -243,9 +249,9 @@ public class GameMap {
 	}
 	
 	//RUDIMENTARY!!
-	private TreeMap<EdgeDirection, EdgeValue> addEdges(int x, int y) {
+	private HashMap<EdgeDirection, EdgeValue> addEdges(int x, int y) {
 		
-		TreeMap<EdgeDirection, EdgeValue> newEdges = new TreeMap<EdgeDirection, EdgeValue>();
+		HashMap<EdgeDirection, EdgeValue> newEdges = new HashMap<EdgeDirection, EdgeValue>();
 		
 		HexLocation coordinates = new HexLocation(x,y);
 		
@@ -308,9 +314,9 @@ public class GameMap {
 	}
 	
 	//RUDIMENTARY!!
-	private TreeMap<VertexDirection, VertexValue> addVertices(int x, int y) {
+	private HashMap<VertexDirection, VertexValue> addVertices(int x, int y) {
 		
-		TreeMap<VertexDirection, VertexValue> newVertices = new TreeMap<VertexDirection, VertexValue>();
+		HashMap<VertexDirection, VertexValue> newVertices = new HashMap<VertexDirection, VertexValue>();
 		
 		HexLocation coordinates = new HexLocation(x,y);
 		
@@ -371,6 +377,97 @@ public class GameMap {
 		return newVertices;
 	}
 	
+	public List<EdgeValue> getAdjacentEdges(EdgeLocation checkEdge) {
+		
+		List<EdgeValue> adjacentEdges = new ArrayList<EdgeValue>();
+		
+		HexLocation coordinates = checkEdge.getHexLoc();
+		EdgeDirection face = checkEdge.getDir();
+		
+		EdgeLocation adjacentLocationOne;
+		EdgeLocation adjacentLocationTwo;
+		
+		switch (face) {
+		case NorthWest:
+			adjacentLocationOne = new EdgeLocation(coordinates, EdgeDirection.SouthWest);
+			adjacentLocationTwo = new EdgeLocation(coordinates, EdgeDirection.North);
+			break;
+		case North:
+			adjacentLocationOne = new EdgeLocation(coordinates, EdgeDirection.NorthWest);
+			adjacentLocationTwo = new EdgeLocation(coordinates, EdgeDirection.NorthEast);
+			break;
+		case NorthEast:
+			adjacentLocationOne = new EdgeLocation(coordinates, EdgeDirection.North);
+			adjacentLocationTwo = new EdgeLocation(coordinates, EdgeDirection.SouthEast);
+		case SouthEast:
+			adjacentLocationOne = new EdgeLocation(coordinates, EdgeDirection.NorthEast);
+			adjacentLocationTwo = new EdgeLocation(coordinates, EdgeDirection.South);
+		case South:
+			adjacentLocationOne = new EdgeLocation(coordinates, EdgeDirection.SouthEast);
+			adjacentLocationTwo = new EdgeLocation(coordinates, EdgeDirection.SouthWest);
+		case SouthWest:
+			adjacentLocationOne = new EdgeLocation(coordinates, EdgeDirection.South);
+			adjacentLocationTwo = new EdgeLocation(coordinates, EdgeDirection.NorthWest);
+		default:
+			adjacentLocationOne = null;
+			adjacentLocationTwo = null;
+			break;
+		}
+		
+		adjacentEdges.add(edges.get(adjacentLocationOne.getNormalizedLocation()));
+		adjacentEdges.add(edges.get(adjacentLocationTwo.getNormalizedLocation()));
+		
+		return adjacentEdges;
+	}
+
+	public List<VertexValue> getAdjacentVertices(VertexLocation checkVertex) {
+		
+		List<VertexValue> adjacentVertices = new ArrayList<VertexValue>();
+		
+		HexLocation coordinates = checkVertex.getHexLoc();
+		VertexDirection point = checkVertex.getDir();
+		
+		VertexLocation adjacentLocationOne;
+		VertexLocation adjacentLocationTwo;
+		
+		switch(point) {
+			case NorthWest:
+				adjacentLocationOne = new VertexLocation(coordinates, VertexDirection.West);
+				adjacentLocationTwo = new VertexLocation(coordinates, VertexDirection.NorthEast);
+				break;
+			case NorthEast:
+				adjacentLocationOne = new VertexLocation(coordinates, VertexDirection.NorthWest);
+				adjacentLocationTwo = new VertexLocation(coordinates, VertexDirection.East);
+				break;
+			case East:
+				adjacentLocationOne = new VertexLocation(coordinates, VertexDirection.NorthEast);
+				adjacentLocationTwo = new VertexLocation(coordinates, VertexDirection.SouthEast);
+				break;
+			case SouthEast:
+				adjacentLocationOne = new VertexLocation(coordinates, VertexDirection.East);
+				adjacentLocationTwo = new VertexLocation(coordinates, VertexDirection.SouthWest);
+				break;	
+			case SouthWest:
+				adjacentLocationOne = new VertexLocation(coordinates, VertexDirection.SouthEast);
+				adjacentLocationTwo = new VertexLocation(coordinates, VertexDirection.West);
+				break;
+			case West:
+				adjacentLocationOne = new VertexLocation(coordinates, VertexDirection.SouthWest);
+				adjacentLocationTwo = new VertexLocation(coordinates, VertexDirection.NorthWest);
+				break;
+				
+			default:
+				adjacentLocationOne = null;
+				adjacentLocationTwo = null;
+				break;
+		}
+		
+		adjacentVertices.add(vertices.get(adjacentLocationOne.getNormalizedLocation()));
+		adjacentVertices.add(vertices.get(adjacentLocationTwo.getNormalizedLocation()));
+		
+		return adjacentVertices;
+	}
+	
 	public HexLocation getRobber() {
 		return robber;
 	}
@@ -379,7 +476,7 @@ public class GameMap {
 		this.robber = robber;
 	}
 
-	public TreeMap<HexLocation, Hex> getHexes() {
+	public HashMap<HexLocation, Hex> getHexes() {
 		return hexes;
 	}
 

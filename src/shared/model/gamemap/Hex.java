@@ -1,7 +1,7 @@
 	package shared.model.gamemap;
 
 import java.util.List;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 
 import shared.model.Resource;
@@ -17,8 +17,8 @@ public class Hex {
 	private Resource resource;
 	private int diceNumber;
 	
-	private TreeMap<EdgeDirection, EdgeValue> edges;
-	private TreeMap<VertexDirection, VertexValue> vertices;
+	private HashMap<EdgeDirection, EdgeValue> edges;
+	private HashMap<VertexDirection, VertexValue> vertices;
 	
 	/**
 	 * @pre diceNumber must be in the range [2,12], vertices should be of size 6
@@ -35,11 +35,11 @@ public class Hex {
 		//this.vertices = vertices;
 	}
 	
-	public void establishEdges(TreeMap<EdgeDirection, EdgeValue> edgeMap) {
+	public void establishEdges(HashMap<EdgeDirection, EdgeValue> edgeMap) {
 		edges = edgeMap;
 	}
 	
-	public void verifyVertices(TreeMap<VertexDirection, VertexValue> vertices) {
+	public void verifyVertices(HashMap<VertexDirection, VertexValue> vertices) {
 		this.vertices = vertices;
 	}
 	
@@ -52,11 +52,11 @@ public class Hex {
 	public int getDiceNumber() {
 		return diceNumber;
 	}
-	public TreeMap<VertexDirection, VertexValue> getVertices() {
+	public HashMap<VertexDirection, VertexValue> getVertices() {
 		return vertices;
 	}
 
-	public TreeMap<EdgeDirection, EdgeValue> getEdges() {
+	public HashMap<EdgeDirection, EdgeValue> getEdges() {
 		return edges;
 	}
 	
