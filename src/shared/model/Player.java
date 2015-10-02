@@ -186,4 +186,51 @@ public class Player {
 	public int getPlayerID() {
 		return playerID;
 	}
+	
+	public void addResource(Resource resource, int amount) {
+		switch(resource) {
+		case BRICK:
+			resources.setBrick(resources.getBrick()+amount);
+			break;
+		case DESERT:
+			break;
+		case ORE:
+			resources.setOre(resources.getOre()+amount);
+			break;
+		case SHEEP:
+			resources.setSheep(resources.getSheep()+amount);
+			break;
+		case WHEAT:
+			resources.setWheat(resources.getWheat()+amount);
+			break;
+		case WOOD:
+			resources.setWood(resources.getWood()+amount);
+			break;
+		default:
+			break;
+		}
+	}
+	public void removeResource(Resource resource, int amount) {
+		switch(resource) {
+		case BRICK:
+			resources.setBrick(resources.getBrick()-amount);
+			break;
+		case DESERT:
+			break;
+		case ORE:
+			resources.setOre(resources.getOre()-amount);
+			break;
+		case SHEEP:
+			resources.setSheep(resources.getSheep()-amount);
+			break;
+		case WHEAT:
+			resources.setWheat(resources.getWheat()-amount);
+			break;
+		case WOOD:
+			resources.setWood(resources.getWood()-amount);
+			break;
+		default:
+			break;
+		}
+	}
 }

@@ -7,8 +7,10 @@ import shared.model.gamemap.EdgeValue;
 import shared.model.gamemap.Hex;
 import shared.model.gamemap.Port;
 import shared.model.gamemap.VertexValue;
-import shared.model.locations.EdgeLocation;
 import shared.model.locations.HexLocation;
+import shared.model.pieces.City;
+import shared.model.pieces.Road;
+import shared.model.pieces.Settlement;
 
 public class ModelFacade {
 
@@ -84,12 +86,46 @@ public class ModelFacade {
 	/**
 	* @pre Whenever
 	* @param two player indexes
-	* @return true if it is one of the player's turns, false if otherwise
+	* @return true if it is one of the player's turns AND both players have enough resources, false if otherwise
 	* @post players may trade if possible
 	*/
-	public boolean canDomesticTrade(int playerIndexOne, int playerIndexTwo) {
+	public boolean canDomesticTrade(TradeOffer offer) {
 		int currentPlayer = model.getTurnTracker().getCurrentPlayer();
-		return playerIndexOne == currentPlayer || playerIndexTwo == currentPlayer;
+		boolean toReturn = false;
+		if(offer.getSender() != currentPlayer && offer.getReceiver() != currentPlayer) {
+			return false;
+		}
+		
+		//Check if sender has enough resources
+		ResourceList sOffer = offer.getReceiverReceives();
+		ResourceList sResources = model.getPlayers()[offer.getSender()].getResources();
+		if(sOffer.getBrick() <= sResources.getBrick()
+				&& sOffer.getOre() <= sResources.getOre()
+				&& sOffer.getSheep() <= sResources.getSheep()
+				&& sOffer.getWheat() <= sResources.getWheat()
+				&& sOffer.getWood() <= sResources.getWood()) {
+			continue;
+		}
+		else {
+			return false;
+		}
+		
+		//Check if receiver has enough resources
+		ResourceList rOffer = offer.getSenderReceives();
+		ResourceList rResources = model.getPlayers()[offer.getReceiver()].getResources();
+		if(rOffer.getBrick() <= rResources.getBrick()
+				&& rOffer.getOre() <= rResources.getOre()
+				&& rOffer.getSheep() <= rResources.getSheep()
+				&& rOffer.getWheat() <= rResources.getWheat()
+				&& rOffer.getWood() <= rResources.getWood()) {
+			continue;
+		}
+		else {
+			return false;
+		}
+		
+		//Passed all checks
+		return true;
 	}
 	
 	/**
@@ -109,7 +145,6 @@ public class ModelFacade {
 				tradeRatio = 3;
 			}
 			else if(port.getResource() == tradeResource && foundPort == false) {
-				//This is a best-case scenario, so we break to keep from overwriting it.
 				tradeRatio = 2;
 				foundPort = true;
 			}
@@ -328,4 +363,209 @@ public class ModelFacade {
 		return model.getTurnTracker().getCurrentPlayer() == playerIndex && model.getPlayers()[playerIndex].getVictoryPoints() > 9;
 	}
 	
+	/**
+	 * @pre Resources must be produceable
+	 * @param location
+	 * @post Players receive resources from the bank
+	 */
+	public void ProduceResources(HexLocation location) {
+		if(canProduceResource(location)) {
+			//Find total number of resources required
+			int totalResources = 0;
+			Hex hex = model.getMap().getHexes().get(location);
+			for(VertexValue vert : hex.getAdjacentVertices()) {
+				if(vert.getSettlement() != null){
+					totalResources++;
+				}
+				else if(vert.getCity() != null) {
+					totalResources += 2;
+				}
+			}
+			if(canReceiveResource(totalResources,hex.getResource())) {
+				removeFromBank(hex.getResource(), totalResources);
+				for(VertexValue vert : hex.getAdjacentVertices()) {
+					Settlement settle = vert.getSettlement();
+					City city = vert.getCity();
+					if(settle != null) {
+						Player player = model.getPlayers()[settle.getPlayerIndex()];
+						player.addResource(hex.getResource(), 1);
+					}
+					else if(city != null) {
+						Player player = model.getPlayers()[settle.getPlayerIndex()];
+						player.addResource(hex.getResource(), 2);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * @pre Players must be able to trade
+	 * @param offer
+	 * @post The trade takes place
+	 */
+	public void DomesticTrade(TradeOffer offer) {
+		Player sender = model.getPlayers()[offer.getSender()];
+		Player receiver = model.getPlayers()[offer.getReceiver()];
+		if(canDomesticTrade(offer)) {
+			//Find difference in the offers
+			int brick = offer.getSenderReceives().getBrick() - offer.getReceiverReceives().getBrick();
+			int ore = offer.getSenderReceives().getOre() - offer.getReceiverReceives().getOre();
+			int sheep = offer.getSenderReceives().getSheep() - offer.getReceiverReceives().getSheep();
+			int wheat = offer.getSenderReceives().getWheat() - offer.getReceiverReceives().getWheat();
+			int wood = offer.getSenderReceives().getWood() - offer.getReceiverReceives().getWood();
+			
+			sender.getResources().setBrick(sender.getResources().getBrick() + brick);
+			sender.getResources().setOre(sender.getResources().getOre() + ore);
+			sender.getResources().setSheep(sender.getResources().getSheep() + sheep);
+			sender.getResources().setWheat(sender.getResources().getWheat() + wheat);
+			sender.getResources().setWood(sender.getResources().getWood() + wood);
+			
+			receiver.getResources().setBrick(receiver.getResources().getBrick() - brick);
+			receiver.getResources().setOre(receiver.getResources().getOre() - ore);
+			receiver.getResources().setSheep(receiver.getResources().getSheep() - sheep);
+			receiver.getResources().setWheat(receiver.getResources().getWheat() - wheat);
+			receiver.getResources().setWood(receiver.getResources().getWood() - wood);
+		}
+	}
+	
+	/**
+	 * @pre Player must have enough of one resource (determined by the ports player owns) to trade with the bank
+	 * @param player The player who's trading
+	 * @param toSend What the player wants to send to the bank
+	 * @param toReceive What the player wants to receive
+	 * @post The trade is completed
+	 */
+	public void MaritimeTrade(Player player, Resource toSend, Resource toReceive) {
+		if(canMaritimeTrade(player.getPlayerIndex(),toSend,toReceive)) {
+			//Set tradeRatio. If the player has no applicable ports, this never gets overwritten.
+			int tradeRatio = 4;
+			boolean foundPort = false;
+			for(Port port : player.getPorts()) {
+				if(port.getResource() == null && foundPort == false) {
+					tradeRatio = 3;
+				}
+				else if(port.getResource() == toSend && foundPort == false) {
+					tradeRatio = 2;
+					foundPort = true;
+				}
+			}
+			
+			player.removeResource(toSend, tradeRatio);
+			player.addResource(toReceive, 1);
+			removeFromBank(toReceive,1);
+			addToBank(toSend, tradeRatio);
+		}
+	}
+	
+	/**
+	 * @pre All conditions to build a road must be met
+	 * @param player The player building a road
+	 * @param location The road location
+	 * @post The road is placed
+	 */
+	public void BuildRoad(Player player, EdgeValue location) {
+		if(canBuildRoad(player.getPlayerIndex(),location)) {
+			//Remove resources
+			player.getResources().setBrick(player.getResources().getBrick()-1);
+			player.getResources().setWood(player.getResources().getWood()-1);
+			
+			//Modify relevant road counts
+			player.setUnplacedRoads(player.getUnplacedRoads()-1);
+			Road road = new Road(player.getPlayerIndex());
+			location.setRoad(road);
+			player.addRoad(road);
+		}
+	}
+	
+	public void BuildSettlement(Player player, VertexValue vertex) {
+		if(canBuildSettlement(player.getPlayerIndex(),vertex)) {
+			//Remove resources
+			player.getResources().setBrick(player.getResources().getBrick()-1);
+			player.getResources().setWood(player.getResources().getWood()-1);
+			player.getResources().setWheat(player.getResources().getWheat()-1);
+			player.getResources().setSheep(player.getResources().getSheep()-1);
+			
+			//Modify relevant settlement counts
+			player.setUnplacedSettlements(player.getUnplacedSettlements()-1);
+			Settlement settlement = new Settlement(player.getPlayerIndex());
+			vertex.setSettlement(settlement);
+			player.addSettlement(settlement);
+		}
+	}
+	
+	public void BuildCity(Player player, VertexValue vertex) {
+		if(canBuildCity(player.getPlayerIndex(),vertex)) {
+			//Remove resources
+			player.getResources().setWheat(player.getResources().getWheat()-2);
+			player.getResources().setOre(player.getResources().getOre()-3);
+			
+			//Modify relevant settlement and city counts
+			player.setUnplacedSettlements(player.getUnplacedSettlements()+1);
+			player.setUnplacedCities(player.getUnplacedCities()-1);
+			City city = new City(player.getPlayerIndex());
+			player.removeSettlement(vertex.getSettlement());
+			vertex.setSettlement(null);
+			vertex.setCity(city);
+			player.addCity(city);
+		}
+	}
+	
+	BuyDevelopmentCard
+	
+	LoseCardsFromDieRoll
+	
+	LoseCardsFromRobber
+	
+	UpdateModel
+	
+	private void addToBank(Resource resource, int amount) {
+		ResourceList bank = model.getBank();
+		switch(resource) {
+		case BRICK:
+			bank.setBrick(bank.getBrick()+amount);
+			break;
+		case DESERT:
+			break;
+		case ORE:
+			bank.setOre(bank.getOre()+amount);
+			break;
+		case SHEEP:
+			bank.setSheep(bank.getSheep()+amount);
+			break;
+		case WHEAT:
+			bank.setWheat(bank.getWheat()+amount);
+			break;
+		case WOOD:
+			bank.setWood(bank.getWood()+amount);
+			break;
+		default:
+			break;
+		}
+	}
+	
+	private void removeFromBank(Resource resource, int amount) {
+		ResourceList bank = model.getBank();
+		switch(resource) {
+		case BRICK:
+			bank.setBrick(bank.getBrick()-amount);
+			break;
+		case DESERT:
+			break;
+		case ORE:
+			bank.setOre(bank.getOre()-amount);
+			break;
+		case SHEEP:
+			bank.setSheep(bank.getSheep()-amount);
+			break;
+		case WHEAT:
+			bank.setWheat(bank.getWheat()-amount);
+			break;
+		case WOOD:
+			bank.setWood(bank.getWood()-amount);
+			break;
+		default:
+			break;
+		}
+	}
 }
