@@ -2,12 +2,13 @@ package clientSide.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
+import java.util.Scanner;
 
 import shared.Converter;
 
@@ -44,20 +45,58 @@ public class ClientCommunicator {
 		URL url = new URL(serverUrl + command);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("POST");
+		connection.setDoInput(true);
 		connection.setDoOutput(true);
-
-		System.out.println("Response Code : " + connection.getResponseCode()); //deleteme
-		OutputStream outputStream = connection.getOutputStream();
-		outputStream.write(Converter.toJson(data).getBytes());
-		outputStream.close();
-		System.out.println("Response Code : " + connection.getResponseCode()); //deleteme
+		connection.connect();
+		OutputStream requestBody = connection.getOutputStream();
+		
+		String json = Converter.toJson(data);
+		requestBody.write(json.getBytes());
+		requestBody.close();
+		
 		if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-			List<String> cookies = connection.getHeaderFields().get("Set-Cookie");
-			return;
+			System.out.println("IT WORKED");
+			InputStream responseBody = connection.getInputStream();
+			InputStreamReader reader = new InputStreamReader(responseBody);
+			Scanner scan = new Scanner(reader);
+			while (scan.hasNext()) {
+				System.out.println(scan.nextLine());
+			}
 		}
 		else {
-			throw new IOException();
+			try {
+				System.out.println("NONONONONONONONONONONO");
+				InputStream responseBody = connection.getErrorStream();
+				InputStreamReader reader = new InputStreamReader(responseBody);
+				Scanner scan = new Scanner(reader);
+				while (scan.hasNext()) {
+					System.out.println(scan.nextLine());
+				}
+				scan.close();
+				//String objectResult = responseBody.;//Converter.fromJson(responseBody, Object.class);
+				//System.out.println(objectResult);
+			}
+			catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
+//		URL url = new URL(serverUrl + command);
+//		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//		connection.setRequestMethod("POST");
+//		connection.setDoOutput(true);
+//
+//		System.out.println("Response Code : " + connection.getResponseCode()); //deleteme
+//		OutputStream outputStream = connection.getOutputStream();
+//		outputStream.write(Converter.toJson(data).getBytes());
+//		outputStream.close();
+//		System.out.println("Response Code : " + connection.getResponseCode()); //deleteme
+//		if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+//			List<String> cookies = connection.getHeaderFields().get("Set-Cookie");
+//			return;
+//		}
+//		else {
+//			throw new IOException();
+//		}
 	}
 
 	 /**
