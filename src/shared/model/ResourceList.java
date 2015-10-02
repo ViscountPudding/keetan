@@ -62,4 +62,24 @@ public class ResourceList {
 		int toReturn = wood + wheat + sheep + ore + brick;
 		return toReturn;
 	}
+	
+	public boolean hasResource(Resource resource, int amount) {
+		switch(resource) {
+		case BRICK:
+			return brick >= amount;
+		case DESERT:
+			break;
+		case ORE:
+			return ore >= amount;
+		case SHEEP:
+			return sheep >= amount;
+		case WHEAT:
+			return wheat >= amount;
+		case WOOD:
+			return wood >= amount;
+		default:
+			return false;
+		}
+		return false;
+	}
 }

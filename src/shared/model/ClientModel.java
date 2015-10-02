@@ -102,9 +102,24 @@ public class ClientModel {
 		this.undrawnDevCards = undrawnDevCards;
 	}
 
-	
+	//This isn't fully flehsed out yet, as it offers no opportunities to change the randomness of the map or the names of the players (right now it's all Walrus)
 	private ClientModel() {
+		bank = new ResourceList(19,19,19,19,19);
+		undrawnDevCards = new DevCardList(2, 5, 2, 14, 2);
+		chat = new MessageList();
+		log = new MessageList();
+		map = new GameMap(false, false, false, false);
+		players = new Player[4];
 		
+		for(int i = 0; i < 4; i++)
+		{
+			Player newPlayer = new Player("Walrus", i, i);
+			players[i] = newPlayer;
+		}
+		
+		tradeOffer = null;
+		version = 1;	
+		winner = -1;
 	}
 	
 	/** The singleton generator for the ClientModel

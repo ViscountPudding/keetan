@@ -31,6 +31,10 @@ public class Port {
 		return type;
 	}
 
+	/**
+	 * Returns a resource type based on the type of the port
+	 * @return the resource type the port works with
+	 */
 	public Resource getResource() {
 		
 		Resource resourceType;
