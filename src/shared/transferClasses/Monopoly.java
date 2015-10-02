@@ -8,10 +8,11 @@ public class Monopoly {
 		this.playerIndex = playerIndex;
 		this.resource = resource;
 	}
-	
-	protected int playerIndex;
-	protected Resource resource;
-	
+
+	private String type = "Monopoly";
+	private int playerIndex;
+	private Resource resource;
+
 	public int getPlayerIndex() {
 		return playerIndex;
 	}

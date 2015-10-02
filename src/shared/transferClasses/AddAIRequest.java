@@ -2,7 +2,7 @@ package shared.transferClasses;
 
 public class AddAIRequest {
 	
-	protected String AIType;
+	private String AIType;
 	
 	public AddAIRequest(String type){
 		AIType = type;

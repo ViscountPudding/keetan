@@ -10,11 +10,12 @@ public class Soldier {
 		this.victimIndex = victimIndex;
 		this.location = location;
 	}
-	
-	protected int playerIndex;
-	protected int victimIndex;
-	protected HexLocation location;
-	
+
+	private String type = "Soldier";
+	private int playerIndex;
+	private int victimIndex;
+	private HexLocation location;
+
 	public int getPlayerIndex() {
 		return playerIndex;
 	}

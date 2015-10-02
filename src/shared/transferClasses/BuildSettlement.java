@@ -9,11 +9,12 @@ public class BuildSettlement {
 		this.vertexLocation = vertexLocation;
 		this.free = free;
 	}
-	
-	protected int playerIndex;
-	protected VertexValue vertexLocation;
-	protected Boolean free;
-	
+
+	private String type = "buildSettlement"
+	private int playerIndex;
+	private VertexValue vertexLocation;
+	private Boolean free;
+
 	public int getPlayerIndex() {
 		return playerIndex;
 	}

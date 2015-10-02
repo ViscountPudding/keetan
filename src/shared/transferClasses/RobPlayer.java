@@ -3,17 +3,18 @@ package shared.transferClasses;
 import shared.model.locations.HexLocation;
 
 public class RobPlayer {
-	
+
 	public RobPlayer(int playerIndex, int victimIndex, HexLocation location){
 		this.playerIndex = playerIndex;
 		this.victimIndex = victimIndex;
 		this.location = location;
 	}
-	
-	protected int playerIndex;
-	protected int victimIndex;
-	protected HexLocation location;
-	
+
+	private String type = "robPlayer";
+	private int playerIndex;
+	private int victimIndex;
+	private HexLocation location;
+
 	public int getPlayerIndex() {
 		return playerIndex;
 	}

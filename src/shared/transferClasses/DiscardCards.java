@@ -9,9 +9,10 @@ public class DiscardCards {
 		this.discardedCards = discardedCards;
 	}
 
-	protected int playerIndex;
-	protected ResourceList discardedCards;
-	
+	private String type = "discardCards";
+	private int playerIndex;
+	private ResourceList discardedCards;
+
 	public int getPlayerIndex() {
 		return playerIndex;
 	}

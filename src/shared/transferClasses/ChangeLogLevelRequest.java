@@ -9,7 +9,7 @@ public class ChangeLogLevelRequest {
 	/**
 	 * The server's new log level. The following values are allowed: ALL, SEVERE, WARNING ,INFO, CONFIG, FINE, FINER, FINEST, OFF
 	 */
-	protected String logLevel;
+	private String logLevel;
 	
 	public String getLogLevel() {
 		return logLevel;

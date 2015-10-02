@@ -4,26 +4,27 @@ import shared.model.locations.EdgeLocation;
 
 public class BuildRoad {
 
-	public BuildRoad(int playerIndex, EdgeLocation roadLocation, Boolean free) {
+	public BuildCity(int playerIndex, EdgeLocation roadLocation, Boolean free) {
 		this.playerIndex = playerIndex;
 		this.roadLocation = roadLocation;
 		this.free = free;
 	}
-	
-	protected int playerIndex;
-	protected EdgeLocation roadLocation;
-	protected Boolean free;
-	
+
+	private String type = "buildRoad";
+	private int playerIndex;
+	private EdgeLocation roadLocation;
+	private Boolean free;
+
 	public int getPlayerIndex() {
 		return playerIndex;
 	}
 	public void setPlayerIndex(int playerIndex) {
 		this.playerIndex = playerIndex;
 	}
-	public EdgeLocation getSpotOne() {
+	public EdgeLocation getRoadLocation() {
 		return roadLocation;
 	}
-	public void setSpotOne(EdgeLocation roadLocation) {
+	public void setRoadLocation(EdgeLocation roadLocation) {
 		this.roadLocation = roadLocation;
 	}
 	public Boolean getFree() {

@@ -10,16 +10,17 @@ public class MaritimeTrade {
 		this.inputResource = input;
 		this.outputResource = output;
 	}
-	
-	protected int playerIndex;
+
+	private String type = "maritimeTrade";	
+	private int playerIndex;
 	/**
 	 * ratio
 	 * The ratio of the trade your doing as an integer (ie. put 3 for a 3:1 trade)
 	 */
-	protected int ratio;
-	protected Resource inputResource;
-	protected Resource outputResource;
-	
+	private int ratio;
+	private Resource inputResource;
+	private Resource outputResource;
+
 	public int getPlayerIndex() {
 		return playerIndex;
 	}

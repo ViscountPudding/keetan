@@ -6,10 +6,11 @@ public class AcceptTrade {
 		this.playerIndex = playerIndex;
 		this.willAccept = willAccept;
 	}
-	
-	protected int playerIndex;
-	protected Boolean willAccept;
-	
+
+	private String type = "acceptTrade";
+	private int playerIndex;
+	private Boolean willAccept;
+
 	public int getPlayerIndex() {
 		return playerIndex;
 	}

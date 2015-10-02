@@ -5,9 +5,10 @@ public class Monument {
 	public Monument(int playerIndex) {
 		this.playerIndex = playerIndex;
 	}
-	
-	protected int playerIndex;
-	
+
+	private String type = "Monument";
+	private int playerIndex;
+
 	public int getPlayerIndex() {
 		return playerIndex;
 	}

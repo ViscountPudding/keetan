@@ -10,10 +10,11 @@ public class OfferTrade {
 		this.reciever = reciever;
 	}
 
-	protected int playerIndex;
-	protected ResourceList offer;
-	protected int reciever;
-	
+	private String type = "offerTrade";
+	private int playerIndex;
+	private ResourceList offer;
+	private int reciever;
+
 	public int getPlayerIndex() {
 		return playerIndex;
 	}

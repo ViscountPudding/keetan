@@ -13,11 +13,12 @@ public class RoadBuilding {
 		this.spotOne = spotOne;
 		this.spotTwo = spotTwo;
 	}
-	
-	protected int playerIndex;
-	protected EdgeLocation spotOne;
-	protected EdgeLocation spotTwo;
-	
+
+	private String type = "Road_Building";
+	private int playerIndex;
+	private EdgeLocation spotOne;
+	private EdgeLocation spotTwo;
+
 	public int getPlayerIndex() {
 		return playerIndex;
 	}

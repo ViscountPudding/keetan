@@ -9,11 +9,12 @@ public class YearOfPlenty {
 		this.resourceOne = resourceOne;
 		this.resourceTwo = resourceTwo;
 	}
-	
-	protected int playerIndex;
-	protected Resource resourceOne;
-	protected Resource resourceTwo;
-	
+
+	private String type = "Year_of_Plenty";
+	private int playerIndex;
+	private Resource resourceOne;
+	private Resource resourceTwo;
+
 	public int getPlayerIndex() {
 		return playerIndex;
 	}

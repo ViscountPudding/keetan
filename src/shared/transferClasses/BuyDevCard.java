@@ -5,9 +5,10 @@ public class BuyDevCard {
 	public BuyDevCard(int playerIndex) {
 		this.playerIndex = playerIndex;
 	}
-	
-	protected int playerIndex;
-	
+
+	private String type = "buyDevCard";
+	private int playerIndex;
+
 	public int getPlayerIndex() {
 		return playerIndex;
 	}
