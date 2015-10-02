@@ -23,10 +23,10 @@ import shared.model.locations.VertexDirection;
 
 public class GameMap {
 	
-	public static void main(String args[]) { //THIS IS A TEST FUNCTION TO BE DESTROYED LATER
-		GameMap map = new GameMap(false, false, false, false);
-		System.out.println("whee!");
-	}
+//	public static void main(String args[]) { //THIS IS A TEST FUNCTION TO BE DESTROYED LATER
+//		GameMap map = new GameMap(false, false, false, false);
+//		System.out.println("whee!");
+//	}
 	
 	
 	//private Hex[] hexes;
@@ -43,6 +43,7 @@ public class GameMap {
 	private HexLocation robber;
 	
 	/**
+	 * Create the gamemap, calling various functions that fill out the params
 	 * @pre The game must be starting or the map must be changing
 	 * @param randomHexes determines whether or not the hexes are randomized
 	 * @param randomChits determines whether or not the chits are randomized
@@ -68,6 +69,13 @@ public class GameMap {
 		
 	}
 	
+	/**
+	 * Initialize the list of hexes that will be added to the map, maybe randomizing their order
+	 * @pre The game must be starting
+	 * @param randomHexes determines whether or not the basic grid set up is randomized
+	 * @return an array list of hexes
+	 * @post the hexes that will eventually be put onto the game map are initialized in an array list
+	 */
 	private ArrayList<Hex> initializeHexList(boolean randomHexes) {
 		
 		ArrayList<Hex> gameHexes = new ArrayList<Hex>();
@@ -109,6 +117,13 @@ public class GameMap {
 		return gameHexes;
 	}
 	
+	/**
+	 * Initialize the list of chits that will be added to the game map, maybe randomizing them
+	 * @pre The game must be starting
+	 * @param randomChits determines whether or not the chits are randomized
+	 * @return an array list of integers representing the chits
+	 * @post the chits that will eventually be put onto the game map are initialized in an array list
+	 */
 	private ArrayList<Integer> initializeChitList(boolean randomChits) {
 		
 		ArrayList<Integer> chits = new ArrayList<Integer>();
@@ -149,6 +164,13 @@ public class GameMap {
 		return chits;
 	}
 	
+	/**
+	 * Initialize a list of ports then add them to the game map
+	 * @pre The game must be starting
+	 * @param randomPorts determines whether or not the port types are randomized (locations are always the same)
+	 * @return nothing, simply adding the ports to the map
+	 * @post the ports are added to the map
+	 */
 	private void setUpPorts(boolean randomPorts) {
 		
 		ArrayList<PortType> types = new ArrayList<PortType>();
@@ -199,7 +221,13 @@ public class GameMap {
 	}
 	
 	
-	//This doesn't have ports or vertices yet
+	/**
+	 * Takes the lists of hexes and chits and adds them to the game map
+	 * @pre the game is being initialized
+	 * @param theHexes a list of hexes
+	 * @param theChits a list of chits
+	 * @post all the hexes are added to the map
+	 */
 	private void setUpMap(ArrayList<Hex> theHexes, ArrayList<Integer> theChits) {
 		hexes = new HashMap<HexLocation, Hex>();
 		edges = new HashMap<EdgeLocation, EdgeValue>();
@@ -229,6 +257,16 @@ public class GameMap {
 	}
 	
 	//RUDIMENTARY!!
+	/**
+	 * Adds the specific hex to the map
+	 * @pre the setUpMap function must be in a situation where adding a hex is allowed
+	 * @param x the x coordinate where the hex will be placed on the grid
+	 * @param y the y coordinate where the hex will be placed on the grid 
+	 * @param theHexes a list of hexes
+	 * @param theChits a list of chits
+	 * @post A new hex is placed on the map
+	 * @return
+	 */
 	private Hex addToMap(int x, int y, ArrayList<Hex> theHexes, ArrayList<Integer> theChits) {
 		
 		HexLocation coordinates = new HexLocation(x,y);
@@ -249,6 +287,14 @@ public class GameMap {
 	}
 	
 	//RUDIMENTARY!!
+	/**
+	 * Adds edges to the map of edges
+	 * @pre there must be a hex newly placed on the map
+	 * @param x coordinate of edge
+	 * @param y coordinate of edge
+	 * @return a map of edges (which will be added to a hex)
+	 * @post edges are added to map
+	 */
 	private HashMap<EdgeDirection, EdgeValue> addEdges(int x, int y) {
 		
 		HashMap<EdgeDirection, EdgeValue> newEdges = new HashMap<EdgeDirection, EdgeValue>();
@@ -314,6 +360,14 @@ public class GameMap {
 	}
 	
 	//RUDIMENTARY!!
+	/**
+	 * Adds vertices to the map of vertices
+	 * @pre there must be a hex newly placed on the map
+	 * @param x coordinate of vertex
+	 * @param y coordinate of vertex
+	 * @return a map of vertices (which will be added to a hex)
+	 * @post vertices are added to map
+	 */
 	private HashMap<VertexDirection, VertexValue> addVertices(int x, int y) {
 		
 		HashMap<VertexDirection, VertexValue> newVertices = new HashMap<VertexDirection, VertexValue>();
@@ -377,6 +431,13 @@ public class GameMap {
 		return newVertices;
 	}
 	
+	/**
+	 * Find the edges adjacent to the specified edge
+	 * @pre a need to find the edges adjacent for a specific edge
+	 * @param checkEdge the edge to find the adjacent edges for
+	 * @return a list of the adjacent edges
+	 * @pre the adjacent edges are found
+	 */
 	public List<EdgeValue> getAdjacentEdges(EdgeLocation checkEdge) {
 		
 		List<EdgeValue> adjacentEdges = new ArrayList<EdgeValue>();
@@ -420,6 +481,13 @@ public class GameMap {
 		return adjacentEdges;
 	}
 
+	/**
+	 * Find the vertices adjacent to the specified vertex
+	 * @pre a need to find the vertices adjacent for a specific vertex
+	 * @param checkVertex the vertex to find the adjacent vertices for
+	 * @return a list of the adjacent vertices
+	 * @pre the adjacent vertices are found
+	 */
 	public List<VertexValue> getAdjacentVertices(VertexLocation checkVertex) {
 		
 		List<VertexValue> adjacentVertices = new ArrayList<VertexValue>();
