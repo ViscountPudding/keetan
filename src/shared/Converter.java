@@ -1,5 +1,7 @@
 package shared;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -38,6 +40,18 @@ public final class Converter {
 	 */
 	public static <T> T fromJson(Reader reader, Type type) {
 		return gson.fromJson(reader, type);
+	}
+	
+	/**
+	 * Deserializes JSON into an instance of a class of the given type.
+	 * @pre reader must be a valid JSON string for an object of Type type
+	 * @param inputStream - an inputStream with a valid JSON string
+	 * @param type - a java.lang.reflect.Type for a specific class. Usage example: "ArrayList.class"
+	 * @return an instance of the given class type specified by the JSON String
+	 * @post An instance of the class type specified by a JSON String is created
+	 */
+	public static <T> T fromJson(InputStream inputStream, Type type) {
+		return gson.fromJson(new InputStreamReader(inputStream), type);
 	}
 	
 	/**
