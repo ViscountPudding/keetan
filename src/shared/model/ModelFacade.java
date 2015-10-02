@@ -2,7 +2,9 @@ package shared.model;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.Random;
 
+import shared.definitions.DevCardType;
 import shared.model.gamemap.EdgeValue;
 import shared.model.gamemap.Hex;
 import shared.model.gamemap.Port;
@@ -51,9 +53,7 @@ public class ModelFacade {
 			}
 		}
 		for(VertexValue vertex : thisHex.getAdjacentVertices()) {
-			if(vertex.getCity() == null && vertex.getSettlement() == null) {
-				continue;
-			}
+			if(vertex.getCity() == null && vertex.getSettlement() == null) {}
 			else {
 				return true;
 			}
@@ -68,20 +68,7 @@ public class ModelFacade {
 	* @post players may receive their resources
 	*/
 	public boolean canReceiveResource(int resource_amount, Resource resource_type) {
-		switch(resource_type) {
-		case WOOD:
-			return model.getBank().getWood() >= resource_amount;
-		case BRICK:
-			return model.getBank().getBrick() >= resource_amount;
-		case SHEEP:
-			return model.getBank().getSheep() >= resource_amount;
-		case WHEAT:
-			return model.getBank().getWheat() >= resource_amount;
-		case ORE:
-			return model.getBank().getOre() >= resource_amount;
-		default:
-			return false;
-		}
+		return model.getBank().hasResource(resource_type, resource_amount);
 	}
 	/**
 	* @pre Whenever
@@ -103,9 +90,7 @@ public class ModelFacade {
 				&& sOffer.getOre() <= sResources.getOre()
 				&& sOffer.getSheep() <= sResources.getSheep()
 				&& sOffer.getWheat() <= sResources.getWheat()
-				&& sOffer.getWood() <= sResources.getWood()) {
-			continue;
-		}
+				&& sOffer.getWood() <= sResources.getWood()) {}
 		else {
 			return false;
 		}
@@ -117,9 +102,7 @@ public class ModelFacade {
 				&& rOffer.getOre() <= rResources.getOre()
 				&& rOffer.getSheep() <= rResources.getSheep()
 				&& rOffer.getWheat() <= rResources.getWheat()
-				&& rOffer.getWood() <= rResources.getWood()) {
-			continue;
-		}
+				&& rOffer.getWood() <= rResources.getWood()) {}
 		else {
 			return false;
 		}
@@ -150,35 +133,7 @@ public class ModelFacade {
 			}
 		}
 		
-		switch(tradeResource) {
-		case SHEEP:
-			if(player.getResources().getSheep() < tradeRatio) {
-				return false;
-			}
-			return model.getBank().getSheep() > 0;
-		case WOOD:
-			if(player.getResources().getWood() < tradeRatio) {
-				return false;
-			}
-			return model.getBank().getWood() > 0;
-		case BRICK:
-			if(player.getResources().getBrick() < tradeRatio) {
-				return false;
-			}
-			return model.getBank().getBrick() > 0;
-		case ORE:
-			if(player.getResources().getOre() < tradeRatio) {
-				return false;
-			}
-			return model.getBank().getOre() > 0;
-		case WHEAT:
-			if(player.getResources().getWheat() < tradeRatio) {
-				return false;
-			}
-			return model.getBank().getWheat() > 0;
-		default:
-			return false;
-		}
+		return player.getResources().hasResource(tradeResource, tradeRatio) && model.getBank().hasResource(desiredResource, 1);
 	}
 	
 	/**
@@ -204,9 +159,7 @@ public class ModelFacade {
 			}
 			for(EdgeValue edge : location.getAdjacentEdges()) {
 				//Avoid null pointer exceptions
-				if(edge.getRoad() == null) {
-					continue;
-				}
+				if(edge.getRoad() == null) {}
 				else if(edge.getRoad().getPlayerIndex() == playerIndex) {
 					return true;
 				}
@@ -217,9 +170,7 @@ public class ModelFacade {
 		else {
 			//It's the setup phase
 			for(VertexValue vertex : location.getAdjacentVertices()) {
-				if(vertex.getSettlement() == null) {
-					continue;
-				}
+				if(vertex.getSettlement() == null) {}
 				else if(vertex.getSettlement().getPlayerIndex() == playerIndex) {
 					return true;
 				}
@@ -255,9 +206,7 @@ public class ModelFacade {
 		}
 		//Is there an adjacent road?
 		for(EdgeValue edge : location.getAdjacentEdges()) {
-			if(edge.getRoad() == null) {
-				continue;
-			}
+			if(edge.getRoad() == null) {}
 			else if(edge.getRoad().getPlayerIndex() == playerIndex) {
 				return true;
 			}
@@ -511,11 +460,226 @@ public class ModelFacade {
 		}
 	}
 	
-	BuyDevelopmentCard
+	public void BuyDevelopmentCard(Player player) {
+		if(canBuyDevelopmentCard(player.getPlayerIndex())) {
+			//Remove resources
+			player.getResources().setOre(player.getResources().getOre()-1);
+			player.getResources().setWheat(player.getResources().getWheat()-1);
+			player.getResources().setSheep(player.getResources().getSheep()-1);
+			
+			//Update card lists
+			boolean finished = false;
+			Random generator = new Random();
+			DevCardList undrawnCards = model.getUndrawnDevCards();
+			while(!finished) {
+				int generatedNumber = generator.nextInt(5);
+				switch(generatedNumber) {
+				case 0:
+					if(undrawnCards.getMonopoly() > 0) {
+						finished = true;
+						undrawnCards.setMonopoly(undrawnCards.getMonopoly() - 1);
+						player.getNewDevCards().setMonopoly(player.getNewDevCards().getMonopoly() + 1);
+					}
+					break;
+				case 1:
+					if(undrawnCards.getMonument() > 0) {
+						finished = true;
+						undrawnCards.setMonument(undrawnCards.getMonument() - 1);
+						player.getNewDevCards().setMonument(player.getNewDevCards().getMonument() + 1);
+					}
+					break;
+				case 2:
+					if(undrawnCards.getRoadBuilding() > 0) {
+						finished = true;
+						undrawnCards.setRoadBuilding(undrawnCards.getRoadBuilding() - 1);
+						player.getNewDevCards().setRoadBuilding(player.getNewDevCards().getRoadBuilding() + 1);
+					}
+					break;
+				case 3:
+					if(undrawnCards.getSoldier() > 0) {
+						finished = true;
+						undrawnCards.setSoldier(undrawnCards.getSoldier() - 1);
+						player.getNewDevCards().setSoldier(player.getNewDevCards().getSoldier() + 1);
+					}
+					break;
+				case 4:
+					if(undrawnCards.getYearOfPlenty() > 0) {
+						finished = true;
+						undrawnCards.setYearOfPlenty(undrawnCards.getYearOfPlenty() - 1);
+						player.getNewDevCards().setYearOfPlenty(player.getNewDevCards().getYearOfPlenty() + 1);
+					}
+					break;
+				}
+			}
+		}
+	}
 	
-	LoseCardsFromDieRoll
+	public void LoseCardsFromPlayerRobber(Player stealer, Player stealee) {
+		if(canLoseCardsFromDieRoll(stealee.getPlayerIndex())) {
+			Random generator = new Random();
+			boolean finished = false;
+			while(!finished) {
+				int generatedNumber = generator.nextInt(5);
+				switch(generatedNumber) {
+				case 0:
+					if(stealee.getResources().getBrick() > 0) {
+						finished = true;
+						stealee.getResources().setBrick(stealee.getResources().getBrick() - 1);
+						stealer.getResources().setBrick(stealer.getResources().getBrick() + 1);
+					}
+					break;
+				case 1:
+					if(stealee.getResources().getOre() > 0) {
+						finished = true;
+						stealee.getResources().setOre(stealee.getResources().getOre() - 1);
+						stealer.getResources().setOre(stealer.getResources().getOre() + 1);
+					}
+					break;
+				case 2:
+					if(stealee.getResources().getSheep() > 0) {
+						finished = true;
+						stealee.getResources().setSheep(stealee.getResources().getSheep() - 1);
+						stealer.getResources().setSheep(stealer.getResources().getSheep() + 1);
+					}
+					break;
+				case 3:
+					if(stealee.getResources().getWheat() > 0) {
+						finished = true;
+						stealee.getResources().setWheat(stealee.getResources().getWheat() - 1);
+						stealer.getResources().setWheat(stealer.getResources().getWheat() + 1);
+					}
+					break;
+				case 4:
+					if(stealee.getResources().getWood() > 0) {
+						finished = true;
+						stealee.getResources().setWood(stealee.getResources().getWood() - 1);
+						stealer.getResources().setWood(stealer.getResources().getWood() + 1);
+					}
+					break;
+				}
+			}
+		}
+	}
 	
-	LoseCardsFromRobber
+	public void LoseCardsFromDieRoll(Player player) {
+		if(canLoseCardsFromRobber(player.getPlayerIndex())) {
+			int endHandSize = player.getResources().getTotalCards()/2;
+			Random generator = new Random();
+			
+			while(player.getResources().getTotalCards() > endHandSize) {
+				int generatedNumber = generator.nextInt(5);
+				switch(generatedNumber) {
+				case 0:
+					if(player.getResources().getBrick() > 0) {
+						player.getResources().setBrick(player.getResources().getBrick() - 1);
+						model.getBank().setBrick(model.getBank().getBrick() + 1);
+					}
+					break;
+				case 1:
+					if(player.getResources().getOre() > 0) {
+						player.getResources().setOre(player.getResources().getOre() - 1);
+						model.getBank().setOre(model.getBank().getOre() + 1);
+					}
+					break;
+				case 2:
+					if(player.getResources().getSheep() > 0) {
+						player.getResources().setSheep(player.getResources().getSheep() - 1);
+						model.getBank().setSheep(model.getBank().getSheep() + 1);
+					}
+					break;
+				case 3:
+					if(player.getResources().getWheat() > 0) {
+						player.getResources().setWheat(player.getResources().getWheat() - 1);
+						model.getBank().setWheat(model.getBank().getWheat() + 1);
+					}
+					break;
+				case 4:
+					if(player.getResources().getWood() > 0) {
+						player.getResources().setWood(player.getResources().getWood() - 1);
+						model.getBank().setWood(model.getBank().getWood() + 1);
+					}
+					break;
+				}
+			}
+		}
+	}
+	
+	public void PlayMonopoly(Player player, Resource resource) {
+		if(player.getOldDevCards().getMonopoly() > 0) {
+			for(Player otherPlayer : model.getPlayers()) {
+				if(player == otherPlayer) {
+					continue; //Skip the rest of the loop
+				}
+				
+				int ownedCards = 0;
+				switch(resource) {
+				case BRICK:
+					ownedCards = otherPlayer.getResources().getBrick();
+					break;
+				case DESERT:
+					break;
+				case ORE:
+					ownedCards = otherPlayer.getResources().getOre();
+					break;
+				case SHEEP:
+					ownedCards = otherPlayer.getResources().getSheep();
+					break;
+				case WHEAT:
+					ownedCards = otherPlayer.getResources().getWheat();
+					break;
+				case WOOD:
+					ownedCards = otherPlayer.getResources().getWood();
+					break;
+				default:
+					break;
+				}
+				
+				otherPlayer.removeResource(resource, ownedCards);
+				player.addResource(resource, ownedCards);
+			}
+			player.getOldDevCards().setMonopoly(player.getOldDevCards().getMonopoly() - 1);
+		}
+	}
+	
+	public void PlayRoadBuilding(Player player, EdgeValue location1, EdgeValue location2) {
+		if(player.getOldDevCards().getRoadBuilding() > 0) {
+			if(canBuildRoad(player.getPlayerIndex(),location1)) {
+				BuildRoad(player, location1);
+			}
+			if(canBuildRoad(player.getPlayerIndex(), location2)) {
+				BuildRoad(player, location2);
+			}
+			
+			player.getOldDevCards().setRoadBuilding(player.getOldDevCards().getRoadBuilding() - 1);
+		}
+	}
+	
+	public void PlaySoldier(Player player, HexLocation newRobberLocation, Player toStealFrom) {
+		if(player.getOldDevCards().getSoldier() > 0) {
+			model.getMap().setRobber(newRobberLocation);
+			if(canLoseCardsFromRobber(toStealFrom.getPlayerIndex())) {
+				LoseCardsFromPlayerRobber(player,toStealFrom);
+			}
+			player.getOldDevCards().setSoldier(player.getOldDevCards().getSoldier() - 1);
+		}
+	}
+	
+	public void PlayYearOfPlenty(Player player, Resource resource1, Resource resource2) {
+		if(player.getOldDevCards().getYearOfPlenty() > 0) {
+			if(resource1 == resource2 && model.getBank().hasResource(resource1, 2)) {
+				removeFromBank(resource1,2);
+				player.addResource(resource1, 2);
+			}
+			else if(model.getBank().hasResource(resource1, 1) && model.getBank().hasResource(resource2, 1)) {
+				removeFromBank(resource1,1);
+				removeFromBank(resource2,1);
+				player.addResource(resource1, 1);
+				player.addResource(resource2, 1);
+			}
+			
+			player.getOldDevCards().setYearOfPlenty(player.getOldDevCards().getYearOfPlenty() - 1);
+		}
+	}
 	
 	UpdateModel
 	
