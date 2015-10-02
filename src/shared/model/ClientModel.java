@@ -1,5 +1,7 @@
 package shared.model;
 
+import java.util.ArrayList;
+
 import shared.model.gamemap.GameMap;
 import shared.model.message.MessageList;
 
@@ -102,18 +104,17 @@ public class ClientModel {
 		this.undrawnDevCards = undrawnDevCards;
 	}
 
-	//This isn't fully flehsed out yet, as it offers no opportunities to change the randomness of the map or the names of the players (right now it's all Walrus)
-	private ClientModel() {
+	private ClientModel(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
 		bank = new ResourceList(19,19,19,19,19);
 		undrawnDevCards = new DevCardList(2, 5, 2, 14, 2);
 		chat = new MessageList();
 		log = new MessageList();
-		map = new GameMap(false, false, false, false);
+		map = new GameMap(randomHexes, randomChits, randomPorts, loadGame);
 		players = new Player[4];
 		
 		for(int i = 0; i < 4; i++)
 		{
-			Player newPlayer = new Player("Walrus", i, i);
+			Player newPlayer = new Player(names.get(0), i, i);
 			players[i] = newPlayer;
 		}
 		
@@ -127,9 +128,9 @@ public class ClientModel {
 	 * @return the singleton of the ClientModel
 	 */
 	
-	public static ClientModel getInstance() {
+	public static ClientModel getInstance(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
 		if(instance == null) {
-			instance = new ClientModel();
+			instance = new ClientModel(randomHexes, randomChits, randomPorts, loadGame, names);
 		}
 		return instance;
 	}

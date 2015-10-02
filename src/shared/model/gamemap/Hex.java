@@ -1,8 +1,10 @@
 	package shared.model.gamemap;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.HashMap;
-
+import java.util.Map.Entry;
 
 import shared.model.Resource;
 import shared.model.locations.HexLocation;
@@ -70,6 +72,14 @@ public class Hex {
 	
 	public List<VertexValue> getAdjacentVertices() {
 		// TODO Auto-generated method stub
-		return null;
+		List<VertexValue> theseVertices = new ArrayList<VertexValue>();
+		
+		Iterator<Entry<VertexDirection, VertexValue>> vertexer = vertices.entrySet().iterator();
+		while(vertexer.hasNext()) {
+			Entry<VertexDirection, VertexValue> vertex = vertexer.next();
+			theseVertices.add(vertex.getValue());
+		}
+		
+		return theseVertices;
 	}
 }
