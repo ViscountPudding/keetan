@@ -681,7 +681,7 @@ public class ModelFacade {
 		}
 	}
 	
-	UpdateModel
+	//UpdateModel
 	
 	private void addToBank(Resource resource, int amount) {
 		ResourceList bank = model.getBank();
