@@ -1,5 +1,12 @@
 package shared.transferClasses;
 
+/**
+ * Plays a 'Monument' card from your hand to give you a victory point
+ * @param playerIndex the player to get the victory point
+ * @author willvdb
+ *
+ */
+
 public class Monument {
 
 	public Monument(int playerIndex) {

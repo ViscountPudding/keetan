@@ -2,6 +2,15 @@ package shared.transferClasses;
 
 import shared.model.gamemap.VertexValue;
 
+/**
+ * This class builds a city at the specified location
+ * @param playerIndex the player building the road
+ * @param vertexLocation the location to build
+ * @param free whether or not the building of this is free
+ * @author willvdb
+ *
+ */
+
 public class BuildCity {
 
 	public BuildCity(int playerIndex, VertexValue vertexLocation, Boolean free) {
@@ -10,7 +19,7 @@ public class BuildCity {
 		this.free = free;
 	}
 
-	private String type = "buildCity"
+	private String type = "buildCity";
 	private int playerIndex;
 	private VertexValue vertexLocation;
 	private Boolean free;

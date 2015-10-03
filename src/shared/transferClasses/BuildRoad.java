@@ -2,9 +2,17 @@ package shared.transferClasses;
 
 import shared.model.locations.EdgeLocation;
 
+/**
+ * This class builds a road at the specified location
+ * @param playerIndex the player building the road
+ * @param roadLocation the location to build
+ * @author willvdb
+ *
+ */
+
 public class BuildRoad {
 
-	public BuildCity(int playerIndex, EdgeLocation roadLocation, Boolean free) {
+	public BuildRoad(int playerIndex, EdgeLocation roadLocation, Boolean free) {
 		this.playerIndex = playerIndex;
 		this.roadLocation = roadLocation;
 		this.free = free;

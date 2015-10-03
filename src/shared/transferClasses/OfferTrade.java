@@ -2,6 +2,15 @@ package shared.transferClasses;
 
 import shared.model.ResourceList;
 
+/**
+ * Offers a domestic trade to another player.
+ * @param playerIndex the player offering the trade
+ * @param offer the resources being offered
+ * @param reciever the player recieving the trade
+ * @author willvdb
+ *
+ */
+
 public class OfferTrade {
 
 	public OfferTrade(int playerIndex, ResourceList offer, int reciever) {

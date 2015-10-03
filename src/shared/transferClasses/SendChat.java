@@ -15,7 +15,6 @@ public class SendChat {
 		content = contentIn;
 	}
 
-	private String type = "Soldier";
 	private String type = "sendChat";
 	private int playerIndex;
 	private String content;

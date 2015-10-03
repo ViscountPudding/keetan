@@ -3,6 +3,15 @@ package shared.transferClasses;
 import shared.model.locations.EdgeLocation;
 import shared.model.locations.HexLocation;
 
+/**
+ *
+ *Plays a 'Soldier' from your hand, selecting the new robber position and player to rob
+ *@param playerIndex the player playing the card
+ *@param victimindex the player being robbed
+ *@param location the location to move the robber to
+ * @author willvdb
+ */
+
 public class Soldier {
 
 	public Soldier(int playerIndex, int victimIndex, HexLocation location){

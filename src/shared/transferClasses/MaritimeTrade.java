@@ -2,6 +2,16 @@ package shared.transferClasses;
 
 import shared.model.Resource;
 
+/**
+ * Used to execute a maritime trade
+ * @param playerIndex the player executing the trade
+ * @param ratio The ratio of the trade your doing as an integer (ie. put 3 for a 3:1 trade)
+ * @param inputResource the resource provided by the player
+ * @param outputResource the resource returned to the player
+ * @author willvdb
+ *
+ */
+
 public class MaritimeTrade {
 
 	public MaritimeTrade(int playerIndex, int ratio, Resource input, Resource output) {
@@ -13,10 +23,6 @@ public class MaritimeTrade {
 
 	private String type = "maritimeTrade";	
 	private int playerIndex;
-	/**
-	 * ratio
-	 * The ratio of the trade your doing as an integer (ie. put 3 for a 3:1 trade)
-	 */
 	private int ratio;
 	private Resource inputResource;
 	private Resource outputResource;

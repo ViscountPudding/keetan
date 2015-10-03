@@ -2,6 +2,14 @@ package shared.transferClasses;
 
 import shared.model.ResourceList;
 
+/**
+ * Discards the specified resource cards
+ * @param playerIndex the player discarding said cards
+ * @param discardedCards the cards that the player is throwing away
+ * @author willvdb
+ *
+ */
+
 public class DiscardCards {
 
 	public DiscardCards(int playerIndex, ResourceList discardedCards) {

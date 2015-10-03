@@ -2,6 +2,15 @@ package shared.transferClasses;
 
 import shared.model.locations.HexLocation;
 
+/**
+ * This class moves the robber, selecting the new robber position and player to rob.
+ * @param playerIndex the player moving the robber
+ * @param victimIndex the person to steal from
+ * @param location the location to move the robber to
+ * @author willvdb
+ *
+ */
+
 public class RobPlayer {
 
 	public RobPlayer(int playerIndex, int victimIndex, HexLocation location){

@@ -1,5 +1,13 @@
 package shared.transferClasses;
 
+/**
+ * Used to accept or reject a trade offered to you
+ * @param playerIndex the player accepting/rejecting the trade
+ * @param willAccept whether or not they'll accept it
+ * @author willvdb
+ *
+ */
+
 public class AcceptTrade {
 
 	public AcceptTrade(int playerIndex, Boolean willAccept) {

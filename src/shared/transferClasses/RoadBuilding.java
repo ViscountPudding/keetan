@@ -4,6 +4,10 @@ import shared.model.locations.EdgeLocation;
 
 /**
  * This plays the road building card, which actually builds two roads.
+ * @param playerIndex the player building the two roads
+ * @param spotOne location for the first road
+ * @param spotTwo the location for the second road
+ * @author willvdb
  */
 
 public class RoadBuilding {

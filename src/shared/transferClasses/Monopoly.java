@@ -2,6 +2,14 @@ package shared.transferClasses;
 
 import shared.model.Resource;
 
+/**
+ * Plays a 'Monopoly' card from your hand to monopolize the specified resource
+ * @param playerIndex the player playing the card
+ * @param resource the resource being monopolized
+ * @author willvdb
+ *
+ */
+
 public class Monopoly {
 
 	public Monopoly(int playerIndex, Resource resource) {
