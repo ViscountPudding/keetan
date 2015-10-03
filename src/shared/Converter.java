@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import shared.model.locations.HexLocation;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * The Converter is a library class that provides methods to serialize and deserialize
@@ -16,7 +17,8 @@ import com.google.gson.Gson;
  * @author djoshuac
  */
 public final class Converter {
-	private static final Gson gson = new Gson();
+	private static final Gson gson = new GsonBuilder().disableHtmlEscaping().
+			enableComplexMapKeySerialization().create();
 	
 	/**
 	 * Deserializes JSON into an instance of a class of the given type.
