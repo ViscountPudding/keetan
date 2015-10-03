@@ -17,8 +17,8 @@ import com.google.gson.GsonBuilder;
  * @author djoshuac
  */
 public final class Converter {
-	private static final Gson gson = new GsonBuilder().disableHtmlEscaping().
-			enableComplexMapKeySerialization().create();
+	private static final Gson gson = new GsonBuilder().disableHtmlEscaping()
+			.enableComplexMapKeySerialization().serializeNulls().create();
 	
 	/**
 	 * Deserializes JSON into an instance of a class of the given type.

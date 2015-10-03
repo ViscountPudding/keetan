@@ -1,20 +1,32 @@
 package clientSide.server;
+import java.util.ArrayList;
+
 import shared.model.ClientModel;
-import shared.model.Player;
-import shared.model.PlayerColor;
-import shared.model.Resource;
 import shared.model.ResourceList;
 import shared.model.TradeOffer;
-import shared.model.locations.EdgeLocation;
-import shared.model.locations.HexLocation;
-import shared.model.gamemap.VertexValue;
-import clientSide.exceptions.CannotJoinGameException;
-import clientSide.exceptions.CannotSaveGameException;
+import shared.transferClasses.AcceptTrade;
+import shared.transferClasses.AddAIRequest;
+import shared.transferClasses.BuildCity;
+import shared.transferClasses.BuildRoad;
+import shared.transferClasses.BuildSettlement;
+import shared.transferClasses.BuyDevCard;
+import shared.transferClasses.CreateGameRequest;
+import shared.transferClasses.DiscardCards;
+import shared.transferClasses.FinishTurn;
+import shared.transferClasses.Game;
+import shared.transferClasses.JoinGameRequest;
+import shared.transferClasses.MaritimeTrade;
+import shared.transferClasses.Monopoly;
+import shared.transferClasses.Monument;
+import shared.transferClasses.RoadBuilding;
+import shared.transferClasses.RobPlayer;
+import shared.transferClasses.RollNumber;
+import shared.transferClasses.SendChat;
+import shared.transferClasses.Soldier;
+import shared.transferClasses.UserCredentials;
+import shared.transferClasses.YearOfPlenty;
 import clientSide.exceptions.IllegalActionException;
-import clientSide.exceptions.InvalidTradeException;
-import clientSide.exceptions.OutOfTurnException;
 import clientSide.exceptions.ServerException;
-import clientSide.exceptions.WrongUserException;
 
 /**
  * This interface is used by a client to send requests to a Settlers of Catan Server.
@@ -25,101 +37,220 @@ public interface IServer {
 
 	/**
 	 * 
-	 * @param username - the username of a user
-	 * @param password - the corresponding password of the user
+	 * @param userCredentials - the credentials of the user
+	 * @throws ServerException if cannot connect to server or credentials are invalid
+	 */
+	abstract public void login(UserCredentials userCredentials)
+			throws ServerException;
+	/**
+	 * 
+	 * @param userCredentials - the credentials of the user
+	 * @throws ServerException if cannot connect to server or credentials are invalid
+	 */
+	abstract public void register(UserCredentials userCredentials)
+			throws ServerException;
+
+	/**
+	 * 
 	 * @return
-	 * @throws WrongUserException
 	 * @throws ServerException
 	 */
-	abstract public Session login(String username, String password)
-			throws WrongUserException, ServerException;
-
-	abstract public Session register(String username, String password)
-			throws WrongUserException, ServerException;
-
-	
-	abstract public Session joinGame(Session user, int gameID, PlayerColor color)
-			throws CannotJoinGameException, ServerException;
-
-	
-	abstract public void saveGame(int gameID, String filename)
-			throws CannotSaveGameException, ServerException;
-
-	
-	abstract public void loadGame(String filename) throws CannotSaveGameException,
-			ServerException;
-
-	
-	abstract public ClientModel getModel(Session user, int version)
+	abstract public ArrayList<Game> getGamesList()
 			throws ServerException;
 
+	/**
+	 * 
+	 * @param createGameRequest
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public Game createGame(CreateGameRequest createGameRequest)
+			throws ServerException;
 	
-	abstract public ClientModel resetGame(Session user) throws ServerException;
-
-	
-	abstract public ClientModel sendChat(Session user, String message)
+	/**
+	 * 
+	 * @param joinGameRequest
+	 * @throws ServerException
+	 */
+	abstract public void joinGame(JoinGameRequest joinGameRequest)
 			throws ServerException;
 
+	/**
+	 * 
+	 * @param version
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ClientModel getModel(int version)
+			throws ServerException;
 	
-	abstract public ClientModel rollDice(Session user, int number)
-			throws ServerException, IllegalActionException;
+	/**
+	 * 
+	 * @param addAIRequest
+	 * @throws ServerException
+	 */
+	abstract public void addAI(AddAIRequest addAIRequest)
+			throws ServerException;
 
+	/**
+	 * 
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ArrayList<String> listAITypes()
+			throws ServerException;
 	
-	abstract public ClientModel robPlayer(Session user, HexLocation newRobberLocation,
-			Player victim) throws ServerException,
-			IllegalActionException;
+	/**
+	 * 
+	 * @param sendChat
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ClientModel sendChat(SendChat sendChat)
+			throws ServerException;
+	
+	/**
+	 * 
+	 * @param rollNumber
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ClientModel rollDice(RollNumber rollNumber)
+			throws ServerException;
 
-	
-	abstract public ClientModel buyDevCard(Session user) throws ServerException,
-			IllegalActionException;
+	/**
+	 * 
+	 * @param robPlayer
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ClientModel robPlayer(RobPlayer robPlayer)
+			throws ServerException;
 
+	/**
+	 * 
+	 * @param finishTurn
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ClientModel finishTurn(FinishTurn finishTurn)
+			throws ServerException;
 	
-	abstract public ClientModel yearOfPlenty(Session user, Resource type1,
-			Resource type2) throws ServerException, IllegalActionException;
+	/**
+	 * 
+	 * @param buyDevCard
+	 * @return
+	 * @throws ServerException=
+	 */
+	abstract public ClientModel buyDevCard(BuyDevCard buyDevCard)
+			throws ServerException;
 
-	
-	abstract public ClientModel roadBuilding(Session user, EdgeLocation road1,
-			EdgeLocation road2) throws ServerException, IllegalActionException;
+	/**
+	 * 
+	 * @param yearOfPlenty
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ClientModel yearOfPlenty(YearOfPlenty yearOfPlenty)
+			throws ServerException;
 
-	
-	abstract public ClientModel soldier(Session user, HexLocation newRobberLocation,
-			Player victim) throws ServerException,
-			IllegalActionException;
+	/**
+	 * 
+	 * @param roadBuilding
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ClientModel roadBuilding(RoadBuilding roadBuilding)
+			throws ServerException;
 
-	
-	abstract public ClientModel monopoly(Session user, Resource type)
-			throws ServerException, IllegalActionException;
+	/**
+	 * 
+	 * @param soldier
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ClientModel soldier(Soldier soldier)
+			throws ServerException;
 
-	
-	abstract public ClientModel buildRoad(Session user, EdgeLocation location,
-			boolean free) throws ServerException, IllegalActionException;
+	/**
+	 * 
+	 * @param monopoly
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ClientModel monopoly(Monopoly monopoly)
+			throws ServerException;
 
+	/**
+	 * 
+	 * @param monument
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ClientModel monument(Monument monument)
+			throws ServerException;
 	
-	abstract public ClientModel buildSettlement(Session user, VertexValue vertex,
-			boolean free) throws ServerException, IllegalActionException;
+	/**
+	 * 
+	 * @param buildRoad
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ClientModel buildRoad(BuildRoad buildRoad)
+			throws ServerException;
 
-	
-	abstract public ClientModel buildCity(Session user, EdgeLocation location)
-			throws ServerException, IllegalActionException;
+	/**
+	 * 
+	 * @param buildSettlement
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ClientModel buildSettlement(BuildSettlement buildSettlement)
+			throws ServerException;
 
-	
-	abstract public ClientModel respondToTrade(Session user, boolean accept)
-			throws ServerException, InvalidTradeException;
+	/**
+	 * 
+	 * @param buildCity
+	 * @return
+	 * @throws ServerException
+	 * @throws IllegalActionException
+	 */
+	abstract public ClientModel buildCity(BuildCity buildCity)
+			throws ServerException;
 
+	/**
+	 * 
+	 * @param offer
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ClientModel offerTrade(TradeOffer offer)
+			throws ServerException;
 	
-	abstract public ClientModel maritimeTrade(Session user, Resource inResource,
-			Resource outResource, int ratio) throws ServerException,
-			IllegalActionException;
+	/**
+	 * 
+	 * @param acceptTrade
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ClientModel respondToTrade(AcceptTrade acceptTrade)
+			throws ServerException;
 
-	
-	abstract public ClientModel finishTurn(Session user) throws ServerException,
-			IllegalActionException;
+	/**
+	 * 
+	 * @param maritimeTrade
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ClientModel maritimeTrade(MaritimeTrade maritimeTrade)
+			throws ServerException;
 
-	
-	abstract public ClientModel offerTrade(Session user, TradeOffer offer)
-			throws ServerException, OutOfTurnException;
-
-	
-	abstract public ClientModel discardCards(Session user, ResourceList cards)
-			throws ServerException, IllegalActionException;
+	/**
+	 * 
+	 * @param discardCards
+	 * @return
+	 * @throws ServerException
+	 */
+	abstract public ClientModel discardCards(DiscardCards discardCards)
+			throws ServerException;
 }
