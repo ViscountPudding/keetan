@@ -26,7 +26,7 @@ public class ModelFacade {
 	private static ModelFacade instance = null;
 	
 	private ModelFacade(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
-		model = ClientModel.getInstance(randomHexes, randomChits, randomPorts, loadGame, names);
+		model = model.getInstance(randomHexes, randomChits, randomPorts, loadGame, names);
 	}
 	
 	/** The singleton generator for the ModelFacade
@@ -428,7 +428,13 @@ public class ModelFacade {
 			player.addRoad(road);
 		}
 	}
-	
+
+	/**
+	 * @pre All conditions to build a settlement must be met.
+	 * @param player The player building a settlement
+	 * @param vertex The vertex where the settlement will be built
+	 * @post The settlement is placed
+	 */
 	public void BuildSettlement(Player player, VertexValue vertex) {
 		if(canBuildSettlement(player.getPlayerIndex(),vertex)) {
 			//Remove resources
@@ -445,6 +451,12 @@ public class ModelFacade {
 		}
 	}
 	
+	/**
+	 * @pre All conditions to build a city must be met
+	 * @param player The player building a city
+	 * @param vertex The vertex where the city will be placed
+	 * @post The city is placed
+	 */
 	public void BuildCity(Player player, VertexValue vertex) {
 		if(canBuildCity(player.getPlayerIndex(),vertex)) {
 			//Remove resources
@@ -462,6 +474,11 @@ public class ModelFacade {
 		}
 	}
 	
+	/**
+	 * @pre The player must have enough resources to buy a card, and the bank must still have cards
+	 * @param player
+	 * @post The player buys a card from the bank
+	 */
 	public void BuyDevelopmentCard(Player player) {
 		if(canBuyDevelopmentCard(player.getPlayerIndex())) {
 			//Remove resources
@@ -516,6 +533,12 @@ public class ModelFacade {
 		}
 	}
 	
+	/**
+	 * @pre The stealer player must have moved the robber via dice roll or knight card 
+	 * @param stealer The player doing the stealing
+	 * @param stealee The victim
+	 * @post The stealer gains a card from the stealee
+	 */
 	public void LoseCardsFromPlayerRobber(Player stealer, Player stealee) {
 		if(canLoseCardsFromDieRoll(stealee.getPlayerIndex())) {
 			Random generator = new Random();
@@ -563,6 +586,13 @@ public class ModelFacade {
 		}
 	}
 	
+	/**
+	 * @pre The dice have rolled a 7, and the player has 8 or more cards
+	 * @param player The player discarding cards
+	 * @param toDiscard The chosen cards to discard
+	 * @throws IllegalActionException toDiscard has more cards of at least one type than does the player
+	 * @post The player loses the discarded cards
+	 */
 	public void LoseCardsFromDieRoll(Player player, ResourceList toDiscard) throws IllegalActionException {
 		if(canLoseCardsFromRobber(player.getPlayerIndex())) {
 			ResourceList currResource = player.getResources();
@@ -571,11 +601,17 @@ public class ModelFacade {
 					&& currResource.getSheep() >= toDiscard.getSheep()
 					&& currResource.getWheat() >= toDiscard.getWheat()
 					&& currResource.getWood() >= toDiscard.getWood()) {
-				currResource.setBrick(currResource.getBrick() - toDiscard.getBrick());
-				currResource.setOre(currResource.getOre() - toDiscard.getOre());
-				currResource.setSheep(currResource.getSheep() - toDiscard.getSheep());
-				currResource.setWheat(currResource.getWheat() - toDiscard.getWheat());
-				currResource.setWood(currResource.getWood() - toDiscard.getWood());
+				player.removeResource(Resource.BRICK, toDiscard.getBrick());
+				player.removeResource(Resource.ORE, toDiscard.getOre());
+				player.removeResource(Resource.SHEEP, toDiscard.getSheep());
+				player.removeResource(Resource.WHEAT, toDiscard.getWheat());
+				player.removeResource(Resource.WOOD, toDiscard.getWood());
+				
+				addToBank(Resource.BRICK,toDiscard.getBrick());
+				addToBank(Resource.ORE,toDiscard.getOre());
+				addToBank(Resource.SHEEP,toDiscard.getSheep());
+				addToBank(Resource.WHEAT,toDiscard.getWheat());
+				addToBank(Resource.WOOD,toDiscard.getWood());
 			}
 			else {
 				throw new IllegalActionException();
@@ -583,6 +619,12 @@ public class ModelFacade {
 		}
 	}
 	
+	/**
+	 * @pre player must have a monopoly card
+	 * @param player The player playing the card
+	 * @param resource The chosen resource to monopolize
+	 * @post player gains all other player's cards of type resource
+	 */
 	public void PlayMonopoly(Player player, Resource resource) {
 		if(player.getOldDevCards().getMonopoly() > 0) {
 			for(Player otherPlayer : model.getPlayers()) {
@@ -620,6 +662,13 @@ public class ModelFacade {
 		}
 	}
 	
+	/**
+	 * @pre player must have a roadbuilding card
+	 * @param player The player playing the card
+	 * @param location1 Location of the first road to place
+	 * @param location2 Location of the second road to place
+	 * @post New roads are placed
+	 */
 	public void PlayRoadBuilding(Player player, EdgeValue location1, EdgeValue location2) {
 		if(player.getOldDevCards().getRoadBuilding() > 0) {
 			if(canBuildRoad(player.getPlayerIndex(),location1)) {
@@ -633,6 +682,13 @@ public class ModelFacade {
 		}
 	}
 	
+	/**
+	 * @pre player must have a soldier card, and toStealFrom must have a building bordering newRobberLocation
+	 * @param player The player playing the card
+	 * @param newRobberLocation The new spot for the robber piece
+	 * @param toStealFrom The player to steal a card from
+	 * @post The robber is moved, and player receives a random card from toStealFrom 
+	 */
 	public void PlaySoldier(Player player, HexLocation newRobberLocation, Player toStealFrom) {
 		if(player.getOldDevCards().getSoldier() > 0) {
 			model.getMap().setRobber(newRobberLocation);
@@ -643,7 +699,15 @@ public class ModelFacade {
 		}
 	}
 	
-	public void PlayYearOfPlenty(Player player, Resource resource1, Resource resource2) {
+	/**
+	 * @pre player must have a YearOfPlenty card, and choose resources that the bank has available
+	 * @param player The player playing the card
+	 * @param resource1 The first resource to take from the bank
+	 * @param resource2 The second resource to take from the bank
+	 * @throws IllegalActionException 
+	 * @post The player receives the two resources from the bank
+	 */
+	public void PlayYearOfPlenty(Player player, Resource resource1, Resource resource2) throws IllegalActionException {
 		if(player.getOldDevCards().getYearOfPlenty() > 0) {
 			if(resource1 == resource2 && model.getBank().hasResource(resource1, 2)) {
 				removeFromBank(resource1,2);
@@ -655,11 +719,29 @@ public class ModelFacade {
 				player.addResource(resource1, 1);
 				player.addResource(resource2, 1);
 			}
+			else {
+				throw new IllegalActionException();
+			}
 			
 			player.getOldDevCards().setYearOfPlenty(player.getOldDevCards().getYearOfPlenty() - 1);
 		}
 	}
 	
+	/**
+	 * @pre whenever
+	 * @param model The new client model
+	 * @post replaces the old model with the new one
+	 */
+	public void UpdateModel(ClientModel model) {
+		this.model = model;
+	}
+	
+	/**
+	 * @pre whenever
+	 * @param transferObject
+	 * @throws IllegalActionException
+	 * @post Performs actions based on which transferObject was given.
+	 */
 	public void UpdateModel(Object transferObject) throws IllegalActionException {
 		if(transferObject == null) {}
 		else if(transferObject instanceof AcceptTrade) {
