@@ -20,6 +20,7 @@ public class ClientModel {
 	private TurnTracker turnTracker;
 	private int version;
 	private int winner;
+	private TradeOffer currentTradeOffer;
 
 	//SINGLETON!
 	private static ClientModel instance = null;
@@ -102,6 +103,14 @@ public class ClientModel {
 
 	public void setUndrawnDevCards(DevCardList undrawnDevCards) {
 		this.undrawnDevCards = undrawnDevCards;
+	}
+
+	public TradeOffer getCurrentTradeOffer() {
+		return currentTradeOffer;
+	}
+
+	public void setCurrentTradeOffer(TradeOffer currentTradeOffer) {
+		this.currentTradeOffer = currentTradeOffer;
 	}
 
 	private ClientModel(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {

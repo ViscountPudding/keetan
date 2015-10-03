@@ -1,37 +1,41 @@
 package shared.model;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import shared.definitions.DevCardType;
+import clientSide.exceptions.IllegalActionException;
 import shared.model.gamemap.EdgeValue;
 import shared.model.gamemap.Hex;
 import shared.model.gamemap.Port;
 import shared.model.gamemap.VertexValue;
 import shared.model.locations.HexLocation;
+import shared.model.message.MessageLine;
 import shared.model.pieces.City;
 import shared.model.pieces.Road;
 import shared.model.pieces.Settlement;
+import shared.transferClasses.*;
 
 public class ModelFacade {
 
-	private ClientModel model = ClientModel.getInstance();
+	private ClientModel model;
 	
 	//SINGLETON!
 	private static ModelFacade instance = null;
 	
-	private ModelFacade() {
-		
+	private ModelFacade(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
+		model = ClientModel.getInstance(randomHexes, randomChits, randomPorts, loadGame, names);
 	}
 	
 	/** The singleton generator for the ModelFacade
 	 * @pre the game must be starting (there must be a server model to interact with)
 	 * @return the singleton of the ModelFacade
 	 */
-	public static ModelFacade GetInstance() {
+	public static ModelFacade getInstance(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
 		if(instance == null) {
-			instance = new ModelFacade();
+			instance = new ModelFacade(randomHexes, randomChits, randomPorts, loadGame, names);
 		}
 		
 		return instance;
@@ -78,7 +82,6 @@ public class ModelFacade {
 	*/
 	public boolean canDomesticTrade(TradeOffer offer) {
 		int currentPlayer = model.getTurnTracker().getCurrentPlayer();
-		boolean toReturn = false;
 		if(offer.getSender() != currentPlayer && offer.getReceiver() != currentPlayer) {
 			return false;
 		}
@@ -179,8 +182,7 @@ public class ModelFacade {
 			return false;
 		}
 	}
-	
-	
+		
 	/**
 	* @pre Whenever
 	* @param Player
@@ -340,7 +342,7 @@ public class ModelFacade {
 						player.addResource(hex.getResource(), 1);
 					}
 					else if(city != null) {
-						Player player = model.getPlayers()[settle.getPlayerIndex()];
+						Player player = model.getPlayers()[city.getPlayerIndex()];
 						player.addResource(hex.getResource(), 2);
 					}
 				}
@@ -561,45 +563,22 @@ public class ModelFacade {
 		}
 	}
 	
-	public void LoseCardsFromDieRoll(Player player) {
+	public void LoseCardsFromDieRoll(Player player, ResourceList toDiscard) throws IllegalActionException {
 		if(canLoseCardsFromRobber(player.getPlayerIndex())) {
-			int endHandSize = player.getResources().getTotalCards()/2;
-			Random generator = new Random();
-			
-			while(player.getResources().getTotalCards() > endHandSize) {
-				int generatedNumber = generator.nextInt(5);
-				switch(generatedNumber) {
-				case 0:
-					if(player.getResources().getBrick() > 0) {
-						player.getResources().setBrick(player.getResources().getBrick() - 1);
-						model.getBank().setBrick(model.getBank().getBrick() + 1);
-					}
-					break;
-				case 1:
-					if(player.getResources().getOre() > 0) {
-						player.getResources().setOre(player.getResources().getOre() - 1);
-						model.getBank().setOre(model.getBank().getOre() + 1);
-					}
-					break;
-				case 2:
-					if(player.getResources().getSheep() > 0) {
-						player.getResources().setSheep(player.getResources().getSheep() - 1);
-						model.getBank().setSheep(model.getBank().getSheep() + 1);
-					}
-					break;
-				case 3:
-					if(player.getResources().getWheat() > 0) {
-						player.getResources().setWheat(player.getResources().getWheat() - 1);
-						model.getBank().setWheat(model.getBank().getWheat() + 1);
-					}
-					break;
-				case 4:
-					if(player.getResources().getWood() > 0) {
-						player.getResources().setWood(player.getResources().getWood() - 1);
-						model.getBank().setWood(model.getBank().getWood() + 1);
-					}
-					break;
-				}
+			ResourceList currResource = player.getResources();
+			if(currResource.getBrick() >= toDiscard.getBrick()
+					&& currResource.getOre() >= toDiscard.getOre()
+					&& currResource.getSheep() >= toDiscard.getSheep()
+					&& currResource.getWheat() >= toDiscard.getWheat()
+					&& currResource.getWood() >= toDiscard.getWood()) {
+				currResource.setBrick(currResource.getBrick() - toDiscard.getBrick());
+				currResource.setOre(currResource.getOre() - toDiscard.getOre());
+				currResource.setSheep(currResource.getSheep() - toDiscard.getSheep());
+				currResource.setWheat(currResource.getWheat() - toDiscard.getWheat());
+				currResource.setWood(currResource.getWood() - toDiscard.getWood());
+			}
+			else {
+				throw new IllegalActionException();
 			}
 		}
 	}
@@ -681,7 +660,146 @@ public class ModelFacade {
 		}
 	}
 	
-	//UpdateModel
+	public void UpdateModel(Object transferObject) throws IllegalActionException {
+		if(transferObject == null) {}
+		else if(transferObject instanceof AcceptTrade) {
+			AcceptTrade aTrade = (AcceptTrade)transferObject;
+			if(aTrade.getWillAccept()) {
+				DomesticTrade(model.getCurrentTradeOffer());
+			}
+			model.setCurrentTradeOffer(null);
+		}
+		else if(transferObject instanceof AddAIRequest) {
+			
+		}
+		else if(transferObject instanceof BuildCity) {
+			BuildCity bCity = (BuildCity)transferObject;
+			BuildCity(model.getPlayers()[bCity.getPlayerIndex()], bCity.getSpotOne());
+		}
+		else if(transferObject instanceof BuildRoad) {
+			BuildRoad bRoad = (BuildRoad)transferObject;
+			EdgeValue eValue = model.getMap().getEdges().get(bRoad.getRoadLocation());
+			BuildRoad(model.getPlayers()[bRoad.getPlayerIndex()],eValue);
+		}
+		else if(transferObject instanceof BuildSettlement) {
+			BuildSettlement bSettlement = (BuildSettlement)transferObject;
+			BuildSettlement(model.getPlayers()[bSettlement.getPlayerIndex()],bSettlement.getSpotOne());
+		}
+		else if(transferObject instanceof BuyDevCard) {
+			BuyDevCard bdCard = (BuyDevCard)transferObject;
+			BuyDevelopmentCard(model.getPlayers()[bdCard.getPlayerIndex()]);
+		}
+		else if(transferObject instanceof ChangeLogLevelRequest) {
+			
+		}
+		else if(transferObject instanceof DiscardCards) {
+			DiscardCards dCards = (DiscardCards)transferObject;
+			LoseCardsFromDieRoll(model.getPlayers()[dCards.getPlayerIndex()], dCards.getDiscardedCards());
+		}
+		else if(transferObject instanceof FinishTurn) {
+			model.getTurnTracker().endPlayerTurn();
+		}
+		else if(transferObject instanceof ListOfCommands) {
+			ListOfCommands list = (ListOfCommands)transferObject;
+//Not implemented
+		}
+		else if(transferObject instanceof MaritimeTrade) {
+			MaritimeTrade mTrade = (MaritimeTrade)transferObject;
+			MaritimeTrade(model.getPlayers()[mTrade.getPlayerIndex()],mTrade.getOutputResource(),mTrade.getInputResource());
+		}
+		else if(transferObject instanceof Monopoly) {
+			Monopoly monopoly = (Monopoly)transferObject;
+			PlayMonopoly(model.getPlayers()[monopoly.getPlayerIndex()],monopoly.getResource());
+		}
+		else if(transferObject instanceof Monument) {
+			Monument monument = (Monument)transferObject;
+			Player player = model.getPlayers()[monument.getPlayerIndex()];
+			player.setVictoryPoints(player.getVictoryPoints() + 1);
+		}
+		else if(transferObject instanceof OfferTrade) {
+			OfferTrade oTrade = (OfferTrade)transferObject;
+			ResourceList senderReceives = new ResourceList(0,0,0,0,0);
+			ResourceList receiverReceives = new ResourceList(0,0,0,0,0);
+			int brick = oTrade.getOffer().getBrick();
+			if(brick > 0) {
+				senderReceives.setBrick(brick);
+			}
+			else {
+				receiverReceives.setBrick(brick);
+			}
+			
+			int ore = oTrade.getOffer().getOre();
+			if(ore > 0) {
+				senderReceives.setOre(ore);
+			}
+			else {
+				receiverReceives.setOre(ore);
+			}
+			
+			int sheep = oTrade.getOffer().getSheep();
+			if(sheep > 0) {
+				senderReceives.setSheep(sheep);
+			}
+			else {
+				receiverReceives.setSheep(sheep);
+			}
+			
+			int wheat = oTrade.getOffer().getWheat();
+			if(wheat > 0) {
+				senderReceives.setWheat(wheat);
+			}
+			else {
+				receiverReceives.setWheat(wheat);
+			}
+			
+			int wood = oTrade.getOffer().getWood();
+			if(wood > 0) {
+				senderReceives.setWood(wood);
+			}
+			else {
+				receiverReceives.setWood(wood);
+			}
+			
+			model.setCurrentTradeOffer(new TradeOffer(oTrade.getPlayerIndex(), oTrade.getReciever(), senderReceives, receiverReceives));
+		}
+		else if(transferObject instanceof RoadBuilding) {
+			RoadBuilding rBuild = (RoadBuilding)transferObject;
+			EdgeValue value1 = model.getMap().getEdges().get(rBuild.getSpotOne());
+			EdgeValue value2 = model.getMap().getEdges().get(rBuild.getSpotTwo());
+			PlayRoadBuilding(model.getPlayers()[rBuild.getPlayerIndex()], value1, value2);
+		}
+		else if(transferObject instanceof RobPlayer) {
+			RobPlayer rPlayer = (RobPlayer)transferObject;
+			model.getMap().setRobber(rPlayer.getLocation());
+			LoseCardsFromPlayerRobber(model.getPlayers()[rPlayer.getPlayerIndex()], model.getPlayers()[rPlayer.getVictimIndex()]);
+		}
+		else if(transferObject instanceof RollNumber) {
+			RollNumber rNumber = (RollNumber)transferObject;
+			if(rNumber.getNumber() != 7) {
+				for(Map.Entry<HexLocation, Hex> entry : model.getMap().getHexes().entrySet()) {
+					if(entry.getValue().getDiceNumber() == rNumber.getNumber()) {
+						ProduceResources(entry.getKey());
+					}
+				}
+			}
+		}
+		else if(transferObject instanceof SendChat) {
+			SendChat sChat = (SendChat)transferObject;
+			model.getChat().addLine(new MessageLine(sChat.getContent(), model.getPlayers()[sChat.getPlayerIndex()].getName()));
+		}
+		else if(transferObject instanceof Soldier) {
+			Soldier soldier = (Soldier)transferObject;
+			PlaySoldier(model.getPlayers()[soldier.getPlayerIndex()], soldier.getLocation(), model.getPlayers()[soldier.getVictimIndex()]);
+		}
+		else if(transferObject instanceof UserCredentials) {
+			UserCredentials uCred = (UserCredentials)transferObject;
+//Not implemented
+		}
+		else if(transferObject instanceof YearOfPlenty) {
+			YearOfPlenty yOPlenty = (YearOfPlenty)transferObject;
+			PlayYearOfPlenty(model.getPlayers()[yOPlenty.getPlayerIndex()], yOPlenty.getResourceOne(), yOPlenty.getResourceTwo());
+		}
+	}
 	
 	private void addToBank(Resource resource, int amount) {
 		ResourceList bank = model.getBank();

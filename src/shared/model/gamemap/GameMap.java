@@ -595,5 +595,7 @@ public class GameMap {
 		return radius;
 	}
 	
-	
+	public HashMap<EdgeLocation, EdgeValue> getEdges() {
+		return edges;
+	}
 }
