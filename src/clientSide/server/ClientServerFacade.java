@@ -56,58 +56,58 @@ public class ClientServerFacade implements IServer{
 		this.communicator = new ClientCommunicator(targetServer);
 	}
 	
+	//getters and setters
 	public void setTargetServer(String targetServer) {
 		this.targetServer = targetServer;
 		this.communicator.setServerUrl(targetServer);
 	}
-	
+	public String getTargetServer() {
+		return this.targetServer;
+	}
+
+	//server functions
 	public void login(UserCredentials userCredentials) throws ServerException {
-		// TODO Auto-generated method stub
-		
+		communicator.send("/user/login", userCredentials);
 	}
 
 	@Override
 	public void register(UserCredentials userCredentials)
 			throws ServerException {
-		// TODO Auto-generated method stub
-		
+		communicator.send("/user/register", userCredentials);		
 	}
 
 	@Override
 	public ArrayList<Game> getGamesList() throws ServerException {
-		// TODO Auto-generated method stub
+		//# WE NEED A GET MEATHOD FOR CLIENT COMMUNICATOR #TODO!!!
 		return null;
 	}
 
 	@Override
 	public Game createGame(CreateGameRequest createGameRequest)
 			throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return communicator.send("/games/create", createGameRequest, Game.class);
 	}
 
 	@Override
 	public void joinGame(JoinGameRequest joinGameRequest)
 			throws ServerException {
-		// TODO Auto-generated method stub
-		
+		communicator.send("/games/create", joinGameRequest);
 	}
 
 	@Override
 	public ClientModel getModel(int version) throws ServerException {
-		// TODO Auto-generated method stub
+		//# WE NEED A GET MEATHOD FOR CLIENT COMMUNICATOR #TODO!!!
 		return null;
 	}
 
 	@Override
 	public void addAI(AddAIRequest addAIRequest) throws ServerException {
-		// TODO Auto-generated method stub
-		
+		communicator.send("/game/addAI", addAIRequest);
 	}
 
 	@Override
 	public ArrayList<String> listAITypes() throws ServerException {
-		// TODO Auto-generated method stub
+		//# WE NEED A GET MEATHOD FOR CLIENT COMMUNICATOR #TODO!!!
 		return null;
 	}
 
