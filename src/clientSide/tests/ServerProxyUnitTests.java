@@ -93,6 +93,7 @@ public class ServerProxyUnitTests {
 	public void listGamesTest() {
 		try {
 			ArrayList<Game> games = server.getGamesList();
+			games.size();
 		}
 		catch (ServerException e) {
 			if (e.getReason().equals("An IOException occurred")) {
@@ -140,7 +141,8 @@ public class ServerProxyUnitTests {
 	@Test
 	public void listAITypesTest() {
 		try {
-			ArrayList<String> aitypes = server.listAITypes();
+			ArrayList<String> aiTypes = server.listAITypes();
+			aiTypes.size();
 		}
 		catch (ServerException e) {
 			if (e.getReason().equals("An IOException occurred")) {
