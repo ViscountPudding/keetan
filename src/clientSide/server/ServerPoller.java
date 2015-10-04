@@ -3,6 +3,10 @@ package clientSide.server;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import shared.model.ClientModel;
+import shared.model.ModelFacade;
+import clientSide.exceptions.ServerException;
+
 /**
  * This class is used to 
  * @author djoshuac
@@ -13,23 +17,26 @@ public class ServerPoller {
 	 * can create a TimerTask that polls it's target server.
 	 * @author djoshuac
 	 */
-	private class UpdateModelTask extends TimerTask {
-		private int i = 1; //#TEMPORARY #UMT-COUNT
-		
+	private class UpdateModelTask extends TimerTask {		
 		/**
-		 * This function tells the CLIENTSERVER to check for updates in the model.
-		 * 
-		 * BUT currently it just counts.
-		 * I need the client server Interface (#WILL-TODO) to be implemented since the ServerPoller
-		 * will require a pointer to invoke it's 'UPDATEMODEL()' method #UMT-RUN 
+		 * This function gets the latest ClientModel from the server and
+		 * updates it in the ClientFacade.
 		 * 
 		 * @pre ServerPoller.clientServer can't be null
-		 * @post clientServer is polled
+		 * @post clientServer is polled, ClientFacade is updated
 		 * @throw NullPointerException - if ServerPoller.clientServer is null
 		 */
 		@Override
 		public void run() {
-			System.out.println(i++); //#TEMPORARY #UMT-COUNT 
+			ClientModel model;
+			try {
+				model = targetServer.getModel(modelVersion);
+			}
+			catch (ServerException e) {
+				System.err.println(e.getReason());
+				return;
+			}
+			modelFacade.UpdateModel(model);
 		}
 	}
 	
@@ -37,6 +44,8 @@ public class ServerPoller {
 	private static final int NO_DELAY = 0; //in milliseconds
 	private Timer timer;
 	private IServer targetServer;
+	private ModelFacade modelFacade;
+	private int modelVersion = 0;
 	
 	/**
 	 * @pre targetServer must a functioning implementation of IServer and cannot be null.
@@ -44,9 +53,10 @@ public class ServerPoller {
 	 * @return A ServerPoller with the given target server
 	 * @post A ServerPoller with the given target server is created. 
 	 */
-	public ServerPoller(IServer targetServer) {
+	public ServerPoller(IServer targetServer, ModelFacade modelFacade) {
 		timer = null;
 		this.targetServer = targetServer;
+		this.modelFacade = modelFacade;
 	}
 	
 	/**
@@ -122,32 +132,6 @@ public class ServerPoller {
 			timer.purge();
 			timer = null;
 		}
-	}
-	
-	
-	/**
-	 * You can use this 'main()' to see how the poller will work.
-	 * All I need to finish this class is to implement the 
-	 * 'run()' method of the UpdateModelTask class. #UMT-RUN
-	 * 
-	 * @param args - we do not use this here
-	 */
-	public static void main(String[] args) {
-		/*ServerPoller polls = new ServerPoller(new ISERVER()); #whybroken
-		
-		System.out.println("START");
-		polls.start(500, 1000);
-		
-		try {
-			Thread.sleep(5000); //pause this thread 5 seconds, the poller runs on it's own thread.
-		}
-		catch (InterruptedException e) {
-			System.out.println("ERROR: The thread was interrupted.");
-			return;
-		}
-		
-		System.out.println("END");
-		polls.stop();*/
 	}
 }
 

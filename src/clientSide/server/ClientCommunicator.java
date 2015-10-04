@@ -107,7 +107,7 @@ public class ClientCommunicator {
 	  */
 	public <T> T send(String command, Object data, Type classOfReturnObject) throws ServerException {
 		try {
-			URL url = new URL(serverUrl + command);
+			URL url = new URL("http://" + serverUrl + command);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
 			connection.setDoInput(true);
@@ -177,7 +177,7 @@ public class ClientCommunicator {
 	  */
 	public <T> T sendGet(String command, Object data, Type classOfReturnObject) throws ServerException {
 		try {
-			URL url = new URL(serverUrl + command);
+			URL url = new URL("http://" + serverUrl + command);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setDoInput(false);
@@ -185,7 +185,6 @@ public class ClientCommunicator {
 			connection.setConnectTimeout(timeOut);
 			connection.connect();
 			connection.setReadTimeout(timeOut);
-			OutputStream requestBody = connection.getOutputStream();
 			
 			connection  = addHeaders(connection);
 
