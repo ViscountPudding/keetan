@@ -39,6 +39,11 @@ import clientSide.exceptions.ServerException;
 import clientSide.server.ClientServerFacade;
 import clientSide.server.IServer;
 
+/**
+ * This class is a compilation of JUnit tests to see if the client server works
+ * @author djoshuac
+ *
+ */
 public class ServerProxyUnitTests {
 	private IServer server;
 	private Random rand;
@@ -157,21 +162,184 @@ public class ServerProxyUnitTests {
 	}
 	
 	@Test
-	public void serverProxyTests_1() {
+	public void rollDiceTest() {
+		try {
 			server.rollDice(new RollNumber(0, 7));
-			server.robPlayer(new RobPlayer(0, 1, new HexLocation(0, 0)));
-			server.finishTurn(new FinishTurn(0));
-			server.buyDevCard(new BuyDevCard(0));
-			server.yearOfPlenty(new YearOfPlenty(0, Resource.BRICK, Resource.ORE));
-			server.roadBuilding(new RoadBuilding(0, new EdgeLocationSwag(0,0,Direction.North), new EdgeLocationSwag(0,1,Direction.North))); // we use different edge location
-			server.soldier(new Soldier(0, 0, new HexLocation(0, 0)));
-			server.monopoly(new Monopoly(0, Resource.SHEEP));
-			server.monument(new Monument(0));
-			server.buildRoad(new BuildRoad(0, null, true));
-			server.buildSettlement(new BuildSettlement(0, null, null));
-			server.buildCity(new BuildCity(0, null, null));
-			server.offerTrade(new TradeOffer(0, 0, null, null));
-			server.respondToTrade(new AcceptTrade(0, null));
-		server.maritimeTrade(new MaritimeTrade(0, 0, null, null));
 		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void robPlayerTest() {
+		try {
+			server.robPlayer(new RobPlayer(0, 1, new HexLocation(0, 0)));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void finishTurnTest() {
+		try {
+			server.finishTurn(new FinishTurn(0));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void buyDevCardTest() {
+		try {
+			server.buyDevCard(new BuyDevCard(0));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void yearOfPlentyTest() {
+		try {
+			server.yearOfPlenty(new YearOfPlenty(0, Resource.BRICK, Resource.ORE));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void roadBuildingTest() {
+		try {
+			server.roadBuilding(new RoadBuilding(0,
+					new EdgeLocationSwag(0,0,Direction.North),
+					new EdgeLocationSwag(0,1,Direction.North)));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void soldierTest() {
+		try {
+			server.soldier(new Soldier(0, 0, new HexLocation(0, 0)));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void monopolyTest() {
+		try {
+			server.monopoly(new Monopoly(0, Resource.SHEEP));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void monumentTest() {
+		try {
+			server.monument(new Monument(0));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void buildRoadTest() {
+		try {
+			server.buildRoad(new BuildRoad(0, null, true));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void buildSettlementTest() {
+		try {
+			server.buildSettlement(new BuildSettlement(0, null, null));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void buildCityTest() {
+		try {
+			server.buildCity(new BuildCity(0, null, null));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void offerTradeTest() {
+		try {
+			server.offerTrade(new TradeOffer(0, 0, null, null));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void respondToTradeTest() {
+		try {
+			server.respondToTrade(new AcceptTrade(0, true));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void maritimeTradeTest() {
+		try {
+			server.maritimeTrade(new MaritimeTrade(0, 0, null, null));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
 }
