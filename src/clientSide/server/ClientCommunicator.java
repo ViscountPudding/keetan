@@ -5,10 +5,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Type;
+import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import shared.Converter;
@@ -34,6 +37,11 @@ public class ClientCommunicator {
 	 */
 	private static final int DEFAULT_TIMEOUT = 5000;
 	
+	private String urlEncodedUserCookie;
+	private String decodedUserCookie;
+	private String urlEncodedGameCookie;
+	private String decodedGameCookie;
+	
 	/**
 	 * Constructs a ClientCommunicator object
 	 * @pre severUrl must be a valid url for a server.
@@ -58,6 +66,9 @@ public class ClientCommunicator {
 	}
 	public int getTimeOut() {
 		return this.timeOut;
+	}
+	public void createCookie(){
+		
 	}
 	
 	// utility functions
@@ -106,6 +117,8 @@ public class ClientCommunicator {
 			connection.setReadTimeout(timeOut);
 			OutputStream requestBody = connection.getOutputStream();
 			
+			connection  = addHeaders(connection);
+			
 			String json = Converter.toJson(data);
 			requestBody.write(json.getBytes());
 			requestBody.close();
@@ -115,6 +128,7 @@ public class ClientCommunicator {
 			
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				InputStream responseBody = connection.getInputStream();
+				handleCookie(command, connection);
 				return Converter.fromJson(responseBody, classOfReturnObject);
 			}
 			else {
@@ -143,5 +157,35 @@ public class ClientCommunicator {
 		catch (IOException ioe) {
 			throw new ServerException("An IOException occurred");
 		}
+	}
+
+
+	private HttpURLConnection addHeaders(HttpURLConnection connection) {
+		String cookieString = "";
+		if (urlEncodedUserCookie != null){
+			cookieString += "catan.user=" + urlEncodedUserCookie;
+		}
+		if (urlEncodedGameCookie != null){
+			cookieString += "; catan.game=" + urlEncodedGameCookie;
+		}
+		connection.setRequestProperty("Cookie", cookieString);
+		return connection;
+	}
+
+
+	@SuppressWarnings("deprecation")
+	private void handleCookie(String command, HttpURLConnection connection) {
+		if (command.equals("/user/login")){
+			urlEncodedUserCookie = connection.getHeaderField("Set-cookie");
+			urlEncodedUserCookie = urlEncodedUserCookie.replace("catan.user=", "");
+			urlEncodedUserCookie = urlEncodedUserCookie.replace(";Path=/", "");
+			decodedUserCookie = URLDecoder.decode(urlEncodedUserCookie);			
+		} else if (command.equals("/games/join")) {
+			urlEncodedGameCookie = connection.getHeaderField("Set-cookie");
+			urlEncodedGameCookie = urlEncodedGameCookie.replace("catan.game=", "");
+			urlEncodedGameCookie = urlEncodedGameCookie.replace(";Path=/", "");
+			decodedGameCookie = URLDecoder.decode(urlEncodedGameCookie);
+		}
+		
 	}
 }
