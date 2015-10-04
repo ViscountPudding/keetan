@@ -23,7 +23,7 @@ public class ClientModel {
 	private TradeOffer currentTradeOffer;
 
 	//SINGLETON!
-	private ClientModel instance = null;
+	private static ClientModel instance = null;
 	
 	public ResourceList getBank() {
 		return bank;
@@ -137,7 +137,7 @@ public class ClientModel {
 	 * @return the singleton of the ClientModel
 	 */
 	
-	public ClientModel getInstance(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
+	public static ClientModel getInstance(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
 		if(instance == null) {
 			instance = new ClientModel(randomHexes, randomChits, randomPorts, loadGame, names);
 		}

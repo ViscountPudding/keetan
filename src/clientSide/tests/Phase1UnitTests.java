@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import shared.model.ModelFacade;
+import shared.transferClasses.UserCredentials;
+import clientSide.exceptions.ServerException;
 import clientSide.server.ClientServerFacade;
 import clientSide.server.IServer;
 
@@ -34,7 +36,14 @@ public class Phase1UnitTests {
 	@Test
 	public void serverProxyTests_1() {
 		IServer server = new ClientServerFacade("localhost:8081");
-		//ServerPoler poller = new ServerPoller();
+		UserCredentials creds = new UserCredentials("Pigs", "canFly");
+		try {
+			server.register(creds);
+			server.login(creds);
+		}
+		catch (ServerException e) {
+			System.out.println(e.getReason());
+		}
 	}
 
 	public static void main(String[] args) {
