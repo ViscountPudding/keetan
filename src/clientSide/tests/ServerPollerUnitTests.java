@@ -1,5 +1,7 @@
 package clientSide.tests;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 
 import org.junit.After;
@@ -7,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import shared.model.ModelFacade;
+import shared.model.Resource;
 import clientSide.server.IServer;
 import clientSide.server.MockServer;
 import clientSide.server.ServerPoller;
@@ -36,6 +39,9 @@ public class ServerPollerUnitTests {
 		} catch (InterruptedException e) {
 			assert(false);
 		}
+
+		assertEquals(modelFacade.getModelVersion(), 5);
+		assertFalse(modelFacade.canReceiveResource(1, Resource.BRICK));
 		poller.stop();
 	}
 }
