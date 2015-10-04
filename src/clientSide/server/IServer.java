@@ -2,7 +2,6 @@ package clientSide.server;
 import java.util.ArrayList;
 
 import shared.model.ClientModel;
-import shared.model.ResourceList;
 import shared.model.TradeOffer;
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;

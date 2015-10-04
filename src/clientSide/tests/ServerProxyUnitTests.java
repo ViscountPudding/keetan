@@ -8,7 +8,6 @@ import java.util.Random;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
 
 import shared.model.Resource;
 import shared.model.TradeOffer;
