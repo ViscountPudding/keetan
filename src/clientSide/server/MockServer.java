@@ -1,6 +1,5 @@
 package clientSide.server;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,14 +7,7 @@ import java.util.ArrayList;
 
 import shared.Converter;
 import shared.model.ClientModel;
-import shared.model.Player;
-import shared.model.PlayerColor;
-import shared.model.Resource;
-import shared.model.ResourceList;
 import shared.model.TradeOffer;
-import shared.model.locations.EdgeLocation;
-import shared.model.locations.HexLocation;
-import shared.model.gamemap.VertexValue;
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
 import shared.transferClasses.BuildCity;
@@ -37,16 +29,21 @@ import shared.transferClasses.SendChat;
 import shared.transferClasses.Soldier;
 import shared.transferClasses.UserCredentials;
 import shared.transferClasses.YearOfPlenty;
-import clientSide.exceptions.CannotJoinGameException;
-import clientSide.exceptions.CannotSaveGameException;
-import clientSide.exceptions.IllegalActionException;
-import clientSide.exceptions.InvalidTradeException;
-import clientSide.exceptions.OutOfTurnException;
 import clientSide.exceptions.ServerException;
-import clientSide.exceptions.WrongUserException;
 
 public class MockServer implements IServer  {
-
+	
+	@Override
+	public ClientModel getModel(int version) throws ServerException {
+		String content = null;
+		try {
+			content = new String(Files.readAllBytes(Paths.get("Utilities/model.txt")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return Converter.fromJson(content, ClientModel.class);
+	}
+	
 	@Override
 	public void login(UserCredentials userCredentials) throws ServerException {
 		// TODO Auto-generated method stub
@@ -78,18 +75,6 @@ public class MockServer implements IServer  {
 			throws ServerException {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public ClientModel getModel(int version) throws ServerException {
-		String content = null;
-		try {
-			content = new String(Files.readAllBytes(Paths.get("Utilities/model.txt")));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return Converter.fromJson(content, ClientModel.class);
 	}
 
 	@Override
