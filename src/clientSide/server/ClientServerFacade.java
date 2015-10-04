@@ -3,14 +3,7 @@ package clientSide.server;
 import java.util.ArrayList;
 
 import shared.model.ClientModel;
-import shared.model.Player;
-import shared.model.PlayerColor;
-import shared.model.Resource;
-import shared.model.ResourceList;
 import shared.model.TradeOffer;
-import shared.model.locations.EdgeLocation;
-import shared.model.locations.HexLocation;
-import shared.model.gamemap.VertexValue;
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
 import shared.transferClasses.BuildCity;
@@ -32,13 +25,7 @@ import shared.transferClasses.SendChat;
 import shared.transferClasses.Soldier;
 import shared.transferClasses.UserCredentials;
 import shared.transferClasses.YearOfPlenty;
-import clientSide.exceptions.CannotJoinGameException;
-import clientSide.exceptions.CannotSaveGameException;
-import clientSide.exceptions.IllegalActionException;
-import clientSide.exceptions.InvalidTradeException;
-import clientSide.exceptions.OutOfTurnException;
 import clientSide.exceptions.ServerException;
-import clientSide.exceptions.WrongUserException;
 
 /**
  * This class is a facade which will interperate requests recieved from a server and 
@@ -95,7 +82,7 @@ public class ClientServerFacade implements IServer{
 
 	@Override
 	public ClientModel getModel(int version) throws ServerException {
-		communicator.sendGet("/game/model", version, ClientModel.class);
+		//Swagger doesn't work with us; we want to use our own version of json
 		return null;
 	}
 
@@ -106,113 +93,96 @@ public class ClientServerFacade implements IServer{
 
 	@Override
 	public ArrayList<String> listAITypes() throws ServerException {
-		return communicator.sendGet("/game/listAI", null, ArrayList.class);
+		return communicator.send("/game/listAI", null, ArrayList.class);
 	}
 
 	@Override
-	public ClientModel sendChat(SendChat sendChat) throws ServerException {
-		communicator.send("/moves/sendChat", sendChat, ClientModel.class);
-		return null;
+	public void sendChat(SendChat sendChat) throws ServerException {
+		communicator.send("/moves/sendChat", sendChat, String.class);
 	}
 
 	@Override
-	public ClientModel rollDice(RollNumber rollNumber) throws ServerException {
-		communicator.send("/moves/rollDice", rollNumber, ClientModel.class);
-		return null;
+	public void rollDice(RollNumber rollNumber) throws ServerException {
+		communicator.send("/moves/rollDice", rollNumber, String.class);
 	}
 
 	@Override
-	public ClientModel robPlayer(RobPlayer robPlayer) throws ServerException {
-		communicator.send("/moves/robPlayer", robPlayer, ClientModel.class);
-		return null;
+	public void robPlayer(RobPlayer robPlayer) throws ServerException {
+		communicator.send("/moves/robPlayer", robPlayer, String.class);
 	}
 
 	@Override
-	public ClientModel finishTurn(FinishTurn finishTurn) throws ServerException {
-		communicator.send("/moves/finishTurn", finishTurn, ClientModel.class);
-		return null;
+	public void finishTurn(FinishTurn finishTurn) throws ServerException {
+		communicator.send("/moves/finishTurn", finishTurn, String.class);
 	}
 
 	@Override
-	public ClientModel buyDevCard(BuyDevCard buyDevCard) throws ServerException {
-		communicator.send("/moves/buyDevCard", buyDevCard, ClientModel.class);
-		return null;
+	public void buyDevCard(BuyDevCard buyDevCard) throws ServerException {
+		communicator.send("/moves/buyDevCard", buyDevCard, String.class);
 	}
 
 	@Override
-	public ClientModel yearOfPlenty(YearOfPlenty yearOfPlenty) throws ServerException {
-		communicator.send("/moves/yearOfPlenty", yearOfPlenty, ClientModel.class);
-		return null;
+	public void yearOfPlenty(YearOfPlenty yearOfPlenty) throws ServerException {
+		communicator.send("/moves/yearOfPlenty", yearOfPlenty, String.class);
 	}
 
 	@Override
-	public ClientModel roadBuilding(RoadBuilding roadBuilding)  throws ServerException {
-		communicator.send("/moves/Road_Building", roadBuilding, ClientModel.class);
-		return null;
+	public void roadBuilding(RoadBuilding roadBuilding)  throws ServerException {
+		communicator.send("/moves/Road_Building", roadBuilding, String.class);
 	}
 
 	@Override
-	public ClientModel soldier(Soldier soldier) throws ServerException {
-		communicator.send("/moves/Soldier", soldier, ClientModel.class);
-		return null;
+	public void soldier(Soldier soldier) throws ServerException {
+		communicator.send("/moves/Soldier", soldier, String.class);
 	}
 
 	@Override
-	public ClientModel monopoly(Monopoly monopoly) throws ServerException {
-		communicator.send("/moves/Monopoly", monopoly, ClientModel.class);
-		return null;
+	public void monopoly(Monopoly monopoly) throws ServerException {
+		communicator.send("/moves/Monopoly", monopoly, String.class);
 	}
 
 	@Override
-	public ClientModel monument(Monument monument) throws ServerException {
-		communicator.send("/moves/Monument", monument, ClientModel.class);
-		return null;
+	public void monument(Monument monument) throws ServerException {
+		communicator.send("/moves/Monument", monument, String.class);
 	}
 
 	@Override
-	public ClientModel buildRoad(BuildRoad buildRoad) throws ServerException {
-		communicator.send("/moves/buildRoad", buildRoad, ClientModel.class);
-		return null;
+	public void buildRoad(BuildRoad buildRoad) throws ServerException {
+		communicator.send("/moves/buildRoad", buildRoad, String.class);
 	}
 
 	@Override
-	public ClientModel buildSettlement(BuildSettlement buildSettlement)
+	public void buildSettlement(BuildSettlement buildSettlement)
 			throws ServerException {
-		communicator.send("/moves/buildSettlement", buildSettlement, ClientModel.class);
-		return null;
+		communicator.send("/moves/buildSettlement", buildSettlement, String.class);
 	}
 
 	@Override
-	public ClientModel buildCity(BuildCity buildCity) throws ServerException {
-		communicator.send("/moves/buildCity", buildCity, ClientModel.class);
-		return null;
+	public void buildCity(BuildCity buildCity) throws ServerException {
+		communicator.send("/moves/buildCity", buildCity, String.class);
 	}
 
 	@Override
-	public ClientModel offerTrade(TradeOffer offer) throws ServerException {
-		communicator.send("/moves/offerTrade", offer, ClientModel.class);
-		return null;
+	public void offerTrade(TradeOffer offer) throws ServerException {
+		communicator.send("/moves/offerTrade", offer, String.class);
 	}
 
 	@Override
-	public ClientModel respondToTrade(AcceptTrade acceptTrade)
+	public void respondToTrade(AcceptTrade acceptTrade)
 			throws ServerException {
-		communicator.send("/moves/acceptTrade", acceptTrade, ClientModel.class);
-		return null;
+		communicator.send("/moves/acceptTrade", acceptTrade, String.class);
 	}
 
 	@Override
-	public ClientModel maritimeTrade(MaritimeTrade maritimeTrade)
+	public void maritimeTrade(MaritimeTrade maritimeTrade)
 			throws ServerException {
-		communicator.send("/moves/maritimeTrade", maritimeTrade, ClientModel.class);
-		return null;
+		communicator.send("/moves/maritimeTrade", maritimeTrade, String.class);
 	}
 
 	@Override
-	public ClientModel discardCards(DiscardCards discardCards)
+	public void discardCards(DiscardCards discardCards)
 			throws ServerException {
-		communicator.send("/moves/discardCards", discardCards, ClientModel.class);
-		return null;
+		communicator.send("/moves/discardCards", discardCards, String.class);
 	}
 
 }

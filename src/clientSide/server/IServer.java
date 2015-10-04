@@ -106,7 +106,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ClientModel sendChat(SendChat sendChat)
+	abstract public void sendChat(SendChat sendChat)
 			throws ServerException;
 	
 	/**
@@ -115,7 +115,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ClientModel rollDice(RollNumber rollNumber)
+	abstract public void rollDice(RollNumber rollNumber)
 			throws ServerException;
 
 	/**
@@ -124,7 +124,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ClientModel robPlayer(RobPlayer robPlayer)
+	abstract public void robPlayer(RobPlayer robPlayer)
 			throws ServerException;
 
 	/**
@@ -133,7 +133,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ClientModel finishTurn(FinishTurn finishTurn)
+	abstract public void finishTurn(FinishTurn finishTurn)
 			throws ServerException;
 	
 	/**
@@ -142,7 +142,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException=
 	 */
-	abstract public ClientModel buyDevCard(BuyDevCard buyDevCard)
+	abstract public void buyDevCard(BuyDevCard buyDevCard)
 			throws ServerException;
 
 	/**
@@ -151,7 +151,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ClientModel yearOfPlenty(YearOfPlenty yearOfPlenty)
+	abstract public void yearOfPlenty(YearOfPlenty yearOfPlenty)
 			throws ServerException;
 
 	/**
@@ -160,7 +160,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ClientModel roadBuilding(RoadBuilding roadBuilding)
+	abstract public void roadBuilding(RoadBuilding roadBuilding)
 			throws ServerException;
 
 	/**
@@ -169,7 +169,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ClientModel soldier(Soldier soldier)
+	abstract public void soldier(Soldier soldier)
 			throws ServerException;
 
 	/**
@@ -178,7 +178,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ClientModel monopoly(Monopoly monopoly)
+	abstract public void monopoly(Monopoly monopoly)
 			throws ServerException;
 
 	/**
@@ -187,7 +187,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ClientModel monument(Monument monument)
+	abstract public void monument(Monument monument)
 			throws ServerException;
 	
 	/**
@@ -196,7 +196,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ClientModel buildRoad(BuildRoad buildRoad)
+	abstract public void buildRoad(BuildRoad buildRoad)
 			throws ServerException;
 
 	/**
@@ -205,7 +205,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ClientModel buildSettlement(BuildSettlement buildSettlement)
+	abstract public void buildSettlement(BuildSettlement buildSettlement)
 			throws ServerException;
 
 	/**
@@ -215,7 +215,7 @@ public interface IServer {
 	 * @throws ServerException
 	 * @throws IllegalActionException
 	 */
-	abstract public ClientModel buildCity(BuildCity buildCity)
+	abstract public void buildCity(BuildCity buildCity)
 			throws ServerException;
 
 	/**
@@ -224,7 +224,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ClientModel offerTrade(TradeOffer offer)
+	abstract public void offerTrade(TradeOffer offer)
 			throws ServerException;
 	
 	/**
@@ -233,7 +233,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ClientModel respondToTrade(AcceptTrade acceptTrade)
+	abstract public void respondToTrade(AcceptTrade acceptTrade)
 			throws ServerException;
 
 	/**
@@ -242,7 +242,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ClientModel maritimeTrade(MaritimeTrade maritimeTrade)
+	abstract public void maritimeTrade(MaritimeTrade maritimeTrade)
 			throws ServerException;
 
 	/**
@@ -251,6 +251,6 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ClientModel discardCards(DiscardCards discardCards)
+	abstract public void discardCards(DiscardCards discardCards)
 			throws ServerException;
 }

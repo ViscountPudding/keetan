@@ -111,7 +111,43 @@ public class ServerProxyUnitTests {
 	@Test
 	public void joinGameTest() {
 		try {
-			ArrayList<Game> games = server.getGamesList();
+			server.joinGame(new JoinGameRequest(8, "red"));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+
+	@Test
+	public void addAITest() {
+		try {
+			server.addAI(new AddAIRequest("LARGEST_ARMY"));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void listAITypesTest() {
+		try {
+			ArrayList<String> aitypes = server.listAITypes();
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void sendChatTest() {
+		try {
+			server.sendChat(new SendChat(0, "Heya!"));
 		}
 		catch (ServerException e) {
 			if (e.getReason().equals("An IOException occurred")) {
@@ -122,37 +158,6 @@ public class ServerProxyUnitTests {
 	
 	@Test
 	public void serverProxyTests_1() {
-			server.createGame(new CreateGameRequest(false, false, false, "Game name"));
-			
-			//need a cookie for here on out
-			try {
-				server.joinGame(new JoinGameRequest(8, "red"));
-			} catch (ServerException e) {
-				if (e.getReason().equals("The player could not be added to the specified game.")) {
-					System.out.println("joinGame Worked");
-				}
-				else {
-					System.out.println(e.getReason());
-					assert(false);
-				}
-			}
-			//server.getModel(-1); Swagger model doesn't match ours json
-			try {
-				server.addAI(new AddAIRequest("LARGEST_ARMY"));
-			}
-			catch (ServerException e) {
-				if (e.equals("An IOException occurred")) {
-					assert(false);
-				}
-				else {
-					System.out.println(e.getReason());
-				}
-			}
-			System.out.println("addAI Worked");
-			server.listAITypes();
-			System.out.println("listAI Worked");
-			server.sendChat(new SendChat(0, "Heya!"));
-			System.out.println("/send/chat Worked");
 			server.rollDice(new RollNumber(0, 7));
 			server.robPlayer(new RobPlayer(0, 1, new HexLocation(0, 0)));
 			server.finishTurn(new FinishTurn(0));
@@ -167,10 +172,6 @@ public class ServerProxyUnitTests {
 			server.buildCity(new BuildCity(0, null, null));
 			server.offerTrade(new TradeOffer(0, 0, null, null));
 			server.respondToTrade(new AcceptTrade(0, null));
-			server.maritimeTrade(new MaritimeTrade(0, 0, null, null));
+		server.maritimeTrade(new MaritimeTrade(0, 0, null, null));
 		}
-		catch (ServerException e) {
-			System.out.println("ERROR: " + e.getReason());
-		}
-	}
 }
