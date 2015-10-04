@@ -29,8 +29,8 @@ public class Phase1UnitTests {
 		names.add("Eve");
 		names.add("Adam");
 		ModelFacade modelFacade = ModelFacade.getInstance(false, false, false, false, names);
-		//IServer server = new MockServer();
-		//ServerPoler poller = new ServerPoller();
+		IServer server = new MockServer();
+		ServerPoler poller = new ServerPoller();
 	}
 	
 	@Test

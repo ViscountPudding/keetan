@@ -45,7 +45,7 @@ import clientSide.exceptions.OutOfTurnException;
 import clientSide.exceptions.ServerException;
 import clientSide.exceptions.WrongUserException;
 
-public class mockServer implements IServer  {
+public class MockServer implements IServer  {
 
 	@Override
 	public void login(UserCredentials userCredentials) throws ServerException {
