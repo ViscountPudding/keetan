@@ -1,15 +1,15 @@
 package clientSide.tests;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import shared.model.ClientModel;
 import shared.model.Resource;
 import shared.model.TradeOffer;
-import shared.model.locations.EdgeLocation;
+import shared.model.gamemap.Direction;
 import shared.model.locations.HexLocation;
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
@@ -18,7 +18,7 @@ import shared.transferClasses.BuildRoad;
 import shared.transferClasses.BuildSettlement;
 import shared.transferClasses.BuyDevCard;
 import shared.transferClasses.CreateGameRequest;
-import shared.transferClasses.DiscardCards;
+import shared.transferClasses.EdgeLocationSwag;
 import shared.transferClasses.FinishTurn;
 import shared.transferClasses.Game;
 import shared.transferClasses.JoinGameRequest;
@@ -33,7 +33,6 @@ import shared.transferClasses.Soldier;
 import shared.transferClasses.UserCredentials;
 import shared.transferClasses.YearOfPlenty;
 import clientSide.exceptions.ServerException;
-import clientSide.server.ClientCommunicator;
 import clientSide.server.ClientServerFacade;
 import clientSide.server.IServer;
 
@@ -48,17 +47,33 @@ public class ServerProxyUnitTests {
 	
 	@Test
 	public void serverProxyTests_1() {
+		Random rand = new Random();
 		System.out.println("Starting ServerProxyTests");
 		IServer server = new ClientServerFacade("localhost:8081");
-		UserCredentials creds = new UserCredentials("Pigmeaesaa", "canFly");
+		UserCredentials creds = new UserCredentials("Pig" + rand.nextInt(9999999), "canFly");
+		UserCredentials cred2 = new UserCredentials("Pig", "canFly");
 		try {
 			server.register(creds);
-			server.login(creds);
-			server.getGamesList();
+			try {
+				server.login(cred2);
+			}
+			catch (ServerException e) {
+				server.register(cred2);
+				server.login(cred2);
+			}
+			ArrayList<Game> games = server.getGamesList();
+			System.out.println(games.size());
+			for (int i = 0; i < games.size(); i++) {
+				System.out.println(games.get(i));
+			}
 			server.createGame(new CreateGameRequest(false, false, false, "Game name"));
 			
 			//need a cookie for here on out
-			server.joinGame(new JoinGameRequest(0, "red"));
+			try {
+				server.joinGame(new JoinGameRequest(5, "red"));
+			} catch (ServerException e) {
+				System.out.println(e.getReason());
+			}
 			//server.getModel(-1); Swagger model doesn't match our json
 			server.addAI(new AddAIRequest("LARGEST_ARMY"));
 			server.listAITypes();
@@ -68,11 +83,11 @@ public class ServerProxyUnitTests {
 			server.finishTurn(new FinishTurn(0));
 			server.buyDevCard(new BuyDevCard(0));
 			server.yearOfPlenty(new YearOfPlenty(0, Resource.BRICK, Resource.ORE));
-			server.roadBuilding(new RoadBuilding(0, null, null));
-			server.soldier(new Soldier(0, 0, null));
-			server.monopoly(new Monopoly(0, null));
+			server.roadBuilding(new RoadBuilding(0, new EdgeLocationSwag(0,0,Direction.North), new EdgeLocationSwag(0,1,Direction.North))); // we use different edge location
+			server.soldier(new Soldier(0, 0, new HexLocation(0, 0)));
+			server.monopoly(new Monopoly(0, Resource.SHEEP));
 			server.monument(new Monument(0));
-			server.buildRoad(new BuildRoad(0, null, null));
+			server.buildRoad(new BuildRoad(0, null, true));
 			server.buildSettlement(new BuildSettlement(0, null, null));
 			server.buildCity(new BuildCity(0, null, null));
 			server.offerTrade(new TradeOffer(0, 0, null, null));

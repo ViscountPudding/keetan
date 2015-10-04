@@ -10,7 +10,7 @@ public class JoinGameRequest {
 	private String color;
 	
 	/**
-	 * @param id - the players id
+	 * @param id - the game id
 	 * @param color - the color of the player
 	 */
 	public JoinGameRequest(int id, String color) {
