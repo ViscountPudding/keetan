@@ -113,11 +113,11 @@ public class ClientCommunicator {
 			connection.setDoInput(true);
 			connection.setDoOutput(true);
 			connection.setConnectTimeout(timeOut);
+			connection  = addHeaders(connection);
 			connection.connect();
 			connection.setReadTimeout(timeOut);
 			OutputStream requestBody = connection.getOutputStream();
 			
-			connection  = addHeaders(connection);
 			
 			String json = Converter.toJson(data);
 			requestBody.write(json.getBytes());
@@ -183,10 +183,10 @@ public class ClientCommunicator {
 			connection.setDoInput(false);
 			connection.setDoOutput(true);
 			connection.setConnectTimeout(timeOut);
+			connection  = addHeaders(connection);
 			connection.connect();
 			connection.setReadTimeout(timeOut);
 			
-			connection  = addHeaders(connection);
 
 			System.out.println("Getting response.");
 			System.out.println(connection.getResponseCode());
