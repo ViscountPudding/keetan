@@ -67,8 +67,8 @@ public class ModelUnitTests {
 		names.add("Stephen");
 		names.add("Josh");
 		names.add("Will");
-		ClientModel model = ClientModel.getInstance(false,false,false,false,names);
 		ModelFacade facade = ModelFacade.getInstance(false, false, false, false, names);
+		ClientModel model = ClientModel.getInstance(false,false,false,false,names);
 		
 		for(int n = 0; n < 5; n++) {
 			model.getTurnTracker().endPlayerTurn();
