@@ -158,6 +158,72 @@ public class ClientCommunicator {
 			throw new ServerException("An IOException occurred");
 		}
 	}
+	
+	/**
+	  * Sends an Http Get request to the specified server.
+	  * This class encapsulates all errors into one ServerException which is useful
+	  * for avoiding multi-catch blocks.
+	  * The connection times out at the set timeOut time.
+	  * @pre Command must be a valid command for the server. The serverUrl must be working and valid.
+	  * Data must be an object that can be serialized to json and is appropriate for the specified
+	  * command. The classOfReturnObject must be correspond to the data returned by the server.
+	  * @param command - the command to be executed on the server
+	  * @param data - an object to be serialized to json to be sent with the request
+	  * @param classOfReturnObject - used to deserialize the data sent back from the server
+	  * to the desired class using reflection
+	 * @post The command is successfully executed on the server. An Object that can be cast to
+	  * the given classOfReturnObject is returned.
+	  * @throws ServerException when the ClientCommunicator cannot connect to the server for any reason
+	  */
+	public <T> T sendGet(String command, Object data, Type classOfReturnObject) throws ServerException {
+		try {
+			URL url = new URL(serverUrl + command);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setDoInput(false);
+			connection.setDoOutput(true);
+			connection.setConnectTimeout(timeOut);
+			connection.connect();
+			connection.setReadTimeout(timeOut);
+			OutputStream requestBody = connection.getOutputStream();
+			
+			connection  = addHeaders(connection);
+
+			System.out.println("Getting response.");
+			System.out.println(connection.getResponseCode());
+			
+			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+				InputStream responseBody = connection.getInputStream();
+				handleCookie(command, connection);
+				return Converter.fromJson(responseBody, classOfReturnObject);
+			}
+			else {
+				try {
+					InputStream responseBody = connection.getErrorStream();
+					InputStreamReader reader = new InputStreamReader(responseBody);
+					Scanner scan = new Scanner(reader);
+					String errorMessage = "";
+					while (scan.hasNext()) {
+						errorMessage += scan.nextLine();
+					}
+					scan.close();
+					throw new ServerException(errorMessage);
+				}
+				catch(Exception e) {
+					throw new ServerException("Could not read error stream from server");
+				}
+			}
+		}
+		catch (MalformedURLException mue) {
+			throw new ServerException("Url is malformed: " + serverUrl + command);
+		}
+		catch (SocketTimeoutException ste) {
+			throw new ServerException("Connection timed out after " + timeOut + " miliseconds");
+		}
+		catch (IOException ioe) {
+			throw new ServerException("An IOException occurred");
+		}
+	}
 
 
 	private HttpURLConnection addHeaders(HttpURLConnection connection) {
@@ -171,6 +237,8 @@ public class ClientCommunicator {
 		connection.setRequestProperty("Cookie", cookieString);
 		return connection;
 	}
+	
+	
 
 
 	@SuppressWarnings("deprecation")
