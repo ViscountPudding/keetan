@@ -598,4 +598,8 @@ public class GameMap {
 	public HashMap<EdgeLocation, EdgeValue> getEdges() {
 		return edges;
 	}
+	
+	public HashMap<VertexLocation, VertexValue> getVertices() {
+		return vertices;
+	}
 }

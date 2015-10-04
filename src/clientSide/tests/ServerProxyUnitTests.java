@@ -1,11 +1,14 @@
 package clientSide.tests;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Assert;
 
 import shared.model.Resource;
 import shared.model.TradeOffer;
@@ -37,47 +40,119 @@ import clientSide.server.ClientServerFacade;
 import clientSide.server.IServer;
 
 public class ServerProxyUnitTests {
+	private IServer server;
+	private Random rand;
+	
 	@Before
 	public void setup() {
+		server = new ClientServerFacade("localhost:8081");
+		rand = new Random();
 	}
 	
 	@After
 	public void teardown() {
 	}
+
+	@Test
+	public void userRegisterTest() {
+		UserCredentials creds = new UserCredentials("Pig" + rand.nextInt(999999), "canFly");
+		try {
+			server.register(creds);
+		}
+		catch (ServerException e) {
+			if (!e.getReason().equals("Failed to register - someone already has that username.")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void userLoginTest() {
+		UserCredentials creds = new UserCredentials("Pig", "canFly");
+		try {
+			server.register(creds);
+			server.login(creds);
+		}
+		catch (ServerException e) {
+			try {
+				server.login(creds);
+			} catch (ServerException e1) {
+				if (e1.getReason().equals("An IOException occurred")) {
+					assertTrue(false);
+				}
+			}
+		}
+	}
+	
+	@Test
+	public void listGamesTest() {
+		try {
+			ArrayList<Game> games = server.getGamesList();
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void createGameTest() {
+		try {
+			server.createGame(new CreateGameRequest(false, false, false, "Game name"));
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
+	
+	@Test
+	public void joinGameTest() {
+		try {
+			ArrayList<Game> games = server.getGamesList();
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+		}
+	}
 	
 	@Test
 	public void serverProxyTests_1() {
-		Random rand = new Random();
-		System.out.println("Starting ServerProxyTests");
-		IServer server = new ClientServerFacade("localhost:8081");
-		UserCredentials creds = new UserCredentials("Pig" + rand.nextInt(9999999), "canFly");
-		UserCredentials cred2 = new UserCredentials("Pig", "canFly");
-		try {
-			server.register(creds);
-			try {
-				server.login(cred2);
-			}
-			catch (ServerException e) {
-				server.register(cred2);
-				server.login(cred2);
-			}
-			ArrayList<Game> games = server.getGamesList();
-			System.out.println(games.size());
-			for (int i = 0; i < games.size(); i++) {
-				System.out.println(games.get(i));
-			}
 			server.createGame(new CreateGameRequest(false, false, false, "Game name"));
 			
 			//need a cookie for here on out
 			try {
-				server.joinGame(new JoinGameRequest(5, "red"));
+				server.joinGame(new JoinGameRequest(8, "red"));
 			} catch (ServerException e) {
-				System.out.println(e.getReason());
+				if (e.getReason().equals("The player could not be added to the specified game.")) {
+					System.out.println("joinGame Worked");
+				}
+				else {
+					System.out.println(e.getReason());
+					assert(false);
+				}
 			}
-			//server.getModel(-1); Swagger model doesn't match our json
-			server.addAI(new AddAIRequest("LARGEST_ARMY"));
+			//server.getModel(-1); Swagger model doesn't match ours json
+			try {
+				server.addAI(new AddAIRequest("LARGEST_ARMY"));
+			}
+			catch (ServerException e) {
+				if (e.equals("An IOException occurred")) {
+					assert(false);
+				}
+				else {
+					System.out.println(e.getReason());
+				}
+			}
+			System.out.println("addAI Worked");
 			server.listAITypes();
+			System.out.println("listAI Worked");
 			server.sendChat(new SendChat(0, "Heya!"));
+			System.out.println("/send/chat Worked");
 			server.rollDice(new RollNumber(0, 7));
 			server.robPlayer(new RobPlayer(0, 1, new HexLocation(0, 0)));
 			server.finishTurn(new FinishTurn(0));
@@ -95,7 +170,7 @@ public class ServerProxyUnitTests {
 			server.maritimeTrade(new MaritimeTrade(0, 0, null, null));
 		}
 		catch (ServerException e) {
-			System.out.println(e.getReason());
+			System.out.println("ERROR: " + e.getReason());
 		}
 	}
 }
