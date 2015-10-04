@@ -11,6 +11,8 @@ import shared.transferClasses.UserCredentials;
 import clientSide.exceptions.ServerException;
 import clientSide.server.ClientServerFacade;
 import clientSide.server.IServer;
+import clientSide.server.MockServer;
+import clientSide.server.ServerPoller;
 
 public class Phase1UnitTests {
 	@Before
@@ -30,7 +32,13 @@ public class Phase1UnitTests {
 		names.add("Adam");
 		ModelFacade modelFacade = ModelFacade.getInstance(false, false, false, false, names);
 		IServer server = new MockServer();
-		ServerPoler poller = new ServerPoller();
+		ServerPoller poller = new ServerPoller(server, modelFacade);
+		poller.start();
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			assert(false);
+		}
 	}
 	
 	@Test

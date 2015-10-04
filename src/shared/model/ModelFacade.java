@@ -733,7 +733,13 @@ public class ModelFacade {
 	 * @post replaces the old model with the new one
 	 */
 	public void UpdateModel(ClientModel model) {
-		this.model = model;
+		if (model.getVersion() > this.model.getVersion()) {
+			this.model = model;
+		}
+	}
+	
+	public int getModelVersion() {
+		return this.model.getVersion();
 	}
 	
 	/**

@@ -30,7 +30,7 @@ public class ServerPoller {
 		public void run() {
 			ClientModel model;
 			try {
-				model = targetServer.getModel(modelVersion);
+				model = targetServer.getModel(modelFacade.getModelVersion());
 			}
 			catch (ServerException e) {
 				System.err.println(e.getReason());
@@ -45,7 +45,6 @@ public class ServerPoller {
 	private Timer timer;
 	private IServer targetServer;
 	private ModelFacade modelFacade;
-	private int modelVersion = 0;
 	
 	/**
 	 * @pre targetServer must a functioning implementation of IServer and cannot be null.
