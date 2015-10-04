@@ -5,14 +5,13 @@
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="catana">
     <property environment="env"/>
-    <property name="ECLIPSE_HOME" value="../../../../opt/eclipse/"/>
     <property name="junit.output.dir" value="junit"/>
     <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.7"/>
-    <property name="source" value="1.7"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
     <path id="JUnit 4.libraryclasspath">
-        <pathelement location="${ECLIPSE_HOME}plugins/org.junit_4.11.0.v201303080030/junit.jar"/>
-        <pathelement location="${ECLIPSE_HOME}plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+        <pathelement location="../../../../../../usr/share/eclipse/plugins/org.junit_4.11.0.v201303080030/junit.jar"/>
+        <pathelement location="../../../../../../usr/share/eclipse/plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
     </path>
     <path id="catana.classpath">
         <pathelement location="bin"/>
@@ -23,8 +22,7 @@
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
-                <exclude name="**/*.ucls"/>
-                <exclude name="**/*.useq"/>
+                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -56,6 +54,34 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
+    <target name="Converter">
+        <java classname="shared.Converter" failonerror="true" fork="yes">
+            <classpath refid="catana.classpath"/>
+        </java>
+    </target>
+    <target name="ServerPoller">
+        <java classname="clientSide.server.ServerPoller" failonerror="true" fork="yes">
+            <classpath refid="catana.classpath"/>
+        </java>
+    </target>
+    <target name="ClientCommunicator">
+        <java classname="clientSide.server.ClientCommunicator" failonerror="true" fork="yes">
+            <classpath refid="catana.classpath"/>
+        </java>
+    </target>
+    <target name="TestingMain">
+        <java classname="TestingMain" failonerror="true" fork="yes">
+            <classpath refid="catana.classpath"/>
+        </java>
+    </target>
+    <target name="Phase1UnitTests">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="clientSide.tests.Phase1UnitTests" todir="${junit.output.dir}"/>
+            <classpath refid="catana.classpath"/>
+        </junit>
+    </target>
     <target name="ServerProxyUnitTests">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
@@ -64,23 +90,34 @@
             <classpath refid="catana.classpath"/>
         </junit>
     </target>
-    <target name="test">
-        <java classname="clientSide.tests.Phase1UnitTests" failonerror="true" fork="yes">
+    <target name="ServerPollerUnitTests">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="clientSide.tests.ServerPollerUnitTests" todir="${junit.output.dir}"/>
             <classpath refid="catana.classpath"/>
-        </java>
+        </junit>
+    </target>
+    <target name="CanDoTests">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="clientSide.tests.CanDoTests" todir="${junit.output.dir}"/>
+            <classpath refid="catana.classpath"/>
+        </junit>
     </target>
     <target name="ModelUnitTests">
-        <java classname="clientSide.tests.ModelUnitTests" failonerror="true" fork="yes">
-            <classpath refid="catana.classpath"/>
-        </java>
-    </target>
-    <target name="ModelUnitTests (1)">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
             <test name="clientSide.tests.ModelUnitTests" todir="${junit.output.dir}"/>
             <classpath refid="catana.classpath"/>
         </junit>
+    </target>
+    <target name="test">
+        <java classname="clientSide.tests.Phase1UnitTests" failonerror="true" fork="yes">
+            <classpath refid="catana.classpath"/>
+        </java>
     </target>
     <target name="junitreport">
         <junitreport todir="${junit.output.dir}">
