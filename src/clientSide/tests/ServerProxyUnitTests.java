@@ -43,7 +43,7 @@ import clientSide.server.IServer;
  * @author djoshuac
  *
  */
-public class ProxyServerUnitTests {
+public class ServerProxyUnitTests {
 	private IServer server;
 	private Random rand;
 	
