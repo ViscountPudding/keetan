@@ -229,10 +229,13 @@ public class ClientCommunicator {
 		String cookieString = "";
 		if (urlEncodedUserCookie != null){
 			cookieString += "catan.user=" + urlEncodedUserCookie;
+			System.out.println(decodedUserCookie);
 		}
 		if (urlEncodedGameCookie != null){
 			cookieString += "; catan.game=" + urlEncodedGameCookie;
+			System.out.println(decodedGameCookie);
 		}
+		System.out.println("COOKIE");
 		connection.setRequestProperty("Cookie", cookieString);
 		return connection;
 	}
@@ -242,16 +245,20 @@ public class ClientCommunicator {
 
 	@SuppressWarnings("deprecation")
 	private void handleCookie(String command, HttpURLConnection connection) {
+		System.out.println(command);
 		if (command.equals("/user/login")){
 			urlEncodedUserCookie = connection.getHeaderField("Set-cookie");
 			urlEncodedUserCookie = urlEncodedUserCookie.replace("catan.user=", "");
-			urlEncodedUserCookie = urlEncodedUserCookie.replace(";Path=/", "");
+			urlEncodedUserCookie = urlEncodedUserCookie.replace(";Path=/;", "");
 			decodedUserCookie = URLDecoder.decode(urlEncodedUserCookie);			
+			System.out.println(urlEncodedUserCookie);
 		} else if (command.equals("/games/join")) {
 			urlEncodedGameCookie = connection.getHeaderField("Set-cookie");
 			urlEncodedGameCookie = urlEncodedGameCookie.replace("catan.game=", "");
-			urlEncodedGameCookie = urlEncodedGameCookie.replace(";Path=/", "");
+			urlEncodedGameCookie = urlEncodedGameCookie.replace(";Path=/;", "");
 			decodedGameCookie = URLDecoder.decode(urlEncodedGameCookie);
+			System.out.println("IN HERE");
+			System.out.println(urlEncodedGameCookie);
 		}
 		
 	}
