@@ -78,8 +78,7 @@ public class ClientServerFacade implements IServer{
 
 	@Override
 	public ArrayList<Game> getGamesList() throws ServerException {
-		//# WE NEED A GET MEATHOD FOR CLIENT COMMUNICATOR #TODO!!!
-		return null;
+		return communicator.send("games/list", null, ArrayList.class);
 	}
 
 	@Override
@@ -91,12 +90,12 @@ public class ClientServerFacade implements IServer{
 	@Override
 	public void joinGame(JoinGameRequest joinGameRequest)
 			throws ServerException {
-		communicator.send("/games/create", joinGameRequest);
+		communicator.send("/games/join", joinGameRequest);
 	}
 
 	@Override
 	public ClientModel getModel(int version) throws ServerException {
-		//# WE NEED A GET MEATHOD FOR CLIENT COMMUNICATOR #TODO!!!
+		communicator.sendGet("/game/model", version, ClientModel.class);
 		return null;
 	}
 
@@ -107,116 +106,96 @@ public class ClientServerFacade implements IServer{
 
 	@Override
 	public ArrayList<String> listAITypes() throws ServerException {
-		//# WE NEED A GET MEATHOD FOR CLIENT COMMUNICATOR #TODO!!!
-		return null;
+		return communicator.sendGet("/game/listAI", null, ArrayList.class);
 	}
 
 	@Override
 	public ClientModel sendChat(SendChat sendChat) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return communicator.send("/moves/sendChat", sendChat, ClientModel.class);
 	}
 
 	@Override
 	public ClientModel rollDice(RollNumber rollNumber) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return communicator.send("/moves/rollDice", rollNumber, ClientModel.class);
 	}
 
 	@Override
 	public ClientModel robPlayer(RobPlayer robPlayer) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return communicator.send("/moves/robPlayer", robPlayer, ClientModel.class);
 	}
 
 	@Override
 	public ClientModel finishTurn(FinishTurn finishTurn) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return communicator.send("/moves/finishTurn", finishTurn, ClientModel.class);
 	}
 
 	@Override
 	public ClientModel buyDevCard(BuyDevCard buyDevCard) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return communicator.send("/moves/buyDevCard", buyDevCard, ClientModel.class);
 	}
 
 	@Override
-	public ClientModel yearOfPlenty(YearOfPlenty yearOfPlenty)
-			throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+	public ClientModel yearOfPlenty(YearOfPlenty yearOfPlenty) throws ServerException {
+		return communicator.send("/moves/yearOfPlenty", yearOfPlenty, ClientModel.class);
 	}
 
 	@Override
-	public ClientModel roadBuilding(RoadBuilding roadBuilding)
-			throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+	public ClientModel roadBuilding(RoadBuilding roadBuilding)  throws ServerException {
+		return communicator.send("/moves/Road_Building", roadBuilding, ClientModel.class);
 	}
 
 	@Override
 	public ClientModel soldier(Soldier soldier) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return communicator.send("/moves/Soldier", soldier, ClientModel.class);
 	}
 
 	@Override
 	public ClientModel monopoly(Monopoly monopoly) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return communicator.send("/moves/Monopoly", monopoly, ClientModel.class);
 	}
 
 	@Override
 	public ClientModel monument(Monument monument) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return communicator.send("/moves/Monument", monument, ClientModel.class);
 	}
 
 	@Override
 	public ClientModel buildRoad(BuildRoad buildRoad) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return communicator.send("/moves/buildRoad", buildRoad, ClientModel.class);
 	}
 
 	@Override
 	public ClientModel buildSettlement(BuildSettlement buildSettlement)
 			throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return communicator.send("/moves/buildSettlement", buildSettlement, ClientModel.class);
 	}
 
 	@Override
 	public ClientModel buildCity(BuildCity buildCity) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return communicator.send("/moves/buildCity", buildCity, ClientModel.class);
 	}
 
 	@Override
 	public ClientModel offerTrade(TradeOffer offer) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return communicator.send("/moves/offerTrade", offer, ClientModel.class);
 	}
 
 	@Override
 	public ClientModel respondToTrade(AcceptTrade acceptTrade)
 			throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return communicator.send("/moves/acceptTrade", acceptTrade, ClientModel.class);
 	}
 
 	@Override
 	public ClientModel maritimeTrade(MaritimeTrade maritimeTrade)
 			throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return communicator.send("/moves/maritimeTrade", maritimeTrade, ClientModel.class);
 	}
 
 	@Override
 	public ClientModel discardCards(DiscardCards discardCards)
 			throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+		return communicator.send("/moves/discardCards", discardCards, ClientModel.class);
 	}
 
 }
