@@ -64,6 +64,24 @@
             <classpath refid="catana.classpath"/>
         </junit>
     </target>
+    <target name="test">
+        <java classname="clientSide.tests.Phase1UnitTests" failonerror="true" fork="yes">
+            <classpath refid="catana.classpath"/>
+        </java>
+    </target>
+    <target name="ModelUnitTests">
+        <java classname="clientSide.tests.ModelUnitTests" failonerror="true" fork="yes">
+            <classpath refid="catana.classpath"/>
+        </java>
+    </target>
+    <target name="ModelUnitTests (1)">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="clientSide.tests.ModelUnitTests" todir="${junit.output.dir}"/>
+            <classpath refid="catana.classpath"/>
+        </junit>
+    </target>
     <target name="junitreport">
         <junitreport todir="${junit.output.dir}">
             <fileset dir="${junit.output.dir}">
