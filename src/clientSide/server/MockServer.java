@@ -90,111 +90,77 @@ public class MockServer implements IServer  {
 	}
 
 	@Override
-	public ClientModel sendChat(SendChat sendChat) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+	public void sendChat(SendChat sendChat) throws ServerException {
 	}
 
 	@Override
-	public ClientModel rollDice(RollNumber rollNumber) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+	public void rollDice(RollNumber rollNumber) throws ServerException {
 	}
 
 	@Override
-	public ClientModel robPlayer(RobPlayer robPlayer) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+	public void robPlayer(RobPlayer robPlayer) throws ServerException {
 	}
 
 	@Override
-	public ClientModel finishTurn(FinishTurn finishTurn) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+	public void finishTurn(FinishTurn finishTurn) throws ServerException {
 	}
 
 	@Override
-	public ClientModel buyDevCard(BuyDevCard buyDevCard) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+	public void buyDevCard(BuyDevCard buyDevCard) throws ServerException {
 	}
 
 	@Override
-	public ClientModel yearOfPlenty(YearOfPlenty yearOfPlenty)
+	public void yearOfPlenty(YearOfPlenty yearOfPlenty)
 			throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	public ClientModel roadBuilding(RoadBuilding roadBuilding)
+	public void roadBuilding(RoadBuilding roadBuilding)
 			throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	public ClientModel soldier(Soldier soldier) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+	public void soldier(Soldier soldier) throws ServerException {
 	}
 
 	@Override
-	public ClientModel monopoly(Monopoly monopoly) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+	public void monopoly(Monopoly monopoly) throws ServerException {
 	}
 
 	@Override
-	public ClientModel monument(Monument monument) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+	public void monument(Monument monument) throws ServerException {
 	}
 
 	@Override
-	public ClientModel buildRoad(BuildRoad buildRoad) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+	public void buildRoad(BuildRoad buildRoad) throws ServerException {
 	}
 
 	@Override
-	public ClientModel buildSettlement(BuildSettlement buildSettlement)
+	public void buildSettlement(BuildSettlement buildSettlement)
 			throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	public ClientModel buildCity(BuildCity buildCity) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+	public void buildCity(BuildCity buildCity) throws ServerException {
 	}
 
 	@Override
-	public ClientModel offerTrade(TradeOffer offer) throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+	public void offerTrade(TradeOffer offer) throws ServerException {
 	}
 
 	@Override
-	public ClientModel respondToTrade(AcceptTrade acceptTrade)
+	public void respondToTrade(AcceptTrade acceptTrade)
 			throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	public ClientModel maritimeTrade(MaritimeTrade maritimeTrade)
+	public void maritimeTrade(MaritimeTrade maritimeTrade)
 			throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	public ClientModel discardCards(DiscardCards discardCards)
+	public void discardCards(DiscardCards discardCards)
 			throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 
