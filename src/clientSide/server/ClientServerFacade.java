@@ -78,7 +78,7 @@ public class ClientServerFacade implements IServer{
 
 	@Override
 	public ArrayList<Game> getGamesList() throws ServerException {
-		return communicator.send("games/list", null, ArrayList.class);
+		return communicator.send("/games/list", null, ArrayList.class);
 	}
 
 	@Override
