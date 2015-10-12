@@ -20,7 +20,7 @@ import shared.transferClasses.*;
 
 public class ModelFacade {
 
-	private ClientModel model;
+	private Model model;
 	
 	//SINGLETON!
 	private static ModelFacade instance = null;
@@ -732,7 +732,7 @@ public class ModelFacade {
 	 * @param model The new client model
 	 * @post replaces the old model with the new one
 	 */
-	public void UpdateModel(ClientModel model) {
+	public void UpdateModel(Model model) {
 		if (model.getVersion() > this.model.getVersion()) {
 			this.model = model;
 		}

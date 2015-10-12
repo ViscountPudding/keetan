@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import shared.definitions.PortType;
-import shared.model.ClientModel;
+import shared.model.Model;
 import shared.model.ModelFacade;
 import shared.model.Resource;
 import shared.model.ResourceList;
@@ -31,7 +31,7 @@ public class ModelUnitTests {
 		names.add("Stephen");
 		names.add("Josh");
 		names.add("Will");
-		ClientModel model = ClientModel.getInstance(false,false,false,false,names);
+		Model model = Model.getInstance(false,false,false,false,names);
 		ModelFacade facade = ModelFacade.getInstance(false, false, false, false, names);
 		
 		VertexValue existing = model.getMap().getVertices().get(new VertexLocation(new HexLocation(1,1),VertexDirection.East));
@@ -48,7 +48,7 @@ public class ModelUnitTests {
 		names.add("Stephen");
 		names.add("Josh");
 		names.add("Will");
-		ClientModel model = ClientModel.getInstance(false,false,false,false,names);
+		Model model = Model.getInstance(false,false,false,false,names);
 		ModelFacade facade = ModelFacade.getInstance(false, false, false, false, names);
 		
 		model.setBank(new ResourceList(19,19,19,19,19));
@@ -68,7 +68,7 @@ public class ModelUnitTests {
 		names.add("Josh");
 		names.add("Will");
 		ModelFacade facade = ModelFacade.getInstance(false, false, false, false, names);
-		ClientModel model = ClientModel.getInstance(false,false,false,false,names);
+		Model model = Model.getInstance(false,false,false,false,names);
 		
 		for(int n = 0; n < 5; n++) {
 			model.getTurnTracker().endPlayerTurn();
@@ -91,7 +91,7 @@ public class ModelUnitTests {
 		names.add("Stephen");
 		names.add("Josh");
 		names.add("Will");
-		ClientModel model = ClientModel.getInstance(false,false,false,false,names);
+		Model model = Model.getInstance(false,false,false,false,names);
 		ModelFacade facade = ModelFacade.getInstance(false, false, false, false, names);
 		
 		model.getPlayers()[0].addPort(new Port(PortType.THREE, new EdgeLocation(new HexLocation(1,1), EdgeDirection.North), new EdgeLocation(new HexLocation(1,1), EdgeDirection.NorthEast)));
@@ -128,7 +128,7 @@ public class ModelUnitTests {
 		names.add("Stephen");
 		names.add("Josh");
 		names.add("Will");
-		ClientModel model = ClientModel.getInstance(false,false,false,false,names);
+		Model model = Model.getInstance(false,false,false,false,names);
 		ModelFacade facade = ModelFacade.getInstance(false, false, false, false, names);
 		EdgeValue test = new EdgeValue(new EdgeLocation(new HexLocation(1,1),EdgeDirection.NorthEast));
 		
@@ -155,7 +155,7 @@ public class ModelUnitTests {
 		names.add("Stephen");
 		names.add("Josh");
 		names.add("Will");
-		ClientModel model = ClientModel.getInstance(false,false,false,false,names);
+		Model model = Model.getInstance(false,false,false,false,names);
 		ModelFacade facade = ModelFacade.getInstance(false, false, false, false, names);
 		
 		VertexValue existing = model.getMap().getVertices().get(new VertexLocation(new HexLocation(1,1),VertexDirection.East));
@@ -190,7 +190,7 @@ public class ModelUnitTests {
 		names.add("Stephen");
 		names.add("Josh");
 		names.add("Will");
-		ClientModel model = ClientModel.getInstance(false,false,false,false,names);
+		Model model = Model.getInstance(false,false,false,false,names);
 		ModelFacade facade = ModelFacade.getInstance(false, false, false, false, names);
 
 		VertexValue failTest = model.getMap().getVertices().get(new VertexLocation(new HexLocation(1,1),VertexDirection.NorthEast));
@@ -217,7 +217,7 @@ public class ModelUnitTests {
 		names.add("Stephen");
 		names.add("Josh");
 		names.add("Will");
-		ClientModel model = ClientModel.getInstance(false,false,false,false,names);
+		Model model = Model.getInstance(false,false,false,false,names);
 		ModelFacade facade = ModelFacade.getInstance(false, false, false, false, names);
 		
 		facade.UpdateModel(model);
@@ -239,7 +239,7 @@ public class ModelUnitTests {
 		names.add("Stephen");
 		names.add("Josh");
 		names.add("Will");
-		ClientModel model = ClientModel.getInstance(false,false,false,false,names);
+		Model model = Model.getInstance(false,false,false,false,names);
 		ModelFacade facade = ModelFacade.getInstance(false, false, false, false, names);
 		
 		facade.UpdateModel(model);
@@ -257,7 +257,7 @@ public class ModelUnitTests {
 		names.add("Stephen");
 		names.add("Josh");
 		names.add("Will");
-		ClientModel model = ClientModel.getInstance(false,false,false,false,names);
+		Model model = Model.getInstance(false,false,false,false,names);
 		ModelFacade facade = ModelFacade.getInstance(false, false, false, false, names);
 		
 		VertexValue existing = model.getMap().getVertices().get(new VertexLocation(new HexLocation(1,1),VertexDirection.East));
@@ -282,7 +282,7 @@ public class ModelUnitTests {
 		names.add("Stephen");
 		names.add("Josh");
 		names.add("Will");
-		ClientModel model = ClientModel.getInstance(false,false,false,false,names);
+		Model model = Model.getInstance(false,false,false,false,names);
 		ModelFacade facade = ModelFacade.getInstance(false, false, false, false, names);
 		
 		facade.UpdateModel(model);

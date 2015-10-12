@@ -1,7 +1,7 @@
 package clientSide.server;
 import java.util.ArrayList;
 
-import shared.model.ClientModel;
+import shared.model.Model;
 import shared.model.TradeOffer;
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
@@ -80,7 +80,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ClientModel getModel(int version)
+	abstract public Model getModel(int version)
 			throws ServerException;
 	
 	/**

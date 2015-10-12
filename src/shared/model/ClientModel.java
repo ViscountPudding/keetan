@@ -8,7 +8,7 @@ import shared.model.message.MessageList;
 /**
  * Contains the game client's version of the game model
  */
-public class ClientModel {
+public class Model {
 
 	private ResourceList bank;
 	private DevCardList undrawnDevCards;
@@ -23,7 +23,7 @@ public class ClientModel {
 	private TradeOffer currentTradeOffer;
 
 	//SINGLETON!
-	private static ClientModel instance = null;
+	private static Model instance = null;
 	
 	public ResourceList getBank() {
 		return bank;
@@ -113,7 +113,7 @@ public class ClientModel {
 		this.currentTradeOffer = currentTradeOffer;
 	}
 
-	private ClientModel(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
+	private Model(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
 		bank = new ResourceList(19,19,19,19,19);
 		undrawnDevCards = new DevCardList(2, 5, 2, 14, 2);
 		chat = new MessageList();
@@ -133,23 +133,23 @@ public class ClientModel {
 		winner = -1;
 	}
 	
-	/** The singleton generator for the ClientModel
+	/** The singleton generator for the Model
 	 * @pre the game must be starting (there must be a server model to copy)
-	 * @return the singleton of the ClientModel
+	 * @return the singleton of the Model
 	 */
 	
-	public static ClientModel getInstance(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
+	public static Model getInstance(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
 		if(instance == null) {
-			instance = new ClientModel(randomHexes, randomChits, randomPorts, loadGame, names);
+			instance = new Model(randomHexes, randomChits, randomPorts, loadGame, names);
 		}
 		return instance;
 	}
 	
-	public ClientModel getInstance(){
+	public Model getInstance(){
 		return instance;
 	}
 	
-	public void setInstance(ClientModel newInstance) {
+	public void setInstance(Model newInstance) {
 		instance = newInstance;
 	}
 }

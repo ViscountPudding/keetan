@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import shared.Converter;
-import shared.model.ClientModel;
+import shared.model.Model;
 import shared.model.TradeOffer;
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
@@ -34,14 +34,14 @@ import clientSide.exceptions.ServerException;
 public class MockServer implements IServer  {
 	
 	@Override
-	public ClientModel getModel(int version) throws ServerException {
+	public Model getModel(int version) throws ServerException {
 		String content = null;
 		try {
 			content = new String(Files.readAllBytes(Paths.get("Utilities/model.txt")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return Converter.fromJson(content, ClientModel.class);
+		return Converter.fromJson(content, Model.class);
 	}
 	
 	@Override

@@ -3,7 +3,7 @@ package clientSide.server;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import shared.model.ClientModel;
+import shared.model.Model;
 import shared.model.ModelFacade;
 import clientSide.exceptions.ServerException;
 
@@ -19,7 +19,7 @@ public class ServerPoller {
 	 */
 	private class UpdateModelTask extends TimerTask {		
 		/**
-		 * This function gets the latest ClientModel from the server and
+		 * This function gets the latest Model from the server and
 		 * updates it in the ClientFacade.
 		 * 
 		 * @pre ServerPoller.clientServer can't be null
@@ -28,7 +28,7 @@ public class ServerPoller {
 		 */
 		@Override
 		public void run() {
-			ClientModel model;
+			Model model;
 			try {
 				model = targetServer.getModel(modelFacade.getModelVersion());
 			}

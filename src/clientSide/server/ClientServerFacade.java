@@ -2,7 +2,7 @@ package clientSide.server;
 
 import java.util.ArrayList;
 
-import shared.model.ClientModel;
+import shared.model.Model;
 import shared.model.TradeOffer;
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
@@ -81,7 +81,7 @@ public class ClientServerFacade implements IServer{
 	}
 
 	@Override
-	public ClientModel getModel(int version) throws ServerException {
+	public Model getModel(int version) throws ServerException {
 		//Swagger doesn't work with us; we want to use our own version of json
 		return null;
 	}

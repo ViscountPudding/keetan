@@ -60,7 +60,7 @@ public final class Converter {
 	 * Serializes an Object to JSON.
 	 * @pre none
 	 * @param model - the model of a Settlers of Catan game
-	 * @return a JSON String of the ClientModel
+	 * @return a JSON String of the Model
 	 * @post A JSON String of model is created
 	 */
 	public static String toJson(Object object) {
