@@ -6,6 +6,7 @@ import shared.definitions.*;
 import shared.model.locations.*;
 import clientSide.guiThings.base.*;
 import clientSide.guiThings.data.*;
+import clientSide.guiThings.map.states.*;
 
 
 /**
@@ -15,13 +16,22 @@ public class MapController extends Controller implements IMapController {
 	
 	private IRobView robView;
 	
+	private MapControllerState state;
+	
 	public MapController(IMapView view, IRobView robView) {
 		
 		super(view);
 		
 		setRobView(robView);
 		
+		//This might be wrong
+		state = new MapControllerSetupState();
+		
 		initFromModel();
+	}
+	
+	public void set_state(MapControllerState newState) {
+		state = newState;
 	}
 	
 	public IMapView getView() {

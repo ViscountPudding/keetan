@@ -1,6 +1,7 @@
 package clientSide.guiThings.map.states;
 
 import shared.definitions.PieceType;
+import shared.model.ModelFacade;
 import shared.model.locations.EdgeLocation;
 import shared.model.locations.HexLocation;
 import shared.model.locations.VertexLocation;
@@ -8,16 +9,20 @@ import clientSide.guiThings.data.RobPlayerInfo;
 
 public class MapControllerDoublePlaceState implements MapControllerState {
 
+	/**
+	 * This is the MapController in the DoublePlace State. You can place a road and a settlement. That's it. Though it is free.
+	 */
+	
 	@Override
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
@@ -35,7 +40,7 @@ public class MapControllerDoublePlaceState implements MapControllerState {
 	@Override
 	public void placeRoad(EdgeLocation edgeLoc) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

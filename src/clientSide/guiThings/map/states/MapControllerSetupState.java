@@ -8,6 +8,10 @@ import clientSide.guiThings.data.RobPlayerInfo;
 
 public class MapControllerSetupState implements MapControllerState {
 
+	/**
+	 * This is the MapController in the Setup State. You can do literally nothing. The canDos return false and the functions do nothing
+	 */
+	
 	@Override
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		// TODO Auto-generated method stub
