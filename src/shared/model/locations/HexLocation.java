@@ -68,22 +68,22 @@ public class HexLocation
 		return true;
 	}
 	
-	public HexLocation getNeighborLoc(EdgeDirection dir)
+	public HexLocation getNeighborLoc(EdgeDirection dir) // Pluses and minuses on y's were flipped
 	{
 		switch (dir)
 		{
 			case NorthWest:
-				return new HexLocation(x - 1, y);
+				return new HexLocation(x - 1, (y));
 			case North:
-				return new HexLocation(x, y - 1);
+				return new HexLocation(x, (y) + 1);
 			case NorthEast:
-				return new HexLocation(x + 1, y - 1);
+				return new HexLocation(x + 1, (y) + 1);
 			case SouthWest:
-				return new HexLocation(x - 1, y + 1);
+				return new HexLocation(x - 1, (y) - 1);
 			case South:
-				return new HexLocation(x, y + 1);
+				return new HexLocation(x, (y) - 1);
 			case SouthEast:
-				return new HexLocation(x + 1, y);
+				return new HexLocation(x + 1, (y));
 			default:
 				assert false;
 				return null;

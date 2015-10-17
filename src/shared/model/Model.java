@@ -21,9 +21,28 @@ public class Model {
 	private int version;
 	private int winner;
 	private TradeOffer currentTradeOffer;
+	
 
-	//SINGLETON!
-	private static Model instance = null;
+
+	public Model(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
+		bank = new ResourceList(19,19,19,19,19);
+		undrawnDevCards = new DevCardList(2, 5, 2, 14, 2);
+		chat = new MessageList();
+		log = new MessageList();
+		map = new GameMap(randomHexes, randomChits, randomPorts, loadGame);
+		players = new Player[4];
+		turnTracker = new TurnTracker(0, 0, null, 0, 0);
+		
+		for(int i = 0; i < 4; i++)
+		{
+			Player newPlayer = new Player(names.get(0), i, i);
+			players[i] = newPlayer;
+		}
+		
+		tradeOffer = null;
+		version = 1;	
+		winner = -1;
+	}
 	
 	public ResourceList getBank() {
 		return bank;
@@ -111,45 +130,5 @@ public class Model {
 
 	public void setCurrentTradeOffer(TradeOffer currentTradeOffer) {
 		this.currentTradeOffer = currentTradeOffer;
-	}
-
-	private Model(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
-		bank = new ResourceList(19,19,19,19,19);
-		undrawnDevCards = new DevCardList(2, 5, 2, 14, 2);
-		chat = new MessageList();
-		log = new MessageList();
-		map = new GameMap(randomHexes, randomChits, randomPorts, loadGame);
-		players = new Player[4];
-		turnTracker = new TurnTracker(0, 0, null, 0, 0);
-		
-		for(int i = 0; i < 4; i++)
-		{
-			Player newPlayer = new Player(names.get(0), i, i);
-			players[i] = newPlayer;
-		}
-		
-		tradeOffer = null;
-		version = 1;	
-		winner = -1;
-	}
-	
-	/** The singleton generator for the Model
-	 * @pre the game must be starting (there must be a server model to copy)
-	 * @return the singleton of the Model
-	 */
-	
-	public static Model getInstance(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
-		if(instance == null) {
-			instance = new Model(randomHexes, randomChits, randomPorts, loadGame, names);
-		}
-		return instance;
-	}
-	
-	public Model getInstance(){
-		return instance;
-	}
-	
-	public void setInstance(Model newInstance) {
-		instance = newInstance;
 	}
 }

@@ -7,18 +7,18 @@ public class TradeOffer {
 
 	private int sender;
 	private int receiver;
-	private ResourceList senderReceives;
-	private ResourceList receiverReceives;
+	private ResourceList senderTrades;
+	private ResourceList receiverTrades;
 	
 	/**
 	* @pre sender and receiver must represent two players, so must be between 0 and 3, and not the same
 	* @post The trade offer is stored in memory
 	*/
-	public TradeOffer(int sender, int receiver, ResourceList senderReceives, ResourceList receiverReceives) {
+	public TradeOffer(int sender, int receiver, ResourceList senderTrades, ResourceList receiverTrades) {
 		this.sender = sender;
 		this.receiver = receiver;
-		this.senderReceives = senderReceives;
-		this.receiverReceives = receiverReceives;
+		this.senderTrades = senderTrades;
+		this.receiverTrades = receiverTrades;
 	}
 
 	public int getSender() {
@@ -30,10 +30,10 @@ public class TradeOffer {
 	}
 
 	public ResourceList getSenderReceives() {
-		return senderReceives;
+		return receiverTrades;
 	}
 
 	public ResourceList getReceiverReceives() {
-		return receiverReceives;
+		return senderTrades;
 	}
 }

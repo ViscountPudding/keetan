@@ -33,7 +33,7 @@ public class GameMap {
 	
 	private HashMap<HexLocation, Hex> hexes;
 	private HashMap<EdgeLocation, EdgeValue> edges;
-	private HashMap<VertexLocation, VertexValue> vertices;
+	public HashMap<VertexLocation, VertexValue> vertices; //#CHANGEBACK to private
 	
 	private ArrayList<Port> ports;
 	private ArrayList<Road> roads;
@@ -391,7 +391,7 @@ public class GameMap {
 		VertexLocation southeastLocation = new VertexLocation(coordinates, VertexDirection.SouthEast);
 		VertexValue southeastVertex = new VertexValue(southeastLocation);
 		
-		VertexLocation southwestLocation = new VertexLocation(coordinates, VertexDirection.West);
+		VertexLocation southwestLocation = new VertexLocation(coordinates, VertexDirection.SouthWest);
 		VertexValue southwestVertex = new VertexValue(southwestLocation);
 		
 		//check vertices map, adding new vertices if they don't already exist
@@ -530,10 +530,185 @@ public class GameMap {
 				break;
 		}
 		
+        VertexValue distantCousin = getDistantCousin(checkVertex);
+        
+        if(distantCousin != null) {
+            adjacentVertices.add(distantCousin);
+        }
+        
 		adjacentVertices.add(vertices.get(adjacentLocationOne.getNormalizedLocation()));
 		adjacentVertices.add(vertices.get(adjacentLocationTwo.getNormalizedLocation()));
 		
 		return adjacentVertices;
+	}
+	
+	private VertexValue getDistantCousin(VertexLocation checkVertex) {
+		
+		HexLocation coordinates = checkVertex.getHexLoc();
+		VertexDirection point = checkVertex.getDir();
+		
+		boolean NorthEdge; //Whether the hex is not part of the northern edge
+		boolean SouthEdge; //Whether the hex is not part of the southern edge
+		
+		//RUDIMENTARY MY DEAR WATSON!
+		
+		if((coordinates.getY() == 2) || ((coordinates.getX() == -2) && (coordinates.getY() == 0)) || (((coordinates.getX() + coordinates.getY())) == 0)) {
+			NorthEdge = false;
+		}
+		else {
+			NorthEdge = true;
+		}
+		
+		if((coordinates.getY() == -2) || ((coordinates.getX() == 2) && (coordinates.getY() == 0)) || (((coordinates.getX() + coordinates.getY())) == 0)) {
+			SouthEdge = false;
+		}
+		else {
+			SouthEdge = true;
+		}
+		
+		HexLocation cousinCoordinates = null;
+		VertexDirection cousinDirection = null;
+		
+		switch(point) {
+		
+			case NorthWest:
+				if(NorthEdge == true) {
+					cousinCoordinates = new HexLocation(coordinates.getX(), coordinates.getY() + 1);
+					cousinDirection = VertexDirection.West;
+				}
+				else {
+					cousinCoordinates = new HexLocation(coordinates.getX() - 1, coordinates.getY());
+					cousinDirection = VertexDirection.NorthEast;					
+				}
+				break;
+		
+			case NorthEast:
+				if(NorthEdge == true) {
+					cousinCoordinates = new HexLocation(coordinates.getX(), coordinates.getY() + 1);
+					cousinDirection = VertexDirection.East;
+				}
+				else {
+					cousinCoordinates = new HexLocation(coordinates.getX() + 1, coordinates.getY() + 1);
+					cousinDirection = VertexDirection.NorthWest;
+				}
+				break;
+				
+			case East:
+				if(SouthEdge == true) {
+					cousinCoordinates = new HexLocation(coordinates.getX() + 1, coordinates.getY());
+					cousinDirection = VertexDirection.NorthEast;
+				}
+				else {
+					cousinCoordinates = new HexLocation(coordinates.getX() + 1, coordinates.getY() + 1);
+					cousinDirection = VertexDirection.SouthEast;
+				}
+				break;
+
+			case SouthEast:
+				if(NorthEdge == true) {
+					cousinCoordinates = new HexLocation(coordinates.getX() + 1, coordinates.getY());
+					cousinDirection = VertexDirection.SouthWest;
+				}
+				else {
+					cousinCoordinates = new HexLocation(coordinates.getX(), coordinates.getY() - 1);
+					cousinDirection = VertexDirection.East;
+				}
+				break;
+				
+			case SouthWest:
+				if(SouthEdge == true) {
+					cousinCoordinates = new HexLocation(coordinates.getX(), coordinates.getY() - 1);
+					cousinDirection = VertexDirection.West;
+				}
+				else {
+					cousinCoordinates = new HexLocation(coordinates.getX() - 1, coordinates.getY() - 1);
+					cousinDirection = VertexDirection.SouthEast;
+				}
+				break;
+
+			case West:
+				if(NorthEdge == true) {
+					cousinCoordinates = new HexLocation(coordinates.getX() - 1, coordinates.getY());
+					cousinDirection = VertexDirection.SouthWest;
+				}
+				else {
+					cousinCoordinates = new HexLocation(coordinates.getX() - 1, coordinates.getY() - 1);
+					cousinDirection = VertexDirection.NorthWest;
+				}
+				break;
+		}
+		
+		int x = coordinates.getX();
+		int y = coordinates.getY();
+		
+		VertexLocation cousinLocation = null;
+		
+		VertexValue distantCousin;
+		
+		switch(point) {
+		
+			case NorthWest:
+				if(((x == -2 && y == 0)) || ((x == 0) && (y == 2)) || ((x == -1) && (y == 1))) {
+					cousinLocation = null;
+				}
+				else {
+					cousinLocation = new VertexLocation(cousinCoordinates, cousinDirection);
+				}
+				break;
+				
+			case NorthEast:
+				if(((x == 0 && y == 2)) || ((x == 1) && (y == 2)) || ((x == 2) && (y == 2))) {
+					cousinLocation = null;
+				}
+				else {
+					cousinLocation = new VertexLocation(cousinCoordinates, cousinDirection);
+				}
+				break;
+
+			case East:
+				if(((x == 2 && y == 2)) || ((x == 2) && (y == 1)) || ((x == 2) && (y == 0))) {
+					cousinLocation = null;
+				}
+				else {
+					cousinLocation = new VertexLocation(cousinCoordinates, cousinDirection);
+				}
+				break;
+				
+			case SouthEast:
+				if(((x == 2 && y == 0)) || ((x == 1) && (y == -1)) || ((x == 0) && (y == -2))) {
+					cousinLocation = null;
+				}
+				else {
+					cousinLocation = new VertexLocation(cousinCoordinates, cousinDirection);
+				}
+				break;
+				
+			case SouthWest:
+				if(((x == 0 && y == -2)) || ((x == -1) && (y == -2)) || ((x == -2) && (y == -2))) {
+					cousinLocation = null;
+				}
+				else {
+					cousinLocation = new VertexLocation(cousinCoordinates, cousinDirection);
+				}
+				break;
+				
+			case West:
+				if(((x == -2 && y == -2)) || ((x == -2) && (y == -1)) || ((x == -2) && (y == 0))) {
+					cousinLocation = null;
+				}
+				else {
+					cousinLocation = new VertexLocation(cousinCoordinates, cousinDirection);
+				}
+				break;
+		}
+		if(cousinLocation != null) {
+			distantCousin = vertices.get(cousinLocation.getNormalizedLocation());
+		}
+		else {
+			distantCousin = null;
+		}
+		
+		return distantCousin;
 	}
 	
 	public HexLocation getRobber() {

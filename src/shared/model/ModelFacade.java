@@ -1,5 +1,6 @@
 package shared.model;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -25,19 +26,29 @@ public class ModelFacade {
 	//SINGLETON!
 	private static ModelFacade instance = null;
 	
-	private ModelFacade(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
-		model = model.getInstance(randomHexes, randomChits, randomPorts, loadGame, names);
+	private ModelFacade(Model model) {
+		this.model = model;
 	}
 	
 	/** The singleton generator for the ModelFacade
-	 * @pre the game must be starting (there must be a server model to interact with)
+	 * @pre none
+	 * @post If the model is already set, this function returns the already created instance
 	 * @return the singleton of the ModelFacade
 	 */
-	public static ModelFacade getInstance(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
+	public static ModelFacade createInstance(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
 		if(instance == null) {
-			instance = new ModelFacade(randomHexes, randomChits, randomPorts, loadGame, names);
+			instance = new ModelFacade(new Model(randomHexes, randomChits, randomPorts, loadGame, names));
 		}
 		
+		return instance;
+	}
+	
+	/**
+	 * @pre none
+	 * @post returns null if the Model is null
+	 * @return
+	 */
+	public static ModelFacade getInstance() {
 		return instance;
 	}
 	
@@ -87,26 +98,24 @@ public class ModelFacade {
 		}
 		
 		//Check if sender has enough resources
-		ResourceList sOffer = offer.getReceiverReceives();
-		ResourceList sResources = model.getPlayers()[offer.getSender()].getResources();
-		if(sOffer.getBrick() <= sResources.getBrick()
-				&& sOffer.getOre() <= sResources.getOre()
-				&& sOffer.getSheep() <= sResources.getSheep()
-				&& sOffer.getWheat() <= sResources.getWheat()
-				&& sOffer.getWood() <= sResources.getWood()) {}
-		else {
+		ResourceList sendOffer = offer.getReceiverReceives();
+		ResourceList sendResources = model.getPlayers()[offer.getSender()].getResources();
+		if(sendOffer.getBrick() > sendResources.getBrick()
+				|| sendOffer.getOre() > sendResources.getOre()
+				|| sendOffer.getSheep() > sendResources.getSheep()
+				|| sendOffer.getWheat() > sendResources.getWheat()
+				|| sendOffer.getWood() > sendResources.getWood()) {
 			return false;
 		}
 		
 		//Check if receiver has enough resources
-		ResourceList rOffer = offer.getSenderReceives();
-		ResourceList rResources = model.getPlayers()[offer.getReceiver()].getResources();
-		if(rOffer.getBrick() <= rResources.getBrick()
-				&& rOffer.getOre() <= rResources.getOre()
-				&& rOffer.getSheep() <= rResources.getSheep()
-				&& rOffer.getWheat() <= rResources.getWheat()
-				&& rOffer.getWood() <= rResources.getWood()) {}
-		else {
+		ResourceList receiveOffer = offer.getSenderReceives();
+		ResourceList receiveResources = model.getPlayers()[offer.getReceiver()].getResources();
+		if(receiveOffer.getBrick() > receiveResources.getBrick()
+				|| receiveOffer.getOre() > receiveResources.getOre()
+				|| receiveOffer.getSheep() > receiveResources.getSheep()
+				|| receiveOffer.getWheat() > receiveResources.getWheat()
+				|| receiveOffer.getWood() > receiveResources.getWood()) {
 			return false;
 		}
 		
@@ -145,7 +154,7 @@ public class ModelFacade {
 	* @return true if the player has an available road and the location is a valid place to build, false if otherwise
 	* @post Player may build the road if possible
 	*/
-	public boolean canBuildRoad(int playerIndex, EdgeValue location) {
+	public boolean canBuildRoad(int playerIndex, EdgeValue edgeValue) {
 		if(model.getTurnTracker().getCurrentTurn() != 0) {
 			Player player = model.getPlayers()[playerIndex];
 			//Check for unplaced roads
@@ -157,10 +166,10 @@ public class ModelFacade {
 				return false;
 			}
 			//Check for existing road
-			if(location.getRoad() != null) {
+			if(edgeValue.getRoad() != null) {
 				return false;
 			}
-			for(EdgeValue edge : location.getAdjacentEdges()) {
+			for(EdgeValue edge : edgeValue.getAdjacentEdges()) {
 				//Avoid null pointer exceptions
 				if(edge.getRoad() == null) {}
 				else if(edge.getRoad().getPlayerIndex() == playerIndex) {
@@ -172,7 +181,7 @@ public class ModelFacade {
 		}
 		else {
 			//It's the setup phase
-			for(VertexValue vertex : location.getAdjacentVertices()) {
+			for(VertexValue vertex : edgeValue.getAdjacentVertices()) {
 				if(vertex.getSettlement() == null) {}
 				else if(vertex.getSettlement().getPlayerIndex() == playerIndex) {
 					return true;
@@ -189,7 +198,7 @@ public class ModelFacade {
 	* @return true if the player has an available settlement and the location is a valid place to build
 	* @post Player may build the settlement if possible
 	*/
-	public boolean canBuildSettlement(int playerIndex, VertexValue location) {
+	public boolean canBuildSettlement(int playerIndex, VertexValue vertexValue) {
 		Player player = model.getPlayers()[playerIndex];
 		//Check for unplaced settlements
 		if(player.getUnplacedSettlements() == 0) {
@@ -201,13 +210,18 @@ public class ModelFacade {
 			return false;
 		}
 		//Is the distance rule obeyed?
-		for(VertexValue vertex : location.getAdjacentVertices()) {
+		List<VertexValue> adjacents = model.getMap().getAdjacentVertices(vertexValue.getLocation());
+		System.out.println(vertexValue);
+		System.out.println(adjacents.get(0));
+		System.out.println(adjacents.get(1));
+		System.out.println(adjacents.get(2));
+		for(VertexValue vertex : model.getMap().getAdjacentVertices(vertexValue.getLocation())) {
 			if(vertex.getSettlement() != null || vertex.getCity() != null) {
 				return false;
 			}
 		}
 		//Is there an adjacent road?
-		for(EdgeValue edge : location.getAdjacentEdges()) {
+		for(EdgeValue edge : vertexValue.getAdjacentEdges()) {
 			if(edge.getRoad() == null) {}
 			else if(edge.getRoad().getPlayerIndex() == playerIndex) {
 				return true;
@@ -284,14 +298,7 @@ public class ModelFacade {
 			return false;
 		}
 		HexLocation robber = model.getMap().getRobber();
-		Hex robberHex = null;
-		Iterator<Entry<HexLocation, Hex>> hexes = model.getMap().getHexes().entrySet().iterator();
-		while (hexes.hasNext()) {
-			Entry<HexLocation, Hex> hex = hexes.next();
-			if(hex.getKey().equals(robber)){
-				robberHex = hex.getValue();
-			}
-		}
+		Hex robberHex = model.getMap().getHexes().get(robber);
 		for(VertexValue vertex : robberHex.getAdjacentVertices()) {
 			if(vertex.getSettlement() != null && vertex.getSettlement().getPlayerIndex() == playerIndex) {
 				return true;
@@ -732,8 +739,8 @@ public class ModelFacade {
 	 * @param model The new client model
 	 * @post replaces the old model with the new one
 	 */
-	public void UpdateModel(Model model) {
-		if (model.getVersion() > this.model.getVersion()) {
+	public void updateModel(Model model) {
+		if (model.getVersion() >= this.model.getVersion()) {
 			this.model = model;
 		}
 	}
@@ -748,7 +755,7 @@ public class ModelFacade {
 	 * @throws IllegalActionException
 	 * @post Performs actions based on which transferObject was given.
 	 */
-	public void UpdateModel(Object transferObject) throws IllegalActionException {
+	public void updateModel(Object transferObject) throws IllegalActionException {
 		if(transferObject == null) {}
 		else if(transferObject instanceof AcceptTrade) {
 			AcceptTrade aTrade = (AcceptTrade)transferObject;

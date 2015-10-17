@@ -64,6 +64,19 @@ public class VertexValue {
 		return null;
 	}
 	
+	public String toString() {
+		String string = "";
+		if (this.settlement != null) {
+			string += "Has settlement, ";
+		}
+	    if (this.city != null) {
+			string += "Has city, ";
+		}
+		if (this.location != null) {
+			string += "Location: " + location.toString();
+		}
+		return string;
+	}
 	
 	
 }

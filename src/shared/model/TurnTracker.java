@@ -41,7 +41,6 @@ public class TurnTracker {
 	public void endPlayerTurn() {
 		if(currentPlayer == 3) {
 			currentPlayer = 0;
-			currentTurn++;
 		}
 		else {
 			currentPlayer++;
@@ -64,5 +63,8 @@ public class TurnTracker {
 	}
 	public void setLargestArmy(int largestArmy) {
 		this.largestArmy = largestArmy;
+	}
+	public void setPlayerTurn(int playerIndex) {
+		currentPlayer = playerIndex;
 	}
 }

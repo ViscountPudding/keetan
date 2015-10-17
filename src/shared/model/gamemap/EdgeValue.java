@@ -66,4 +66,8 @@ public class EdgeValue {
 		return null;
 	}
 	
+	@Override
+	public String toString() {
+		return "EdgeValue [location=" + location + ", road=" + road + "]";
+	}
 }
