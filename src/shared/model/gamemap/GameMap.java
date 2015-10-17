@@ -22,12 +22,13 @@ import shared.model.locations.VertexDirection;
  */
 
 public class GameMap {
-	
-//	public static void main(String args[]) { //THIS IS A TEST FUNCTION TO BE DESTROYED LATER
-//		GameMap map = new GameMap(false, false, false, false);
-//		System.out.println("whee!");
-//	}
-	
+	/*
+	public static void main(String args[]) { //THIS IS A TEST FUNCTION TO BE DESTROYED LATER
+		@SuppressWarnings("unused")
+		GameMap map = new GameMap(false, false, false, false);
+		System.out.println("whee!");
+	}
+	*/
 	
 	//private Hex[] hexes;
 	
