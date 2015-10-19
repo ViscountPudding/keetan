@@ -66,24 +66,4 @@ public final class Converter {
 	public static String toJson(Object object) {
 		return gson.toJson(object);
 	}
-	
-	/**
-	 * This main provides an example for how the Converter works
-	 * @param args - we do not use this here
-	 */
-	public static void main(String[] args)  {
-		HexLocation hex = new HexLocation(10, 15);
-		String jsonHex = Converter.toJson(hex);
-		System.out.println(jsonHex);
-		HexLocation hex2 = Converter.fromJson(jsonHex, HexLocation.class);
-		System.out.println("Hex: x=" + hex.getX() + " y=" + hex.getY());
-		System.out.println("Hex2: x=" + hex2.getX() + " y=" + hex2.getY());
-		
-		ArrayList<Integer> al = new ArrayList<Integer>();
-		al.add(new Integer(5));
-		al.add(new Integer(7));
-		al.add(new Integer(-3));
-		String jsonList = Converter.toJson(al);
-		System.out.println(jsonList);
-	}
 }

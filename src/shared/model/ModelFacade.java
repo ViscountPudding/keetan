@@ -211,10 +211,6 @@ public class ModelFacade {
 		}
 		//Is the distance rule obeyed?
 		List<VertexValue> adjacents = model.getMap().getAdjacentVertices(vertexValue.getLocation());
-		System.out.println(vertexValue);
-		System.out.println(adjacents.get(0));
-		System.out.println(adjacents.get(1));
-		System.out.println(adjacents.get(2));
 		for(VertexValue vertex : model.getMap().getAdjacentVertices(vertexValue.getLocation())) {
 			if(vertex.getSettlement() != null || vertex.getCity() != null) {
 				return false;

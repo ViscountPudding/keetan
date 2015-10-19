@@ -3,6 +3,7 @@ package clientSide.tests;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
@@ -26,6 +27,32 @@ import shared.model.pieces.Road;
 import shared.model.pieces.Settlement;
 
 public class ModelUnitTests {
+	
+	@Test
+	public void testGetAdjacentVertices() {
+		ArrayList<String> names = new ArrayList<String>();
+		names.add("Michael");
+		names.add("Stephen");
+		names.add("Josh");
+		names.add("Will");
+		Model model = new Model(false, false, false, false, names);
+		
+		int twos = 0;
+		
+		for (VertexValue vertex : model.getMap().getVertices().values()) {
+			VertexLocation location = vertex.getLocation();
+			List<VertexValue> adjacents = model.getMap().getAdjacentVertices(location);
+			
+			if (adjacents.size() == 2) {
+				twos++;
+			}
+			else {
+				assertEquals(adjacents.size() == 3, true);
+			}
+		}
+		assertEquals(twos, 18);
+	}
+	
 	@Test
 	public void testCanProduceResource() {
 		ArrayList<String> names = new ArrayList<String>();
@@ -181,6 +208,8 @@ public class ModelUnitTests {
 		ModelFacade facade = ModelFacade.createInstance(false, false, false, false, names);
 		facade.updateModel(model);
 		
+		assertEquals("Stephen has made ports have vertices", "");
+		
 		ArrayList<Port> ports = model.getMap().getPorts();
 		for (Port port : ports) {
 			
@@ -279,18 +308,58 @@ public class ModelUnitTests {
 		ModelFacade facade = ModelFacade.createInstance(false, false, false, false, names);
 		facade.updateModel(model);
 
-		VertexValue failTest = model.getMap().getVertices().get(new VertexLocation(new HexLocation(1,1),VertexDirection.NorthEast));
-		VertexValue goodTest = model.getMap().getVertices().get(new VertexLocation(new HexLocation(1,1),VertexDirection.NorthWest));
-		goodTest.setSettlement(new Settlement(0));
+		Set<HexLocation> hexLocations = model.getMap().getHexes().keySet();
+		ArrayList<VertexDirection> vertexDirections = new ArrayList<VertexDirection>();
+		vertexDirections.add(VertexDirection.East);
+		vertexDirections.add(VertexDirection.NorthEast);
+		vertexDirections.add(VertexDirection.NorthWest);
+		vertexDirections.add(VertexDirection.West);
+		vertexDirections.add(VertexDirection.SouthWest);
+		vertexDirections.add(VertexDirection.SouthEast);
+
+		HexLocation twoTwo = new HexLocation(2, 2);
+		HexLocation twoOne = new HexLocation(2, 1);
+		HexLocation oneTwo = new HexLocation(1, 2);
+		HexLocation oneOne = new HexLocation(1, 1);
+		HexLocation negTwoNegTwo = new HexLocation(-2, -2);
+		HexLocation nonAdjacentHexLocation;
+		for (HexLocation hexLocation : hexLocations) {
+			if (hexLocation.equals(twoTwo) || hexLocation.equals(twoOne) || hexLocation.equals(oneTwo) || hexLocation.equals(oneOne)) {
+				nonAdjacentHexLocation = negTwoNegTwo;
+			}
+			else {
+				nonAdjacentHexLocation = twoTwo;
+			}
+			
+			for (VertexDirection vertexDirection : vertexDirections) {
+				VertexValue failTest = model.getMap().getVertices().get(new VertexLocation(hexLocation, vertexDirection).getNormalizedLocation());
+				VertexValue goodTest = model.getMap().getVertices().get(new VertexLocation(nonAdjacentHexLocation, vertexDirection).getNormalizedLocation());
+				goodTest.setSettlement(new Settlement(0));
+				
+				model.getPlayers()[0].setUnplacedCities(1);
+				model.getPlayers()[0].setResources(new ResourceList(5,5,5,5,5));
+				assertEquals(facade.canBuildCity(0, goodTest), true); // has everything
+				assertEquals(facade.canBuildCity(0, failTest),false); // no settlement
+				
+				model.getPlayers()[0].setResources(new ResourceList(0,3,0,2,0));
+				assertEquals(facade.canBuildCity(0, goodTest), true); // just barely enough
+				model.getPlayers()[0].setResources(new ResourceList(0,3,0,1,0));
+				assertEquals(facade.canBuildCity(0, goodTest), false); // not enough wheat
+				model.getPlayers()[0].setResources(new ResourceList(0,2,0,2,0));
+				assertEquals(facade.canBuildCity(0, goodTest), false); // not enough ore
+				
+				model.getPlayers()[0].setUnplacedCities(0);
+				assertEquals(facade.canBuildCity(0, goodTest),false); // no unplaced cities
+				assertEquals(facade.canBuildCity(0, failTest),false); // no settlement, no unplaced cities
 		
-		assertEquals(facade.canBuildCity(0, goodTest),false);
-		
-		model.getPlayers()[0].setResources(new ResourceList(5,5,5,5,5));
-		assertEquals(facade.canBuildCity(0, goodTest),false);
-		assertEquals(facade.canBuildCity(0, failTest),false);
-		
-		model.getPlayers()[0].setUnplacedCities(0);
-		assertEquals(facade.canBuildCity(0, goodTest),false);
+				model.getPlayers()[0].setUnplacedCities(1);
+				model.getPlayers()[0].setResources(new ResourceList(0,0,0,0,0));
+				assertEquals(facade.canBuildCity(0, goodTest),false); // no resources
+				assertEquals(facade.canBuildCity(0, failTest),false); // no settlement, no resources
+				
+				goodTest.setSettlement(null);
+			}
+		}
 	}
 	
 	@Test
@@ -311,6 +380,27 @@ public class ModelUnitTests {
 		
 		model.getPlayers()[1].setResources(new ResourceList(5,5,5,5,5));
 		assertEquals(facade.canBuyDevelopmentCard(1), true); //should be able to
+		
+		model.getPlayers()[1].setResources(new ResourceList(0,1,1,1,0));
+		assertEquals(facade.canBuyDevelopmentCard(1), true); // just enough
+		
+		model.getPlayers()[1].setResources(new ResourceList(0,1,0,0,0));
+		assertEquals(facade.canBuyDevelopmentCard(1), false); // not enough
+		
+		model.getPlayers()[1].setResources(new ResourceList(0,0,1,0,0));
+		assertEquals(facade.canBuyDevelopmentCard(1), false); // not enough
+		
+		model.getPlayers()[1].setResources(new ResourceList(0,0,0,1,0));
+		assertEquals(facade.canBuyDevelopmentCard(1), false); // not enough
+
+		model.getPlayers()[1].setResources(new ResourceList(0,1,1,0,0));
+		assertEquals(facade.canBuyDevelopmentCard(1), false); // not enough
+		
+		model.getPlayers()[1].setResources(new ResourceList(0,1,0,1,0));
+		assertEquals(facade.canBuyDevelopmentCard(1), false); // not enough
+		
+		model.getPlayers()[1].setResources(new ResourceList(0,0,1,1,0));
+		assertEquals(facade.canBuyDevelopmentCard(1), false); // not enough
 	}
 	
 	@Test
@@ -403,7 +493,6 @@ public class ModelUnitTests {
 				model.getMap().setRobber(nonAdjacentHexLocation);
 				assertEquals(facade.canLoseCardsFromRobber(0), false); // robber no longer on hex
 				vertex.setCity(null);
-				//System.out.println("Worked for Hex: " + hexLocation);
 			}
 		}
 	}
