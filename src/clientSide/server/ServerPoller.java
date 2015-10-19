@@ -36,7 +36,7 @@ public class ServerPoller {
 				System.err.println(e.getReason());
 				return;
 			}
-			modelFacade.UpdateModel(model);
+			modelFacade.updateModel(model);
 		}
 	}
 	

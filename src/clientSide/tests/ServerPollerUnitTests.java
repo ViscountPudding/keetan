@@ -30,7 +30,7 @@ public class ServerPollerUnitTests {
 		names.add("Bob");
 		names.add("Eve");
 		names.add("Adam");
-		ModelFacade modelFacade = ModelFacade.getInstance(false, false, false, false, names);
+		ModelFacade modelFacade = ModelFacade.createInstance(false, false, false, false, names);
 		IServer server = new MockServer();
 		ServerPoller poller = new ServerPoller(server, modelFacade);
 		poller.start();
