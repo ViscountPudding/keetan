@@ -30,8 +30,6 @@ public class GameMap {
 	}
 	*/
 	
-	//private Hex[] hexes;
-	
 	private HashMap<HexLocation, Hex> hexes;
 	private HashMap<EdgeLocation, EdgeValue> edges;
 	public HashMap<VertexLocation, VertexValue> vertices; //#CHANGEBACK to private
@@ -257,7 +255,6 @@ public class GameMap {
 		}
 	}
 	
-	//RUDIMENTARY!!
 	/**
 	 * Adds the specific hex to the map
 	 * @pre the setUpMap function must be in a situation where adding a hex is allowed
@@ -287,7 +284,6 @@ public class GameMap {
 		return theHexes.remove(0);
 	}
 	
-	//RUDIMENTARY!!
 	/**
 	 * Adds edges to the map of edges
 	 * @pre there must be a hex newly placed on the map
@@ -479,9 +475,205 @@ public class GameMap {
 		adjacentEdges.add(edges.get(adjacentLocationOne.getNormalizedLocation()));
 		adjacentEdges.add(edges.get(adjacentLocationTwo.getNormalizedLocation()));
 		
+		List<EdgeValue> cousinEdges = getCousinEdges(checkEdge);
+		
+		if(cousinEdges != null) {
+			adjacentEdges.addAll(cousinEdges);
+		}
+		
 		return adjacentEdges;
 	}
 
+	public List<EdgeValue> getCousinEdges(EdgeLocation checkEdge) {
+		
+		HexLocation coordinates = checkEdge.getHexLoc();
+		int x = coordinates.getX();
+		int y = coordinates.getY();
+		EdgeDirection face = checkEdge.getDir();
+		
+		boolean NorthRim; //Whether the hex is part of the northern edge
+		boolean SouthRim; //Whether the hex is part of the southern edge
+		
+		boolean EastRim; //Whether the hex is part of the eastern edge
+		boolean WestRim; //Whether the hex is part of the western edge
+		
+		//RUDIMENTARY MY DEAR WATSON!
+		
+		if((coordinates.getY() == 2) || ((coordinates.getX() == -2) && (coordinates.getY() == 0)) || (((coordinates.getX() + coordinates.getY())) == 0)) {
+			NorthRim = true;
+		}
+		else {
+			NorthRim = false;
+		}
+		
+		if((coordinates.getY() == -2) || ((coordinates.getX() == 2) && (coordinates.getY() == 0)) || (((coordinates.getX() + coordinates.getY())) == 0)) {
+			SouthRim = true;
+		}
+		else {
+			SouthRim = false;
+		}
+		
+		if(
+		  ((coordinates.getX() == 2) && (coordinates.getY() == 2))  ||
+		  ((coordinates.getX() == 1) && (coordinates.getY() == 1))  ||
+		  ((coordinates.getX() == 2) && (coordinates.getY() == 0))  ||
+		  ((coordinates.getX() == 1) && (coordinates.getY() == -1)) ||
+		  ((coordinates.getX() == 0) && (coordinates.getY() == -2))) {
+			
+			EastRim = true;
+		}
+		else {
+			EastRim = false;
+		}
+		
+		if(
+		  ((coordinates.getX() == -2) && (coordinates.getY() == 0))  ||
+	      ((coordinates.getX() == -2) && (coordinates.getY() == -1)) ||
+		  ((coordinates.getX() == -2) && (coordinates.getY() == 0))  ||
+		  ((coordinates.getX() == -1) && (coordinates.getY() == 1))  ||
+		  ((coordinates.getX() == 0) && (coordinates.getY() == 2)))   {
+					
+		WestRim = true;
+		}
+		else {
+			WestRim = false;
+		}
+		
+		
+		HexLocation location = null;
+		EdgeDirection directionOne = null;
+		EdgeDirection directionTwo = null;
+		
+		switch(face) {
+		case NorthWest:
+			if(WestRim == false) {
+				location = new HexLocation(x-1, y);
+				directionOne = EdgeDirection.NorthEast;
+				directionOne = EdgeDirection.South;
+			}
+			else {
+				if(NorthRim == true) {
+					location = new HexLocation(x-1, y-1);
+					directionOne = EdgeDirection.North;
+				}
+				else {
+					location = new HexLocation(x, y+1);
+					directionOne = EdgeDirection.SouthWest;
+				}	
+			}
+			break;
+		case North:
+			if(NorthRim == false) {
+				location = new HexLocation(x, y+1);
+				directionOne = EdgeDirection.SouthEast;
+				directionTwo = EdgeDirection.SouthWest;
+			}
+			else {
+				if(WestRim == true) {
+					location = new HexLocation(x+1,y+1);
+					directionOne = EdgeDirection.NorthWest;
+				}
+				else {
+					location = new HexLocation(x-1, y);
+					directionOne = EdgeDirection.NorthEast;
+				}
+			}
+			break;
+		case NorthEast:
+			if(
+			((NorthRim == false) && (EastRim == false)) ||
+			((NorthRim == true) && (WestRim == true)) ||		
+			((EastRim == true) && (SouthRim == true))
+			 ) {
+				location = new HexLocation(x+1,y+1);
+				directionOne = EdgeDirection.NorthWest;
+				directionTwo = EdgeDirection.South;
+			}
+			else if (NorthRim == true) {
+				location = new HexLocation(x+1,y);
+				directionOne = EdgeDirection.North;
+			}
+			else if (EastRim == true) {
+				location = new HexLocation(x, y+1);
+				directionOne = EdgeDirection.SouthEast;
+			}
+			break;
+		case SouthEast:
+			if(EastRim == false) {
+				location = new HexLocation(x+1, y);
+				directionOne = EdgeDirection.North;
+				directionTwo = EdgeDirection.SouthWest;
+			}
+			else {
+				if(SouthRim == true) {
+					location = new HexLocation(x+1, y+1);
+					directionOne = EdgeDirection.South;
+				}
+				else {
+					location = new HexLocation(x, y-1);
+					directionOne = EdgeDirection.NorthEast;
+				}
+			}
+			break;
+		case South:
+			if(SouthRim == false) {
+				location = new HexLocation(x, y-1);
+				directionOne = EdgeDirection.NorthWest;
+				directionTwo = EdgeDirection.SouthWest;
+			}
+			else {
+				if(EastRim == true) {
+					location = new HexLocation(x-1, y-1);
+					directionOne = EdgeDirection.SouthEast;
+				}
+				else {
+					location = new HexLocation(x+1, y);
+					directionOne = EdgeDirection.SouthWest;
+				}
+			}
+			break;
+		case SouthWest:
+			if(
+			((SouthRim == false) && (WestRim == false)) ||
+			((SouthRim == true) && (EastRim == true)) ||		
+			((WestRim == true) && (NorthRim == true))
+			 ) {
+				location = new HexLocation(x-1,y-1);
+				directionOne = EdgeDirection.North;
+				directionTwo = EdgeDirection.SouthEast;
+			}
+			else if (SouthRim == true) {
+				location = new HexLocation(x-1,y);
+				directionOne = EdgeDirection.South;
+			}
+			else if (WestRim == true) {
+				location = new HexLocation(x, y-1);
+				directionOne = EdgeDirection.NorthEast;
+			}
+			break;
+		default:
+			break;
+		}
+		
+		List<EdgeValue> cousinEdges = new ArrayList<EdgeValue>();
+		
+		if(directionOne == null) {
+			return null;
+		}
+		else if(directionTwo == null) {
+			EdgeLocation edgeOne = new EdgeLocation(location, directionOne);
+			cousinEdges.add(edges.get(edgeOne.getNormalizedLocation()));
+		}
+		else {
+			EdgeLocation edgeOne = new EdgeLocation(location, directionOne);
+			EdgeLocation edgeTwo = new EdgeLocation(location, directionTwo);
+			cousinEdges.add(edges.get(edgeOne.getNormalizedLocation()));
+			cousinEdges.add(edges.get(edgeTwo.getNormalizedLocation()));
+		}
+		
+		return cousinEdges;
+	}
+	
 	/**
 	 * Find the vertices adjacent to the specified vertex
 	 * @pre a need to find the vertices adjacent for a specific vertex
@@ -554,17 +746,17 @@ public class GameMap {
 		//RUDIMENTARY MY DEAR WATSON!
 		
 		if((coordinates.getY() == 2) || ((coordinates.getX() == -2) && (coordinates.getY() == 0)) || (((coordinates.getX() + coordinates.getY())) == 0)) {
-			NorthEdge = false;
+			NorthEdge = true;
 		}
 		else {
-			NorthEdge = true;
+			NorthEdge = false;
 		}
 		
 		if((coordinates.getY() == -2) || ((coordinates.getX() == 2) && (coordinates.getY() == 0)) || (((coordinates.getX() + coordinates.getY())) == 0)) {
-			SouthEdge = false;
+			SouthEdge = true;
 		}
 		else {
-			SouthEdge = true;
+			SouthEdge = false;
 		}
 		
 		HexLocation cousinCoordinates = null;
@@ -573,7 +765,7 @@ public class GameMap {
 		switch(point) {
 		
 			case NorthWest:
-				if(NorthEdge == true) {
+				if(NorthEdge == false) {
 					cousinCoordinates = new HexLocation(coordinates.getX(), coordinates.getY() + 1);
 					cousinDirection = VertexDirection.West;
 				}
@@ -584,7 +776,7 @@ public class GameMap {
 				break;
 		
 			case NorthEast:
-				if(NorthEdge == true) {
+				if(NorthEdge == false) {
 					cousinCoordinates = new HexLocation(coordinates.getX(), coordinates.getY() + 1);
 					cousinDirection = VertexDirection.East;
 				}
@@ -595,7 +787,7 @@ public class GameMap {
 				break;
 				
 			case East:
-				if(SouthEdge == true) {
+				if(SouthEdge == false) {
 					cousinCoordinates = new HexLocation(coordinates.getX() + 1, coordinates.getY());
 					cousinDirection = VertexDirection.NorthEast;
 				}
@@ -606,7 +798,7 @@ public class GameMap {
 				break;
 
 			case SouthEast:
-				if(NorthEdge == true) {
+				if(NorthEdge == false) {
 					cousinCoordinates = new HexLocation(coordinates.getX() + 1, coordinates.getY());
 					cousinDirection = VertexDirection.SouthWest;
 				}
@@ -617,7 +809,7 @@ public class GameMap {
 				break;
 				
 			case SouthWest:
-				if(SouthEdge == true) {
+				if(SouthEdge == false) {
 					cousinCoordinates = new HexLocation(coordinates.getX(), coordinates.getY() - 1);
 					cousinDirection = VertexDirection.West;
 				}
@@ -628,7 +820,7 @@ public class GameMap {
 				break;
 
 			case West:
-				if(NorthEdge == true) {
+				if(NorthEdge == false) {
 					cousinCoordinates = new HexLocation(coordinates.getX() - 1, coordinates.getY());
 					cousinDirection = VertexDirection.SouthWest;
 				}
