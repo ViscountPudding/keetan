@@ -457,15 +457,19 @@ public class GameMap {
 		case NorthEast:
 			adjacentLocationOne = new EdgeLocation(coordinates, EdgeDirection.North);
 			adjacentLocationTwo = new EdgeLocation(coordinates, EdgeDirection.SouthEast);
+			break;
 		case SouthEast:
 			adjacentLocationOne = new EdgeLocation(coordinates, EdgeDirection.NorthEast);
 			adjacentLocationTwo = new EdgeLocation(coordinates, EdgeDirection.South);
+			break;
 		case South:
 			adjacentLocationOne = new EdgeLocation(coordinates, EdgeDirection.SouthEast);
 			adjacentLocationTwo = new EdgeLocation(coordinates, EdgeDirection.SouthWest);
+			break;
 		case SouthWest:
 			adjacentLocationOne = new EdgeLocation(coordinates, EdgeDirection.South);
 			adjacentLocationTwo = new EdgeLocation(coordinates, EdgeDirection.NorthWest);
+			break;
 		default:
 			adjacentLocationOne = null;
 			adjacentLocationTwo = null;
@@ -499,14 +503,18 @@ public class GameMap {
 		
 		//RUDIMENTARY MY DEAR WATSON!
 		
-		if((coordinates.getY() == 2) || ((coordinates.getX() == -2) && (coordinates.getY() == 0)) || (((coordinates.getX() + coordinates.getY())) == 0)) {
+		if((coordinates.getY() == 2) ||
+		  ((coordinates.getX() == -2) && (coordinates.getY() == 0)) ||
+		  ((coordinates.getX() == -1 &&  coordinates.getY() == 1))) {
 			NorthRim = true;
 		}
 		else {
 			NorthRim = false;
 		}
 		
-		if((coordinates.getY() == -2) || ((coordinates.getX() == 2) && (coordinates.getY() == 0)) || (((coordinates.getX() + coordinates.getY())) == 0)) {
+		if((coordinates.getY() == -2) ||
+		  ((coordinates.getX() == 2) && (coordinates.getY() == 0)) ||
+		  ((coordinates.getX() == 1 && coordinates.getY() == -1))) {
 			SouthRim = true;
 		}
 		else {
@@ -549,7 +557,7 @@ public class GameMap {
 			if(WestRim == false) {
 				location = new HexLocation(x-1, y);
 				directionOne = EdgeDirection.NorthEast;
-				directionOne = EdgeDirection.South;
+				directionTwo = EdgeDirection.South;
 			}
 			else {
 				if(NorthRim == true) {
@@ -657,6 +665,10 @@ public class GameMap {
 		
 		List<EdgeValue> cousinEdges = new ArrayList<EdgeValue>();
 		
+		if(edges.get(new EdgeLocation(location, directionOne).getNormalizedLocation()) == null) {
+			directionOne = null;
+		}
+		
 		if(directionOne == null) {
 			return null;
 		}
@@ -745,19 +757,23 @@ public class GameMap {
 		
 		//RUDIMENTARY MY DEAR WATSON!
 		
-		if((coordinates.getY() == 2) || ((coordinates.getX() == -2) && (coordinates.getY() == 0)) || (((coordinates.getX() + coordinates.getY())) == 0)) {
-			NorthEdge = true;
-		}
-		else {
-			NorthEdge = false;
-		}
-		
-		if((coordinates.getY() == -2) || ((coordinates.getX() == 2) && (coordinates.getY() == 0)) || (((coordinates.getX() + coordinates.getY())) == 0)) {
-			SouthEdge = true;
-		}
-		else {
-			SouthEdge = false;
-		}
+		if((coordinates.getY() == 2) ||
+				  ((coordinates.getX() == -2) && (coordinates.getY() == 0)) ||
+				  ((coordinates.getX() == -1 &&  coordinates.getY() == 1))) {
+					NorthEdge = true;
+				}
+				else {
+					NorthEdge = false;
+				}
+				
+				if((coordinates.getY() == -2) ||
+				  ((coordinates.getX() == 2) && (coordinates.getY() == 0)) ||
+				  ((coordinates.getX() == 1 && coordinates.getY() == -1))) {
+					SouthEdge = true;
+				}
+				else {
+					SouthEdge = false;
+				}
 		
 		HexLocation cousinCoordinates = null;
 		VertexDirection cousinDirection = null;
@@ -902,6 +918,96 @@ public class GameMap {
 		}
 		
 		return distantCousin;
+	}
+	
+	public List<VertexValue> getNearbyVertices(EdgeLocation checkEdge) {
+		HexLocation coordinates = checkEdge.getHexLoc();
+		EdgeDirection face = checkEdge.getDir();
+		
+		VertexDirection pointOne = null;
+		VertexDirection pointTwo = null;
+		
+		switch(face) {
+		case NorthWest:
+			pointOne = VertexDirection.West;
+			pointTwo = VertexDirection.NorthWest;
+			break;
+		case North:
+			pointOne = VertexDirection.NorthWest;
+			pointTwo = VertexDirection.NorthEast;
+			break;
+		case NorthEast:
+			pointOne = VertexDirection.NorthEast;
+			pointTwo = VertexDirection.East;
+			break;
+		case SouthEast:
+			pointOne = VertexDirection.East;
+			pointTwo = VertexDirection.SouthEast;
+			break;
+		case South:
+			pointOne = VertexDirection.SouthEast;
+			pointTwo = VertexDirection.SouthWest;
+			break;
+		case SouthWest:
+			pointOne = VertexDirection.SouthWest;
+			pointTwo = VertexDirection.West;
+			break;
+		}
+		
+		List<VertexValue> nearbyVertices = new ArrayList<VertexValue>();
+		
+		VertexLocation locationOne = new VertexLocation(coordinates, pointOne);
+		VertexLocation locationTwo = new VertexLocation(coordinates, pointTwo);
+		
+		nearbyVertices.add(vertices.get(locationOne.getNormalizedLocation()));
+		nearbyVertices.add(vertices.get(locationTwo.getNormalizedLocation()));
+		
+		return nearbyVertices;
+	}
+	
+	public List<EdgeValue> getNearbyEdges(VertexLocation checkVertex) {
+		HexLocation coordinates = checkVertex.getHexLoc();
+		VertexDirection point = checkVertex.getDir();
+		
+		EdgeDirection faceOne = null;
+		EdgeDirection faceTwo = null;
+		
+		switch(point) {
+		case NorthWest:
+			faceOne = EdgeDirection.NorthWest;
+			faceTwo = EdgeDirection.North;
+			break;
+		case NorthEast:
+			faceOne = EdgeDirection.North;
+			faceTwo = EdgeDirection.NorthEast;
+			break;
+		case East:
+			faceOne = EdgeDirection.NorthEast;
+			faceTwo = EdgeDirection.SouthEast;
+			break;
+		case SouthEast:
+			faceOne = EdgeDirection.SouthEast;
+			faceTwo = EdgeDirection.South;
+			break;
+		case SouthWest:
+			faceOne = EdgeDirection.South;
+			faceTwo = EdgeDirection.SouthWest;
+			break;
+		case West:
+			faceOne = EdgeDirection.SouthWest;
+			faceTwo = EdgeDirection.NorthWest;
+			break;
+		}
+		
+		List<EdgeValue> nearbyEdges = new ArrayList<EdgeValue>();
+		
+		EdgeLocation locationOne = new EdgeLocation(coordinates, faceOne);
+		EdgeLocation locationTwo = new EdgeLocation(coordinates, faceTwo);
+		
+		nearbyEdges.add(edges.get(locationOne.getNormalizedLocation()));
+		nearbyEdges.add(edges.get(locationTwo.getNormalizedLocation()));
+		
+		return nearbyEdges;
 	}
 	
 	public HexLocation getRobber() {
