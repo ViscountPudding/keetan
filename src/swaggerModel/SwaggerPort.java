@@ -1,0 +1,33 @@
+package swaggerModel;
+
+public class SwaggerPort {
+	private String resource;
+	private SwaggerHexLocation location;
+	private String direction;
+	private int ratio;
+	
+	public String getResource() {
+		return resource;
+	}
+	public void setResource(String resource) {
+		this.resource = resource;
+	}
+	public SwaggerHexLocation getLocation() {
+		return location;
+	}
+	public void setLocation(SwaggerHexLocation location) {
+		this.location = location;
+	}
+	public String getDirection() {
+		return direction;
+	}
+	public void setDirection(String direction) {
+		this.direction = direction;
+	}
+	public int getRatio() {
+		return ratio;
+	}
+	public void setRatio(int ratio) {
+		this.ratio = ratio;
+	}
+}

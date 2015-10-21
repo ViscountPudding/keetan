@@ -1,23 +1,44 @@
 package shared.model;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import clientSide.exceptions.IllegalActionException;
 import shared.model.gamemap.EdgeValue;
 import shared.model.gamemap.Hex;
 import shared.model.gamemap.Port;
 import shared.model.gamemap.VertexValue;
+import shared.model.locations.EdgeLocation;
 import shared.model.locations.HexLocation;
+import shared.model.locations.VertexLocation;
 import shared.model.message.MessageLine;
 import shared.model.pieces.City;
 import shared.model.pieces.Road;
 import shared.model.pieces.Settlement;
-import shared.transferClasses.*;
+import shared.transferClasses.AcceptTrade;
+import shared.transferClasses.AddAIRequest;
+import shared.transferClasses.BuildCity;
+import shared.transferClasses.BuildRoad;
+import shared.transferClasses.BuildSettlement;
+import shared.transferClasses.BuyDevCard;
+import shared.transferClasses.ChangeLogLevelRequest;
+import shared.transferClasses.DiscardCards;
+import shared.transferClasses.FinishTurn;
+import shared.transferClasses.ListOfCommands;
+import shared.transferClasses.MaritimeTrade;
+import shared.transferClasses.Monopoly;
+import shared.transferClasses.Monument;
+import shared.transferClasses.OfferTrade;
+import shared.transferClasses.RoadBuilding;
+import shared.transferClasses.RobPlayer;
+import shared.transferClasses.RollNumber;
+import shared.transferClasses.SendChat;
+import shared.transferClasses.Soldier;
+import shared.transferClasses.UserCredentials;
+import shared.transferClasses.YearOfPlenty;
+import clientSide.exceptions.IllegalActionException;
 
 public class ModelFacade {
 
@@ -154,42 +175,43 @@ public class ModelFacade {
 	* @return true if the player has an available road and the location is a valid place to build, false if otherwise
 	* @post Player may build the road if possible
 	*/
-	public boolean canBuildRoad(int playerIndex, EdgeValue edgeValue) {
-		if(model.getTurnTracker().getCurrentTurn() != 0) {
-			Player player = model.getPlayers()[playerIndex];
-			//Check for unplaced roads
-			if(player.getUnplacedRoads() == 0) {
-				return false;
-			}
-			//Check for resources
-			if(player.getResources().getBrick() == 0 || player.getResources().getWood() == 0) {
-				return false;
-			}
-			//Check for existing road
-			if(edgeValue.getRoad() != null) {
-				return false;
-			}
-			for(EdgeValue edge : edgeValue.getAdjacentEdges()) {
-				//Avoid null pointer exceptions
-				if(edge.getRoad() == null) {}
-				else if(edge.getRoad().getPlayerIndex() == playerIndex) {
-					return true;
-				}
-			}
-			//No adjacent roads are owned by the player.
-			return false;
-		}
-		else {
-			//It's the setup phase
-			for(VertexValue vertex : edgeValue.getAdjacentVertices()) {
-				if(vertex.getSettlement() == null) {}
-				else if(vertex.getSettlement().getPlayerIndex() == playerIndex) {
-					return true;
-				}
-			}
-			//There's not an adjacent settlement
-			return false;
-		}
+	public boolean canBuildRoad(int playerIndex, EdgeLocation edgeLocation) {
+//		if(model.getTurnTracker().getCurrentTurn() != 0) {
+//			Player player = model.getPlayers()[playerIndex];
+//			//Check for unplaced roads
+//			if(player.getUnplacedRoads() == 0) {
+//				return false;
+//			}
+//			//Check for resources
+//			if(player.getResources().getBrick() == 0 || player.getResources().getWood() == 0) {
+//				return false;
+//			}
+//			//Check for existing road
+//			if(edgeValue.getRoad() != null) {
+//				return false;
+//			}
+//			for(EdgeValue edge : model.getMap().getAdjacentEdges(edgeValue.getLocation())) {
+//				//Avoid null pointer exceptions
+//				if(edge.getRoad() == null) {}
+//				else if(edge.getRoad().getPlayerIndex() == playerIndex) {
+//					return true;
+//				}
+//			}
+//			//No adjacent roads are owned by the player.
+//			return false;
+//		}
+//		else {
+//			//It's the setup phase
+//			for(VertexValue vertex : model.getMap().getNearbyVertices(edgeValue.getLocation())) {
+//				if(vertex.getSettlement() == null) {}
+//				else if(vertex.getSettlement().getPlayerIndex() == playerIndex) {
+//					return true;
+//				}
+//			}
+//			//There's not an adjacent settlement
+//			return false;
+//		}
+		return false;
 	}
 		
 	/**
@@ -198,7 +220,8 @@ public class ModelFacade {
 	* @return true if the player has an available settlement and the location is a valid place to build
 	* @post Player may build the settlement if possible
 	*/
-	public boolean canBuildSettlement(int playerIndex, VertexValue vertexValue) {
+	public boolean canBuildSettlement(int playerIndex, VertexLocation location) {
+		VertexValue vertexValue = model.getMap().getVertices().get(location.getNormalizedLocation());
 		Player player = model.getPlayers()[playerIndex];
 		//Check for unplaced settlements
 		if(player.getUnplacedSettlements() == 0) {
@@ -210,14 +233,14 @@ public class ModelFacade {
 			return false;
 		}
 		//Is the distance rule obeyed?
-		List<VertexValue> adjacents = model.getMap().getAdjacentVertices(vertexValue.getLocation());
 		for(VertexValue vertex : model.getMap().getAdjacentVertices(vertexValue.getLocation())) {
 			if(vertex.getSettlement() != null || vertex.getCity() != null) {
+				System.out.println(vertex);
 				return false;
 			}
 		}
 		//Is there an adjacent road?
-		for(EdgeValue edge : vertexValue.getAdjacentEdges()) {
+		for(EdgeValue edge : model.getMap().getNearbyEdges(vertexValue.getLocation())) {
 			if(edge.getRoad() == null) {}
 			else if(edge.getRoad().getPlayerIndex() == playerIndex) {
 				return true;
@@ -418,8 +441,8 @@ public class ModelFacade {
 	 * @param location The road location
 	 * @post The road is placed
 	 */
-	public void BuildRoad(Player player, EdgeValue location) {
-		if(canBuildRoad(player.getPlayerIndex(),location)) {
+	public void buildRoad(Player player, EdgeLocation location) {
+		if(canBuildRoad(player.getPlayerIndex(), location)) {
 			//Remove resources
 			player.getResources().setBrick(player.getResources().getBrick()-1);
 			player.getResources().setWood(player.getResources().getWood()-1);
@@ -427,7 +450,8 @@ public class ModelFacade {
 			//Modify relevant road counts
 			player.setUnplacedRoads(player.getUnplacedRoads()-1);
 			Road road = new Road(player.getPlayerIndex());
-			location.setRoad(road);
+			EdgeValue edgeValue = model.getMap().getEdges().get(location.getNormalizedLocation());
+			edgeValue.setRoad(road);
 			player.addRoad(road);
 		}
 	}
@@ -439,7 +463,7 @@ public class ModelFacade {
 	 * @post The settlement is placed
 	 */
 	public void BuildSettlement(Player player, VertexValue vertex) {
-		if(canBuildSettlement(player.getPlayerIndex(),vertex)) {
+		if(canBuildSettlement(player.getPlayerIndex(),vertex.getLocation())) {
 			//Remove resources
 			player.getResources().setBrick(player.getResources().getBrick()-1);
 			player.getResources().setWood(player.getResources().getWood()-1);
@@ -672,17 +696,17 @@ public class ModelFacade {
 	 * @param location2 Location of the second road to place
 	 * @post New roads are placed
 	 */
-	public void PlayRoadBuilding(Player player, EdgeValue location1, EdgeValue location2) {
-		if(player.getOldDevCards().getRoadBuilding() > 0) {
-			if(canBuildRoad(player.getPlayerIndex(),location1)) {
-				BuildRoad(player, location1);
-			}
-			if(canBuildRoad(player.getPlayerIndex(), location2)) {
-				BuildRoad(player, location2);
-			}
-			
-			player.getOldDevCards().setRoadBuilding(player.getOldDevCards().getRoadBuilding() - 1);
-		}
+	public void playRoadBuilding(Player player, EdgeValue location1, EdgeValue location2) {
+//		if(player.getOldDevCards().getRoadBuilding() > 0) {
+//			if(canBuildRoad(player.getPlayerIndex(),location1)) {
+//				BuildRoad(player, location1);
+//			}
+//			if(canBuildRoad(player.getPlayerIndex(), location2)) {
+//				BuildRoad(player, location2);
+//			}
+//			
+//			player.getOldDevCards().setRoadBuilding(player.getOldDevCards().getRoadBuilding() - 1);
+//		}
 	}
 	
 	/**
@@ -770,7 +794,7 @@ public class ModelFacade {
 		else if(transferObject instanceof BuildRoad) {
 			BuildRoad bRoad = (BuildRoad)transferObject;
 			EdgeValue eValue = model.getMap().getEdges().get(bRoad.getRoadLocation());
-			BuildRoad(model.getPlayers()[bRoad.getPlayerIndex()],eValue);
+			//buildRoad(model.getPlayers()[bRoad.getPlayerIndex()],eValue);
 		}
 		else if(transferObject instanceof BuildSettlement) {
 			BuildSettlement bSettlement = (BuildSettlement)transferObject;
@@ -857,7 +881,7 @@ public class ModelFacade {
 			RoadBuilding rBuild = (RoadBuilding)transferObject;
 			EdgeValue value1 = model.getMap().getEdges().get(rBuild.getSpotOne());
 			EdgeValue value2 = model.getMap().getEdges().get(rBuild.getSpotTwo());
-			PlayRoadBuilding(model.getPlayers()[rBuild.getPlayerIndex()], value1, value2);
+			playRoadBuilding(model.getPlayers()[rBuild.getPlayerIndex()], value1, value2);
 		}
 		else if(transferObject instanceof RobPlayer) {
 			RobPlayer rPlayer = (RobPlayer)transferObject;

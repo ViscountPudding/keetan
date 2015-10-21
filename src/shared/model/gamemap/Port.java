@@ -11,8 +11,7 @@ public class Port {
 	
 	//These are the only params we need I think
 	private PortType type;
-	private EdgeLocation adjacentEdge1;
-	private EdgeLocation adjacentEdge2;
+	private EdgeLocation edge;
 	
 	/**
 	 * @pre 
@@ -21,10 +20,9 @@ public class Port {
 	 * @param direction
 	 * @post The object's values are set to the given params.
 	 */
-	public Port(PortType type, EdgeLocation edge1, EdgeLocation edge2) {
+	public Port(PortType type, EdgeLocation edge) {
 		this.setType(type);
-		this.setAdjacentEdge1(edge1);
-		this.setAdjacentEdge2(edge2);
+		this.setEdge(edge);
 	}
 
 	public PortType getType() {
@@ -70,22 +68,11 @@ public class Port {
 		this.type = type;
 	}
 
-	public EdgeLocation getAdjacentEdge1() {
-		return adjacentEdge1;
+	public EdgeLocation getEdge() {
+		return edge;
 	}
 
-	public void setAdjacentEdge1(EdgeLocation adjacentEdge1) {
-		this.adjacentEdge1 = adjacentEdge1;
+	public void setEdge(EdgeLocation edge) {
+		this.edge = edge;
 	}
-
-	public EdgeLocation getAdjacentEdge2() {
-		return adjacentEdge2;
-	}
-
-	public void setAdjacentEdge2(EdgeLocation adjacentEdge2) {
-		this.adjacentEdge2 = adjacentEdge2;
-	}
-	
-	
-	
 }

@@ -51,6 +51,32 @@ public class ProxyServerUnitTests {
 	public void setup() {
 		server = new ClientServerFacade("localhost:8081");
 		rand = new Random();
+
+		UserCredentials creds = new UserCredentials("Pig", "canFly");
+		try {
+			server.register(creds);
+
+			server.createGame(new CreateGameRequest(false, false, false, "The Three Little Pigs"));
+			JoinGameRequest joinGameRequest = new JoinGameRequest(0, "blue");
+			server.joinGame(joinGameRequest);
+
+			server.addAI(new AddAIRequest("LARGEST_ARMY"));
+			server.addAI(new AddAIRequest("LARGEST_ARMY"));
+			server.addAI(new AddAIRequest("LARGEST_ARMY"));
+		}
+		catch (ServerException e) {}
+		
+		try {
+			server.login(creds);
+		}
+		catch (ServerException e) {
+			if (e.getReason().equals("An IOException occurred")) {
+				assertTrue(false);
+			}
+			else {
+				System.err.println("Something went wrong: " + e.getReason());
+			}
+		}
 	}
 	
 	@After
@@ -104,7 +130,7 @@ public class ProxyServerUnitTests {
 	@Test
 	public void createGameTest() {
 		try {
-			server.createGame(new CreateGameRequest(false, false, false, "Game name"));
+			server.createGame(new CreateGameRequest(false, false, false, "Game Name"));
 		}
 		catch (ServerException e) {
 			if (e.getReason().equals("An IOException occurred")) {

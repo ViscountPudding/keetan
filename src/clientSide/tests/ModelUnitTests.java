@@ -3,6 +3,7 @@ package clientSide.tests;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
@@ -114,12 +115,6 @@ public class ModelUnitTests {
 				assertEquals(facade.canProduceResource(hexLocation),false); // no municipality and robber
 			}
 		}
-		
-		
-		VertexValue existing = model.getMap().getVertices().get(new VertexLocation(new HexLocation(1,1),VertexDirection.East).getNormalizedLocation());
-		existing.setSettlement(new Settlement(0));
-		assertEquals(facade.canProduceResource(new HexLocation(0,0)),false);
-		assertEquals(facade.canProduceResource(new HexLocation(1,1)),true);
 	}
 	
 	@Test
@@ -273,27 +268,81 @@ public class ModelUnitTests {
 		ModelFacade facade = ModelFacade.createInstance(false, false, false, false, names);
 		facade.updateModel(model);
 		
-		VertexValue existing = model.getMap().getVertices().get(new VertexLocation(new HexLocation(-2,0),VertexDirection.East).getNormalizedLocation());
-		VertexValue failTest = model.getMap().getVertices().get(new VertexLocation(new HexLocation(-2,0),VertexDirection.NorthEast).getNormalizedLocation());
-		VertexValue goodTest = model.getMap().getVertices().get(new VertexLocation(new HexLocation(-2,0),VertexDirection.SouthEast).getNormalizedLocation());
-		existing.setSettlement(new Settlement(1));
-		EdgeValue existingR = model.getMap().getEdges().get(new EdgeLocation(new HexLocation(-2,0),EdgeDirection.North).getNormalizedLocation());
-		existingR.setRoad(new Road(0));
+		Set<HexLocation> hexLocations = model.getMap().getHexes().keySet();
+		ArrayList<VertexDirection> vertexDirections = new ArrayList<VertexDirection>();
+		vertexDirections.add(VertexDirection.East);
+		vertexDirections.add(VertexDirection.NorthEast);
+		vertexDirections.add(VertexDirection.NorthWest);
+		vertexDirections.add(VertexDirection.West);
+		vertexDirections.add(VertexDirection.SouthWest);
+		vertexDirections.add(VertexDirection.SouthEast);
 		
-		assertEquals(facade.canBuildSettlement(0, goodTest),false);
+		for (HexLocation hexLocation : hexLocations) { // for every hex in map			
+			for (int i = 0; i < vertexDirections.size(); i++) { // for every place you can put a settlement on hex
+				VertexDirection direction = vertexDirections.get(i);
+				
+				List<VertexDirection> adjDirections = new ArrayList<VertexDirection>();
+				
+				if (i == 5) {
+					adjDirections.add(vertexDirections.get(0));
+					adjDirections.add(vertexDirections.get(4));
+				}
+				else if (i == 0) {
+					adjDirections.add(vertexDirections.get(1));
+					adjDirections.add(vertexDirections.get(5));
+				}
+				else {
+					adjDirections.add(vertexDirections.get(i + 1));
+					adjDirections.add(vertexDirections.get(i - 1));
+				}
+
+				VertexValue vertex = model.getMap().getVertices().get(new VertexLocation(hexLocation, direction).getNormalizedLocation());
+				
+				
+				
+				model.getPlayers()[0].setResources(new ResourceList(5,5,5,5,5));
+				
+				
+				for (VertexDirection nonAdjDirection : vertexDirections) { // for every non adjacent direction - including the direction in question
+					if (nonAdjDirection != direction
+							&& nonAdjDirection != adjDirections.get(0)
+							&& nonAdjDirection != adjDirections.get(1)) {
+						
+					}
+				}
+				
+				model.getPlayers()[0].setResources(new ResourceList(0,0,0,0,0));
+			}
+		}
 		
+		VertexValue vertex = model.getMap().getVertices().get(new VertexLocation(new HexLocation(0,0),VertexDirection.East).getNormalizedLocation());
+		
+		model.getPlayers()[0].setUnplacedSettlements(1);
+		model.getPlayers()[1].setUnplacedSettlements(1);
+		model.getPlayers()[0].setResources(new ResourceList(0,0,0,0,0));
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), false); // not enough resources
+		vertex.setSettlement(new Settlement(0));
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), false); // not enough resources, already settlement
 		model.getPlayers()[0].setResources(new ResourceList(5,5,5,5,5));
-		assertEquals(facade.canBuildSettlement(0, failTest),false);
-		
-		model.getPlayers()[0].setUnplacedSettlements(5);
-		assertEquals(facade.canBuildSettlement(0, goodTest),true);
+		model.getPlayers()[1].setResources(new ResourceList(5,5,5,5,5));
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), false); // already settlement
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(1, vertex), false); // already settlement - other player
+		vertex.setSettlement(null);
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), true); // should be able to - EXCEPT WE DON'T have a road nearby so... but we could be in the set up phase
+		model.getPlayers()[0].setResources(new ResourceList(1,0,1,1,1));
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), true); // should be able to - barely enough
+		model.getPlayers()[0].setResources(new ResourceList(0,0,1,1,1));
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), false); // not enough brick
+		model.getPlayers()[0].setResources(new ResourceList(1,0,0,1,1));
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), false); // not enough sheep
+		model.getPlayers()[0].setResources(new ResourceList(1,0,1,0,1));
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), false); // not enough wheat
+		model.getPlayers()[0].setResources(new ResourceList(1,0,1,1,0));
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), false); // not enough wood
 
+		model.getPlayers()[0].setResources(new ResourceList(1,0,1,1,1));
 		model.getPlayers()[0].setUnplacedSettlements(0);
-		assertEquals(facade.canBuildSettlement(0, goodTest),false);
-
-		model.getPlayers()[0].setUnplacedSettlements(5);
-		existingR.setRoad(null);
-		assertEquals(facade.canBuildSettlement(0, goodTest),false);
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), false); // should be able to
 	}
 	
 	@Test
