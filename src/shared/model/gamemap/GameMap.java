@@ -193,29 +193,23 @@ public class GameMap {
 		
 		//add ports to ports array list, based on list of port types. The edge locations never change
 		
-		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(0,2), EdgeDirection.North), null));
+		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(0,2), EdgeDirection.North)));
 		
-		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(1,2), EdgeDirection.NorthEast),
-				new EdgeLocation(new HexLocation(2,2), EdgeDirection.North)));
+		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(1,2), EdgeDirection.NorthEast)));
 		
-		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(2,2), EdgeDirection.SouthEast),
-				new EdgeLocation(new HexLocation(2,1), EdgeDirection.NorthEast)));
+		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(2,1), EdgeDirection.NorthEast)));
 		
-		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(2,0), EdgeDirection.SouthEast), null));
+		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(2,0), EdgeDirection.SouthEast)));
 		
-		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(1,-1), EdgeDirection.South),
-				new EdgeLocation(new HexLocation(0,-2), EdgeDirection.SouthEast)));
+		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(1,-1), EdgeDirection.South)));
 		
-		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(-1,-2), EdgeDirection.South),
-				new EdgeLocation(new HexLocation(0,-2), EdgeDirection.SouthWest)));
+		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(-1,-2), EdgeDirection.South)));
 		
-		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(-2,-2), EdgeDirection.SouthWest), null));
+		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(-2,-2), EdgeDirection.SouthWest)));
 		
-		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(-2,0), EdgeDirection.SouthWest),
-				new EdgeLocation(new HexLocation(-2,-1), EdgeDirection.NorthWest)));
+		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(-2,-1), EdgeDirection.NorthWest)));
 		
-		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(-2,0), EdgeDirection.North),
-				new EdgeLocation(new HexLocation(0,-2), EdgeDirection.NorthWest)));
+		ports.add(new Port(types.remove(0), new EdgeLocation(new HexLocation(-2,1), EdgeDirection.NorthWest)));
 
 	}
 	
