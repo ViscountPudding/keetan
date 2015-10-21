@@ -29,7 +29,8 @@ public class MapControllerThieveryState implements MapControllerState {
 	@Override
 	public boolean canPlaceRobber(HexLocation hexLoc) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
+		//Put can place robber here
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class MapControllerThieveryState implements MapControllerState {
 	@Override
 	public void placeRobber(HexLocation hexLoc) {
 		// TODO Auto-generated method stub
-
+		//ClientServerFacade placeRobber function
 	}
 
 	@Override
