@@ -114,38 +114,41 @@ public class MapController extends Controller implements IMapController {
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-		
-		return true;
+		return state.canPlaceRoad(edgeLoc);
+		//return true;
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
-		
-		return true;
+		return state.canPlaceSettlement(vertLoc);
+		//return true;
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
-		
-		return true;
+		return state.canPlaceCity(vertLoc);
+		//return true;
 	}
 
 	public boolean canPlaceRobber(HexLocation hexLoc) {
-		
-		return true;
+		return state.canPlaceRobber(hexLoc);
+		//return true;
 	}
-
+	
 	public void placeRoad(EdgeLocation edgeLoc) {
 		
-		getView().placeRoad(edgeLoc, CatanColor.ORANGE);
+		//getView().placeRoad(edgeLoc, CatanColor.ORANGE);
+		state.placeRoad(edgeLoc);
 	}
 
 	public void placeSettlement(VertexLocation vertLoc) {
 		
-		getView().placeSettlement(vertLoc, CatanColor.ORANGE);
+		//getView().placeSettlement(vertLoc, CatanColor.ORANGE);
+		state.placeSettlement(vertLoc);
 	}
 
 	public void placeCity(VertexLocation vertLoc) {
 		
-		getView().placeCity(vertLoc, CatanColor.ORANGE);
+		//getView().placeCity(vertLoc, CatanColor.ORANGE);
+		state.placeCity(vertLoc);
 	}
 
 	public void placeRobber(HexLocation hexLoc) {
@@ -153,27 +156,31 @@ public class MapController extends Controller implements IMapController {
 		getView().placeRobber(hexLoc);
 		
 		getRobView().showModal();
+		
+		state.placeRobber(hexLoc);
 	}
 	
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {	
 		
 		getView().startDrop(pieceType, CatanColor.ORANGE, true);
+		
+		state.startMove(pieceType, false, false);
 	}
 	
 	public void cancelMove() {
-		
+		state.cancelMove();
 	}
 	
 	public void playSoldierCard() {	
-		
+		state.playSoldierCard();
 	}
 	
 	public void playRoadBuildingCard() {	
-		
+		state.playRoadBuildingCard();
 	}
 	
 	public void robPlayer(RobPlayerInfo victim) {	
-		
+		state.robPlayer(victim);
 	}
 	
 }
