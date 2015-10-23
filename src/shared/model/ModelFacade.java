@@ -381,419 +381,7 @@ public class ModelFacade {
 		return model.getTurnTracker().getCurrentPlayer() == playerIndex && model.getPlayers()[playerIndex].getVictoryPoints() > 9;
 	}
 	
-	/**
-	 * @pre Resources must be produceable
-	 * @param location
-	 * @post Players receive resources from the bank
-	 */
-	public void ProduceResources(HexLocation location) {
-		if(canProduceResource(location)) {
-			//Find total number of resources required
-			int totalResources = 0;
-			Hex hex = model.getMap().getHexes().get(location);
-			for(VertexValue vert : hex.getAdjacentVertices()) {
-				if(vert.getSettlement() != null){
-					totalResources++;
-				}
-				else if(vert.getCity() != null) {
-					totalResources += 2;
-				}
-			}
-			if(canReceiveResource(totalResources,hex.getResource())) {
-				removeFromBank(hex.getResource(), totalResources);
-				for(VertexValue vert : hex.getAdjacentVertices()) {
-					Settlement settle = vert.getSettlement();
-					City city = vert.getCity();
-					if(settle != null) {
-						Player player = model.getPlayers()[settle.getPlayerIndex()];
-						player.addResource(hex.getResource(), 1);
-					}
-					else if(city != null) {
-						Player player = model.getPlayers()[city.getPlayerIndex()];
-						player.addResource(hex.getResource(), 2);
-					}
-				}
-			}
-		}
-	}
 	
-	/**
-	 * @pre Players must be able to trade
-	 * @param offer
-	 * @post The trade takes place
-	 */
-	public void DomesticTrade(TradeOffer offer) {
-		Player sender = model.getPlayers()[offer.getSender()];
-		Player receiver = model.getPlayers()[offer.getReceiver()];
-		if(canDomesticTrade(offer)) {
-			//Find difference in the offers
-			int brick = offer.getSenderReceives().getBrick() - offer.getReceiverReceives().getBrick();
-			int ore = offer.getSenderReceives().getOre() - offer.getReceiverReceives().getOre();
-			int sheep = offer.getSenderReceives().getSheep() - offer.getReceiverReceives().getSheep();
-			int wheat = offer.getSenderReceives().getWheat() - offer.getReceiverReceives().getWheat();
-			int wood = offer.getSenderReceives().getWood() - offer.getReceiverReceives().getWood();
-			
-			sender.getResources().setBrick(sender.getResources().getBrick() + brick);
-			sender.getResources().setOre(sender.getResources().getOre() + ore);
-			sender.getResources().setSheep(sender.getResources().getSheep() + sheep);
-			sender.getResources().setWheat(sender.getResources().getWheat() + wheat);
-			sender.getResources().setWood(sender.getResources().getWood() + wood);
-			
-			receiver.getResources().setBrick(receiver.getResources().getBrick() - brick);
-			receiver.getResources().setOre(receiver.getResources().getOre() - ore);
-			receiver.getResources().setSheep(receiver.getResources().getSheep() - sheep);
-			receiver.getResources().setWheat(receiver.getResources().getWheat() - wheat);
-			receiver.getResources().setWood(receiver.getResources().getWood() - wood);
-		}
-	}
-	
-	/**
-	 * @pre Player must have enough of one resource (determined by the ports player owns) to trade with the bank
-	 * @param player The player who's trading
-	 * @param toSend What the player wants to send to the bank
-	 * @param toReceive What the player wants to receive
-	 * @post The trade is completed
-	 */
-	public void MaritimeTrade(Player player, Resource toSend, Resource toReceive) {
-		if(canMaritimeTrade(player.getPlayerIndex(),toSend,toReceive)) {
-			//Set tradeRatio. If the player has no applicable ports, this never gets overwritten.
-			int tradeRatio = 4;
-			boolean foundPort = false;
-			for(Port port : player.getPorts()) {
-				if(port.getResource() == null && foundPort == false) {
-					tradeRatio = 3;
-				}
-				else if(port.getResource() == toSend && foundPort == false) {
-					tradeRatio = 2;
-					foundPort = true;
-				}
-			}
-			
-			player.removeResource(toSend, tradeRatio);
-			player.addResource(toReceive, 1);
-			removeFromBank(toReceive,1);
-			addToBank(toSend, tradeRatio);
-		}
-	}
-	
-	/**
-	 * @pre All conditions to build a road must be met
-	 * @param player The player building a road
-	 * @param location The road location
-	 * @post The road is placed
-	 */
-	public void buildRoad(Player player, EdgeLocation location) {
-		if(canBuildRoad(player.getPlayerIndex(), location)) {
-			//Remove resources
-			player.getResources().setBrick(player.getResources().getBrick()-1);
-			player.getResources().setWood(player.getResources().getWood()-1);
-			
-			//Modify relevant road counts
-			player.setUnplacedRoads(player.getUnplacedRoads()-1);
-			Road road = new Road(player.getPlayerIndex());
-			EdgeValue edgeValue = model.getMap().getEdges().get(location.getNormalizedLocation());
-			edgeValue.setRoad(road);
-			player.addRoad(road);
-		}
-	}
-
-	/**
-	 * @pre All conditions to build a settlement must be met.
-	 * @param player The player building a settlement
-	 * @param vertex The vertex where the settlement will be built
-	 * @post The settlement is placed
-	 */
-	public void BuildSettlement(Player player, VertexValue vertex) {
-		if(canBuildSettlement(player.getPlayerIndex(),vertex.getLocation())) {
-			//Remove resources
-			player.getResources().setBrick(player.getResources().getBrick()-1);
-			player.getResources().setWood(player.getResources().getWood()-1);
-			player.getResources().setWheat(player.getResources().getWheat()-1);
-			player.getResources().setSheep(player.getResources().getSheep()-1);
-			
-			//Modify relevant settlement counts
-			player.setUnplacedSettlements(player.getUnplacedSettlements()-1);
-			Settlement settlement = new Settlement(player.getPlayerIndex());
-			vertex.setSettlement(settlement);
-			player.addSettlement(settlement);
-		}
-	}
-	
-	/**
-	 * @pre All conditions to build a city must be met
-	 * @param player The player building a city
-	 * @param vertex The vertex where the city will be placed
-	 * @post The city is placed
-	 */
-	public void BuildCity(Player player, VertexValue vertex) {
-		if(canBuildCity(player.getPlayerIndex(),vertex.getLocation())) {
-			//Remove resources
-			player.getResources().setWheat(player.getResources().getWheat()-2);
-			player.getResources().setOre(player.getResources().getOre()-3);
-			
-			//Modify relevant settlement and city counts
-			player.setUnplacedSettlements(player.getUnplacedSettlements()+1);
-			player.setUnplacedCities(player.getUnplacedCities()-1);
-			City city = new City(player.getPlayerIndex());
-			player.removeSettlement(vertex.getSettlement());
-			vertex.setSettlement(null);
-			vertex.setCity(city);
-			player.addCity(city);
-		}
-	}
-	
-	/**
-	 * @pre The player must have enough resources to buy a card, and the bank must still have cards
-	 * @param player
-	 * @post The player buys a card from the bank
-	 */
-	public void BuyDevelopmentCard(Player player) {
-		if(canBuyDevelopmentCard(player.getPlayerIndex())) {
-			//Remove resources
-			player.getResources().setOre(player.getResources().getOre()-1);
-			player.getResources().setWheat(player.getResources().getWheat()-1);
-			player.getResources().setSheep(player.getResources().getSheep()-1);
-			
-			//Update card lists
-			boolean finished = false;
-			Random generator = new Random();
-			DevCardList undrawnCards = model.getUndrawnDevCards();
-			while(!finished) {
-				int generatedNumber = generator.nextInt(5);
-				switch(generatedNumber) {
-				case 0:
-					if(undrawnCards.getMonopoly() > 0) {
-						finished = true;
-						undrawnCards.setMonopoly(undrawnCards.getMonopoly() - 1);
-						player.getNewDevCards().setMonopoly(player.getNewDevCards().getMonopoly() + 1);
-					}
-					break;
-				case 1:
-					if(undrawnCards.getMonument() > 0) {
-						finished = true;
-						undrawnCards.setMonument(undrawnCards.getMonument() - 1);
-						player.getNewDevCards().setMonument(player.getNewDevCards().getMonument() + 1);
-					}
-					break;
-				case 2:
-					if(undrawnCards.getRoadBuilding() > 0) {
-						finished = true;
-						undrawnCards.setRoadBuilding(undrawnCards.getRoadBuilding() - 1);
-						player.getNewDevCards().setRoadBuilding(player.getNewDevCards().getRoadBuilding() + 1);
-					}
-					break;
-				case 3:
-					if(undrawnCards.getSoldier() > 0) {
-						finished = true;
-						undrawnCards.setSoldier(undrawnCards.getSoldier() - 1);
-						player.getNewDevCards().setSoldier(player.getNewDevCards().getSoldier() + 1);
-					}
-					break;
-				case 4:
-					if(undrawnCards.getYearOfPlenty() > 0) {
-						finished = true;
-						undrawnCards.setYearOfPlenty(undrawnCards.getYearOfPlenty() - 1);
-						player.getNewDevCards().setYearOfPlenty(player.getNewDevCards().getYearOfPlenty() + 1);
-					}
-					break;
-				}
-			}
-		}
-	}
-	
-	/**
-	 * @pre The stealer player must have moved the robber via dice roll or knight card 
-	 * @param stealer The player doing the stealing
-	 * @param stealee The victim
-	 * @post The stealer gains a card from the stealee
-	 */
-	public void LoseCardsFromPlayerRobber(Player stealer, Player stealee) {
-		if(canLoseCardsFromDieRoll(stealee.getPlayerIndex())) {
-			Random generator = new Random();
-			boolean finished = false;
-			while(!finished) {
-				int generatedNumber = generator.nextInt(5);
-				switch(generatedNumber) {
-				case 0:
-					if(stealee.getResources().getBrick() > 0) {
-						finished = true;
-						stealee.getResources().setBrick(stealee.getResources().getBrick() - 1);
-						stealer.getResources().setBrick(stealer.getResources().getBrick() + 1);
-					}
-					break;
-				case 1:
-					if(stealee.getResources().getOre() > 0) {
-						finished = true;
-						stealee.getResources().setOre(stealee.getResources().getOre() - 1);
-						stealer.getResources().setOre(stealer.getResources().getOre() + 1);
-					}
-					break;
-				case 2:
-					if(stealee.getResources().getSheep() > 0) {
-						finished = true;
-						stealee.getResources().setSheep(stealee.getResources().getSheep() - 1);
-						stealer.getResources().setSheep(stealer.getResources().getSheep() + 1);
-					}
-					break;
-				case 3:
-					if(stealee.getResources().getWheat() > 0) {
-						finished = true;
-						stealee.getResources().setWheat(stealee.getResources().getWheat() - 1);
-						stealer.getResources().setWheat(stealer.getResources().getWheat() + 1);
-					}
-					break;
-				case 4:
-					if(stealee.getResources().getWood() > 0) {
-						finished = true;
-						stealee.getResources().setWood(stealee.getResources().getWood() - 1);
-						stealer.getResources().setWood(stealer.getResources().getWood() + 1);
-					}
-					break;
-				}
-			}
-		}
-	}
-	
-	/**
-	 * @pre The dice have rolled a 7, and the player has 8 or more cards
-	 * @param player The player discarding cards
-	 * @param toDiscard The chosen cards to discard
-	 * @throws IllegalActionException toDiscard has more cards of at least one type than does the player
-	 * @post The player loses the discarded cards
-	 */
-	public void LoseCardsFromDieRoll(Player player, ResourceList toDiscard) throws IllegalActionException {
-		if(canLoseCardsFromRobber(player.getPlayerIndex())) {
-			ResourceList currResource = player.getResources();
-			if(currResource.getBrick() >= toDiscard.getBrick()
-					&& currResource.getOre() >= toDiscard.getOre()
-					&& currResource.getSheep() >= toDiscard.getSheep()
-					&& currResource.getWheat() >= toDiscard.getWheat()
-					&& currResource.getWood() >= toDiscard.getWood()) {
-				player.removeResource(Resource.BRICK, toDiscard.getBrick());
-				player.removeResource(Resource.ORE, toDiscard.getOre());
-				player.removeResource(Resource.SHEEP, toDiscard.getSheep());
-				player.removeResource(Resource.WHEAT, toDiscard.getWheat());
-				player.removeResource(Resource.WOOD, toDiscard.getWood());
-				
-				addToBank(Resource.BRICK,toDiscard.getBrick());
-				addToBank(Resource.ORE,toDiscard.getOre());
-				addToBank(Resource.SHEEP,toDiscard.getSheep());
-				addToBank(Resource.WHEAT,toDiscard.getWheat());
-				addToBank(Resource.WOOD,toDiscard.getWood());
-			}
-			else {
-				throw new IllegalActionException();
-			}
-		}
-	}
-	
-	/**
-	 * @pre player must have a monopoly card
-	 * @param player The player playing the card
-	 * @param resource The chosen resource to monopolize
-	 * @post player gains all other player's cards of type resource
-	 */
-	public void PlayMonopoly(Player player, Resource resource) {
-		if(player.getOldDevCards().getMonopoly() > 0) {
-			for(Player otherPlayer : model.getPlayers()) {
-				if(player == otherPlayer) {
-					continue; //Skip the rest of the loop
-				}
-				
-				int ownedCards = 0;
-				switch(resource) {
-				case BRICK:
-					ownedCards = otherPlayer.getResources().getBrick();
-					break;
-				case DESERT:
-					break;
-				case ORE:
-					ownedCards = otherPlayer.getResources().getOre();
-					break;
-				case SHEEP:
-					ownedCards = otherPlayer.getResources().getSheep();
-					break;
-				case WHEAT:
-					ownedCards = otherPlayer.getResources().getWheat();
-					break;
-				case WOOD:
-					ownedCards = otherPlayer.getResources().getWood();
-					break;
-				default:
-					break;
-				}
-				
-				otherPlayer.removeResource(resource, ownedCards);
-				player.addResource(resource, ownedCards);
-			}
-			player.getOldDevCards().setMonopoly(player.getOldDevCards().getMonopoly() - 1);
-		}
-	}
-	
-	/**
-	 * @pre player must have a roadbuilding card
-	 * @param player The player playing the card
-	 * @param location1 Location of the first road to place
-	 * @param location2 Location of the second road to place
-	 * @post New roads are placed
-	 */
-	public void playRoadBuilding(Player player, EdgeValue location1, EdgeValue location2) {
-//		if(player.getOldDevCards().getRoadBuilding() > 0) {
-//			if(canBuildRoad(player.getPlayerIndex(),location1)) {
-//				BuildRoad(player, location1);
-//			}
-//			if(canBuildRoad(player.getPlayerIndex(), location2)) {
-//				BuildRoad(player, location2);
-//			}
-//			
-//			player.getOldDevCards().setRoadBuilding(player.getOldDevCards().getRoadBuilding() - 1);
-//		}
-	}
-	
-	/**
-	 * @pre player must have a soldier card, and toStealFrom must have a building bordering newRobberLocation
-	 * @param player The player playing the card
-	 * @param newRobberLocation The new spot for the robber piece
-	 * @param toStealFrom The player to steal a card from
-	 * @post The robber is moved, and player receives a random card from toStealFrom 
-	 */
-	public void PlaySoldier(Player player, HexLocation newRobberLocation, Player toStealFrom) {
-		if(player.getOldDevCards().getSoldier() > 0) {
-			model.getMap().setRobber(newRobberLocation);
-			if(canLoseCardsFromRobber(toStealFrom.getPlayerIndex())) {
-				LoseCardsFromPlayerRobber(player,toStealFrom);
-			}
-			player.getOldDevCards().setSoldier(player.getOldDevCards().getSoldier() - 1);
-		}
-	}
-	
-	/**
-	 * @pre player must have a YearOfPlenty card, and choose resources that the bank has available
-	 * @param player The player playing the card
-	 * @param resource1 The first resource to take from the bank
-	 * @param resource2 The second resource to take from the bank
-	 * @throws IllegalActionException 
-	 * @post The player receives the two resources from the bank
-	 */
-	public void PlayYearOfPlenty(Player player, Resource resource1, Resource resource2) throws IllegalActionException {
-		if(player.getOldDevCards().getYearOfPlenty() > 0) {
-			if(resource1 == resource2 && model.getBank().hasResource(resource1, 2)) {
-				removeFromBank(resource1,2);
-				player.addResource(resource1, 2);
-			}
-			else if(model.getBank().hasResource(resource1, 1) && model.getBank().hasResource(resource2, 1)) {
-				removeFromBank(resource1,1);
-				removeFromBank(resource2,1);
-				player.addResource(resource1, 1);
-				player.addResource(resource2, 1);
-			}
-			else {
-				throw new IllegalActionException();
-			}
-			
-			player.getOldDevCards().setYearOfPlenty(player.getOldDevCards().getYearOfPlenty() - 1);
-		}
-	}
 	
 	/**
 	 * @pre whenever
@@ -809,203 +397,6 @@ public class ModelFacade {
 	
 	public int getModelVersion() {
 		return this.model.getVersion();
-	}
-	
-	/**
-	 * @pre whenever
-	 * @param transferObject
-	 * @throws IllegalActionException
-	 * @post Performs actions based on which transferObject was given.
-	 */
-	public void updateModel(Object transferObject) throws IllegalActionException {
-		if(transferObject == null) {}
-		else if(transferObject instanceof AcceptTrade) {
-			AcceptTrade aTrade = (AcceptTrade)transferObject;
-			if(aTrade.getWillAccept()) {
-				DomesticTrade(model.getCurrentTradeOffer());
-			}
-			model.setCurrentTradeOffer(null);
-		}
-		else if(transferObject instanceof AddAIRequest) {
-			
-		}
-		else if(transferObject instanceof BuildCity) {
-			BuildCity bCity = (BuildCity)transferObject;
-			BuildCity(model.getPlayers()[bCity.getPlayerIndex()], bCity.getSpotOne());
-		}
-		else if(transferObject instanceof BuildRoad) {
-			BuildRoad bRoad = (BuildRoad)transferObject;
-			EdgeValue eValue = model.getMap().getEdges().get(bRoad.getRoadLocation());
-			//buildRoad(model.getPlayers()[bRoad.getPlayerIndex()],eValue);
-		}
-		else if(transferObject instanceof BuildSettlement) {
-			BuildSettlement bSettlement = (BuildSettlement)transferObject;
-			BuildSettlement(model.getPlayers()[bSettlement.getPlayerIndex()],bSettlement.getSpotOne());
-		}
-		else if(transferObject instanceof BuyDevCard) {
-			BuyDevCard bdCard = (BuyDevCard)transferObject;
-			BuyDevelopmentCard(model.getPlayers()[bdCard.getPlayerIndex()]);
-		}
-		else if(transferObject instanceof ChangeLogLevelRequest) {
-			
-		}
-		else if(transferObject instanceof DiscardCards) {
-			DiscardCards dCards = (DiscardCards)transferObject;
-			LoseCardsFromDieRoll(model.getPlayers()[dCards.getPlayerIndex()], dCards.getDiscardedCards());
-		}
-		else if(transferObject instanceof FinishTurn) {
-			model.getTurnTracker().endPlayerTurn();
-		}
-		else if(transferObject instanceof ListOfCommands) {
-			ListOfCommands list = (ListOfCommands)transferObject;
-//Not implemented
-		}
-		else if(transferObject instanceof MaritimeTrade) {
-			MaritimeTrade mTrade = (MaritimeTrade)transferObject;
-			MaritimeTrade(model.getPlayers()[mTrade.getPlayerIndex()],mTrade.getOutputResource(),mTrade.getInputResource());
-		}
-		else if(transferObject instanceof Monopoly) {
-			Monopoly monopoly = (Monopoly)transferObject;
-			PlayMonopoly(model.getPlayers()[monopoly.getPlayerIndex()],monopoly.getResource());
-		}
-		else if(transferObject instanceof Monument) {
-			Monument monument = (Monument)transferObject;
-			Player player = model.getPlayers()[monument.getPlayerIndex()];
-			player.setVictoryPoints(player.getVictoryPoints() + 1);
-		}
-		else if(transferObject instanceof OfferTrade) {
-			OfferTrade oTrade = (OfferTrade)transferObject;
-			ResourceList senderReceives = new ResourceList(0,0,0,0,0);
-			ResourceList receiverReceives = new ResourceList(0,0,0,0,0);
-			int brick = oTrade.getOffer().getBrick();
-			if(brick > 0) {
-				senderReceives.setBrick(brick);
-			}
-			else {
-				receiverReceives.setBrick(brick);
-			}
-			
-			int ore = oTrade.getOffer().getOre();
-			if(ore > 0) {
-				senderReceives.setOre(ore);
-			}
-			else {
-				receiverReceives.setOre(ore);
-			}
-			
-			int sheep = oTrade.getOffer().getSheep();
-			if(sheep > 0) {
-				senderReceives.setSheep(sheep);
-			}
-			else {
-				receiverReceives.setSheep(sheep);
-			}
-			
-			int wheat = oTrade.getOffer().getWheat();
-			if(wheat > 0) {
-				senderReceives.setWheat(wheat);
-			}
-			else {
-				receiverReceives.setWheat(wheat);
-			}
-			
-			int wood = oTrade.getOffer().getWood();
-			if(wood > 0) {
-				senderReceives.setWood(wood);
-			}
-			else {
-				receiverReceives.setWood(wood);
-			}
-			
-			model.setCurrentTradeOffer(new TradeOffer(oTrade.getPlayerIndex(), oTrade.getReciever(), senderReceives, receiverReceives));
-		}
-		else if(transferObject instanceof RoadBuilding) {
-			RoadBuilding rBuild = (RoadBuilding)transferObject;
-			EdgeValue value1 = model.getMap().getEdges().get(rBuild.getSpotOne());
-			EdgeValue value2 = model.getMap().getEdges().get(rBuild.getSpotTwo());
-			playRoadBuilding(model.getPlayers()[rBuild.getPlayerIndex()], value1, value2);
-		}
-		else if(transferObject instanceof RobPlayer) {
-			RobPlayer rPlayer = (RobPlayer)transferObject;
-			model.getMap().setRobber(rPlayer.getLocation());
-			LoseCardsFromPlayerRobber(model.getPlayers()[rPlayer.getPlayerIndex()], model.getPlayers()[rPlayer.getVictimIndex()]);
-		}
-		else if(transferObject instanceof RollNumber) {
-			RollNumber rNumber = (RollNumber)transferObject;
-			if(rNumber.getNumber() != 7) {
-				for(Map.Entry<HexLocation, Hex> entry : model.getMap().getHexes().entrySet()) {
-					if(entry.getValue().getDiceNumber() == rNumber.getNumber()) {
-						ProduceResources(entry.getKey());
-					}
-				}
-			}
-		}
-		else if(transferObject instanceof SendChat) {
-			SendChat sChat = (SendChat)transferObject;
-			model.getChat().addLine(new MessageLine(sChat.getContent(), model.getPlayers()[sChat.getPlayerIndex()].getName()));
-		}
-		else if(transferObject instanceof Soldier) {
-			Soldier soldier = (Soldier)transferObject;
-			PlaySoldier(model.getPlayers()[soldier.getPlayerIndex()], soldier.getLocation(), model.getPlayers()[soldier.getVictimIndex()]);
-		}
-		else if(transferObject instanceof UserCredentials) {
-			UserCredentials uCred = (UserCredentials)transferObject;
-//Not implemented
-		}
-		else if(transferObject instanceof YearOfPlenty) {
-			YearOfPlenty yOPlenty = (YearOfPlenty)transferObject;
-			PlayYearOfPlenty(model.getPlayers()[yOPlenty.getPlayerIndex()], yOPlenty.getResourceOne(), yOPlenty.getResourceTwo());
-		}
-	}
-	
-	private void addToBank(Resource resource, int amount) {
-		ResourceList bank = model.getBank();
-		switch(resource) {
-		case BRICK:
-			bank.setBrick(bank.getBrick()+amount);
-			break;
-		case DESERT:
-			break;
-		case ORE:
-			bank.setOre(bank.getOre()+amount);
-			break;
-		case SHEEP:
-			bank.setSheep(bank.getSheep()+amount);
-			break;
-		case WHEAT:
-			bank.setWheat(bank.getWheat()+amount);
-			break;
-		case WOOD:
-			bank.setWood(bank.getWood()+amount);
-			break;
-		default:
-			break;
-		}
-	}
-	
-	private void removeFromBank(Resource resource, int amount) {
-		ResourceList bank = model.getBank();
-		switch(resource) {
-		case BRICK:
-			bank.setBrick(bank.getBrick()-amount);
-			break;
-		case DESERT:
-			break;
-		case ORE:
-			bank.setOre(bank.getOre()-amount);
-			break;
-		case SHEEP:
-			bank.setSheep(bank.getSheep()-amount);
-			break;
-		case WHEAT:
-			bank.setWheat(bank.getWheat()-amount);
-			break;
-		case WOOD:
-			bank.setWood(bank.getWood()-amount);
-			break;
-		default:
-			break;
-		}
 	}
 	
 	/**
@@ -1033,4 +424,632 @@ public class ModelFacade {
 			observer.notify();
 		}
 	}
+	
+	// methods for server to manipulate method
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+//	private void addToBank(Resource resource, int amount) {
+//		ResourceList bank = model.getBank();
+//		switch(resource) {
+//		case BRICK:
+//			bank.setBrick(bank.getBrick()+amount);
+//			break;
+//		case DESERT:
+//			break;
+//		case ORE:
+//			bank.setOre(bank.getOre()+amount);
+//			break;
+//		case SHEEP:
+//			bank.setSheep(bank.getSheep()+amount);
+//			break;
+//		case WHEAT:
+//			bank.setWheat(bank.getWheat()+amount);
+//			break;
+//		case WOOD:
+//			bank.setWood(bank.getWood()+amount);
+//			break;
+//		default:
+//			break;
+//		}
+//	}
+//	
+//	private void removeFromBank(Resource resource, int amount) {
+//		ResourceList bank = model.getBank();
+//		switch(resource) {
+//		case BRICK:
+//			bank.setBrick(bank.getBrick()-amount);
+//			break;
+//		case DESERT:
+//			break;
+//		case ORE:
+//			bank.setOre(bank.getOre()-amount);
+//			break;
+//		case SHEEP:
+//			bank.setSheep(bank.getSheep()-amount);
+//			break;
+//		case WHEAT:
+//			bank.setWheat(bank.getWheat()-amount);
+//			break;
+//		case WOOD:
+//			bank.setWood(bank.getWood()-amount);
+//			break;
+//		default:
+//			break;
+//		}
+//	}
+	
+	
+//	/**
+//	 * @pre Resources must be produceable
+//	 * @param location
+//	 * @post Players receive resources from the bank
+//	 */
+//	public void ProduceResources(HexLocation location) {
+//		if(canProduceResource(location)) {
+//			//Find total number of resources required
+//			int totalResources = 0;
+//			Hex hex = model.getMap().getHexes().get(location);
+//			for(VertexValue vert : hex.getAdjacentVertices()) {
+//				if(vert.getSettlement() != null){
+//					totalResources++;
+//				}
+//				else if(vert.getCity() != null) {
+//					totalResources += 2;
+//				}
+//			}
+//			if(canReceiveResource(totalResources,hex.getResource())) {
+//				removeFromBank(hex.getResource(), totalResources);
+//				for(VertexValue vert : hex.getAdjacentVertices()) {
+//					Settlement settle = vert.getSettlement();
+//					City city = vert.getCity();
+//					if(settle != null) {
+//						Player player = model.getPlayers()[settle.getPlayerIndex()];
+//						player.addResource(hex.getResource(), 1);
+//					}
+//					else if(city != null) {
+//						Player player = model.getPlayers()[city.getPlayerIndex()];
+//						player.addResource(hex.getResource(), 2);
+//					}
+//				}
+//			}
+//		}
+//	}
+//	
+//	/**
+//	 * @pre Players must be able to trade
+//	 * @param offer
+//	 * @post The trade takes place
+//	 */
+//	public void DomesticTrade(TradeOffer offer) {
+//		Player sender = model.getPlayers()[offer.getSender()];
+//		Player receiver = model.getPlayers()[offer.getReceiver()];
+//		if(canDomesticTrade(offer)) {
+//			//Find difference in the offers
+//			int brick = offer.getSenderReceives().getBrick() - offer.getReceiverReceives().getBrick();
+//			int ore = offer.getSenderReceives().getOre() - offer.getReceiverReceives().getOre();
+//			int sheep = offer.getSenderReceives().getSheep() - offer.getReceiverReceives().getSheep();
+//			int wheat = offer.getSenderReceives().getWheat() - offer.getReceiverReceives().getWheat();
+//			int wood = offer.getSenderReceives().getWood() - offer.getReceiverReceives().getWood();
+//			
+//			sender.getResources().setBrick(sender.getResources().getBrick() + brick);
+//			sender.getResources().setOre(sender.getResources().getOre() + ore);
+//			sender.getResources().setSheep(sender.getResources().getSheep() + sheep);
+//			sender.getResources().setWheat(sender.getResources().getWheat() + wheat);
+//			sender.getResources().setWood(sender.getResources().getWood() + wood);
+//			
+//			receiver.getResources().setBrick(receiver.getResources().getBrick() - brick);
+//			receiver.getResources().setOre(receiver.getResources().getOre() - ore);
+//			receiver.getResources().setSheep(receiver.getResources().getSheep() - sheep);
+//			receiver.getResources().setWheat(receiver.getResources().getWheat() - wheat);
+//			receiver.getResources().setWood(receiver.getResources().getWood() - wood);
+//		}
+//	}
+//	
+//	/**
+//	 * @pre Player must have enough of one resource (determined by the ports player owns) to trade with the bank
+//	 * @param player The player who's trading
+//	 * @param toSend What the player wants to send to the bank
+//	 * @param toReceive What the player wants to receive
+//	 * @post The trade is completed
+//	 */
+//	public void MaritimeTrade(Player player, Resource toSend, Resource toReceive) {
+//		if(canMaritimeTrade(player.getPlayerIndex(),toSend,toReceive)) {
+//			//Set tradeRatio. If the player has no applicable ports, this never gets overwritten.
+//			int tradeRatio = 4;
+//			boolean foundPort = false;
+//			for(Port port : player.getPorts()) {
+//				if(port.getResource() == null && foundPort == false) {
+//					tradeRatio = 3;
+//				}
+//				else if(port.getResource() == toSend && foundPort == false) {
+//					tradeRatio = 2;
+//					foundPort = true;
+//				}
+//			}
+//			
+//			player.removeResource(toSend, tradeRatio);
+//			player.addResource(toReceive, 1);
+//			removeFromBank(toReceive,1);
+//			addToBank(toSend, tradeRatio);
+//		}
+//	}
+//	
+//	/**
+//	 * @pre All conditions to build a road must be met
+//	 * @param player The player building a road
+//	 * @param location The road location
+//	 * @post The road is placed
+//	 */
+//	public void buildRoad(Player player, EdgeLocation location) {
+//		if(canBuildRoad(player.getPlayerIndex(), location)) {
+//			//Remove resources
+//			player.getResources().setBrick(player.getResources().getBrick()-1);
+//			player.getResources().setWood(player.getResources().getWood()-1);
+//			
+//			//Modify relevant road counts
+//			player.setUnplacedRoads(player.getUnplacedRoads()-1);
+//			Road road = new Road(player.getPlayerIndex());
+//			EdgeValue edgeValue = model.getMap().getEdges().get(location.getNormalizedLocation());
+//			edgeValue.setRoad(road);
+//			player.addRoad(road);
+//		}
+//	}
+//
+//	/**
+//	 * @pre All conditions to build a settlement must be met.
+//	 * @param player The player building a settlement
+//	 * @param vertex The vertex where the settlement will be built
+//	 * @post The settlement is placed
+//	 */
+//	public void BuildSettlement(Player player, VertexValue vertex) {
+//		if(canBuildSettlement(player.getPlayerIndex(),vertex.getLocation())) {
+//			//Remove resources
+//			player.getResources().setBrick(player.getResources().getBrick()-1);
+//			player.getResources().setWood(player.getResources().getWood()-1);
+//			player.getResources().setWheat(player.getResources().getWheat()-1);
+//			player.getResources().setSheep(player.getResources().getSheep()-1);
+//			
+//			//Modify relevant settlement counts
+//			player.setUnplacedSettlements(player.getUnplacedSettlements()-1);
+//			Settlement settlement = new Settlement(player.getPlayerIndex());
+//			vertex.setSettlement(settlement);
+//			player.addSettlement(settlement);
+//		}
+//	}
+//	
+//	/**
+//	 * @pre All conditions to build a city must be met
+//	 * @param player The player building a city
+//	 * @param vertex The vertex where the city will be placed
+//	 * @post The city is placed
+//	 */
+//	public void BuildCity(Player player, VertexValue vertex) {
+//		if(canBuildCity(player.getPlayerIndex(),vertex.getLocation())) {
+//			//Remove resources
+//			player.getResources().setWheat(player.getResources().getWheat()-2);
+//			player.getResources().setOre(player.getResources().getOre()-3);
+//			
+//			//Modify relevant settlement and city counts
+//			player.setUnplacedSettlements(player.getUnplacedSettlements()+1);
+//			player.setUnplacedCities(player.getUnplacedCities()-1);
+//			City city = new City(player.getPlayerIndex());
+//			player.removeSettlement(vertex.getSettlement());
+//			vertex.setSettlement(null);
+//			vertex.setCity(city);
+//			player.addCity(city);
+//		}
+//	}
+//	
+//	/**
+//	 * @pre The player must have enough resources to buy a card, and the bank must still have cards
+//	 * @param player
+//	 * @post The player buys a card from the bank
+//	 */
+//	public void BuyDevelopmentCard(Player player) {
+//		if(canBuyDevelopmentCard(player.getPlayerIndex())) {
+//			//Remove resources
+//			player.getResources().setOre(player.getResources().getOre()-1);
+//			player.getResources().setWheat(player.getResources().getWheat()-1);
+//			player.getResources().setSheep(player.getResources().getSheep()-1);
+//			
+//			//Update card lists
+//			boolean finished = false;
+//			Random generator = new Random();
+//			DevCardList undrawnCards = model.getUndrawnDevCards();
+//			while(!finished) {
+//				int generatedNumber = generator.nextInt(5);
+//				switch(generatedNumber) {
+//				case 0:
+//					if(undrawnCards.getMonopoly() > 0) {
+//						finished = true;
+//						undrawnCards.setMonopoly(undrawnCards.getMonopoly() - 1);
+//						player.getNewDevCards().setMonopoly(player.getNewDevCards().getMonopoly() + 1);
+//					}
+//					break;
+//				case 1:
+//					if(undrawnCards.getMonument() > 0) {
+//						finished = true;
+//						undrawnCards.setMonument(undrawnCards.getMonument() - 1);
+//						player.getNewDevCards().setMonument(player.getNewDevCards().getMonument() + 1);
+//					}
+//					break;
+//				case 2:
+//					if(undrawnCards.getRoadBuilding() > 0) {
+//						finished = true;
+//						undrawnCards.setRoadBuilding(undrawnCards.getRoadBuilding() - 1);
+//						player.getNewDevCards().setRoadBuilding(player.getNewDevCards().getRoadBuilding() + 1);
+//					}
+//					break;
+//				case 3:
+//					if(undrawnCards.getSoldier() > 0) {
+//						finished = true;
+//						undrawnCards.setSoldier(undrawnCards.getSoldier() - 1);
+//						player.getNewDevCards().setSoldier(player.getNewDevCards().getSoldier() + 1);
+//					}
+//					break;
+//				case 4:
+//					if(undrawnCards.getYearOfPlenty() > 0) {
+//						finished = true;
+//						undrawnCards.setYearOfPlenty(undrawnCards.getYearOfPlenty() - 1);
+//						player.getNewDevCards().setYearOfPlenty(player.getNewDevCards().getYearOfPlenty() + 1);
+//					}
+//					break;
+//				}
+//			}
+//		}
+//	}
+//	
+//	/**
+//	 * @pre The stealer player must have moved the robber via dice roll or knight card 
+//	 * @param stealer The player doing the stealing
+//	 * @param stealee The victim
+//	 * @post The stealer gains a card from the stealee
+//	 */
+//	public void LoseCardsFromPlayerRobber(Player stealer, Player stealee) {
+//		if(canLoseCardsFromDieRoll(stealee.getPlayerIndex())) {
+//			Random generator = new Random();
+//			boolean finished = false;
+//			while(!finished) {
+//				int generatedNumber = generator.nextInt(5);
+//				switch(generatedNumber) {
+//				case 0:
+//					if(stealee.getResources().getBrick() > 0) {
+//						finished = true;
+//						stealee.getResources().setBrick(stealee.getResources().getBrick() - 1);
+//						stealer.getResources().setBrick(stealer.getResources().getBrick() + 1);
+//					}
+//					break;
+//				case 1:
+//					if(stealee.getResources().getOre() > 0) {
+//						finished = true;
+//						stealee.getResources().setOre(stealee.getResources().getOre() - 1);
+//						stealer.getResources().setOre(stealer.getResources().getOre() + 1);
+//					}
+//					break;
+//				case 2:
+//					if(stealee.getResources().getSheep() > 0) {
+//						finished = true;
+//						stealee.getResources().setSheep(stealee.getResources().getSheep() - 1);
+//						stealer.getResources().setSheep(stealer.getResources().getSheep() + 1);
+//					}
+//					break;
+//				case 3:
+//					if(stealee.getResources().getWheat() > 0) {
+//						finished = true;
+//						stealee.getResources().setWheat(stealee.getResources().getWheat() - 1);
+//						stealer.getResources().setWheat(stealer.getResources().getWheat() + 1);
+//					}
+//					break;
+//				case 4:
+//					if(stealee.getResources().getWood() > 0) {
+//						finished = true;
+//						stealee.getResources().setWood(stealee.getResources().getWood() - 1);
+//						stealer.getResources().setWood(stealer.getResources().getWood() + 1);
+//					}
+//					break;
+//				}
+//			}
+//		}
+//	}
+//	
+//	/**
+//	 * @pre The dice have rolled a 7, and the player has 8 or more cards
+//	 * @param player The player discarding cards
+//	 * @param toDiscard The chosen cards to discard
+//	 * @throws IllegalActionException toDiscard has more cards of at least one type than does the player
+//	 * @post The player loses the discarded cards
+//	 */
+//	public void LoseCardsFromDieRoll(Player player, ResourceList toDiscard) throws IllegalActionException {
+//		if(canLoseCardsFromRobber(player.getPlayerIndex())) {
+//			ResourceList currResource = player.getResources();
+//			if(currResource.getBrick() >= toDiscard.getBrick()
+//					&& currResource.getOre() >= toDiscard.getOre()
+//					&& currResource.getSheep() >= toDiscard.getSheep()
+//					&& currResource.getWheat() >= toDiscard.getWheat()
+//					&& currResource.getWood() >= toDiscard.getWood()) {
+//				player.removeResource(Resource.BRICK, toDiscard.getBrick());
+//				player.removeResource(Resource.ORE, toDiscard.getOre());
+//				player.removeResource(Resource.SHEEP, toDiscard.getSheep());
+//				player.removeResource(Resource.WHEAT, toDiscard.getWheat());
+//				player.removeResource(Resource.WOOD, toDiscard.getWood());
+//				
+//				addToBank(Resource.BRICK,toDiscard.getBrick());
+//				addToBank(Resource.ORE,toDiscard.getOre());
+//				addToBank(Resource.SHEEP,toDiscard.getSheep());
+//				addToBank(Resource.WHEAT,toDiscard.getWheat());
+//				addToBank(Resource.WOOD,toDiscard.getWood());
+//			}
+//			else {
+//				throw new IllegalActionException();
+//			}
+//		}
+//	}
+//	
+//	/**
+//	 * @pre player must have a monopoly card
+//	 * @param player The player playing the card
+//	 * @param resource The chosen resource to monopolize
+//	 * @post player gains all other player's cards of type resource
+//	 */
+//	public void PlayMonopoly(Player player, Resource resource) {
+//		if(player.getOldDevCards().getMonopoly() > 0) {
+//			for(Player otherPlayer : model.getPlayers()) {
+//				if(player == otherPlayer) {
+//					continue; //Skip the rest of the loop
+//				}
+//				
+//				int ownedCards = 0;
+//				switch(resource) {
+//				case BRICK:
+//					ownedCards = otherPlayer.getResources().getBrick();
+//					break;
+//				case DESERT:
+//					break;
+//				case ORE:
+//					ownedCards = otherPlayer.getResources().getOre();
+//					break;
+//				case SHEEP:
+//					ownedCards = otherPlayer.getResources().getSheep();
+//					break;
+//				case WHEAT:
+//					ownedCards = otherPlayer.getResources().getWheat();
+//					break;
+//				case WOOD:
+//					ownedCards = otherPlayer.getResources().getWood();
+//					break;
+//				default:
+//					break;
+//				}
+//				
+//				otherPlayer.removeResource(resource, ownedCards);
+//				player.addResource(resource, ownedCards);
+//			}
+//			player.getOldDevCards().setMonopoly(player.getOldDevCards().getMonopoly() - 1);
+//		}
+//	}
+//	
+//	/**
+//	 * @pre player must have a roadbuilding card
+//	 * @param player The player playing the card
+//	 * @param location1 Location of the first road to place
+//	 * @param location2 Location of the second road to place
+//	 * @post New roads are placed
+//	 */
+//	public void playRoadBuilding(Player player, EdgeValue location1, EdgeValue location2) {
+//		if(player.getOldDevCards().getRoadBuilding() > 0) {
+//			if(canBuildRoad(player.getPlayerIndex(),location1)) {
+//				BuildRoad(player, location1);
+//			}
+//			if(canBuildRoad(player.getPlayerIndex(), location2)) {
+//				BuildRoad(player, location2);
+//			}
+//			
+//			player.getOldDevCards().setRoadBuilding(player.getOldDevCards().getRoadBuilding() - 1);
+//		}
+//	}
+//	
+//	/**
+//	 * @pre player must have a soldier card, and toStealFrom must have a building bordering newRobberLocation
+//	 * @param player The player playing the card
+//	 * @param newRobberLocation The new spot for the robber piece
+//	 * @param toStealFrom The player to steal a card from
+//	 * @post The robber is moved, and player receives a random card from toStealFrom 
+//	 */
+//	public void PlaySoldier(Player player, HexLocation newRobberLocation, Player toStealFrom) {
+//		if(player.getOldDevCards().getSoldier() > 0) {
+//			model.getMap().setRobber(newRobberLocation);
+//			if(canLoseCardsFromRobber(toStealFrom.getPlayerIndex())) {
+//				LoseCardsFromPlayerRobber(player,toStealFrom);
+//			}
+//			player.getOldDevCards().setSoldier(player.getOldDevCards().getSoldier() - 1);
+//		}
+//	}
+//	
+//	/**
+//	 * @pre player must have a YearOfPlenty card, and choose resources that the bank has available
+//	 * @param player The player playing the card
+//	 * @param resource1 The first resource to take from the bank
+//	 * @param resource2 The second resource to take from the bank
+//	 * @throws IllegalActionException 
+//	 * @post The player receives the two resources from the bank
+//	 */
+//	public void PlayYearOfPlenty(Player player, Resource resource1, Resource resource2) throws IllegalActionException {
+//		if(player.getOldDevCards().getYearOfPlenty() > 0) {
+//			if(resource1 == resource2 && model.getBank().hasResource(resource1, 2)) {
+//				removeFromBank(resource1,2);
+//				player.addResource(resource1, 2);
+//			}
+//			else if(model.getBank().hasResource(resource1, 1) && model.getBank().hasResource(resource2, 1)) {
+//				removeFromBank(resource1,1);
+//				removeFromBank(resource2,1);
+//				player.addResource(resource1, 1);
+//				player.addResource(resource2, 1);
+//			}
+//			else {
+//				throw new IllegalActionException();
+//			}
+//			
+//			player.getOldDevCards().setYearOfPlenty(player.getOldDevCards().getYearOfPlenty() - 1);
+//		}
+//	}
+//	
+//	
+//	/**
+//	 * @pre whenever
+//	 * @param transferObject
+//	 * @throws IllegalActionException
+//	 * @post Performs actions based on which transferObject was given.
+//	 */
+//	public void updateModel(Object transferObject) throws IllegalActionException {
+//		if(transferObject == null) {}
+//		else if(transferObject instanceof AcceptTrade) {
+//			AcceptTrade aTrade = (AcceptTrade)transferObject;
+//			if(aTrade.getWillAccept()) {
+//				DomesticTrade(model.getCurrentTradeOffer());
+//			}
+//			model.setCurrentTradeOffer(null);
+//		}
+//		else if(transferObject instanceof AddAIRequest) {
+//			
+//		}
+//		else if(transferObject instanceof BuildCity) {
+//			BuildCity bCity = (BuildCity)transferObject;
+//			BuildCity(model.getPlayers()[bCity.getPlayerIndex()], bCity.getSpotOne());
+//		}
+//		else if(transferObject instanceof BuildRoad) {
+//			BuildRoad bRoad = (BuildRoad)transferObject;
+//			EdgeValue eValue = model.getMap().getEdges().get(bRoad.getRoadLocation());
+//			//buildRoad(model.getPlayers()[bRoad.getPlayerIndex()],eValue);
+//		}
+//		else if(transferObject instanceof BuildSettlement) {
+//			BuildSettlement bSettlement = (BuildSettlement)transferObject;
+//			BuildSettlement(model.getPlayers()[bSettlement.getPlayerIndex()],bSettlement.getSpotOne());
+//		}
+//		else if(transferObject instanceof BuyDevCard) {
+//			BuyDevCard bdCard = (BuyDevCard)transferObject;
+//			BuyDevelopmentCard(model.getPlayers()[bdCard.getPlayerIndex()]);
+//		}
+//		else if(transferObject instanceof ChangeLogLevelRequest) {
+//			
+//		}
+//		else if(transferObject instanceof DiscardCards) {
+//			DiscardCards dCards = (DiscardCards)transferObject;
+//			LoseCardsFromDieRoll(model.getPlayers()[dCards.getPlayerIndex()], dCards.getDiscardedCards());
+//		}
+//		else if(transferObject instanceof FinishTurn) {
+//			model.getTurnTracker().endPlayerTurn();
+//		}
+//		else if(transferObject instanceof ListOfCommands) {
+//			ListOfCommands list = (ListOfCommands)transferObject;
+////Not implemented
+//		}
+//		else if(transferObject instanceof MaritimeTrade) {
+//			MaritimeTrade mTrade = (MaritimeTrade)transferObject;
+//			MaritimeTrade(model.getPlayers()[mTrade.getPlayerIndex()],mTrade.getOutputResource(),mTrade.getInputResource());
+//		}
+//		else if(transferObject instanceof Monopoly) {
+//			Monopoly monopoly = (Monopoly)transferObject;
+//			PlayMonopoly(model.getPlayers()[monopoly.getPlayerIndex()],monopoly.getResource());
+//		}
+//		else if(transferObject instanceof Monument) {
+//			Monument monument = (Monument)transferObject;
+//			Player player = model.getPlayers()[monument.getPlayerIndex()];
+//			player.setVictoryPoints(player.getVictoryPoints() + 1);
+//		}
+//		else if(transferObject instanceof OfferTrade) {
+//			OfferTrade oTrade = (OfferTrade)transferObject;
+//			ResourceList senderReceives = new ResourceList(0,0,0,0,0);
+//			ResourceList receiverReceives = new ResourceList(0,0,0,0,0);
+//			int brick = oTrade.getOffer().getBrick();
+//			if(brick > 0) {
+//				senderReceives.setBrick(brick);
+//			}
+//			else {
+//				receiverReceives.setBrick(brick);
+//			}
+//			
+//			int ore = oTrade.getOffer().getOre();
+//			if(ore > 0) {
+//				senderReceives.setOre(ore);
+//			}
+//			else {
+//				receiverReceives.setOre(ore);
+//			}
+//			
+//			int sheep = oTrade.getOffer().getSheep();
+//			if(sheep > 0) {
+//				senderReceives.setSheep(sheep);
+//			}
+//			else {
+//				receiverReceives.setSheep(sheep);
+//			}
+//			
+//			int wheat = oTrade.getOffer().getWheat();
+//			if(wheat > 0) {
+//				senderReceives.setWheat(wheat);
+//			}
+//			else {
+//				receiverReceives.setWheat(wheat);
+//			}
+//			
+//			int wood = oTrade.getOffer().getWood();
+//			if(wood > 0) {
+//				senderReceives.setWood(wood);
+//			}
+//			else {
+//				receiverReceives.setWood(wood);
+//			}
+//			
+//			model.setCurrentTradeOffer(new TradeOffer(oTrade.getPlayerIndex(), oTrade.getReciever(), senderReceives, receiverReceives));
+//		}
+//		else if(transferObject instanceof RoadBuilding) {
+//			RoadBuilding rBuild = (RoadBuilding)transferObject;
+//			EdgeValue value1 = model.getMap().getEdges().get(rBuild.getSpotOne());
+//			EdgeValue value2 = model.getMap().getEdges().get(rBuild.getSpotTwo());
+//			playRoadBuilding(model.getPlayers()[rBuild.getPlayerIndex()], value1, value2);
+//		}
+//		else if(transferObject instanceof RobPlayer) {
+//			RobPlayer rPlayer = (RobPlayer)transferObject;
+//			model.getMap().setRobber(rPlayer.getLocation());
+//			LoseCardsFromPlayerRobber(model.getPlayers()[rPlayer.getPlayerIndex()], model.getPlayers()[rPlayer.getVictimIndex()]);
+//		}
+//		else if(transferObject instanceof RollNumber) {
+//			RollNumber rNumber = (RollNumber)transferObject;
+//			if(rNumber.getNumber() != 7) {
+//				for(Map.Entry<HexLocation, Hex> entry : model.getMap().getHexes().entrySet()) {
+//					if(entry.getValue().getDiceNumber() == rNumber.getNumber()) {
+//						ProduceResources(entry.getKey());
+//					}
+//				}
+//			}
+//		}
+//		else if(transferObject instanceof SendChat) {
+//			SendChat sChat = (SendChat)transferObject;
+//			model.getChat().addLine(new MessageLine(sChat.getContent(), model.getPlayers()[sChat.getPlayerIndex()].getName()));
+//		}
+//		else if(transferObject instanceof Soldier) {
+//			Soldier soldier = (Soldier)transferObject;
+//			PlaySoldier(model.getPlayers()[soldier.getPlayerIndex()], soldier.getLocation(), model.getPlayers()[soldier.getVictimIndex()]);
+//		}
+//		else if(transferObject instanceof UserCredentials) {
+//			UserCredentials uCred = (UserCredentials)transferObject;
+////Not implemented
+//		}
+//		else if(transferObject instanceof YearOfPlenty) {
+//			YearOfPlenty yOPlenty = (YearOfPlenty)transferObject;
+//			PlayYearOfPlenty(model.getPlayers()[yOPlenty.getPlayerIndex()], yOPlenty.getResourceOne(), yOPlenty.getResourceTwo());
+//		}
+//	}
 }
