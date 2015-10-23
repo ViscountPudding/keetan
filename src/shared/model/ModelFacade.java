@@ -86,6 +86,16 @@ public class ModelFacade {
 	}
 	
 	/**
+	 * Returns a Player object of the player with that index
+	 * @pre playerIndex must be an integer in the set {0, 1, 2, 3}
+	 * @post 
+	 * @post a 
+	 */
+	public Player whosThatPlayer(int playerIndex) {
+		return model.getPlayers()[playerIndex];
+	}
+	
+	/**
 	 * Returns the current HexLocation of the robber
 	 * @return the current HexLocation of the robber
 	 */
