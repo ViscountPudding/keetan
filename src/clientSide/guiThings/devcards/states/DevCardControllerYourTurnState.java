@@ -1,5 +1,7 @@
 package clientSide.guiThings.devcards.states;
 
+import shared.model.ModelFacade;
+
 public class DevCardControllerYourTurnState implements DevCardControllerState {
 
 	/**
@@ -21,7 +23,7 @@ public class DevCardControllerYourTurnState implements DevCardControllerState {
 	@Override
 	public void buyCard() {
 		// TODO Auto-generated method stub
-		
+		//ModelFacade.getInstance().BuyDevelopmentCard();
 	}
 
 	@Override
