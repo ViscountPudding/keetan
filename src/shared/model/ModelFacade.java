@@ -86,16 +86,16 @@ public class ModelFacade {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Returns the current HexLocation of the robber
+	 * @return the current HexLocation of the robber
 	 */
 	public HexLocation findRobber() {
 		return model.getMap().getRobber();
 	}
 	
 	/**
-	 * 
-	 * @param newHideout
+	 * Forces the robber to relocate to the given HexLocation
+	 * @param newHideout - the HexLocation the robber is forced to relocate to
 	 */
 	public void placeRobber(HexLocation newHideout) {
 		model.getMap().setRobber(newHideout);

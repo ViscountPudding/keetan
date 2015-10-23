@@ -9,7 +9,7 @@ public class SwaggerHex {
 	
 	public SwaggerHex(Hex hex) {
 		resource = SwaggerModel.resourceToString(hex.getResource());
-		if ()
+		
 	}
 	
 	public SwaggerHexLocation getLocation() {
