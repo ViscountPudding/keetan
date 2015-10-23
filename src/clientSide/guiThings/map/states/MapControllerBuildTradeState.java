@@ -6,23 +6,32 @@ import shared.model.locations.HexLocation;
 import shared.model.locations.VertexLocation;
 import clientSide.guiThings.data.RobPlayerInfo;
 
-public class MapControllerTradeState implements MapControllerState {
+public class MapControllerBuildTradeState implements MapControllerState {
 
 	@Override
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		// TODO Auto-generated method stub
-		return false;
+		
+		//Call canBuildRoad in ModelFacade
+		
+		return true;
 	}
 
 	@Override
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
 		// TODO Auto-generated method stub
-		return false;
+		
+		//Call canPlaceSettlement in ModelFacade
+		
+		return true;
 	}
 
 	@Override
 	public boolean canPlaceCity(VertexLocation vertLoc) {
 		// TODO Auto-generated method stub
+		
+		//Can canPlaceCity in ModelFacade
+		
 		return false;
 	}
 
@@ -35,12 +44,18 @@ public class MapControllerTradeState implements MapControllerState {
 	@Override
 	public void placeRoad(EdgeLocation edgeLoc) {
 		// TODO Auto-generated method stub
-
+		
+		//BuildRoad command = new BuildRoad(ModelFacade.getCurrentPlayer, edgeLoc, false)
+		//ClientServerFacade.sendTheThing(Not a real function) (command);
+		
 	}
 
 	@Override
 	public void placeSettlement(VertexLocation vertLoc) {
 		// TODO Auto-generated method stub
+		
+		//BuildSettlement command = new BuildSettlement(currentPlayer, vertLoc, false);
+		//ClientServerFacade.sendTheThing(command);
 
 	}
 
@@ -48,6 +63,9 @@ public class MapControllerTradeState implements MapControllerState {
 	public void placeCity(VertexLocation vertLoc) {
 		// TODO Auto-generated method stub
 
+		//BuildCity command = new BuildCity(currentlyPlayer, vertLoc, false);
+		//ClientServerFacade.sendTheThing(command);
+		
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package clientSide.guiThings.maritime.states;
 
 import shared.definitions.ResourceType;
 
-public class MaritimeTradeControllerTradeState implements
+public class MaritimeTradeControllerBuildTradeState implements
 		MaritimeTradeControllerState {
 
 	@Override

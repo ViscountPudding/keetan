@@ -2,11 +2,11 @@ package clientSide.guiThings.domestic.states;
 
 import shared.definitions.ResourceType;
 
-public class DomesticTradeControllerBuildState implements
+public class DomesticTradeControllerBuildTradeState implements
 		DomesticTradeControllerState {
 
 	/**
-	 * YOU CAN DO NOTHING!
+	 * YOU CAN DO EVERYTHING!
 	 */
 	
 	@Override
