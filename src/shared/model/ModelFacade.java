@@ -2,10 +2,14 @@ package shared.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Observer;
 import java.util.Random;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import shared.model.gamemap.EdgeValue;
 import shared.model.gamemap.Hex;
 import shared.model.gamemap.Port;
@@ -71,6 +75,16 @@ public class ModelFacade {
 	 */
 	public static ModelFacade getInstance() {
 		return instance;
+	}
+	
+	/**
+	 * Returns the index of the player whose turn is it
+	 * @pre none
+	 * @post a player index {0, 1, 2, 3} of the player who's turn it is
+	 * @return a player index
+	 */
+	public int whoseTurnIsItAnyway() {
+		return model.getTurnTracker().getCurrentPlayer();
 	}
 	
 	/**
@@ -976,6 +990,32 @@ public class ModelFacade {
 			break;
 		default:
 			break;
+		}
+	}
+	
+	/**
+	 * A list of observers to notify when the model is changed
+	 */
+	private List<Observer> modelObservers;
+	
+	/**
+	 * Add an observer to be notified when the model is changed
+	 * @pre none
+	 * @post The parameter observer will be notified when the model is changed
+	 * @param observer - an observer
+	 */
+	public void addModelObserver(Observer observer) {
+		modelObservers.add(observer);
+	}
+	
+	/**
+	 * Notifies the list of observers
+	 * @pre You must have java installed
+	 * @post All 
+	 */
+	private void notifyModelObserver() {
+		for (Observer observer : modelObservers) {
+			observer.notify();
 		}
 	}
 }
