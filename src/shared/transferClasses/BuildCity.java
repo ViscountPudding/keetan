@@ -1,6 +1,6 @@
 package shared.transferClasses;
 
-import shared.model.gamemap.VertexValue;
+import shared.model.locations.VertexLocation;
 
 /**
  * This class builds a city at the specified location
@@ -13,7 +13,7 @@ import shared.model.gamemap.VertexValue;
 
 public class BuildCity {
 
-	public BuildCity(int playerIndex, VertexValue vertexLocation, Boolean free) {
+	public BuildCity(int playerIndex, VertexLocation vertexLocation, Boolean free) {
 		this.playerIndex = playerIndex;
 		this.vertexLocation = vertexLocation;
 		this.free = free;
@@ -21,7 +21,7 @@ public class BuildCity {
 
 	private String type = "buildCity";
 	private int playerIndex;
-	private VertexValue vertexLocation;
+	private VertexLocation vertexLocation;
 	private Boolean free;
 
 	public int getPlayerIndex() {
@@ -30,10 +30,10 @@ public class BuildCity {
 	public void setPlayerIndex(int playerIndex) {
 		this.playerIndex = playerIndex;
 	}
-	public VertexValue getSpotOne() {
+	public VertexLocation getSpotOne() {
 		return vertexLocation;
 	}
-	public void setSpotOne(VertexValue vertexLocation) {
+	public void setSpotOne(VertexLocation vertexLocation) {
 		this.vertexLocation = vertexLocation;
 	}
 	public Boolean getFree() {
