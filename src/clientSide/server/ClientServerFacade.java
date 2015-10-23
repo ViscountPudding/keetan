@@ -38,6 +38,20 @@ public class ClientServerFacade implements IServer{
 	private String targetServer;
 	private ClientCommunicator communicator;
 	
+	private static ClientServerFacade instance = null;
+	
+	public static ClientServerFacade createInstance(String targetServer) {
+		if(instance == null) {
+			instance = new ClientServerFacade(targetServer);
+		}
+		
+		return instance;
+	}
+
+	public static ClientServerFacade getInstance() {
+		return instance;
+	}
+	
 	public ClientServerFacade(String targetServer) {
 		this.targetServer = targetServer;
 		this.communicator = new ClientCommunicator(targetServer);

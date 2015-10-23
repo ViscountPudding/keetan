@@ -262,8 +262,6 @@ public class ModelUnitTests {
 
 				VertexValue vertex = model.getMap().getVertices().get(new VertexLocation(hexLocation, direction).getNormalizedLocation());
 				
-				
-				
 				model.getPlayers()[0].setResources(new ResourceList(5,5,5,5,5));
 				
 				
@@ -284,29 +282,29 @@ public class ModelUnitTests {
 		model.getPlayers()[0].setUnplacedSettlements(1);
 		model.getPlayers()[1].setUnplacedSettlements(1);
 		model.getPlayers()[0].setResources(new ResourceList(0,0,0,0,0));
-		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), false); // not enough resources
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), false); // not enough resources
 		vertex.setSettlement(new Settlement(0));
-		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), false); // not enough resources, already settlement
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), false); // not enough resources, already settlement
 		model.getPlayers()[0].setResources(new ResourceList(5,5,5,5,5));
 		model.getPlayers()[1].setResources(new ResourceList(5,5,5,5,5));
-		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), false); // already settlement
-		assertEquals(ModelFacade.getInstance().canBuildSettlement(1, vertex), false); // already settlement - other player
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), false); // already settlement
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(1, vertex.getLocation()), false); // already settlement - other player
 		vertex.setSettlement(null);
-		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), true); // should be able to - EXCEPT WE DON'T have a road nearby so... but we could be in the set up phase
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), true); // should be able to - EXCEPT WE DON'T have a road nearby so... but we could be in the set up phase
 		model.getPlayers()[0].setResources(new ResourceList(1,0,1,1,1));
-		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), true); // should be able to - barely enough
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), true); // should be able to - barely enough
 		model.getPlayers()[0].setResources(new ResourceList(0,0,1,1,1));
-		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), false); // not enough brick
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), false); // not enough brick
 		model.getPlayers()[0].setResources(new ResourceList(1,0,0,1,1));
-		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), false); // not enough sheep
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), false); // not enough sheep
 		model.getPlayers()[0].setResources(new ResourceList(1,0,1,0,1));
-		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), false); // not enough wheat
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), false); // not enough wheat
 		model.getPlayers()[0].setResources(new ResourceList(1,0,1,1,0));
-		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), false); // not enough wood
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), false); // not enough wood
 
 		model.getPlayers()[0].setResources(new ResourceList(1,0,1,1,1));
 		model.getPlayers()[0].setUnplacedSettlements(0);
-		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex), false); // should be able to
+		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), false); // should be able to
 	}
 	
 	@Test
@@ -351,24 +349,24 @@ public class ModelUnitTests {
 				
 				model.getPlayers()[0].setUnplacedCities(1);
 				model.getPlayers()[0].setResources(new ResourceList(5,5,5,5,5));
-				assertEquals(facade.canBuildCity(0, goodTest), true); // has everything
-				assertEquals(facade.canBuildCity(0, failTest),false); // no settlement
+				assertEquals(facade.canBuildCity(0, goodTest.getLocation()), true); // has everything
+				assertEquals(facade.canBuildCity(0, failTest.getLocation()),false); // no settlement
 				
 				model.getPlayers()[0].setResources(new ResourceList(0,3,0,2,0));
-				assertEquals(facade.canBuildCity(0, goodTest), true); // just barely enough
+				assertEquals(facade.canBuildCity(0, goodTest.getLocation()), true); // just barely enough
 				model.getPlayers()[0].setResources(new ResourceList(0,3,0,1,0));
-				assertEquals(facade.canBuildCity(0, goodTest), false); // not enough wheat
+				assertEquals(facade.canBuildCity(0, goodTest.getLocation()), false); // not enough wheat
 				model.getPlayers()[0].setResources(new ResourceList(0,2,0,2,0));
-				assertEquals(facade.canBuildCity(0, goodTest), false); // not enough ore
+				assertEquals(facade.canBuildCity(0, goodTest.getLocation()), false); // not enough ore
 				
 				model.getPlayers()[0].setUnplacedCities(0);
-				assertEquals(facade.canBuildCity(0, goodTest),false); // no unplaced cities
-				assertEquals(facade.canBuildCity(0, failTest),false); // no settlement, no unplaced cities
+				assertEquals(facade.canBuildCity(0, goodTest.getLocation()),false); // no unplaced cities
+				assertEquals(facade.canBuildCity(0, failTest.getLocation()),false); // no settlement, no unplaced cities
 		
 				model.getPlayers()[0].setUnplacedCities(1);
 				model.getPlayers()[0].setResources(new ResourceList(0,0,0,0,0));
-				assertEquals(facade.canBuildCity(0, goodTest),false); // no resources
-				assertEquals(facade.canBuildCity(0, failTest),false); // no settlement, no resources
+				assertEquals(facade.canBuildCity(0, goodTest.getLocation()),false); // no resources
+				assertEquals(facade.canBuildCity(0, failTest.getLocation()),false); // no settlement, no resources
 				
 				goodTest.setSettlement(null);
 			}
