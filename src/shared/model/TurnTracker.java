@@ -6,7 +6,6 @@ package shared.model;
 public class TurnTracker {
 	private int currentTurn;
 	private int currentPlayer;
-	private Status status;
 	private int longestRoad;
 	private int largestArmy;
 
@@ -17,10 +16,9 @@ public class TurnTracker {
 	 * @param largestArmy The size of the current largest army
 	 * @post The objects internal values are set to the given params
 	 */
-	public TurnTracker(int currentTurn, int currentPlayer, Status status, int longestRoad, int largestArmy) {
+	public TurnTracker(int currentTurn, int currentPlayer, int longestRoad, int largestArmy) {
 		this.currentTurn = currentTurn;
 		this.currentPlayer = currentPlayer;
-		this.status = status;
 		this.longestRoad = longestRoad;
 		this.largestArmy = largestArmy;
 	}
@@ -45,12 +43,6 @@ public class TurnTracker {
 		else {
 			currentPlayer++;
 		}
-	}
-	public Status getStatus() {
-		return status;
-	}
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 	public int getLongestRoad() {
 		return longestRoad;

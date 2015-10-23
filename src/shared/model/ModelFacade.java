@@ -213,7 +213,17 @@ public class ModelFacade {
 //		}
 		return false;
 	}
-		
+	
+	/**
+	 * 
+	 * @param playerIndex - the player who wants to place a settlement
+	 * @param location - a  the location of a vertex to place the settlement
+	 * @return
+	 */
+	public boolean canSetUpSettlement(int playerIndex, VertexLocation location) {
+			return false;
+	}
+	
 	/**
 	* @pre Whenever
 	* @param Player
@@ -249,13 +259,16 @@ public class ModelFacade {
 		return false;
 	}
 	
+	
+	
 	/**
 	* @pre Whenever
 	* @param Player
 	* @return true if the player has an available city and the location has an existing settlement, false if otherwise
 	* @post Player may build the city if possible
 	*/
-	public boolean canBuildCity(int playerIndex, VertexValue location) {
+	public boolean canBuildCity(int playerIndex, VertexLocation location) {
+		VertexValue vertex = model.getMap().vertices.get(location.getNormalizedLocation());
 		Player player = model.getPlayers()[playerIndex];
 		if(player.getUnplacedCities() == 0) {
 			return false;
@@ -263,10 +276,10 @@ public class ModelFacade {
 		else if(player.getResources().getOre() < 3 || player.getResources().getWheat() < 2) {
 			return false;
 		}
-		else if(location.getSettlement() == null) {
+		else if(vertex.getSettlement() == null) {
 			return false;
 		}
-		else if(location.getSettlement().getPlayerIndex() == playerIndex){
+		else if(vertex.getSettlement().getPlayerIndex() == playerIndex){
 			return true;
 		}
 		else {
@@ -485,7 +498,7 @@ public class ModelFacade {
 	 * @post The city is placed
 	 */
 	public void BuildCity(Player player, VertexValue vertex) {
-		if(canBuildCity(player.getPlayerIndex(),vertex)) {
+		if(canBuildCity(player.getPlayerIndex(),vertex.getLocation())) {
 			//Remove resources
 			player.getResources().setWheat(player.getResources().getWheat()-2);
 			player.getResources().setOre(player.getResources().getOre()-3);

@@ -9,7 +9,6 @@ import shared.model.Resource;
  */
 public class Port {
 	
-	//These are the only params we need I think
 	private PortType type;
 	private EdgeLocation edge;
 	

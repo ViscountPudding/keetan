@@ -205,31 +205,6 @@ public class ModelUnitTests {
 		
 		assertEquals("Stephen has made ports have vertices", "");
 		
-		ArrayList<Port> ports = model.getMap().getPorts();
-		for (Port port : ports) {
-			
-		}
-		
-		model.getPlayers()[0].addPort(new Port(PortType.THREE, new EdgeLocation(new HexLocation(1,1), EdgeDirection.North), new EdgeLocation(new HexLocation(1,1), EdgeDirection.NorthEast)));
-		assertEquals(facade.canMaritimeTrade(0, Resource.BRICK, Resource.ORE), false);
-
-		model.getBank().setOre(0);
-		model.getPlayers()[0].addResource(Resource.BRICK, 3);
-		assertEquals(facade.canMaritimeTrade(0, Resource.BRICK, Resource.ORE), false);
-		
-		model.getBank().setOre(5);
-		assertEquals(facade.canMaritimeTrade(0, Resource.BRICK, Resource.ORE), true);
-		
-		model.getPlayers()[0].removeResource(Resource.BRICK, 3);
-		model.getPlayers()[0].addPort(new Port(PortType.BRICK, new EdgeLocation(new HexLocation(1,1), EdgeDirection.North), new EdgeLocation(new HexLocation(1,1), EdgeDirection.NorthEast)));
-		model.getBank().setOre(0);
-		assertEquals(facade.canMaritimeTrade(0, Resource.BRICK, Resource.ORE), false);
-		
-		model.getPlayers()[0].addResource(Resource.BRICK, 3);
-		assertEquals(facade.canMaritimeTrade(0, Resource.BRICK, Resource.ORE), false);
-		
-		model.getBank().setOre(5);
-		assertEquals(facade.canMaritimeTrade(0, Resource.BRICK, Resource.ORE), true);
 	}
 	
 	@Test
@@ -243,18 +218,7 @@ public class ModelUnitTests {
 		ModelFacade facade = ModelFacade.createInstance(false, false, false, false, names);
 		facade.updateModel(model);
 		
-		EdgeValue test = new EdgeValue(new EdgeLocation(new HexLocation(1,1),EdgeDirection.NorthEast));
-		
-		assertEquals(facade.canBuildRoad(0, test),false);
-		
-		model.getPlayers()[0].setResources(new ResourceList(5,5,5,5,5));
-		assertEquals(facade.canBuildRoad(0, test),false);
-		
-		model.getMap().getEdges().get(new EdgeLocation(new HexLocation(1,1),EdgeDirection.North)).setRoad(new Road(0));
-		assertEquals(facade.canBuildRoad(0, test),false);
-		
-		model.getPlayers()[0].setUnplacedRoads(0);
-		assertEquals(facade.canBuildRoad(0, test),false);
+		assertEquals("Not build yet", "");
 	}
 	
 	@Test

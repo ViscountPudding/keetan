@@ -31,7 +31,7 @@ public class Model {
 		log = new MessageList();
 		map = new GameMap(randomHexes, randomChits, randomPorts, loadGame);
 		players = new Player[4];
-		turnTracker = new TurnTracker(0, 0, null, 0, 0);
+		turnTracker = new TurnTracker(0, 0, 0, 0);
 		
 		for(int i = 0; i < 4; i++)
 		{
