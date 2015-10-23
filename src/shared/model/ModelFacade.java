@@ -789,6 +789,7 @@ public class ModelFacade {
 	public void updateModel(Model model) {
 		if (model.getVersion() >= this.model.getVersion()) {
 			this.model = model;
+			notifyModelObservers();
 		}
 	}
 	
@@ -1010,10 +1011,10 @@ public class ModelFacade {
 	
 	/**
 	 * Notifies the list of observers
-	 * @pre You must have java installed
-	 * @post All 
+	 * @pre none
+	 * @post All the observers that are intended to observe the model are notified.
 	 */
-	private void notifyModelObserver() {
+	private void notifyModelObservers() {
 		for (Observer observer : modelObservers) {
 			observer.notify();
 		}
