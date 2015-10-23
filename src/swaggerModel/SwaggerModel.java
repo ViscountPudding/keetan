@@ -3,6 +3,7 @@ package swaggerModel;
 import java.util.List;
 
 import shared.model.Model;
+import shared.model.Resource;
 import shared.model.ResourceList;
 import shared.model.TradeOffer;
 import shared.model.TurnTracker;
@@ -20,7 +21,10 @@ public class SwaggerModel {
 	private int winner;
 	
 	public SwaggerModel(Model clientModel) {
-		
+		setBank(clientModel.getBank());
+		setChat(clientModel.getChat());
+		setLog(clientModel.getLog());
+		map = new SwaggerMap(clientModel);
 	}
 
 	public ResourceList getBank() {
@@ -93,5 +97,23 @@ public class SwaggerModel {
 
 	public void setWinner(int winner) {
 		this.winner = winner;
+	}
+	
+	public static String resourceToString(Resource resourceType) {		
+		switch (resourceType) {
+		case WOOD:
+			return "Wood";
+		case BRICK:
+			return "Brick";
+		case SHEEP:
+			return "Sheep";
+		case WHEAT:
+			return "Wheat";
+		case ORE:
+			return "Ore";
+		case DESERT:
+		default:
+			return null;
+		}
 	}
 }

@@ -1,9 +1,16 @@
 package swaggerModel;
 
+import shared.model.gamemap.Hex;
+
 public class SwaggerHex {
 	private SwaggerHexLocation location;
 	private String resource;
 	private int number;
+	
+	public SwaggerHex(Hex hex) {
+		resource = SwaggerModel.resourceToString(hex.getResource());
+		if ()
+	}
 	
 	public SwaggerHexLocation getLocation() {
 		return location;

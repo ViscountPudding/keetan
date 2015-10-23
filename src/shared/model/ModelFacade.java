@@ -8,8 +8,6 @@ import java.util.Map.Entry;
 import java.util.Observer;
 import java.util.Random;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import shared.model.gamemap.EdgeValue;
 import shared.model.gamemap.Hex;
 import shared.model.gamemap.Port;
@@ -85,6 +83,22 @@ public class ModelFacade {
 	 */
 	public int whoseTurnIsItAnyway() {
 		return model.getTurnTracker().getCurrentPlayer();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public HexLocation findRobber() {
+		return model.getMap().getRobber();
+	}
+	
+	/**
+	 * 
+	 * @param newHideout
+	 */
+	public void placeRobber(HexLocation newHideout) {
+		model.getMap().setRobber(newHideout);
 	}
 	
 	/**
