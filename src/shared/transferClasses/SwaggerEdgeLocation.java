@@ -1,6 +1,5 @@
 package shared.transferClasses;
 
-import shared.model.gamemap.Direction;
 import shared.model.locations.EdgeDirection;
 import shared.model.locations.EdgeLocation;
 import swaggerModel.SwaggerModel;
@@ -15,6 +14,7 @@ public class SwaggerEdgeLocation {
 	private String direction;
 	
 	public SwaggerEdgeLocation(EdgeLocation edge) {
+		edge = edge.getNormalizedLocation();
 		this.x = edge.getHexLoc().getX();
 		this.y = edge.getHexLoc().getY();
 		this.direction = SwaggerModel.edgeDirectionToString(edge.getDir());
@@ -28,7 +28,7 @@ public class SwaggerEdgeLocation {
 		return y;
 	}
 	
-	public EdgeDirection getDirection() {
+	public EdgeDirection getEdgeDirection() {
 		return SwaggerModel.stringToEdgeDirection(direction);
 	}
 }

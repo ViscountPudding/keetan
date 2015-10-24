@@ -1,13 +1,14 @@
 package swaggerModel;
 
 import shared.model.Resource;
+import shared.model.gamemap.Hex;
 import shared.model.locations.HexLocation;
 
 public class SwaggerDesertHex implements SwaggerHex {
 	private HexLocation location;
 	
-	public SwaggerDesertHex() {
-		
+	public SwaggerDesertHex(Hex hex) {
+		location = hex.getLocation();
 	}
 
 	@Override

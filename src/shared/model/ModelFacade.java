@@ -307,7 +307,7 @@ public class ModelFacade {
 	* @post Player may build the city if possible
 	*/
 	public boolean canBuildCity(int playerIndex, VertexLocation location) {
-		VertexValue vertex = model.getMap().vertices.get(location.getNormalizedLocation());
+		VertexValue vertex = model.getMap().getVertices().get(location.getNormalizedLocation());
 		Player player = model.getPlayers()[playerIndex];
 		if(player.getUnplacedCities() == 0) {
 			return false;

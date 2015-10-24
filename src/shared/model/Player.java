@@ -9,7 +9,6 @@ import shared.model.pieces.*;
  * Contains data about a given player
  */
 public class Player {
-	
 	private String color = null;
 	private boolean discarded;
 	private int monuments;
@@ -30,7 +29,35 @@ public class Player {
 	public int getUnplacedCities() {
 		return unplacedCities;
 	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
+	public void setPlayerIndex(int playerIndex) {
+		this.playerIndex = playerIndex;
+	}
+
+	public void setPlayerID(int playerID) {
+		this.playerID = playerID;
+	}
+
+	public void setCities(ArrayList<City> cities) {
+		this.cities = cities;
+	}
+
+	public void setRoads(ArrayList<Road> roads) {
+		this.roads = roads;
+	}
+
+	public void setSettlements(ArrayList<Settlement> settlements) {
+		this.settlements = settlements;
+	}
+
+	public void setPorts(ArrayList<Port> ports) {
+		this.ports = ports;
+	}
+	
 	public void setUnplacedCities(int unplacedCities) {
 		this.unplacedCities = unplacedCities;
 	}
@@ -83,7 +110,7 @@ public class Player {
 		this.color = color;
 	}
 
-	public boolean isDiscarded() {
+	public boolean hasDiscarded() {
 		return discarded;
 	}
 

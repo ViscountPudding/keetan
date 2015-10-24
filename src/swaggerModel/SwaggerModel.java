@@ -3,12 +3,12 @@ package swaggerModel;
 import java.util.List;
 
 import shared.model.Model;
+import shared.model.Player;
 import shared.model.Resource;
 import shared.model.ResourceList;
-import shared.model.TradeOffer;
 import shared.model.TurnTracker;
-import shared.model.gamemap.Direction;
 import shared.model.locations.EdgeDirection;
+import shared.model.locations.VertexDirection;
 import shared.model.message.MessageList;
 
 public class SwaggerModel {
@@ -27,6 +27,15 @@ public class SwaggerModel {
 		setChat(model.getChat());
 		setLog(model.getLog());
 		map = new SwaggerMap(model);
+		
+		for (Player player : model.getPlayers()) {
+			players.add(new SwaggerPlayer(player));
+		}
+		
+		tradeOffer = new SwaggerTradeOffer(model.getTradeOffer());
+		turnTracker = model.getTurnTracker();
+		version = model.getVersion();
+		winner = model.getWinner();
 	}
 
 	public ResourceList getBank() {
@@ -181,6 +190,50 @@ public class SwaggerModel {
 			return EdgeDirection.SouthEast;
 		case "NE":
 			return EdgeDirection.NorthEast;
+		default:
+			return null;
+		}
+	}
+
+	public static String vertexDirectionToString(VertexDirection direction) {
+		if (direction == null) {
+			return null;
+		}
+		switch (direction) {
+		case West:
+			return "W";
+		case NorthWest:
+			return "NW";
+		case NorthEast:
+			return "NE";
+		case East:
+			return "E";
+		case SouthEast:
+			return "SE";
+		case SouthWest:
+			return "SW";
+		default:
+			return null;
+		}
+	}
+	
+	public static VertexDirection stringToVertexDirection(String direction) {
+		if (direction == null) {
+			return null;
+		}
+		switch (direction) {
+		case "W":
+			return VertexDirection.West;
+		case "NW":
+			return VertexDirection.NorthWest;
+		case "NE":
+			return VertexDirection.NorthEast;
+		case "E":
+			return VertexDirection.East;
+		case "SE":
+			return VertexDirection.SouthEast;
+		case "SW":
+			return VertexDirection.SouthWest;
 		default:
 			return null;
 		}

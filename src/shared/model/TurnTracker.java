@@ -6,6 +6,7 @@ package shared.model;
 public class TurnTracker {
 	private int currentTurn;
 	private int currentPlayer;
+	private Status status;
 	private int longestRoad;
 	private int largestArmy;
 

@@ -59,8 +59,7 @@ public class ResourceList {
 		this.wood = wood;
 	}
 	public int getTotalCards() {
-		int toReturn = wood + wheat + sheep + ore + brick;
-		return toReturn;
+		return wood + wheat + sheep + ore + brick;
 	}
 	
 	public boolean hasResource(Resource resource, int amount) {

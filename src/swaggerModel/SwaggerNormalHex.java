@@ -21,7 +21,7 @@ public class SwaggerNormalHex implements SwaggerHex {
 
 	@Override
 	public Resource getResource() {
-		return SwaggerModel.resource;
+		return SwaggerModel.stringToResource(resource);
 	}
 
 	@Override

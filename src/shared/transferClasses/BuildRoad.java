@@ -11,28 +11,28 @@ import shared.model.locations.EdgeLocation;
  */
 
 public class BuildRoad {
+	private String type = "buildRoad";
+	private int playerIndex;
+	private SwaggerEdgeLocation roadLocation;
+	private Boolean free;
+
 
 	public BuildRoad(int playerIndex, EdgeLocation roadLocation, Boolean free) {
 		this.playerIndex = playerIndex;
-		this.roadLocation = roadLocation;
+		this.roadLocation = new SwaggerEdgeLocation(roadLocation);
 		this.free = free;
 	}
-
-	private String type = "buildRoad";
-	private int playerIndex;
-	private EdgeLocation roadLocation;
-	private Boolean free;
-
+	
 	public int getPlayerIndex() {
 		return playerIndex;
 	}
 	public void setPlayerIndex(int playerIndex) {
 		this.playerIndex = playerIndex;
 	}
-	public EdgeLocation getRoadLocation() {
+	public SwaggerEdgeLocation getRoadLocation() {
 		return roadLocation;
 	}
-	public void setRoadLocation(EdgeLocation roadLocation) {
+	public void setRoadLocation(SwaggerEdgeLocation roadLocation) {
 		this.roadLocation = roadLocation;
 	}
 	public Boolean getFree() {
