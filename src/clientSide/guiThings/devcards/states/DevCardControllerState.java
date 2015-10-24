@@ -1,5 +1,9 @@
 package clientSide.guiThings.devcards.states;
 
+import shared.definitions.ResourceType;
+import shared.model.locations.EdgeLocation;
+import shared.model.locations.HexLocation;
+
 public interface DevCardControllerState {
 
 	void startBuyCard();
@@ -12,12 +16,12 @@ public interface DevCardControllerState {
 	
 	void cancelPlayCard();
 	
-	void playMonopolyCard();
+	void playMonopolyCard(ResourceType resource);
 	
-	void playRoadBuildCard();
+	void playRoadBuildCard(EdgeLocation roadOne, EdgeLocation roadTwo);
 	
-	void playSoldierCard();
+	void playSoldierCard(int victimIndex, HexLocation location);
 	
-	void playYearOfPlentyCard();
+	void playYearOfPlentyCard(ResourceType resourceOne, ResourceType resourceTwo);
 	
 }

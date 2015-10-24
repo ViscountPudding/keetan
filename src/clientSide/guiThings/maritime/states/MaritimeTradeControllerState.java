@@ -6,7 +6,7 @@ public interface MaritimeTradeControllerState {
 
 	void startTrade();
 
-	void makeTrade();
+	void makeTrade(ResourceType input, ResourceType output, int ratio);
 
 	void cancelTrade();
 	

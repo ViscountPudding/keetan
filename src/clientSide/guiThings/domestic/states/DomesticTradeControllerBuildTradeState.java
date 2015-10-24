@@ -1,6 +1,12 @@
 package clientSide.guiThings.domestic.states;
 
+import clientSide.exceptions.ServerException;
+import clientSide.server.ClientServerFacade;
 import shared.definitions.ResourceType;
+import shared.model.ModelFacade;
+import shared.model.ResourceList;
+import shared.model.TradeOffer;
+import shared.transferClasses.OfferTrade;
 
 public class DomesticTradeControllerBuildTradeState implements
 		DomesticTradeControllerState {
@@ -28,8 +34,17 @@ public class DomesticTradeControllerBuildTradeState implements
 	}
 
 	@Override
-	public void sendTradeOffer() {
+	public void sendTradeOffer(ResourceList offer, int receiver, ResourceList request) {
 		// TODO Auto-generated method stub
+		//OfferTrade command = new OfferTrade(ModelFacade.getInstance().whoseTurnIsItAnyway(), offer, receiver);
+		TradeOffer command = new TradeOffer(ModelFacade.getInstance().whoseTurnIsItAnyway(), receiver, offer, request);
+		
+		try {
+			ClientServerFacade.getInstance().offerTrade(command);
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

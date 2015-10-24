@@ -1,6 +1,10 @@
 package clientSide.guiThings.maritime.states;
 
+import clientSide.exceptions.ServerException;
+import clientSide.server.ClientServerFacade;
 import shared.definitions.ResourceType;
+import shared.model.ModelFacade;
+import shared.transferClasses.MaritimeTrade;
 
 public class MaritimeTradeControllerBuildTradeState implements
 		MaritimeTradeControllerState {
@@ -12,9 +16,15 @@ public class MaritimeTradeControllerBuildTradeState implements
 	}
 
 	@Override
-	public void makeTrade() {
+	public void makeTrade(ResourceType input, ResourceType output, int ratio) {
 		// TODO Auto-generated method stub
-
+		MaritimeTrade command = new MaritimeTrade(ModelFacade.getInstance().whoseTurnIsItAnyway(), ratio, input, output);
+		try {
+			ClientServerFacade.getInstance().maritimeTrade(command);
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

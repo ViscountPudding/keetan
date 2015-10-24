@@ -1,6 +1,7 @@
 package clientSide.guiThings.domestic.states;
 
 import shared.definitions.ResourceType;
+import shared.model.ResourceList;
 
 public class DomesticTradeRollingDiceState implements
 		DomesticTradeControllerState {
@@ -28,7 +29,7 @@ public class DomesticTradeRollingDiceState implements
 	}
 
 	@Override
-	public void sendTradeOffer() {
+	public void sendTradeOffer(ResourceList offer, int receiver, ResourceList request) {
 		// TODO Auto-generated method stub
 
 	}

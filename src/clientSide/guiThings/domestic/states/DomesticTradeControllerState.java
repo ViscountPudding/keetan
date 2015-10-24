@@ -1,6 +1,7 @@
 package clientSide.guiThings.domestic.states;
 
 import shared.definitions.ResourceType;
+import shared.model.ResourceList;
 
 public interface DomesticTradeControllerState {
 
@@ -10,7 +11,7 @@ public interface DomesticTradeControllerState {
 
 	void increaseResourceAmount(ResourceType resource);
 
-	void sendTradeOffer();
+	void sendTradeOffer(ResourceList offer, int receiver, ResourceList request);
 
 	void setPlayerToTradeWith(int playerIndex);
 

@@ -1,6 +1,7 @@
 package clientSide.guiThings.domestic.states;
 
 import shared.definitions.ResourceType;
+import shared.model.ResourceList;
 
 public class DomesticTradeControllerNotTurnState implements
 		DomesticTradeControllerState {
@@ -24,7 +25,7 @@ public class DomesticTradeControllerNotTurnState implements
 	}
 
 	@Override
-	public void sendTradeOffer() {
+	public void sendTradeOffer(ResourceList offer, int receiver, ResourceList request) {
 		// TODO Auto-generated method stub
 
 	}

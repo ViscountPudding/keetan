@@ -1,5 +1,7 @@
 package shared.transferClasses;
 
+import shared.model.locations.EdgeLocation;
+
 
 /**
  * This plays the road building card, which actually builds two roads.
@@ -11,16 +13,16 @@ package shared.transferClasses;
 
 public class RoadBuilding {
 
-	public RoadBuilding(int playerIndex, EdgeLocationSwag spotOne, EdgeLocationSwag spotTwo) {
+	public RoadBuilding(int playerIndex, EdgeLocation spotOne, EdgeLocation spotTwo) {
 		this.playerIndex = playerIndex;
-		this.spotOne = spotOne;
-		this.spotTwo = spotTwo;
+		this.spotOne = new SwaggerEdgeLocation(spotOne);
+		this.spotTwo = new SwaggerEdgeLocation(spotTwo);
 	}
 
 	private String type = "Road_Building";
 	private int playerIndex;
-	private EdgeLocationSwag spotOne;
-	private EdgeLocationSwag spotTwo;
+	private SwaggerEdgeLocation spotOne;
+	private SwaggerEdgeLocation spotTwo;
 	public String getType() {
 		return type;
 	}
@@ -33,16 +35,16 @@ public class RoadBuilding {
 	public void setPlayerIndex(int playerIndex) {
 		this.playerIndex = playerIndex;
 	}
-	public EdgeLocationSwag getSpotOne() {
+	public SwaggerEdgeLocation getSpotOne() {
 		return spotOne;
 	}
-	public void setSpotOne(EdgeLocationSwag spotOne) {
+	public void setSpotOne(SwaggerEdgeLocation spotOne) {
 		this.spotOne = spotOne;
 	}
-	public EdgeLocationSwag getSpotTwo() {
+	public SwaggerEdgeLocation getSpotTwo() {
 		return spotTwo;
 	}
-	public void setSpotTwo(EdgeLocationSwag spotTwo) {
+	public void setSpotTwo(SwaggerEdgeLocation spotTwo) {
 		this.spotTwo = spotTwo;
 	}
 }

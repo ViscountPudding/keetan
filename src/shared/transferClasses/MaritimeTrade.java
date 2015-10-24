@@ -1,5 +1,6 @@
 package shared.transferClasses;
 
+import shared.definitions.ResourceType;
 import shared.model.Resource;
 
 /**
@@ -14,7 +15,7 @@ import shared.model.Resource;
 
 public class MaritimeTrade {
 
-	public MaritimeTrade(int playerIndex, int ratio, Resource input, Resource output) {
+	public MaritimeTrade(int playerIndex, int ratio, ResourceType input, ResourceType output) {
 		this.playerIndex = playerIndex;
 		this.ratio = ratio;
 		this.inputResource = input;
@@ -24,8 +25,8 @@ public class MaritimeTrade {
 	private String type = "maritimeTrade";	
 	private int playerIndex;
 	private int ratio;
-	private Resource inputResource;
-	private Resource outputResource;
+	private ResourceType inputResource;
+	private ResourceType outputResource;
 
 	public int getPlayerIndex() {
 		return playerIndex;
@@ -39,16 +40,16 @@ public class MaritimeTrade {
 	public void setRatio(int ratio) {
 		this.ratio = ratio;
 	}
-	public Resource getInputResource() {
+	public ResourceType getInputResource() {
 		return inputResource;
 	}
-	public void setInputResource(Resource inputResource) {
+	public void setInputResource(ResourceType inputResource) {
 		this.inputResource = inputResource;
 	}
-	public Resource getOutputResource() {
+	public ResourceType getOutputResource() {
 		return outputResource;
 	}
-	public void setOutputResource(Resource outputResource) {
+	public void setOutputResource(ResourceType outputResource) {
 		this.outputResource = outputResource;
 	}
 

@@ -1,5 +1,9 @@
 package clientSide.guiThings.devcards.states;
 
+import shared.definitions.ResourceType;
+import shared.model.locations.EdgeLocation;
+import shared.model.locations.HexLocation;
+
 public class DevCardControllerNotYourTurnState implements
 		DevCardControllerState {
 
@@ -38,27 +42,28 @@ public class DevCardControllerNotYourTurnState implements
 	}
 
 	@Override
-	public void playMonopolyCard() {
+	public void playMonopolyCard(ResourceType resource) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void playRoadBuildCard() {
+	public void playRoadBuildCard(EdgeLocation roadOne, EdgeLocation roadTwo) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void playSoldierCard() {
+	public void playSoldierCard(int victimIndex, HexLocation location) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void playYearOfPlentyCard() {
+	public void playYearOfPlentyCard(ResourceType resourceOne,
+			ResourceType resourceTwo) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

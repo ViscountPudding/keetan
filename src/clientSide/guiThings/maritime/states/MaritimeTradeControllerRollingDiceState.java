@@ -11,7 +11,7 @@ public class MaritimeTradeControllerRollingDiceState implements MaritimeTradeCon
 	}
 
 	@Override
-	public void makeTrade() {
+	public void makeTrade(ResourceType input, ResourceType output, int ratio) {
 		// TODO Auto-generated method stub
 		
 	}

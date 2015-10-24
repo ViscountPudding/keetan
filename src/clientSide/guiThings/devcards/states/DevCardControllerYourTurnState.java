@@ -1,6 +1,16 @@
 package clientSide.guiThings.devcards.states;
 
+import clientSide.exceptions.ServerException;
+import clientSide.server.ClientServerFacade;
+import shared.definitions.ResourceType;
 import shared.model.ModelFacade;
+import shared.model.locations.EdgeLocation;
+import shared.model.locations.HexLocation;
+import shared.transferClasses.BuyDevCard;
+import shared.transferClasses.Monopoly;
+import shared.transferClasses.RoadBuilding;
+import shared.transferClasses.Soldier;
+import shared.transferClasses.YearOfPlenty;
 
 public class DevCardControllerYourTurnState implements DevCardControllerState {
 
@@ -23,7 +33,13 @@ public class DevCardControllerYourTurnState implements DevCardControllerState {
 	@Override
 	public void buyCard() {
 		// TODO Auto-generated method stub
-		//ModelFacade.getInstance().BuyDevelopmentCard();
+		BuyDevCard command = new BuyDevCard(ModelFacade.getInstance().whoseTurnIsItAnyway());
+		try {
+			ClientServerFacade.getInstance().buyDevCard(command);
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -39,27 +55,51 @@ public class DevCardControllerYourTurnState implements DevCardControllerState {
 	}
 
 	@Override
-	public void playMonopolyCard() {
+	public void playMonopolyCard(ResourceType resource) {
 		// TODO Auto-generated method stub
-		
+		Monopoly command = new Monopoly(ModelFacade.getInstance().whoseTurnIsItAnyway(), resource);
+		try {
+			ClientServerFacade.getInstance().monopoly(command);
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void playRoadBuildCard() {
+	public void playRoadBuildCard(EdgeLocation roadOne, EdgeLocation roadTwo) {
 		// TODO Auto-generated method stub
-		
+		RoadBuilding command = new RoadBuilding(ModelFacade.getInstance().whoseTurnIsItAnyway(), roadOne, roadTwo);
+		try {
+			ClientServerFacade.getInstance().roadBuilding(command);
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void playSoldierCard() {
+	public void playSoldierCard(int victimIndex, HexLocation location) {
 		// TODO Auto-generated method stub
-		
+		Soldier command = new Soldier(ModelFacade.getInstance().whoseTurnIsItAnyway(), victimIndex, location);
+		try {
+			ClientServerFacade.getInstance().soldier(command);
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void playYearOfPlentyCard() {
+	public void playYearOfPlentyCard(ResourceType resourceOne, ResourceType resourceTwo) {
 		// TODO Auto-generated method stub
-		
+		YearOfPlenty command = new YearOfPlenty(ModelFacade.getInstance().whoseTurnIsItAnyway(), resourceOne, resourceTwo);
+		try {
+			ClientServerFacade.getInstance().yearOfPlenty(command);
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

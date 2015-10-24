@@ -12,7 +12,7 @@ public class MaritimeTradeControllerNotTurnState implements
 	}
 
 	@Override
-	public void makeTrade() {
+	public void makeTrade(ResourceType input, ResourceType output, int ratio) {
 		// TODO Auto-generated method stub
 
 	}
