@@ -14,13 +14,13 @@ public class SwaggerMap {
 	private List<SwaggerVertexObject> settlements;
 	private List<SwaggerVertexObject> cities;
 
-	public SwaggerMap(Model clientModel) {
+	public SwaggerMap(Model model) {
 		hexes = new ArrayList<SwaggerHex>();
 		ports = new ArrayList<SwaggerPort>();
 		settlements = new ArrayList<SwaggerVertexObject>();
 		cities = new ArrayList<SwaggerVertexObject>();		
 		
-		GameMap map = clientModel.getMap();
+		GameMap map = model.getMap();
 		for (Hex hex : map.getHexes().values()) {
 			hexes.add(new SwaggerHex(hex));
 		}

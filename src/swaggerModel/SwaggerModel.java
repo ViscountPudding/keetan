@@ -7,6 +7,8 @@ import shared.model.Resource;
 import shared.model.ResourceList;
 import shared.model.TradeOffer;
 import shared.model.TurnTracker;
+import shared.model.gamemap.Direction;
+import shared.model.locations.EdgeDirection;
 import shared.model.message.MessageList;
 
 public class SwaggerModel {
@@ -20,11 +22,11 @@ public class SwaggerModel {
 	private int version;
 	private int winner;
 	
-	public SwaggerModel(Model clientModel) {
-		setBank(clientModel.getBank());
-		setChat(clientModel.getChat());
-		setLog(clientModel.getLog());
-		map = new SwaggerMap(clientModel);
+	public SwaggerModel(Model model) {
+		setBank(model.getBank());
+		setChat(model.getChat());
+		setLog(model.getLog());
+		map = new SwaggerMap(model);
 	}
 
 	public ResourceList getBank() {
@@ -99,8 +101,11 @@ public class SwaggerModel {
 		this.winner = winner;
 	}
 	
-	public static String resourceToString(Resource resourceType) {		
-		switch (resourceType) {
+	public static String resourceToString(Resource resource) {
+		if (resource == null) {
+			return null;
+		}	
+		switch (resource) {
 		case WOOD:
 			return "Wood";
 		case BRICK:
@@ -112,6 +117,70 @@ public class SwaggerModel {
 		case ORE:
 			return "Ore";
 		case DESERT:
+		default:
+			return null;
+		}
+	}
+	
+	public static Resource stringToResource(String resource) {
+		if (resource == null) {
+			return Resource.DESERT;
+		}
+		switch (resource) {
+		case "Wood":
+			return Resource.WOOD;
+		case "Brick":
+			return Resource.BRICK;
+		case "Sheep":
+			return Resource.SHEEP;
+		case "Wheat":
+			return Resource.WHEAT;
+		case "Ore":
+			return Resource.ORE;
+		default:
+			return null;
+		}
+	}
+
+	public static String edgeDirectionToString(EdgeDirection direction) {
+		if (direction == null) {
+			return null;
+		}
+		switch (direction) {
+		case North:
+			return "N";
+		case NorthWest:
+			return "NW";
+		case SouthWest:
+			return "SW";
+		case South:
+			return "S";
+		case SouthEast:
+			return "SE";
+		case NorthEast:
+			return "NE";
+		default:
+			return null;
+		}
+	}
+
+	public static EdgeDirection stringToEdgeDirection(String direction) {
+		if (direction == null) {
+			return null;
+		}
+		switch (direction) {
+		case "N":
+			return EdgeDirection.North;
+		case "NW":
+			return EdgeDirection.NorthWest;
+		case "SW":
+			return EdgeDirection.SouthWest;
+		case "S":
+			return EdgeDirection.South;
+		case "SE":
+			return EdgeDirection.SouthEast;
+		case "NE":
+			return EdgeDirection.NorthEast;
 		default:
 			return null;
 		}

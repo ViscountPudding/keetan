@@ -1,33 +1,15 @@
 package swaggerModel;
 
-import shared.model.gamemap.Hex;
+import shared.model.Resource;
+import shared.model.locations.HexLocation;
 
-public class SwaggerHex {
-	private SwaggerHexLocation location;
-	private String resource;
-	private int number;
-	
-	public SwaggerHex(Hex hex) {
-		resource = SwaggerModel.resourceToString(hex.getResource());
-		
-	}
-	
-	public SwaggerHexLocation getLocation() {
-		return location;
-	}
-	public void setLocation(SwaggerHexLocation location) {
-		this.location = location;
-	}
-	public String getResource() {
-		return resource;
-	}
-	public void setResource(String resource) {
-		this.resource = resource;
-	}
-	public int getNumber() {
-		return number;
-	}
-	public void setNumber(int number) {
-		this.number = number;
-	}
+/**
+ * This interface is used so that the SwaggerMap's list of hexes can include the SwaggerDesertHex which
+ * has no chit-number or resource String
+ * @author djoshuac
+ */
+public interface SwaggerHex {
+	public HexLocation getLocation();
+	public Resource getResource();
+	public int getChitNumber();
 }

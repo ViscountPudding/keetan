@@ -87,9 +87,10 @@ public class ModelFacade {
 	
 	/**
 	 * Returns a Player object of the player with that index
+	 * @param playerIndex - a player index
 	 * @pre playerIndex must be an integer in the set {0, 1, 2, 3}
-	 * @post 
-	 * @post a 
+	 * @post The player with the given index is returned
+	 * @return A Player object of the player with the given index.
 	 */
 	public Player whosThatPlayer(int playerIndex) {
 		return model.getPlayers()[playerIndex];

@@ -32,7 +32,7 @@ public class GameMap {
 	
 	private HashMap<HexLocation, Hex> hexes;
 	private HashMap<EdgeLocation, EdgeValue> edges;
-	public HashMap<VertexLocation, VertexValue> vertices; //#CHANGEBACK to private
+	private HashMap<VertexLocation, VertexValue> vertices;
 	
 	private ArrayList<Port> ports;
 	private ArrayList<Road> roads;
