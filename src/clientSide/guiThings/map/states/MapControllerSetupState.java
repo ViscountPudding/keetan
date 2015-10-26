@@ -74,17 +74,17 @@ public class MapControllerSetupState implements MapControllerState {
 	}
 
 	@Override
-	public void playSoldierCard() {
+	public void playSoldierCard(int victimIndex, HexLocation location) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void playRoadBuildingCard() {
+	public void playRoadBuildingCard(EdgeLocation roadOne, EdgeLocation roadTwo) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
+	
 	@Override
 	public void robPlayer(RobPlayerInfo victim) {
 		// TODO Auto-generated method stub

@@ -5,7 +5,9 @@ import shared.model.ModelFacade;
 import shared.model.locations.EdgeLocation;
 import shared.model.locations.HexLocation;
 import shared.model.locations.VertexLocation;
+import shared.transferClasses.RoadBuilding;
 import shared.transferClasses.RobPlayer;
+import shared.transferClasses.Soldier;
 import clientSide.exceptions.ServerException;
 import clientSide.guiThings.data.RobPlayerInfo;
 import clientSide.server.ClientServerFacade;
@@ -75,15 +77,27 @@ public class MapControllerThieveryState implements MapControllerState {
 	}
 
 	@Override
-	public void playSoldierCard() {
+	public void playSoldierCard(int victimIndex, HexLocation location) {
 		// TODO Auto-generated method stub
-
+		Soldier command = new Soldier(ModelFacade.getInstance().whoseTurnIsItAnyway(), victimIndex, location);
+		try {
+			ClientServerFacade.getInstance().soldier(command);
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void playRoadBuildingCard() {
+	public void playRoadBuildingCard(EdgeLocation roadOne, EdgeLocation roadTwo) {
 		// TODO Auto-generated method stub
-
+		RoadBuilding command = new RoadBuilding(ModelFacade.getInstance().whoseTurnIsItAnyway(), roadOne, roadTwo);
+		try {
+			ClientServerFacade.getInstance().roadBuilding(command);
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

@@ -171,12 +171,12 @@ public class MapController extends Controller implements IMapController {
 		state.cancelMove();
 	}
 	
-	public void playSoldierCard() {	
-		state.playSoldierCard();
+	public void playSoldierCard(int victimIndex, HexLocation location) {	
+		state.playSoldierCard(victimIndex, location);
 	}
 	
-	public void playRoadBuildingCard() {	
-		state.playRoadBuildingCard();
+	public void playRoadBuildingCard(EdgeLocation roadOne, EdgeLocation roadTwo) {	
+		state.playRoadBuildingCard(roadOne, roadTwo);
 	}
 	
 	public void robPlayer(RobPlayerInfo victim) {	

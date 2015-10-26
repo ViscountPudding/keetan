@@ -18,6 +18,8 @@ public interface DevCardControllerState {
 	
 	void playMonopolyCard(ResourceType resource);
 	
+	void playMonumentCard();
+	
 	void playRoadBuildCard(EdgeLocation roadOne, EdgeLocation roadTwo);
 	
 	void playSoldierCard(int victimIndex, HexLocation location);

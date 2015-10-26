@@ -1,6 +1,8 @@
 package clientSide.guiThings.maritime;
 
 import shared.definitions.*;
+import shared.model.ModelFacade;
+import shared.model.Resource;
 import clientSide.guiThings.base.*;
 import clientSide.guiThings.maritime.states.MaritimeTradeControllerState;
 
@@ -55,8 +57,35 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 		//Need a way to get the trade ratio from the ModelFacade
 		
+		Resource desiredResource;
+		
+		switch(get)
+		{
+		case WOOD:
+			desiredResource = Resource.WOOD;
+			break;
+		case BRICK:
+			desiredResource = Resource.BRICK;
+			break;
+		case SHEEP:
+			desiredResource = Resource.SHEEP;
+			break;
+		case WHEAT:
+			desiredResource = Resource.WHEAT;
+			break;
+		case ORE:
+			desiredResource = Resource.ORE;
+			break;
+		default:
+			desiredResource = Resource.DESERT; //Will literally never happen
+			break;
+		}
+			
+		
+		int ratio = ModelFacade.getInstance().getTradeRatio(ModelFacade.getInstance().whoseTurnIsItAnyway(), desiredResource);
+		
 		getTradeOverlay().closeModal();
-		state.makeTrade(give, get, 4);  //WILL BE A DIFFERENT NUMBER!
+		state.makeTrade(give, get, ratio);  //WILL BE A DIFFERENT NUMBER!
 	}
 
 	@Override

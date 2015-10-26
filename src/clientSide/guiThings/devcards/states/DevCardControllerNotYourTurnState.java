@@ -66,4 +66,10 @@ public class DevCardControllerNotYourTurnState implements
 		
 	}
 
+	@Override
+	public void playMonumentCard() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

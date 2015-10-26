@@ -8,6 +8,7 @@ import shared.model.locations.EdgeLocation;
 import shared.model.locations.HexLocation;
 import shared.transferClasses.BuyDevCard;
 import shared.transferClasses.Monopoly;
+import shared.transferClasses.Monument;
 import shared.transferClasses.RoadBuilding;
 import shared.transferClasses.Soldier;
 import shared.transferClasses.YearOfPlenty;
@@ -96,6 +97,18 @@ public class DevCardControllerYourTurnState implements DevCardControllerState {
 		YearOfPlenty command = new YearOfPlenty(ModelFacade.getInstance().whoseTurnIsItAnyway(), resourceOne, resourceTwo);
 		try {
 			ClientServerFacade.getInstance().yearOfPlenty(command);
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void playMonumentCard() {
+		// TODO Auto-generated method stub
+		Monument commmand = new Monument(ModelFacade.getInstance().whoseTurnIsItAnyway());
+		try {
+			ClientServerFacade.getInstance().monument(commmand);
 		} catch (ServerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

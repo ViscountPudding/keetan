@@ -2,6 +2,7 @@ package clientSide.guiThings.devcards;
 
 import shared.definitions.ResourceType;
 import clientSide.guiThings.base.*;
+import clientSide.guiThings.devcards.states.DevCardControllerState;
 
 
 /**
@@ -12,6 +13,8 @@ public class DevCardController extends Controller implements IDevCardController 
 	private IBuyDevCardView buyCardView;
 	private IAction soldierAction;
 	private IAction roadAction;
+	
+	private DevCardControllerState state;
 	
 	/**
 	 * DevCardController constructor
@@ -54,6 +57,8 @@ public class DevCardController extends Controller implements IDevCardController 
 	@Override
 	public void buyCard() {
 		
+		state.buyCard();
+		
 		getBuyCardView().closeModal();
 	}
 
@@ -71,12 +76,12 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void playMonopolyCard(ResourceType resource) {
-		
+		state.playMonopolyCard(resource);
 	}
 
 	@Override
 	public void playMonumentCard() {
-		
+		state.playMonumentCard();
 	}
 
 	@Override
@@ -88,12 +93,14 @@ public class DevCardController extends Controller implements IDevCardController 
 	@Override
 	public void playSoldierCard() {
 		
+		
+		//state.playSoldierCard(victimIndex, location);
 		soldierAction.execute();
 	}
 
 	@Override
 	public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
-		
+		state.playYearOfPlentyCard(resource1, resource2);
 	}
 
 }

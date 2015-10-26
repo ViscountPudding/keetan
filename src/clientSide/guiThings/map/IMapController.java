@@ -119,14 +119,14 @@ public interface IMapController extends IController
 	 * This method is called when the user plays a "soldier" development card.
 	 * It should initiate robber placement.
 	 */
-	void playSoldierCard();
+	void playSoldierCard(int victimIndex, HexLocation location);
 	
 	/**
 	 * This method is called when the user plays a "road building" progress
 	 * development card. It should initiate the process of allowing the player
 	 * to place two roads.
 	 */
-	void playRoadBuildingCard();
+	void playRoadBuildingCard(EdgeLocation roadOne, EdgeLocation roadTwo);
 	
 	/**
 	 * This method is called by the Rob View when a player to rob is selected

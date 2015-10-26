@@ -28,9 +28,9 @@ public interface MapControllerState {
 	
 	void cancelMove();
 	
-	void playSoldierCard();
+	void playSoldierCard(int victimIndex, HexLocation location);
 
-	void playRoadBuildingCard();
+	void playRoadBuildingCard(EdgeLocation roadOne, EdgeLocation roadTwo);
 	
 	void robPlayer(RobPlayerInfo victim);
 }
