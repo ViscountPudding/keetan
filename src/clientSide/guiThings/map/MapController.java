@@ -161,7 +161,7 @@ public class MapController extends Controller implements IMapController {
 	}
 	
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {	
-		
+		//This is probably wrong but I've no idea how to fix it
 		getView().startDrop(pieceType, CatanColor.ORANGE, true);
 		
 		state.startMove(pieceType, false, false);
