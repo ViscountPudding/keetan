@@ -1,8 +1,10 @@
 package shared.model;
 
+import java.util.List;
 import java.util.ArrayList;
 
 import shared.model.gamemap.GameMap;
+import shared.model.locations.VertexLocation;
 import shared.model.message.MessageList;
 
 /**
@@ -15,33 +17,34 @@ public class Model {
 	private MessageList chat;
 	private MessageList log;
 	private GameMap map;
-	private Player[] players;
+	private List<Player> players;
 	private TradeOffer tradeOffer;
 	private TurnTracker turnTracker;
 	private int version;
 	private int winner;
-	private TradeOffer currentTradeOffer;
-	
 
 
-	public Model(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
+	public Model(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, List<String> names) { // #swagger #color??
 		bank = new ResourceList(19,19,19,19,19);
 		undrawnDevCards = new DevCardList(2, 5, 2, 14, 2);
 		chat = new MessageList();
 		log = new MessageList();
 		map = new GameMap(randomHexes, randomChits, randomPorts, loadGame);
-		players = new Player[4];
-		turnTracker = new TurnTracker(0, 0, 0, 0);
+		players = new ArrayList<Player>(4);
 		
-		for(int i = 0; i < 4; i++)
+		for(int i = 0; i < names.size(); i++)
 		{
-			Player newPlayer = new Player(names.get(0), i, i);
-			players[i] = newPlayer;
+			Player newPlayer = new Player(names.get(0), -1, "no colors yet", i);
+			players.set(i, newPlayer);
 		}
-		
+
+		turnTracker = new TurnTracker(0, 0, 0, 0);
 		tradeOffer = null;
 		version = 1;	
 		winner = -1;
+	}
+	public Model() {
+		
 	}
 	
 	public ResourceList getBank() {
@@ -76,11 +79,11 @@ public class Model {
 		this.map = map;
 	}
 
-	public Player[] getPlayers() {
+	public List<Player> getPlayers() {
 		return players;
 	}
 
-	public void setPlayers(Player[] players) {
+	public void setPlayers(List<Player> players) {
 		this.players = players;
 	}
 
@@ -122,13 +125,5 @@ public class Model {
 
 	public void setUndrawnDevCards(DevCardList undrawnDevCards) {
 		this.undrawnDevCards = undrawnDevCards;
-	}
-
-	public TradeOffer getCurrentTradeOffer() {
-		return currentTradeOffer;
-	}
-
-	public void setCurrentTradeOffer(TradeOffer currentTradeOffer) {
-		this.currentTradeOffer = currentTradeOffer;
 	}
 }

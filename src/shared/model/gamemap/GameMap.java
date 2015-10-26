@@ -1,21 +1,21 @@
 package shared.model.gamemap;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Random;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 import shared.definitions.PortType;
 import shared.model.Resource;
+import shared.model.locations.EdgeDirection;
+import shared.model.locations.EdgeLocation;
+import shared.model.locations.HexLocation;
+import shared.model.locations.VertexDirection;
+import shared.model.locations.VertexLocation;
 import shared.model.pieces.City;
 import shared.model.pieces.Road;
 import shared.model.pieces.Settlement;
-import shared.model.locations.HexLocation;
-import shared.model.locations.EdgeLocation;
-import shared.model.locations.EdgeDirection;
-import shared.model.locations.VertexLocation;
-import shared.model.locations.VertexDirection;
 
 /**
  * Class is a singleton, and contains the data about the game map
@@ -34,10 +34,10 @@ public class GameMap {
 	private HashMap<EdgeLocation, EdgeValue> edges;
 	private HashMap<VertexLocation, VertexValue> vertices;
 	
-	private ArrayList<Port> ports;
-	private ArrayList<Road> roads;
-	private ArrayList<Settlement> settlements;
-	private ArrayList<City> cities;
+	private List<Port> ports;
+	private List<Road> roads;
+	private List<Settlement> settlements;
+	private List<City> cities;
 	private int radius;
 	private HexLocation robber;
 	
@@ -55,9 +55,9 @@ public class GameMap {
 		radius = 2;
 		
 		if(loadGame == false) {	
-			ArrayList<Hex> theHexes = initializeHexList(randomHexes);
+			List<Hex> theHexes = initializeHexList(randomHexes);
 			
-			ArrayList<Integer> theChits = initializeChitList(randomChits);
+			List<Integer> theChits = initializeChitList(randomChits);
 			
 			//Need something with ports as well
 			
@@ -65,6 +65,12 @@ public class GameMap {
 			
 			setUpPorts(randomPorts);
 		}
+		
+	}
+	/**
+	 * Creates an empty game map. needed for #swagger
+	 */
+	public GameMap() {
 		
 	}
 	
@@ -75,9 +81,9 @@ public class GameMap {
 	 * @return an array list of hexes
 	 * @post the hexes that will eventually be put onto the game map are initialized in an array list
 	 */
-	private ArrayList<Hex> initializeHexList(boolean randomHexes) {
+	private List<Hex> initializeHexList(boolean randomHexes) {
 		
-		ArrayList<Hex> gameHexes = new ArrayList<Hex>();
+		List<Hex> gameHexes = new ArrayList<Hex>();
 		
 		//First Row of Beginner Grid
 		gameHexes.add(new Hex(Resource.WOOD));
@@ -123,9 +129,9 @@ public class GameMap {
 	 * @return an array list of integers representing the chits
 	 * @post the chits that will eventually be put onto the game map are initialized in an array list
 	 */
-	private ArrayList<Integer> initializeChitList(boolean randomChits) {
+	private List<Integer> initializeChitList(boolean randomChits) {
 		
-		ArrayList<Integer> chits = new ArrayList<Integer>();
+		List<Integer> chits = new ArrayList<Integer>();
 		
 		//First Row for beginner board
 		chits.add(new Integer(11));
@@ -172,7 +178,7 @@ public class GameMap {
 	 */
 	private void setUpPorts(boolean randomPorts) {
 		
-		ArrayList<PortType> types = new ArrayList<PortType>();
+		List<PortType> types = new ArrayList<PortType>();
 	
 		types.add(PortType.THREE);
 		types.add(PortType.SHEEP);
@@ -221,7 +227,7 @@ public class GameMap {
 	 * @param theChits a list of chits
 	 * @post all the hexes are added to the map
 	 */
-	private void setUpMap(ArrayList<Hex> theHexes, ArrayList<Integer> theChits) {
+	private void setUpMap(List<Hex> theHexes, List<Integer> theChits) {
 		hexes = new HashMap<HexLocation, Hex>();
 		edges = new HashMap<EdgeLocation, EdgeValue>();
 		vertices = new HashMap<VertexLocation, VertexValue>();
@@ -259,7 +265,7 @@ public class GameMap {
 	 * @post A new hex is placed on the map
 	 * @return
 	 */
-	private Hex addToMap(int x, int y, ArrayList<Hex> theHexes, ArrayList<Integer> theChits) {
+	private Hex addToMap(int x, int y, List<Hex> theHexes, List<Integer> theChits) {
 		
 		HexLocation coordinates = new HexLocation(x,y);
 		
@@ -482,7 +488,7 @@ public class GameMap {
 		return adjacentEdges;
 	}
 
-	public List<EdgeValue> getCousinEdges(EdgeLocation checkEdge) {
+	private List<EdgeValue> getCousinEdges(EdgeLocation checkEdge) {
 		
 		HexLocation coordinates = checkEdge.getHexLoc();
 		int x = coordinates.getX();
@@ -1016,11 +1022,11 @@ public class GameMap {
 		return hexes;
 	}
 
-	public ArrayList<Port> getPorts() {
+	public List<Port> getPorts() {
 		return ports;
 	}
 
-	public ArrayList<Road> getRoads() {
+	public List<Road> getRoads() {
 		return roads;
 	}
 	
@@ -1033,7 +1039,7 @@ public class GameMap {
 		roads.add(road);
 	}
 
-	public ArrayList<Settlement> getSettlements() {
+	public List<Settlement> getSettlements() {
 		return settlements;
 	}
 	
@@ -1046,7 +1052,7 @@ public class GameMap {
 		settlements.add(settlement);
 	}
 
-	public ArrayList<City> getCities() {
+	public List<City> getCities() {
 		return cities;
 	}
 	

@@ -20,4 +20,9 @@ public class SwaggerTradeOffer {
 				senderTrades.getWheat() - recieverTrades.getWheat(),
 				senderTrades.getWood() - recieverTrades.getWood());
 	}
+
+	public TradeOffer toOurTradeOffer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

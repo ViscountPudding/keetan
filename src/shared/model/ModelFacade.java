@@ -3,11 +3,10 @@ package shared.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Observer;
-import java.util.Random;
 
+import shared.definitions.PortType;
 import shared.model.gamemap.EdgeValue;
 import shared.model.gamemap.Hex;
 import shared.model.gamemap.Port;
@@ -15,32 +14,6 @@ import shared.model.gamemap.VertexValue;
 import shared.model.locations.EdgeLocation;
 import shared.model.locations.HexLocation;
 import shared.model.locations.VertexLocation;
-import shared.model.message.MessageLine;
-import shared.model.pieces.City;
-import shared.model.pieces.Road;
-import shared.model.pieces.Settlement;
-import shared.transferClasses.AcceptTrade;
-import shared.transferClasses.AddAIRequest;
-import shared.transferClasses.BuildCity;
-import shared.transferClasses.BuildRoad;
-import shared.transferClasses.BuildSettlement;
-import shared.transferClasses.BuyDevCard;
-import shared.transferClasses.ChangeLogLevelRequest;
-import shared.transferClasses.DiscardCards;
-import shared.transferClasses.FinishTurn;
-import shared.transferClasses.ListOfCommands;
-import shared.transferClasses.MaritimeTrade;
-import shared.transferClasses.Monopoly;
-import shared.transferClasses.Monument;
-import shared.transferClasses.OfferTrade;
-import shared.transferClasses.RoadBuilding;
-import shared.transferClasses.RobPlayer;
-import shared.transferClasses.RollNumber;
-import shared.transferClasses.SendChat;
-import shared.transferClasses.Soldier;
-import shared.transferClasses.UserCredentials;
-import shared.transferClasses.YearOfPlenty;
-import clientSide.exceptions.IllegalActionException;
 
 public class ModelFacade {
 
@@ -93,7 +66,7 @@ public class ModelFacade {
 	 * @return A Player object of the player with the given index.
 	 */
 	public Player whosThatPlayer(int playerIndex) {
-		return model.getPlayers()[playerIndex];
+		return model.getPlayers().get(playerIndex);
 	}
 	
 	/**
@@ -110,6 +83,33 @@ public class ModelFacade {
 	 */
 	public void placeRobber(HexLocation newHideout) {
 		model.getMap().setRobber(newHideout);
+	}
+	
+	/**
+	 * Returns the most optimal trade ratio for a given resource and player
+	 * @pre index must be an integer in the set {0, 1, 2, 3, 4}, and resource must not be null.
+	 * @param playerIndex - an index from 0 to 3
+	 * @param desiredResource - a non-null Resource
+	 * @post The most optimal trade ratio for the given player and resource is returned.
+	 * @return An optimal trade ratio for the player and resource
+	 */
+	public int getTradeRatio(int playerIndex, Resource tradeResource) {
+		int ratio = 4;
+		PortType resourcePort = tradeResource.getPortType();
+		
+		for (Port port : model.getMap().getPorts()) {
+			for (VertexValue vertex : model.getMap().getNearbyVertices(port.getEdge())) {
+				if (vertex.getPlayerIndexOfOwner() == playerIndex) {
+					if (ratio == 4 && port.getType() == PortType.THREE) {
+						ratio = 3;
+					}
+					else if (port.getType() == resourcePort){
+						return 2;
+					}
+				}
+			}
+		}
+		return ratio;
 	}
 	
 	/**
@@ -153,13 +153,13 @@ public class ModelFacade {
 	*/
 	public boolean canDomesticTrade(TradeOffer offer) {
 		int currentPlayer = model.getTurnTracker().getCurrentPlayer();
-		if(offer.getSender() != currentPlayer && offer.getReceiver() != currentPlayer) {
+		if(offer.getSenderIndex() != currentPlayer && offer.getReceiverIndex() != currentPlayer) {
 			return false;
 		}
 		
 		//Check if sender has enough resources
 		ResourceList sendOffer = offer.getReceiverReceives();
-		ResourceList sendResources = model.getPlayers()[offer.getSender()].getResources();
+		ResourceList sendResources = model.getPlayers().get(offer.getSenderIndex()).getResources();
 		if(sendOffer.getBrick() > sendResources.getBrick()
 				|| sendOffer.getOre() > sendResources.getOre()
 				|| sendOffer.getSheep() > sendResources.getSheep()
@@ -170,7 +170,7 @@ public class ModelFacade {
 		
 		//Check if receiver has enough resources
 		ResourceList receiveOffer = offer.getSenderReceives();
-		ResourceList receiveResources = model.getPlayers()[offer.getReceiver()].getResources();
+		ResourceList receiveResources = model.getPlayers().get(offer.getReceiverIndex()).getResources();
 		if(receiveOffer.getBrick() > receiveResources.getBrick()
 				|| receiveOffer.getOre() > receiveResources.getOre()
 				|| receiveOffer.getSheep() > receiveResources.getSheep()
@@ -190,20 +190,9 @@ public class ModelFacade {
 	* @post Player may trade with boat if possible
 	*/
 	public boolean canMaritimeTrade(int playerIndex, Resource tradeResource, Resource desiredResource) {
-		Player player = model.getPlayers()[playerIndex];
+		Player player = model.getPlayers().get(playerIndex);
 		
-		//Set tradeRatio. If the player has no applicable ports, this never gets overwritten.
-		int tradeRatio = 4;
-		boolean foundPort = false;
-		for(Port port : player.getPorts()) {
-			if(port.getResource() == null && foundPort == false) {
-				tradeRatio = 3;
-			}
-			else if(port.getResource() == tradeResource && foundPort == false) {
-				tradeRatio = 2;
-				foundPort = true;
-			}
-		}
+		int tradeRatio = getTradeRatio(playerIndex, tradeResource);
 		
 		return player.getResources().hasResource(tradeResource, tradeRatio) && model.getBank().hasResource(desiredResource, 1);
 	}
@@ -271,7 +260,7 @@ public class ModelFacade {
 	*/
 	public boolean canBuildSettlement(int playerIndex, VertexLocation location) {
 		VertexValue vertexValue = model.getMap().getVertices().get(location.getNormalizedLocation());
-		Player player = model.getPlayers()[playerIndex];
+		Player player = model.getPlayers().get(playerIndex);
 		//Check for unplaced settlements
 		if(player.getUnplacedSettlements() == 0) {
 			return false;
@@ -308,7 +297,7 @@ public class ModelFacade {
 	*/
 	public boolean canBuildCity(int playerIndex, VertexLocation location) {
 		VertexValue vertex = model.getMap().getVertices().get(location.getNormalizedLocation());
-		Player player = model.getPlayers()[playerIndex];
+		Player player = model.getPlayers().get(playerIndex);
 		if(player.getUnplacedCities() == 0) {
 			return false;
 		}
@@ -333,7 +322,7 @@ public class ModelFacade {
 	 * @post player may buy a development card if possible
 	 */
 	public boolean canBuyDevelopmentCard(int playerIndex) {
-		ResourceList rList = model.getPlayers()[playerIndex].getResources();
+		ResourceList rList = model.getPlayers().get(playerIndex).getResources();
 		if(model.getTurnTracker().getCurrentPlayer() != playerIndex) {
 			return false;
 		}
@@ -355,7 +344,7 @@ public class ModelFacade {
 	 * @post player is able to lose cards to die roll if they have more than 7 cards
 	 */
 	public boolean canLoseCardsFromDieRoll(int playerIndex) {
-		return model.getPlayers()[playerIndex].getResources().getTotalCards() > 7;
+		return model.getPlayers().get(playerIndex).getResources().getTotalCards() > 7;
 	}
 	
 	/**
@@ -365,7 +354,7 @@ public class ModelFacade {
 	 * @post player can be robbed
 	 */
 	public boolean canLoseCardsFromRobber(int playerIndex) {
-		if(model.getPlayers()[playerIndex].getResources().getTotalCards() == 0) {
+		if(model.getPlayers().get(playerIndex).getResources().getTotalCards() == 0) {
 			return false;
 		}
 		HexLocation robber = model.getMap().getRobber();
@@ -389,7 +378,7 @@ public class ModelFacade {
 	 * @post player can be the WINNER!
 	 */
 	public boolean canWin(int playerIndex) {
-		return model.getTurnTracker().getCurrentPlayer() == playerIndex && model.getPlayers()[playerIndex].getVictoryPoints() > 9;
+		return model.getTurnTracker().getCurrentPlayer() == playerIndex && model.getPlayers().get(playerIndex).getVictoryPoints() > 9;
 	}
 	
 	

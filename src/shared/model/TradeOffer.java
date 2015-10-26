@@ -21,11 +21,11 @@ public class TradeOffer {
 		this.receiverTrades = receiverTrades;
 	}
 
-	public int getSender() {
+	public int getSenderIndex() {
 		return sender;
 	}
-
-	public int getReceiver() {
+	
+	public int getReceiverIndex() {
 		return receiver;
 	}
 
@@ -36,4 +36,6 @@ public class TradeOffer {
 	public ResourceList getReceiverReceives() {
 		return senderTrades;
 	}
+
+	
 }

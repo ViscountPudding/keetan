@@ -1,22 +1,30 @@
 package swaggerModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import shared.model.DevCardList;
 import shared.model.Model;
 import shared.model.Player;
 import shared.model.Resource;
 import shared.model.ResourceList;
+import shared.model.TradeOffer;
 import shared.model.TurnTracker;
+import shared.model.gamemap.GameMap;
+import shared.model.gamemap.Port;
 import shared.model.locations.EdgeDirection;
 import shared.model.locations.VertexDirection;
 import shared.model.message.MessageList;
+import shared.model.pieces.City;
+import shared.model.pieces.Road;
+import shared.model.pieces.Settlement;
 
 public class SwaggerModel {
 	private ResourceList bank; //our model
 	private MessageList chat; //our model
 	private MessageList log; //our model
 	private SwaggerMap map;
-	private List<SwaggerPlayer> players;
+	private List<Player> players; //our model
 	private SwaggerTradeOffer tradeOffer; //our model
 	private TurnTracker turnTracker; //our model
 	private int version;
@@ -27,11 +35,7 @@ public class SwaggerModel {
 		setChat(model.getChat());
 		setLog(model.getLog());
 		map = new SwaggerMap(model);
-		
-		for (Player player : model.getPlayers()) {
-			players.add(new SwaggerPlayer(player));
-		}
-		
+		players = model.getPlayers();
 		tradeOffer = new SwaggerTradeOffer(model.getTradeOffer());
 		turnTracker = model.getTurnTracker();
 		version = model.getVersion();
@@ -70,11 +74,11 @@ public class SwaggerModel {
 		this.map = map;
 	}
 
-	public List<SwaggerPlayer> getPlayers() {
+	public List<Player> getPlayers() {
 		return players;
 	}
 
-	public void setPlayers(List<SwaggerPlayer> players) {
+	public void setPlayers(List<Player> players) {
 		this.players = players;
 	}
 
@@ -238,4 +242,55 @@ public class SwaggerModel {
 			return null;
 		}
 	}
+	//PLAYER
+//	private String color = null;
+//	private boolean discarded;
+//	private int monuments;
+//	private DevCardList newDevCards = null;
+//	private DevCardList oldDevCards = null;
+//	private boolean playedDevCard;
+//	private ResourceList resources = new ResourceList(0,0,0,0,0);
+//	private ArrayList<City> cities = new ArrayList<City>();
+//	private ArrayList<Road> roads = new ArrayList<Road>();
+//	private ArrayList<Settlement> settlements = new ArrayList<Settlement>();
+//	private ArrayList<Port> ports = new ArrayList<Port>();
+//	private int unplacedCities;
+//	private int unplacedRoads;
+//	private int unplacedSettlements;
+//	private int soldiers;
+//	private int victoryPoints;
+	
+	/*
+	private SwaggerMap map;
+	private List<SwaggerPlayer> players;
+	private SwaggerTradeOffer tradeOffer; //our model
+	*/
+	public Model toOurModel() {
+		Model model = new Model();
+		model.setBank(this.bank);
+		model.setUndrawnDevCards(new DevCardList(2, 5, 2, 14, 2));
+		model.setChat(this.chat);
+		model.setLog(this.log);
+		model.setMap(this.map.toOurMap()); // DO THIS STILL
+
+		Player[] players = new Player[4];
+		int i = 0;
+		for (SwaggerPlayer swaggerPlayer : this.getPlayers()) {
+			Player player = new Player(swaggerPlayer.getName(), swaggerPlayer.getPlayerIndex(), swaggerPlayer.getPlayerID());
+			players[i++] = swaggerPlayer;
+		}
+		model.setPlayers(players);
+		
+		model.setTradeOffer(this.tradeOffer.toOurTradeOffer());
+		model.setTurnTracker(this.getTurnTracker());
+		model.setVersion(this.getVersion());
+		model.setWinner(this.getWinner());
+		return model;
+	}
+	/*
+	private DevCardList undrawnDevCards; - We gotta subtract how much players have from totals
+	private GameMap map;
+	private Player[] players;
+	private TradeOffer tradeOffer;
+	*/
 }

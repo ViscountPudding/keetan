@@ -54,4 +54,9 @@ public class SwaggerMap {
 			}
 		}
 	}
+
+	public GameMap toOurMap() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

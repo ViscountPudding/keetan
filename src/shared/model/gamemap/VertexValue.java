@@ -1,10 +1,8 @@
 package shared.model.gamemap;
 
-import java.util.List;
-
-import shared.model.pieces.Settlement;
-import shared.model.pieces.City;
 import shared.model.locations.VertexLocation;
+import shared.model.pieces.City;
+import shared.model.pieces.Settlement;
 
 /**
  *  An object representing the vertex of a Hex, containing information about what is located at that hex
@@ -53,16 +51,6 @@ public class VertexValue {
 		this.settlement = null;
 		this.city = city;
 	}
-
-	public List<VertexValue> getAdjacentVertices() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<EdgeValue> getAdjacentEdges() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	public String toString() {
 		String string = "";
@@ -78,5 +66,38 @@ public class VertexValue {
 		return string;
 	}
 	
+	/**
+	 * Returns true if this VertexValue has a Settlement or City
+	 * @pre none
+	 * @post return
+	 * @return true if has a settlement or city, false if otherwise
+	 */
+	public boolean hasMunicipality() {
+		if (this.settlement == null && this.city == null) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
 	
+	/**
+	 * Returns the playerIndex of the player who has a municipality on this VertexValue
+	 * @pre none
+	 * @post see return
+	 * @return the index of the player who owns a municipality on this vertex, -1 if no player owns one.
+	 */
+	public int getPlayerIndexOfOwner() {
+		if (this.settlement == null) {
+			if (this.city == null) {
+				return -1;
+			}
+			else {
+				return this.city.getPlayerIndex();
+			}
+		}
+		else {
+			return this.settlement.getPlayerIndex();
+		}
+	}
 }

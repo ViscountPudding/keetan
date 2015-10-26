@@ -1,33 +1,57 @@
 package shared.model;
 
-import java.util.ArrayList;
-
-import shared.model.gamemap.Port;
-import shared.model.pieces.*;
 
 /**
  * Contains data about a given player
  */
 public class Player {
-	private String color = null;
-	private boolean discarded;
-	private int monuments;
-	private String name = null;
+	private String name;
+	private int playerID;
+	private String color; // We can't avoid being primitively obsessed while satisfying the TA's JSON objects. #swagger
+	private int playerIndex;
+
+	private boolean discarded; // if the player has discarded resources during the discard state
+	private ResourceList resources;
+
+	private boolean playedDevCard; // if the player has already played a development card on their turn
 	private DevCardList newDevCards = null;
 	private DevCardList oldDevCards = null;
-	private int playerIndex;
-	private boolean playedDevCard;
-	private int playerID;
-	private ResourceList resources = new ResourceList(0,0,0,0,0);
-	private ArrayList<City> cities = new ArrayList<City>();
-	private ArrayList<Road> roads = new ArrayList<Road>();
-	private ArrayList<Settlement> settlements = new ArrayList<Settlement>();
-	private ArrayList<Port> ports = new ArrayList<Port>();
-	private int unplacedCities;
-	private int unplacedRoads;
-	private int unplacedSettlements;
+	
+	private int roads; //unplaced
+	private int settlements; //unplaced
+	private int cities; //unplaced
+	
+	private int soldiers;
+	private int monuments;
+	private int victoryPoints;
+	
+	/**
+	 * @pre newPlayerIndex must be in the range [0,3], and newName must not be in use
+	 * @param newName The player's name
+	 * @param newPlayerIndex The player's playerIndex
+	 * @param newPlayerID The player's ID
+	 * @post The object's internal values are initialized
+	 */
+	public Player(String newName, int newPlayerIndex, String newColor, int newPlayerID) {
+		name = newName;
+		playerID = newPlayerID;
+		color = newColor;
+		playerIndex = newPlayerIndex;
+		newDevCards = new DevCardList(0, 0, 0, 0, 0);
+		oldDevCards = new DevCardList(0, 0, 0, 0, 0);
+		playedDevCard = false;
+		discarded = false;
+		resources = new ResourceList(0,0,0,0,0);
+		roads = 15;
+		settlements = 5;
+		cities = 4;
+		soldiers = 0;
+		monuments = 0;
+		victoryPoints = 0;
+	}
+	
 	public int getUnplacedCities() {
-		return unplacedCities;
+		return cities;
 	}
 	
 	public void setName(String name) {
@@ -41,65 +65,25 @@ public class Player {
 	public void setPlayerID(int playerID) {
 		this.playerID = playerID;
 	}
-
-	public void setCities(ArrayList<City> cities) {
-		this.cities = cities;
-	}
-
-	public void setRoads(ArrayList<Road> roads) {
-		this.roads = roads;
-	}
-
-	public void setSettlements(ArrayList<Settlement> settlements) {
-		this.settlements = settlements;
-	}
-
-	public void setPorts(ArrayList<Port> ports) {
-		this.ports = ports;
-	}
 	
 	public void setUnplacedCities(int unplacedCities) {
-		this.unplacedCities = unplacedCities;
+		this.cities = unplacedCities;
 	}
 
 	public int getUnplacedRoads() {
-		return unplacedRoads;
+		return roads;
 	}
 
 	public void setUnplacedRoads(int unplacedRoads) {
-		this.unplacedRoads = unplacedRoads;
+		this.roads = unplacedRoads;
 	}
 
 	public int getUnplacedSettlements() {
-		return unplacedSettlements;
+		return settlements;
 	}
 
 	public void setUnplacedSettlements(int unplacedSettlements) {
-		this.unplacedSettlements = unplacedSettlements;
-	}
-
-	private int soldiers;
-	private int victoryPoints;
-	
-	/**
-	 * @pre newPlayerIndex must be in the range [0,3], and newName must not be in use
-	 * @param newName The player's name
-	 * @param newPlayerIndex The player's playerIndex
-	 * @param newPlayerID The player's ID
-	 * @post The object's internal values are initialized
-	 */
-	public Player(String newName, int newPlayerIndex, int newPlayerID) {
-		name = newName;
-		playerIndex = newPlayerIndex;
-		playerID = newPlayerID;
-	}
-
-	public ArrayList<City> getCities() {
-		return cities;
-	}
-
-	public void addCity(City city) {
-		cities.add(city);
+		this.settlements = unplacedSettlements;
 	}
 
 	public String getColor() {
@@ -118,11 +102,11 @@ public class Player {
 		this.discarded = discarded;
 	}
 
-	public int getMonuments() {
+	public int getNumMonuments() {
 		return monuments;
 	}
 
-	public void setMonuments(int monuments) {
+	public void setNumMonuments(int monuments) {
 		this.monuments = monuments;
 	}
 
@@ -142,7 +126,7 @@ public class Player {
 		this.oldDevCards = oldDevCards;
 	}
 
-	public boolean isPlayedDevCard() {
+	public boolean hasPlayedDevCard() {
 		return playedDevCard;
 	}
 
@@ -158,39 +142,11 @@ public class Player {
 		this.resources = resources;
 	}
 
-	public ArrayList<Road> getRoads() {
-		return roads;
-	}
-
-	public void addRoad(Road road) {
-		roads.add(road);
-	}
-
-	public ArrayList<Settlement> getSettlements() {
-		return settlements;
-	}
-
-	public void addSettlement(Settlement settlement) {
-		settlements.add(settlement);
-	}
-	
-	public void removeSettlement(Settlement settlement) {
-		settlements.remove(settlement);
-	}
-	
-	public ArrayList<Port> getPorts() {
-		return ports;
-	}
-	
-	public void addPort(Port port) {
-		ports.add(port);
-	}
-
-	public int getSoldiers() {
+	public int getNumSoldiers() {
 		return soldiers;
 	}
 
-	public void setSoldiers(int soldiers) {
+	public void setNumSoldiers(int soldiers) {
 		this.soldiers = soldiers;
 	}
 
