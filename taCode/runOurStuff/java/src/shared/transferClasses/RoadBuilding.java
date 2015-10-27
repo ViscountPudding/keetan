@@ -15,14 +15,14 @@ public class RoadBuilding {
 
 	public RoadBuilding(int playerIndex, EdgeLocation spotOne, EdgeLocation spotTwo) {
 		this.playerIndex = playerIndex;
-		this.spotOne = new SwaggerEdgeLocation(spotOne);
-		this.spotTwo = new SwaggerEdgeLocation(spotTwo);
+		this.spotOne = new EdgeLocation(spotOne);
+		this.spotTwo = new EdgeLocation(spotTwo);
 	}
 
 	private String type = "Road_Building";
 	private int playerIndex;
-	private SwaggerEdgeLocation spotOne;
-	private SwaggerEdgeLocation spotTwo;
+	private EdgeLocation spotOne;
+	private EdgeLocation spotTwo;
 	public String getType() {
 		return type;
 	}
@@ -35,16 +35,16 @@ public class RoadBuilding {
 	public void setPlayerIndex(int playerIndex) {
 		this.playerIndex = playerIndex;
 	}
-	public SwaggerEdgeLocation getSpotOne() {
+	public EdgeLocation getSpotOne() {
 		return spotOne;
 	}
-	public void setSpotOne(SwaggerEdgeLocation spotOne) {
+	public void setSpotOne(EdgeLocation spotOne) {
 		this.spotOne = spotOne;
 	}
-	public SwaggerEdgeLocation getSpotTwo() {
+	public EdgeLocation getSpotTwo() {
 		return spotTwo;
 	}
-	public void setSpotTwo(SwaggerEdgeLocation spotTwo) {
+	public void setSpotTwo(EdgeLocation spotTwo) {
 		this.spotTwo = spotTwo;
 	}
 }

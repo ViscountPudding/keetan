@@ -13,13 +13,13 @@ import shared.model.locations.EdgeLocation;
 public class BuildRoad {
 	private String type = "buildRoad";
 	private int playerIndex;
-	private SwaggerEdgeLocation roadLocation;
+	private EdgeLocation roadLocation;
 	private Boolean free;
 
 
 	public BuildRoad(int playerIndex, EdgeLocation roadLocation, Boolean free) {
 		this.playerIndex = playerIndex;
-		this.roadLocation = new SwaggerEdgeLocation(roadLocation);
+		this.roadLocation = new EdgeLocation(roadLocation);
 		this.free = free;
 	}
 	
@@ -29,10 +29,10 @@ public class BuildRoad {
 	public void setPlayerIndex(int playerIndex) {
 		this.playerIndex = playerIndex;
 	}
-	public SwaggerEdgeLocation getRoadLocation() {
+	public EdgeLocation getRoadLocation() {
 		return roadLocation;
 	}
-	public void setRoadLocation(SwaggerEdgeLocation roadLocation) {
+	public void setRoadLocation(EdgeLocation roadLocation) {
 		this.roadLocation = roadLocation;
 	}
 	public Boolean getFree() {

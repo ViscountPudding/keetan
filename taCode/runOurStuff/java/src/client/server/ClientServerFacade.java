@@ -96,7 +96,7 @@ public class ClientServerFacade implements IServer{
 
 	@Override
 	public Model getModel(int version) throws ServerException {
-		//Swagger doesn't work with us; we want to use our own version of json
+		// doesn't work with us; we want to use our own version of json
 		return null;
 	}
 

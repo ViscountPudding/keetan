@@ -2,22 +2,22 @@ package shared.transferClasses;
 
 import shared.model.locations.EdgeDirection;
 import shared.model.locations.EdgeLocation;
-import swaggerModel.SwaggerModel;
+import swaggerModel.Model;
 
 /**
- * This class is used for the Swagger server
+ * This class is used for the  server
  * @author djoshuac
  */
-public class SwaggerEdgeLocation {
+public class EdgeLocation {
 	private int x;
 	private int y;
 	private String direction;
 	
-	public SwaggerEdgeLocation(EdgeLocation edge) {
+	public EdgeLocation(EdgeLocation edge) {
 		edge = edge.getNormalizedLocation();
 		this.x = edge.getHexLoc().getX();
 		this.y = edge.getHexLoc().getY();
-		this.direction = SwaggerModel.edgeDirectionToString(edge.getDir());
+		this.direction = Model.edgeDirectionToString(edge.getDir());
 	}
 	
 	public int getX() {
@@ -29,6 +29,6 @@ public class SwaggerEdgeLocation {
 	}
 	
 	public EdgeDirection getEdgeDirection() {
-		return SwaggerModel.stringToEdgeDirection(direction);
+		return Model.stringToEdgeDirection(direction);
 	}
 }
