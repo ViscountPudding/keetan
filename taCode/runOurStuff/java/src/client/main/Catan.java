@@ -1,9 +1,14 @@
 package client.main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import shared.model.Model;
+import shared.model.ModelFacade;
 import client.base.IAction;
 import client.catan.CatanPanel;
 import client.join.JoinGameController;
@@ -52,6 +57,13 @@ public class Catan extends JFrame
 	
 	public static void main(final String[] args)
 	{
+		List<String> names = new ArrayList<String>();
+		names.add("Michael");
+		names.add("Stephen");
+		names.add("Josh");
+		names.add("Will");
+		ModelFacade.createInstance(new Model(false, false, false, false, names));
+		
 		try
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -106,7 +118,6 @@ public class Catan extends JFrame
 				});
 				loginView.setController(loginController);
 				loginView.setController(loginController);
-				
 				
 				ClientServerFacade.createInstance("localhost:8081");
 				loginController.start();

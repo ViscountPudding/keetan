@@ -3,6 +3,7 @@ package shared.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Observer;
 
@@ -25,6 +26,13 @@ public class ModelFacade {
 	private ModelFacade(Model model) {
 		this.model = model;
 		this.modelObservers = new ArrayList<Observer>();
+	}
+
+	public static ModelFacade createInstance(Model model) {
+		if (instance == null) {
+			instance = new ModelFacade(model);
+		}
+		return instance;
 	}
 	
 	/** The singleton generator for the ModelFacade
@@ -205,42 +213,45 @@ public class ModelFacade {
 	* @post Player may build the road if possible
 	*/
 	public boolean canBuildRoad(int playerIndex, EdgeLocation edgeLocation) {
-//		if(model.getTurnTracker().getCurrentTurn() != 0) {
-//			Player player = model.getPlayers()[playerIndex];
-//			//Check for unplaced roads
-//			if(player.getUnplacedRoads() == 0) {
-//				return false;
-//			}
-//			//Check for resources
-//			if(player.getResources().getBrick() == 0 || player.getResources().getWood() == 0) {
-//				return false;
-//			}
-//			//Check for existing road
-//			if(edgeValue.getRoad() != null) {
-//				return false;
-//			}
-//			for(EdgeValue edge : model.getMap().getAdjacentEdges(edgeValue.getLocation())) {
-//				//Avoid null pointer exceptions
-//				if(edge.getRoad() == null) {}
-//				else if(edge.getRoad().getPlayerIndex() == playerIndex) {
-//					return true;
-//				}
-//			}
-//			//No adjacent roads are owned by the player.
-//			return false;
-//		}
-//		else {
-//			//It's the setup phase
-//			for(VertexValue vertex : model.getMap().getNearbyVertices(edgeValue.getLocation())) {
-//				if(vertex.getSettlement() == null) {}
-//				else if(vertex.getSettlement().getPlayerIndex() == playerIndex) {
-//					return true;
-//				}
-//			}
-//			//There's not an adjacent settlement
-//			return false;
-//		}
-		return false;
+		if(model.getTurnTracker().getCurrentTurn() != 0) {
+			Player player = model.getPlayers().get(playerIndex);
+			//Check for unplaced roads
+			if(player.getUnplacedRoads() == 0) {
+				return false;
+			}
+			//Check for resources
+			if(player.getResources().getBrick() == 0 || player.getResources().getWood() == 0) {
+				return false;
+			}
+			
+			EdgeValue edgeValue = model.getMap().getEdges().get(edgeLocation.getNormalizedLocation());
+			
+			//Check for existing road
+			if(edgeValue.hasRoad() == true) {
+				return false;
+			}
+			for(EdgeValue edge : model.getMap().getAdjacentEdges(edgeValue.getLocation())) {
+				//Avoid null pointer exceptions
+				if(edge.getRoad() == null) {}
+				else if(edge.getRoad().getPlayerIndex() == playerIndex) {
+					return true;
+				}
+			}
+			//No adjacent roads are owned by the player.
+			return false;
+		}
+		else {
+			//It's the setup phase
+			for(VertexValue vertex : model.getMap().getNearbyVertices(edgeLocation)) {
+				if(vertex.hasMunicipality() == true) {}
+				else if(vertex.ownsMunicipality(playerIndex) == true) {
+					return true;
+				}
+			}
+			//There's not an adjacent settlement
+			return false;
+		}
+		//return false;
 	}
 	
 	/**
@@ -425,6 +436,15 @@ public class ModelFacade {
 			observer.notify();
 		}
 	}
+	
+	public Map<HexLocation, Hex> getHexes() {
+		return model.getMap().getHexes();
+	}
+	
+	public List<Port> getPorts() {
+		return model.getMap().getPorts();
+	}
+
 	
 	// methods for server to manipulate method
 	////////////////////////////////////////////////////////////////

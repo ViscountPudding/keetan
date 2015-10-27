@@ -54,7 +54,15 @@ public class EdgeValue {
 		}
 	}
 
-
+	public boolean hasRoad() {
+		if (road == null) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
 	public List<EdgeValue> getAdjacentEdges() {
 		// TODO Auto-generated method stub
 		return null;

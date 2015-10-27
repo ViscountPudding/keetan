@@ -1,20 +1,13 @@
 package client.map;
 
-import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.Random;
-
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
-import shared.definitions.PortType;
 import shared.model.ModelFacade;
 import shared.model.gamemap.Hex;
 import shared.model.gamemap.Port;
-import shared.model.locations.EdgeDirection;
 import shared.model.locations.EdgeLocation;
 import shared.model.locations.HexLocation;
-import shared.model.locations.VertexDirection;
 import shared.model.locations.VertexLocation;
 import client.base.Controller;
 import client.data.RobPlayerInfo;
@@ -122,27 +115,24 @@ public class MapController extends Controller implements IMapController {
 		getView().addNumber(new HexLocation(2, -2), 10);
 		getView().addNumber(new HexLocation(2, -1), 11);
 		getView().addNumber(new HexLocation(2, 0), 12);
-		
+		*/
 		//</temp>
-		 * 
-		 */
 		
-		Iterator<Entry<HexLocation, Hex>> hexes = ModelFacade.getInstance().getHexes().entrySet().iterator();
+		System.out.println(ModelFacade.getInstance());
 		
-		while(hexes.hasNext()) {
-			Entry<HexLocation, Hex> hex = hexes.next();
+		for (Hex hex : ModelFacade.getInstance().getHexes().values()) {
+			getView().addHex(hex.getLocation(), hex.getHexType());
+			System.out.println(hex.getLocation());
 			
-			Hex theHex = hex.getValue();
-
-			getView().addHex(theHex.getLocation(), theHex.getHexType());
-			getView().addNumber(theHex.getLocation(), theHex.getDiceNumber());
-			
-			if(theHex.getHexType() == HexType.DESERT) {
-				getView().placeRobber(theHex.getLocation());
+			if(hex.getHexType() == HexType.DESERT) {
+				getView().placeRobber(hex.getLocation());
+			}
+			else {
+				getView().addNumber(hex.getLocation(), hex.getDiceNumber());
 			}
 		}
 		
-		for(Port port : ModelFacade.getInstance().getPorts()) {
+		for (Port port : ModelFacade.getInstance().getPorts()) {
 			getView().addPort(port.getEdge(), port.getType());
 		}
 		

@@ -27,6 +27,13 @@ public class ModelFacade {
 		this.model = model;
 		this.modelObservers = new ArrayList<Observer>();
 	}
+
+	public static ModelFacade createInstance(Model model) {
+		if (instance == null) {
+			instance = new ModelFacade(model);
+		}
+		return instance;
+	}
 	
 	/** The singleton generator for the ModelFacade
 	 * @pre none
@@ -437,6 +444,7 @@ public class ModelFacade {
 	public List<Port> getPorts() {
 		return model.getMap().getPorts();
 	}
+
 	
 	// methods for server to manipulate method
 	////////////////////////////////////////////////////////////////

@@ -1,10 +1,17 @@
 package client.join;
 
+import java.util.List;
+
 import shared.definitions.CatanColor;
+import shared.transferClasses.Game;
+import shared.transferClasses.Player;
 import client.base.Controller;
 import client.base.IAction;
 import client.data.GameInfo;
+import client.data.PlayerInfo;
+import client.exceptions.ServerException;
 import client.misc.IMessageView;
+import client.server.ClientServerFacade;
 
 
 /**
@@ -88,10 +95,36 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		this.messageView = messageView;
 	}
 
+	
+	
+	
+	
+	
 	@Override
 	public void start() {
 		
 		getJoinGameView().showModal();
+		List<Game> games;
+		try {
+			games = ClientServerFacade.getInstance().getGamesList();
+		} catch (ServerException e) {
+			System.err.println("Could not get list of games in JoinGameCtrl.start(): " + e.getReason());
+			return;
+		}
+		GameInfo[] gameInfoArray = new GameInfo[games.size()];
+		
+		for (int i = 0; i < games.size(); i++) {
+			GameInfo gameInfo = new GameInfo();
+			gameInfo.setId(games.get(i).getId());
+			gameInfo.setTitle(games.get(i).getTitle());
+			List<Player> players = games.get(i).getPlayers();
+			for (int j = 0; j < players.size(); j++) {
+				PlayerInfo playerInfo = new PlayerInfo();
+				//playerInfo.set;
+				gameInfo.addPlayer(new PlayerInfo());
+			}
+			gameInfoArray [i] = new GameInfo();
+		}
 	}
 
 	@Override
