@@ -15,6 +15,7 @@ import client.join.SelectColorView;
 import client.login.LoginController;
 import client.login.LoginView;
 import client.misc.MessageView;
+import client.server.ClientServerFacade;
 
 /**
  * Main entry point for the Catan program
@@ -27,9 +28,8 @@ public class Catan extends JFrame
 	
 	public Catan()
 	{
-		
-		//Not entirely sure what this line does..
-		//client.base.OverlayView.setWindow(this);
+		System.out.println("Set window??");
+		client.base.OverlayView.setWindow(this);
 		
 		this.setTitle("Settlers of Catan");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -107,6 +107,8 @@ public class Catan extends JFrame
 				loginView.setController(loginController);
 				loginView.setController(loginController);
 				
+				
+				ClientServerFacade.createInstance("localhost:8081");
 				loginController.start();
 			}
 		});

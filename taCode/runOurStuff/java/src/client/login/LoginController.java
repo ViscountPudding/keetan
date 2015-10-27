@@ -83,8 +83,29 @@ public class LoginController extends Controller implements ILoginController {
 
 	@Override
 	public void register() {
-		String username = getLoginView().getLoginUsername();
-		String password = getLoginView().getLoginPassword();
+		String username = getLoginView().getRegisterUsername();
+		String password = getLoginView().getRegisterPassword();
+		if (username.contains(" ")) {
+			System.out.println("Username cannot have a space in it");
+			messageView.setMessage("Username cannot have a space in it");
+			return;
+		}
+		if (username.length() < 3) {
+			System.out.println("Username must be at least 3 characters long");
+			messageView.setMessage("Username must be at least 3 characters long");
+			return;
+		}
+		if (!password.equals(getLoginView().getRegisterPasswordRepeat())) {
+			System.out.println(password + " no match");
+			messageView.setMessage("Passwords don't match");
+			return;
+		}
+		if (password.length() < 6) {
+			System.out.println("Password too short");
+			messageView.setMessage("Password must be at least 6 characters long");
+			return;
+		}
+		System.out.println(password + " match!");
 		UserCredentials credentials = new UserCredentials(username, password);
 		
 		try {
