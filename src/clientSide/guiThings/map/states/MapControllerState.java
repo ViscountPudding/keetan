@@ -28,9 +28,9 @@ public interface MapControllerState {
 	
 	void cancelMove();
 	
-	void playSoldierCard(int victimIndex, HexLocation location);
+	void playSoldierCard(); // this is supposed to trigger the placement of a robber
 
-	void playRoadBuildingCard(EdgeLocation roadOne, EdgeLocation roadTwo);
+	void playRoadBuildingCard(); // this is supposed to trigger the placement of two roads
 	
 	void robPlayer(RobPlayerInfo victim);
 }

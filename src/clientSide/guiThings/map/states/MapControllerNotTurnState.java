@@ -70,13 +70,13 @@ public class MapControllerNotTurnState implements MapControllerState {
 	}
 
 	@Override
-	public void playSoldierCard(int victimIndex, HexLocation location) {
+	public void playSoldierCard() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void playRoadBuildingCard(EdgeLocation roadOne, EdgeLocation roadTwo) {
+	public void playRoadBuildingCard() {
 		// TODO Auto-generated method stub
 
 	}

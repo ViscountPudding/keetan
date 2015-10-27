@@ -1,14 +1,8 @@
 package clientSide.guiThings.login;
 
-import clientSide.guiThings.base.*;
-import clientSide.guiThings.misc.*;
-
-import java.net.*;
-import java.io.*;
-import java.util.*;
-import java.lang.reflect.*;
-import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
+import clientSide.guiThings.base.Controller;
+import clientSide.guiThings.base.IAction;
+import clientSide.guiThings.misc.IMessageView;
 
 
 /**
