@@ -12,8 +12,8 @@ public class SwaggerTradeOffer {
 		ResourceList senderTrades = tradeOffer.getReceiverReceives();
 		ResourceList recieverTrades = tradeOffer.getSenderReceives();
 
-		sender = tradeOffer.getSender();
-		reciever = tradeOffer.getReceiver();
+		sender = tradeOffer.getSenderIndex();
+		reciever = tradeOffer.getReceiverIndex();
 		offer = new ResourceList(senderTrades.getBrick() - recieverTrades.getBrick(),
 				senderTrades.getOre() - recieverTrades.getOre(),
 				senderTrades.getSheep() - recieverTrades.getSheep(),

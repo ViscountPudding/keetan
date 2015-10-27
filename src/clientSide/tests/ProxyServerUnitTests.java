@@ -1,6 +1,6 @@
 package clientSide.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,7 +11,8 @@ import org.junit.Test;
 
 import shared.model.Resource;
 import shared.model.TradeOffer;
-import shared.model.gamemap.Direction;
+import shared.model.locations.EdgeDirection;
+import shared.model.locations.EdgeLocation;
 import shared.model.locations.HexLocation;
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
@@ -20,7 +21,6 @@ import shared.transferClasses.BuildRoad;
 import shared.transferClasses.BuildSettlement;
 import shared.transferClasses.BuyDevCard;
 import shared.transferClasses.CreateGameRequest;
-import shared.transferClasses.EdgeLocationSwag;
 import shared.transferClasses.FinishTurn;
 import shared.transferClasses.Game;
 import shared.transferClasses.JoinGameRequest;
@@ -252,8 +252,8 @@ public class ProxyServerUnitTests {
 	public void roadBuildingTest() {
 		try {
 			server.roadBuilding(new RoadBuilding(0,
-					new EdgeLocationSwag(0,0,Direction.North),
-					new EdgeLocationSwag(0,1,Direction.North)));
+					new EdgeLocation(new HexLocation(0, 0), EdgeDirection.North),
+					new EdgeLocation(new HexLocation(0, 1), EdgeDirection.North)));
 		}
 		catch (ServerException e) {
 			if (e.getReason().equals("An IOException occurred")) {

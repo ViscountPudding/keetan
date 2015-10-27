@@ -272,15 +272,7 @@ public class SwaggerModel {
 		model.setChat(this.chat);
 		model.setLog(this.log);
 		model.setMap(this.map.toOurMap()); // DO THIS STILL
-
-		Player[] players = new Player[4];
-		int i = 0;
-		for (SwaggerPlayer swaggerPlayer : this.getPlayers()) {
-			Player player = new Player(swaggerPlayer.getName(), swaggerPlayer.getPlayerIndex(), swaggerPlayer.getPlayerID());
-			players[i++] = swaggerPlayer;
-		}
-		model.setPlayers(players);
-		
+		model.setPlayers(this.players);
 		model.setTradeOffer(this.tradeOffer.toOurTradeOffer());
 		model.setTurnTracker(this.getTurnTracker());
 		model.setVersion(this.getVersion());

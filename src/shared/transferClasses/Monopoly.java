@@ -1,6 +1,5 @@
 package shared.transferClasses;
 
-import shared.definitions.ResourceType;
 import shared.model.Resource;
 
 /**
@@ -13,14 +12,14 @@ import shared.model.Resource;
 
 public class Monopoly {
 
-	public Monopoly(int playerIndex, ResourceType resource) {
+	public Monopoly(int playerIndex, Resource sheep) {
 		this.playerIndex = playerIndex;
-		this.resource = resource;
+		this.resource = sheep;
 	}
 
 	private String type = "Monopoly";
 	private int playerIndex;
-	private ResourceType resource;
+	private Resource resource;
 
 	public int getPlayerIndex() {
 		return playerIndex;
@@ -30,11 +29,11 @@ public class Monopoly {
 		this.playerIndex = playerIndex;
 	}
 
-	public ResourceType getResource() {
+	public Resource getResource() {
 		return resource;
 	}
 
-	public void setResourceOne(ResourceType resource) {
+	public void setResourceOne(Resource resource) {
 		this.resource = resource;
 	}
 

@@ -90,7 +90,7 @@ public class ModelUnitTests {
 			
 			for (VertexDirection vertexDirection : vertexDirections) {
 				model.getMap().setRobber(nonAdjacentHexLocation);
-				model.getPlayers()[0].setResources(new ResourceList(0,0,0,0,0));
+				model.getPlayers().get(0).setResources(new ResourceList(0,0,0,0,0));
 				VertexValue vertex = model.getMap().getVertices().get(new VertexLocation(hexLocation,vertexDirection).getNormalizedLocation());
 
 				model.getMap().setRobber(nonAdjacentHexLocation);
@@ -147,10 +147,10 @@ public class ModelUnitTests {
 		facade.updateModel(model);
 		
 		model.getTurnTracker().setPlayerTurn(0);
-		model.getPlayers()[0].setResources(new ResourceList(5,5,5,5,5));
-		model.getPlayers()[1].setResources(new ResourceList(5,5,5,5,5));
-		model.getPlayers()[2].setResources(new ResourceList(5,5,5,5,5));
-		model.getPlayers()[3].setResources(new ResourceList(0,0,0,0,0));
+		model.getPlayers().get(0).setResources(new ResourceList(5,5,5,5,5));
+		model.getPlayers().get(1).setResources(new ResourceList(5,5,5,5,5));
+		model.getPlayers().get(2).setResources(new ResourceList(5,5,5,5,5));
+		model.getPlayers().get(3).setResources(new ResourceList(0,0,0,0,0));
 		
 		ResourceList oneOfAll = new ResourceList(1,1,1,1,1);
 		ResourceList nothing = new ResourceList(0,0,0,0,0);
@@ -161,34 +161,34 @@ public class ModelUnitTests {
 		assertEquals(facade.canDomesticTrade(new TradeOffer(1,2,oneOfAll,oneOfAll)),false); // not player 1's turn
 		assertEquals(facade.canDomesticTrade(new TradeOffer(0,0,oneOfAll,oneOfAll)),true); // cannot trade with self
 		assertEquals(facade.canDomesticTrade(new TradeOffer(0,3,oneOfAll,oneOfAll)),false); // player 3 has doesn't have enough cards
-		model.getPlayers()[0].setResources(new ResourceList(0,0,0,0,0));
+		model.getPlayers().get(0).setResources(new ResourceList(0,0,0,0,0));
 		assertEquals(facade.canDomesticTrade(new TradeOffer(0,2,oneOfAll,oneOfAll)),false); // player 1 doesn't have enough cards
 		
-		model.getPlayers()[0].setResources(new ResourceList(0,3,0,0,0));
+		model.getPlayers().get(0).setResources(new ResourceList(0,3,0,0,0));
 		assertEquals(facade.canDomesticTrade(new TradeOffer(0,2,threeOre,twoSheep)),true); // should work
-		model.getPlayers()[2].setResources(new ResourceList(0,0,2,0,0));
+		model.getPlayers().get(2).setResources(new ResourceList(0,0,2,0,0));
 		assertEquals(facade.canDomesticTrade(new TradeOffer(0,2,threeOre,twoSheep)),true); // should work
-		model.getPlayers()[0].setResources(new ResourceList(5,0,5,5,5));
+		model.getPlayers().get(0).setResources(new ResourceList(5,0,5,5,5));
 		assertEquals(facade.canDomesticTrade(new TradeOffer(0,2,threeOre,twoSheep)),false); // not enough ore
-		model.getPlayers()[2].setResources(new ResourceList(5,5,0,5,5));
+		model.getPlayers().get(2).setResources(new ResourceList(5,5,0,5,5));
 		assertEquals(facade.canDomesticTrade(new TradeOffer(0,2,threeOre,twoSheep)),false); // not enough ore, not enough sheep
-		model.getPlayers()[0].setResources(new ResourceList(5,5,5,5,5));
+		model.getPlayers().get(0).setResources(new ResourceList(5,5,5,5,5));
 		assertEquals(facade.canDomesticTrade(new TradeOffer(0,2,threeOre,twoSheep)),false); // not enough sheep
 
-		model.getPlayers()[0].setResources(new ResourceList(5,5,5,5,5));
-		model.getPlayers()[1].setResources(new ResourceList(5,5,5,5,5));
+		model.getPlayers().get(0).setResources(new ResourceList(5,5,5,5,5));
+		model.getPlayers().get(1).setResources(new ResourceList(5,5,5,5,5));
 		assertEquals(facade.canDomesticTrade(new TradeOffer(0,1,nothing,nothing)),true); // should work
 
-		model.getPlayers()[0].setResources(new ResourceList(0,0,0,0,0));
-		model.getPlayers()[1].setResources(new ResourceList(0,0,0,0,0));
+		model.getPlayers().get(0).setResources(new ResourceList(0,0,0,0,0));
+		model.getPlayers().get(1).setResources(new ResourceList(0,0,0,0,0));
 		assertEquals(facade.canDomesticTrade(new TradeOffer(0,1,nothing,nothing)),true); // should work
 
-		model.getPlayers()[1].setResources(new ResourceList(0,0,0,0,0));
-		model.getPlayers()[0].setResources(new ResourceList(5,5,5,5,5));
+		model.getPlayers().get(1).setResources(new ResourceList(0,0,0,0,0));
+		model.getPlayers().get(0).setResources(new ResourceList(5,5,5,5,5));
 		assertEquals(facade.canDomesticTrade(new TradeOffer(0,1,nothing,nothing)),true); // should work
 		
-		model.getPlayers()[0].setResources(new ResourceList(0,0,0,0,0));
-		model.getPlayers()[1].setResources(new ResourceList(5,5,5,5,5));
+		model.getPlayers().get(0).setResources(new ResourceList(0,0,0,0,0));
+		model.getPlayers().get(1).setResources(new ResourceList(5,5,5,5,5));
 		assertEquals(facade.canDomesticTrade(new TradeOffer(0,1,nothing,nothing)),true); // should work
 	}
 	
@@ -262,7 +262,7 @@ public class ModelUnitTests {
 
 				VertexValue vertex = model.getMap().getVertices().get(new VertexLocation(hexLocation, direction).getNormalizedLocation());
 				
-				model.getPlayers()[0].setResources(new ResourceList(5,5,5,5,5));
+				model.getPlayers().get(0).setResources(new ResourceList(5,5,5,5,5));
 				
 				
 				for (VertexDirection nonAdjDirection : vertexDirections) { // for every non adjacent direction - including the direction in question
@@ -273,37 +273,37 @@ public class ModelUnitTests {
 					}
 				}
 				
-				model.getPlayers()[0].setResources(new ResourceList(0,0,0,0,0));
+				model.getPlayers().get(0).setResources(new ResourceList(0,0,0,0,0));
 			}
 		}
 		
 		VertexValue vertex = model.getMap().getVertices().get(new VertexLocation(new HexLocation(0,0),VertexDirection.East).getNormalizedLocation());
 		
-		model.getPlayers()[0].setUnplacedSettlements(1);
-		model.getPlayers()[1].setUnplacedSettlements(1);
-		model.getPlayers()[0].setResources(new ResourceList(0,0,0,0,0));
+		model.getPlayers().get(0).setUnplacedSettlements(1);
+		model.getPlayers().get(1).setUnplacedSettlements(1);
+		model.getPlayers().get(0).setResources(new ResourceList(0,0,0,0,0));
 		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), false); // not enough resources
 		vertex.setSettlement(new Settlement(0));
 		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), false); // not enough resources, already settlement
-		model.getPlayers()[0].setResources(new ResourceList(5,5,5,5,5));
-		model.getPlayers()[1].setResources(new ResourceList(5,5,5,5,5));
+		model.getPlayers().get(0).setResources(new ResourceList(5,5,5,5,5));
+		model.getPlayers().get(1).setResources(new ResourceList(5,5,5,5,5));
 		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), false); // already settlement
 		assertEquals(ModelFacade.getInstance().canBuildSettlement(1, vertex.getLocation()), false); // already settlement - other player
 		vertex.setSettlement(null);
 		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), true); // should be able to - EXCEPT WE DON'T have a road nearby so... but we could be in the set up phase
-		model.getPlayers()[0].setResources(new ResourceList(1,0,1,1,1));
+		model.getPlayers().get(0).setResources(new ResourceList(1,0,1,1,1));
 		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), true); // should be able to - barely enough
-		model.getPlayers()[0].setResources(new ResourceList(0,0,1,1,1));
+		model.getPlayers().get(0).setResources(new ResourceList(0,0,1,1,1));
 		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), false); // not enough brick
-		model.getPlayers()[0].setResources(new ResourceList(1,0,0,1,1));
+		model.getPlayers().get(0).setResources(new ResourceList(1,0,0,1,1));
 		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), false); // not enough sheep
-		model.getPlayers()[0].setResources(new ResourceList(1,0,1,0,1));
+		model.getPlayers().get(0).setResources(new ResourceList(1,0,1,0,1));
 		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), false); // not enough wheat
-		model.getPlayers()[0].setResources(new ResourceList(1,0,1,1,0));
+		model.getPlayers().get(0).setResources(new ResourceList(1,0,1,1,0));
 		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), false); // not enough wood
 
-		model.getPlayers()[0].setResources(new ResourceList(1,0,1,1,1));
-		model.getPlayers()[0].setUnplacedSettlements(0);
+		model.getPlayers().get(0).setResources(new ResourceList(1,0,1,1,1));
+		model.getPlayers().get(0).setUnplacedSettlements(0);
 		assertEquals(ModelFacade.getInstance().canBuildSettlement(0, vertex.getLocation()), false); // should be able to
 	}
 	
@@ -347,24 +347,24 @@ public class ModelUnitTests {
 				VertexValue goodTest = model.getMap().getVertices().get(new VertexLocation(nonAdjacentHexLocation, vertexDirection).getNormalizedLocation());
 				goodTest.setSettlement(new Settlement(0));
 				
-				model.getPlayers()[0].setUnplacedCities(1);
-				model.getPlayers()[0].setResources(new ResourceList(5,5,5,5,5));
+				model.getPlayers().get(0).setUnplacedCities(1);
+				model.getPlayers().get(0).setResources(new ResourceList(5,5,5,5,5));
 				assertEquals(facade.canBuildCity(0, goodTest.getLocation()), true); // has everything
 				assertEquals(facade.canBuildCity(0, failTest.getLocation()),false); // no settlement
 				
-				model.getPlayers()[0].setResources(new ResourceList(0,3,0,2,0));
+				model.getPlayers().get(0).setResources(new ResourceList(0,3,0,2,0));
 				assertEquals(facade.canBuildCity(0, goodTest.getLocation()), true); // just barely enough
-				model.getPlayers()[0].setResources(new ResourceList(0,3,0,1,0));
+				model.getPlayers().get(0).setResources(new ResourceList(0,3,0,1,0));
 				assertEquals(facade.canBuildCity(0, goodTest.getLocation()), false); // not enough wheat
-				model.getPlayers()[0].setResources(new ResourceList(0,2,0,2,0));
+				model.getPlayers().get(0).setResources(new ResourceList(0,2,0,2,0));
 				assertEquals(facade.canBuildCity(0, goodTest.getLocation()), false); // not enough ore
 				
-				model.getPlayers()[0].setUnplacedCities(0);
+				model.getPlayers().get(0).setUnplacedCities(0);
 				assertEquals(facade.canBuildCity(0, goodTest.getLocation()),false); // no unplaced cities
 				assertEquals(facade.canBuildCity(0, failTest.getLocation()),false); // no settlement, no unplaced cities
 		
-				model.getPlayers()[0].setUnplacedCities(1);
-				model.getPlayers()[0].setResources(new ResourceList(0,0,0,0,0));
+				model.getPlayers().get(0).setUnplacedCities(1);
+				model.getPlayers().get(0).setResources(new ResourceList(0,0,0,0,0));
 				assertEquals(facade.canBuildCity(0, goodTest.getLocation()),false); // no resources
 				assertEquals(facade.canBuildCity(0, failTest.getLocation()),false); // no settlement, no resources
 				
@@ -389,28 +389,28 @@ public class ModelUnitTests {
 		model.getTurnTracker().setPlayerTurn(1);
 		assertEquals(facade.canBuyDevelopmentCard(0),false); // is not his turn
 		
-		model.getPlayers()[1].setResources(new ResourceList(5,5,5,5,5));
+		model.getPlayers().get(1).setResources(new ResourceList(5,5,5,5,5));
 		assertEquals(facade.canBuyDevelopmentCard(1), true); //should be able to
 		
-		model.getPlayers()[1].setResources(new ResourceList(0,1,1,1,0));
+		model.getPlayers().get(1).setResources(new ResourceList(0,1,1,1,0));
 		assertEquals(facade.canBuyDevelopmentCard(1), true); // just enough
 		
-		model.getPlayers()[1].setResources(new ResourceList(0,1,0,0,0));
+		model.getPlayers().get(1).setResources(new ResourceList(0,1,0,0,0));
 		assertEquals(facade.canBuyDevelopmentCard(1), false); // not enough
 		
-		model.getPlayers()[1].setResources(new ResourceList(0,0,1,0,0));
+		model.getPlayers().get(1).setResources(new ResourceList(0,0,1,0,0));
 		assertEquals(facade.canBuyDevelopmentCard(1), false); // not enough
 		
-		model.getPlayers()[1].setResources(new ResourceList(0,0,0,1,0));
+		model.getPlayers().get(1).setResources(new ResourceList(0,0,0,1,0));
 		assertEquals(facade.canBuyDevelopmentCard(1), false); // not enough
 
-		model.getPlayers()[1].setResources(new ResourceList(0,1,1,0,0));
+		model.getPlayers().get(1).setResources(new ResourceList(0,1,1,0,0));
 		assertEquals(facade.canBuyDevelopmentCard(1), false); // not enough
 		
-		model.getPlayers()[1].setResources(new ResourceList(0,1,0,1,0));
+		model.getPlayers().get(1).setResources(new ResourceList(0,1,0,1,0));
 		assertEquals(facade.canBuyDevelopmentCard(1), false); // not enough
 		
-		model.getPlayers()[1].setResources(new ResourceList(0,0,1,1,0));
+		model.getPlayers().get(1).setResources(new ResourceList(0,0,1,1,0));
 		assertEquals(facade.canBuyDevelopmentCard(1), false); // not enough
 	}
 	
@@ -427,8 +427,8 @@ public class ModelUnitTests {
 		
 		assertEquals(facade.canLoseCardsFromDieRoll(0),false); // does not have cards
 		
-		model.getPlayers()[0].setResources(new ResourceList(5,5,5,5,5));
-		model.getPlayers()[1].setResources(new ResourceList(5,5,5,5,5));
+		model.getPlayers().get(0).setResources(new ResourceList(5,5,5,5,5));
+		model.getPlayers().get(1).setResources(new ResourceList(5,5,5,5,5));
 		
 		assertEquals(facade.canLoseCardsFromDieRoll(0),true); // has too many
 		assertEquals(facade.canLoseCardsFromDieRoll(1),true); // has too many
@@ -471,7 +471,7 @@ public class ModelUnitTests {
 			
 			for (VertexDirection vertexDirection : vertexDirections) {
 				model.getMap().setRobber(nonAdjacentHexLocation);
-				model.getPlayers()[0].setResources(new ResourceList(0,0,0,0,0));
+				model.getPlayers().get(0).setResources(new ResourceList(0,0,0,0,0));
 				VertexValue vertex = model.getMap().getVertices().get(new VertexLocation(hexLocation,vertexDirection).getNormalizedLocation());
 	
 				vertex.setSettlement(new Settlement(0));
@@ -479,10 +479,10 @@ public class ModelUnitTests {
 				model.getMap().setRobber(hexLocation);
 				assertEquals(facade.canLoseCardsFromRobber(0), false); // player has no resources to steal
 	
-				model.getPlayers()[1].setResources(new ResourceList(2,2,2,2,2));
+				model.getPlayers().get(1).setResources(new ResourceList(2,2,2,2,2));
 				assertEquals(facade.canLoseCardsFromRobber(1), false); // player has no settlement adjacent to the robber's hex
 				
-				model.getPlayers()[0].setResources(new ResourceList(2,2,2,2,2));
+				model.getPlayers().get(0).setResources(new ResourceList(2,2,2,2,2));
 				assertEquals(facade.canLoseCardsFromRobber(0), true); // should be able to
 		
 				model.getMap().setRobber(nonAdjacentHexLocation);
@@ -492,13 +492,13 @@ public class ModelUnitTests {
 				vertex.setCity(new City(0));
 	
 				model.getMap().setRobber(hexLocation);
-				model.getPlayers()[0].setResources(new ResourceList(0,0,0,0,0));
+				model.getPlayers().get(0).setResources(new ResourceList(0,0,0,0,0));
 				assertEquals(facade.canLoseCardsFromRobber(0), false); // player has no resources to steal
 	
-				model.getPlayers()[1].setResources(new ResourceList(2,2,2,2,2));
+				model.getPlayers().get(1).setResources(new ResourceList(2,2,2,2,2));
 				assertEquals(facade.canLoseCardsFromRobber(1), false); // player has no settlement adjacent to the robber's hex
 				
-				model.getPlayers()[0].setResources(new ResourceList(2,2,2,2,2));
+				model.getPlayers().get(0).setResources(new ResourceList(2,2,2,2,2));
 				assertEquals(facade.canLoseCardsFromRobber(0), true); // should be able to
 		
 				model.getMap().setRobber(nonAdjacentHexLocation);
@@ -521,7 +521,7 @@ public class ModelUnitTests {
 		
 		assertEquals(facade.canWin(0),false);
 		
-		model.getPlayers()[0].setVictoryPoints(10);
+		model.getPlayers().get(0).setVictoryPoints(10);
 		assertEquals(facade.canWin(0), true);
 		
 		model.getTurnTracker().endPlayerTurn();

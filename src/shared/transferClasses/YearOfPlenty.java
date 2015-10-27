@@ -1,6 +1,5 @@
 package shared.transferClasses;
 
-import shared.definitions.ResourceType;
 import shared.model.Resource;
 
 /**
@@ -14,16 +13,16 @@ import shared.model.Resource;
 
 public class YearOfPlenty {
 
-	public YearOfPlenty(int playerIndex, ResourceType resourceOne, ResourceType resourceTwo) {
+	public YearOfPlenty(int playerIndex, Resource brick, Resource ore) {
 		this.playerIndex = playerIndex;
-		this.resourceOne = resourceOne;
-		this.resourceTwo = resourceTwo;
+		this.resourceOne = brick;
+		this.resourceTwo = ore;
 	}
 
 	private String type = "Year_of_Plenty";
 	private int playerIndex;
-	private ResourceType resourceOne;
-	private ResourceType resourceTwo;
+	private Resource resourceOne;
+	private Resource resourceTwo;
 
 	public int getPlayerIndex() {
 		return playerIndex;
@@ -33,19 +32,19 @@ public class YearOfPlenty {
 		this.playerIndex = playerIndex;
 	}
 
-	public ResourceType getResourceOne() {
+	public Resource getResourceOne() {
 		return resourceOne;
 	}
 
-	public void setResourceOne(ResourceType resourceOne) {
+	public void setResourceOne(Resource resourceOne) {
 		this.resourceOne = resourceOne;
 	}
 
-	public ResourceType getResourceTwo() {
+	public Resource getResourceTwo() {
 		return resourceTwo;
 	}
 
-	public void setResourceTwo(ResourceType resourceTwo) {
+	public void setResourceTwo(Resource resourceTwo) {
 		this.resourceTwo = resourceTwo;
 	}
 
