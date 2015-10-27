@@ -30,12 +30,12 @@ public class Model {
 		chat = new MessageList();
 		log = new MessageList();
 		map = new GameMap(randomHexes, randomChits, randomPorts, loadGame);
-		players = new ArrayList<Player>(4);
 		
+		players = new ArrayList<Player>(4);
 		for(int i = 0; i < names.size(); i++)
 		{
 			Player newPlayer = new Player(names.get(0), -1, "no colors yet", i);
-			players.set(i, newPlayer);
+			players.add(newPlayer);
 		}
 
 		turnTracker = new TurnTracker(0, 0, 0, 0);

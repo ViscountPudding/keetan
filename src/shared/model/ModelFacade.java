@@ -24,6 +24,7 @@ public class ModelFacade {
 	
 	private ModelFacade(Model model) {
 		this.model = model;
+		this.modelObservers = new ArrayList<Observer>();
 	}
 	
 	/** The singleton generator for the ModelFacade
