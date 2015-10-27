@@ -1,11 +1,16 @@
 package client.map;
 
+import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.definitions.PortType;
+import shared.model.ModelFacade;
+import shared.model.gamemap.Hex;
+import shared.model.gamemap.Port;
 import shared.model.locations.EdgeDirection;
 import shared.model.locations.EdgeLocation;
 import shared.model.locations.HexLocation;
@@ -57,7 +62,7 @@ public class MapController extends Controller implements IMapController {
 	protected void initFromModel() {
 		
 		//<temp>
-		
+		/*
 		Random rand = new Random();
 
 		for (int x = 0; x <= 3; ++x) {
@@ -119,6 +124,28 @@ public class MapController extends Controller implements IMapController {
 		getView().addNumber(new HexLocation(2, 0), 12);
 		
 		//</temp>
+		 * 
+		 */
+		
+		Iterator<Entry<HexLocation, Hex>> hexes = ModelFacade.getInstance().getHexes().entrySet().iterator();
+		
+		while(hexes.hasNext()) {
+			Entry<HexLocation, Hex> hex = hexes.next();
+			
+			Hex theHex = hex.getValue();
+
+			getView().addHex(theHex.getLocation(), theHex.getHexType());
+			getView().addNumber(theHex.getLocation(), theHex.getDiceNumber());
+			
+			if(theHex.getHexType() == HexType.DESERT) {
+				getView().placeRobber(theHex.getLocation());
+			}
+		}
+		
+		for(Port port : ModelFacade.getInstance().getPorts()) {
+			getView().addPort(port.getEdge(), port.getType());
+		}
+		
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {

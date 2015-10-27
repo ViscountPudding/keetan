@@ -81,6 +81,30 @@ public class VertexValue {
 		}
 	}
 	
+	public boolean ownsMunicipality(int playerIndex) {
+		if(this.settlement != null) {
+			if(this.settlement.getPlayerIndex() == playerIndex) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		
+		else if(this.city != null) {
+			if(this.city.getPlayerIndex() == playerIndex) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		
+		else {
+			return false;
+		}
+	}
+	
 	/**
 	 * Returns the playerIndex of the player who has a municipality on this VertexValue
 	 * @pre none

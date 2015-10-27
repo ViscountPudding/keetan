@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import shared.definitions.HexType;
 import shared.model.Resource;
 import shared.model.locations.EdgeDirection;
 import shared.model.locations.HexLocation;
@@ -81,5 +82,24 @@ public class Hex {
 		}
 		
 		return theseVertices;
+	}
+	
+	public HexType getHexType() {
+		switch(this.resource) {
+		case WOOD:
+			return HexType.WOOD;
+		case BRICK:
+			return HexType.BRICK;
+		case SHEEP:
+			return HexType.SHEEP;
+		case WHEAT:
+			return HexType.WHEAT;
+		case ORE:
+			return HexType.ORE;
+		case DESERT:
+			return HexType.DESERT;
+		default:
+			return HexType.WATER; //Should never happen
+		}
 	}
 }
