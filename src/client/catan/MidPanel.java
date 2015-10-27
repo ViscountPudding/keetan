@@ -1,9 +1,14 @@
-package clientSide.guiThings.catan;
+package client.catan;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
-import clientSide.guiThings.map.*;
+import javax.swing.JPanel;
+
+import client.map.IMapController;
+import client.map.MapController;
+import client.map.MapView;
+import client.map.RobView;
 
 @SuppressWarnings("serial")
 public class MidPanel extends JPanel

@@ -1,6 +1,5 @@
 package swaggerModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import shared.model.DevCardList;
@@ -8,16 +7,10 @@ import shared.model.Model;
 import shared.model.Player;
 import shared.model.Resource;
 import shared.model.ResourceList;
-import shared.model.TradeOffer;
 import shared.model.TurnTracker;
-import shared.model.gamemap.GameMap;
-import shared.model.gamemap.Port;
 import shared.model.locations.EdgeDirection;
 import shared.model.locations.VertexDirection;
 import shared.model.message.MessageList;
-import shared.model.pieces.City;
-import shared.model.pieces.Road;
-import shared.model.pieces.Settlement;
 
 public class SwaggerModel {
 	private ResourceList bank; //our model

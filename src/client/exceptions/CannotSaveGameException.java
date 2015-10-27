@@ -1,4 +1,4 @@
-package clientSide.exceptions;
+package client.exceptions;
 
 /**
  * Thrown when the game is not succesfully stored

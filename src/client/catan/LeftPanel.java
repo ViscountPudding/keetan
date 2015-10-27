@@ -1,10 +1,18 @@
-package clientSide.guiThings.catan;
+package client.catan;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
 
-import clientSide.guiThings.communication.*;
-import clientSide.guiThings.turntracker.*;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+
+import client.communication.ChatController;
+import client.communication.ChatView;
+import client.communication.GameHistoryController;
+import client.communication.GameHistoryView;
+import client.turntracker.TurnTrackerController;
+import client.turntracker.TurnTrackerView;
 
 
 @SuppressWarnings("serial")

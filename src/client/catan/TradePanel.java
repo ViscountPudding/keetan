@@ -1,11 +1,20 @@
-package clientSide.guiThings.catan;
+package client.catan;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Dimension;
 
-import clientSide.guiThings.domestic.*;
-import clientSide.guiThings.maritime.*;
-import clientSide.guiThings.misc.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+
+import client.domestic.AcceptTradeOverlay;
+import client.domestic.DomesticTradeController;
+import client.domestic.DomesticTradeOverlay;
+import client.domestic.DomesticTradeView;
+import client.maritime.MaritimeTradeController;
+import client.maritime.MaritimeTradeOverlay;
+import client.maritime.MaritimeTradeView;
+import client.misc.WaitView;
 
 @SuppressWarnings("serial")
 public class TradePanel extends JPanel

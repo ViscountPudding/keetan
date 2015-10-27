@@ -1,7 +1,6 @@
 package shared.transferClasses;
 
 import shared.definitions.ResourceType;
-import shared.model.Resource;
 
 /**
  * Used to execute a maritime trade

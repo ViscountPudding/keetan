@@ -1,4 +1,4 @@
-package clientSide.server;
+package client.server;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ import shared.transferClasses.SendChat;
 import shared.transferClasses.Soldier;
 import shared.transferClasses.UserCredentials;
 import shared.transferClasses.YearOfPlenty;
-import clientSide.exceptions.ServerException;
+import client.exceptions.ServerException;
 
 /**
  * This class is a facade which will interperate requests recieved from a server and 

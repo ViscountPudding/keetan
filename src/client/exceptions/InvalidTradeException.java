@@ -1,4 +1,4 @@
-package clientSide.exceptions;
+package client.exceptions;
 
 /**
  * Thrown when the user tries to make a trade with resources he doesn't have

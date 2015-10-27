@@ -1,4 +1,4 @@
-package clientSide.exceptions;
+package client.exceptions;
 
 /**
  * Thrown when the user tries to join a game that is full

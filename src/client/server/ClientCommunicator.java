@@ -1,4 +1,4 @@
-package clientSide.server;
+package client.server;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +13,7 @@ import java.net.URLDecoder;
 import java.util.Scanner;
 
 import shared.Converter;
-import clientSide.exceptions.ServerException;
+import client.exceptions.ServerException;
 
 /**
  * This class sends commands to a server specified by the server

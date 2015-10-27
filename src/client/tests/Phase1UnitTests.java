@@ -1,4 +1,4 @@
-package clientSide.tests;
+package client.tests;
 
 import org.junit.After;
 import org.junit.Before;

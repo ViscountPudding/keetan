@@ -1,6 +1,7 @@
-package clientSide.tests;
+package client.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
 
@@ -10,9 +11,9 @@ import org.junit.Test;
 
 import shared.model.ModelFacade;
 import shared.model.Resource;
-import clientSide.server.IServer;
-import clientSide.server.MockServer;
-import clientSide.server.ServerPoller;
+import client.server.IServer;
+import client.server.MockServer;
+import client.server.ServerPoller;
 
 public class ServerPollerUnitTests {
 	@Before

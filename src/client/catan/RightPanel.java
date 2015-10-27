@@ -1,13 +1,20 @@
-package clientSide.guiThings.catan;
+package client.catan;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
 
 import shared.definitions.PieceType;
-import clientSide.guiThings.points.*;
-import clientSide.guiThings.resources.*;
-import clientSide.guiThings.base.*;
-import clientSide.guiThings.map.*;
-import clientSide.guiThings.devcards.*;
+import client.base.IAction;
+import client.devcards.BuyDevCardView;
+import client.devcards.DevCardController;
+import client.devcards.PlayDevCardView;
+import client.map.IMapController;
+import client.points.GameFinishedView;
+import client.points.PointsController;
+import client.points.PointsView;
+import client.resources.ResourceBarController;
+import client.resources.ResourceBarElement;
+import client.resources.ResourceBarView;
 
 @SuppressWarnings("serial")
 public class RightPanel extends JPanel

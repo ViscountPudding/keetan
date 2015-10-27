@@ -1,14 +1,14 @@
 	package shared.model.gamemap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.HashMap;
 import java.util.Map.Entry;
 
 import shared.model.Resource;
-import shared.model.locations.HexLocation;
 import shared.model.locations.EdgeDirection;
+import shared.model.locations.HexLocation;
 import shared.model.locations.VertexDirection;
 
 /**

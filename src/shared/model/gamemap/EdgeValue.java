@@ -2,8 +2,8 @@ package shared.model.gamemap;
 
 import java.util.List;
 
-import shared.model.pieces.Road;
 import shared.model.locations.EdgeLocation;
+import shared.model.pieces.Road;
 
 /**
  * Contains data about the edges between hexes on the map.

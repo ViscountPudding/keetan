@@ -1,4 +1,4 @@
-package clientSide.guiThings.catan;
+package client.catan;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -8,12 +8,12 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import shared.definitions.ResourceType;
-import clientSide.guiThings.discard.DiscardController;
-import clientSide.guiThings.discard.DiscardView;
-import clientSide.guiThings.misc.WaitView;
-import clientSide.guiThings.roll.RollController;
-import clientSide.guiThings.roll.RollResultView;
-import clientSide.guiThings.roll.RollView;
+import client.discard.DiscardController;
+import client.discard.DiscardView;
+import client.misc.WaitView;
+import client.roll.RollController;
+import client.roll.RollResultView;
+import client.roll.RollView;
 
 @SuppressWarnings("serial")
 public class CatanPanel extends JPanel

@@ -1,8 +1,8 @@
 package shared.model.gamemap;
 
 import shared.definitions.PortType;
-import shared.model.locations.EdgeLocation;
 import shared.model.Resource;
+import shared.model.locations.EdgeLocation;
 
 /**
  * Contains data for special ports that improve trade ratios

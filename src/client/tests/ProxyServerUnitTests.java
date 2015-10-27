@@ -1,4 +1,4 @@
-package clientSide.tests;
+package client.tests;
 
 import static org.junit.Assert.assertTrue;
 
@@ -34,9 +34,9 @@ import shared.transferClasses.SendChat;
 import shared.transferClasses.Soldier;
 import shared.transferClasses.UserCredentials;
 import shared.transferClasses.YearOfPlenty;
-import clientSide.exceptions.ServerException;
-import clientSide.server.ClientServerFacade;
-import clientSide.server.IServer;
+import client.exceptions.ServerException;
+import client.server.ClientServerFacade;
+import client.server.IServer;
 
 /**
  * This class is a compilation of JUnit tests to see if the client server works

@@ -1,4 +1,4 @@
-package clientSide.server;
+package client.server;
 import java.util.ArrayList;
 
 import shared.model.Model;
@@ -24,8 +24,8 @@ import shared.transferClasses.SendChat;
 import shared.transferClasses.Soldier;
 import shared.transferClasses.UserCredentials;
 import shared.transferClasses.YearOfPlenty;
-import clientSide.exceptions.IllegalActionException;
-import clientSide.exceptions.ServerException;
+import client.exceptions.IllegalActionException;
+import client.exceptions.ServerException;
 
 /**
  * This interface is used by a client to send requests to a Settlers of Catan Server.

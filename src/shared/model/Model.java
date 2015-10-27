@@ -1,10 +1,9 @@
 package shared.model;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import shared.model.gamemap.GameMap;
-import shared.model.locations.VertexLocation;
 import shared.model.message.MessageList;
 
 /**

@@ -1,12 +1,16 @@
-package clientSide.guiThings.catan;
+package client.catan;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
-import clientSide.guiThings.base.IAction;
+import client.base.IAction;
 
 
 @SuppressWarnings("serial")

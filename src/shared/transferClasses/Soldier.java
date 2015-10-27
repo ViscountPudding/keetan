@@ -1,6 +1,5 @@
 package shared.transferClasses;
 
-import shared.model.locations.EdgeLocation;
 import shared.model.locations.HexLocation;
 
 /**

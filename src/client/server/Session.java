@@ -1,4 +1,4 @@
-package clientSide.server;
+package client.server;
 
 /**
  * The Session stores the users info, aka the username password and ID

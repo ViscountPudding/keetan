@@ -1,11 +1,11 @@
-package clientSide.server;
+package client.server;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 import shared.model.Model;
 import shared.model.ModelFacade;
-import clientSide.exceptions.ServerException;
+import client.exceptions.ServerException;
 
 /**
  * This class is used to 

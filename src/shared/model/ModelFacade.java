@@ -32,7 +32,7 @@ public class ModelFacade {
 	 * @post If the model is already set, this function returns the already created instance
 	 * @return the singleton of the ModelFacade
 	 */
-	public static ModelFacade createInstance(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, ArrayList<String> names) {
+	public static ModelFacade createInstance(boolean randomHexes, boolean randomChits, boolean randomPorts, boolean loadGame, List<String> names) {
 		if(instance == null) {
 			instance = new ModelFacade(new Model(randomHexes, randomChits, randomPorts, loadGame, names));
 		}

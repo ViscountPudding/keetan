@@ -1,4 +1,4 @@
-package clientSide.server;
+package client.server;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,7 +29,7 @@ import shared.transferClasses.SendChat;
 import shared.transferClasses.Soldier;
 import shared.transferClasses.UserCredentials;
 import shared.transferClasses.YearOfPlenty;
-import clientSide.exceptions.ServerException;
+import client.exceptions.ServerException;
 
 public class MockServer implements IServer  {
 	

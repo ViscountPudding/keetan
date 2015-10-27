@@ -1,4 +1,4 @@
-package clientSide.exceptions;
+package client.exceptions;
 
 /**
  * Happens when the client cannot connect to the server or the server has an error.

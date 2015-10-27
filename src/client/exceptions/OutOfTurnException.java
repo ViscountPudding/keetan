@@ -1,4 +1,4 @@
-package clientSide.exceptions;
+package client.exceptions;
 
 /**
  * Thrown when a player tries to make do something when it's not their turn.

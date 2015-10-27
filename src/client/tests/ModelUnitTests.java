@@ -1,30 +1,23 @@
-package clientSide.tests;
+package client.tests;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
 
-import shared.definitions.PortType;
 import shared.model.Model;
 import shared.model.ModelFacade;
 import shared.model.Resource;
 import shared.model.ResourceList;
 import shared.model.TradeOffer;
-import shared.model.gamemap.EdgeValue;
-import shared.model.gamemap.Port;
 import shared.model.gamemap.VertexValue;
-import shared.model.locations.EdgeDirection;
-import shared.model.locations.EdgeLocation;
 import shared.model.locations.HexLocation;
 import shared.model.locations.VertexDirection;
 import shared.model.locations.VertexLocation;
 import shared.model.pieces.City;
-import shared.model.pieces.Road;
 import shared.model.pieces.Settlement;
 
 public class ModelUnitTests {
