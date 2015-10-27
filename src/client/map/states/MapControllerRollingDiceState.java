@@ -1,15 +1,10 @@
 package client.map.states;
 
+import model.EdgeLocation;
+import model.HexLocation;
+import model.VertexLocation;
 import shared.definitions.PieceType;
-import shared.model.ModelFacade;
-import shared.model.locations.EdgeLocation;
-import shared.model.locations.HexLocation;
-import shared.model.locations.VertexLocation;
-import shared.transferClasses.RoadBuilding;
-import shared.transferClasses.Soldier;
 import client.data.RobPlayerInfo;
-import client.exceptions.ServerException;
-import client.server.ClientServerFacade;
 
 public class MapControllerRollingDiceState implements MapControllerState {
 
@@ -79,7 +74,7 @@ public class MapControllerRollingDiceState implements MapControllerState {
 //		// TODO Auto-generated method stub
 //		Soldier command = new Soldier(ModelFacade.getInstance().whoseTurnIsItAnyway(), victimIndex, location);
 //		try {
-//			ClientServerFacade.getInstance().soldier(command);
+//			ServerProxy.soldier(command);
 //		} catch (ServerException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
@@ -91,7 +86,7 @@ public class MapControllerRollingDiceState implements MapControllerState {
 //		// TODO Auto-generated method stub
 //		RoadBuilding command = new RoadBuilding(ModelFacade.getInstance().whoseTurnIsItAnyway(), roadOne, roadTwo);
 //		try {
-//			ClientServerFacade.getInstance().roadBuilding(command);
+//			ServerProxy.roadBuilding(command);
 //		} catch (ServerException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();

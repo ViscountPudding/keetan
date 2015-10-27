@@ -1,5 +1,7 @@
 package shared.transferClasses;
 
+import shared.definitions.PlayerColor;
+
 /**
  * This transfer object is used for the join game request to the server
  * @author djoshuac
@@ -7,15 +9,15 @@ package shared.transferClasses;
  */
 public class JoinGameRequest {
 	private int id;
-	private String color;
+	private PlayerColor color;
 	
 	/**
 	 * @param id - the game id
 	 * @param color - the color of the player
 	 */
-	public JoinGameRequest(int id, String color) {
-		this.id = id;
-		this.color = color;
+	public JoinGameRequest(int id, PlayerColor color) {
+		setId(id);
+		setColor(color);
 	}
 	
 	public int getId() {
@@ -25,10 +27,10 @@ public class JoinGameRequest {
 		this.id = id;
 	}
 	
-	public String getColor() {
+	public PlayerColor getColor() {
 		return this.color;
 	}
-	public void setColor(String color) {
+	public void setColor(PlayerColor color) {
 		this.color = color;
 	}
 }

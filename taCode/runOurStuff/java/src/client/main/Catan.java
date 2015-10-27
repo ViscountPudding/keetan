@@ -15,7 +15,7 @@ import client.join.SelectColorView;
 import client.login.LoginController;
 import client.login.LoginView;
 import client.misc.MessageView;
-import client.server.ClientServerFacade;
+import client.server.ServerProxy;
 
 /**
  * Main entry point for the Catan program
@@ -23,33 +23,33 @@ import client.server.ClientServerFacade;
 @SuppressWarnings("serial")
 public class Catan extends JFrame
 {
-	
+
 	private CatanPanel catanPanel;
-	
+
 	public Catan()
 	{
 		System.out.println("Set window??");
 		client.base.OverlayView.setWindow(this);
-		
+
 		this.setTitle("Settlers of Catan");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		catanPanel = new CatanPanel();
 		this.setContentPane(catanPanel);
-		
+
 		display();
 	}
-	
+
 	private void display()
 	{
 		pack();
 		setVisible(true);
 	}
-	
+
 	//
 	// Main
 	//
-	
+
 	public static void main(final String[] args)
 	{
 		try
@@ -60,17 +60,17 @@ public class Catan extends JFrame
 		{
 			e.printStackTrace();
 		}
-		
+
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run()
 			{
 				new Catan();
-				
+
 				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
 				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(
 																									playerWaitingView);
 				playerWaitingView.setController(playerWaitingController);
-				
+
 				JoinGameView joinView = new JoinGameView();
 				NewGameView newGameView = new NewGameView();
 				SelectColorView selectColorView = new SelectColorView();
@@ -91,7 +91,7 @@ public class Catan extends JFrame
 				newGameView.setController(joinController);
 				selectColorView.setController(joinController);
 				joinMessageView.setController(joinController);
-				
+
 				LoginView loginView = new LoginView();
 				MessageView loginMessageView = new MessageView();
 				LoginController loginController = new LoginController(
@@ -106,13 +106,12 @@ public class Catan extends JFrame
 				});
 				loginView.setController(loginController);
 				loginView.setController(loginController);
-				
-				
-				ClientServerFacade.createInstance("localhost:8081");
+
+
+				ServerProxy.initialize("localhost:8081");
 				loginController.start();
 			}
 		});
 	}
-	
-}
 
+}

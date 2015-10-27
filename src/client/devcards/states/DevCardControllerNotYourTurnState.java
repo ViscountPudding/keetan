@@ -1,8 +1,8 @@
 package client.devcards.states;
 
+import model.EdgeLocation;
+import model.HexLocation;
 import shared.definitions.ResourceType;
-import shared.model.locations.EdgeLocation;
-import shared.model.locations.HexLocation;
 
 public class DevCardControllerNotYourTurnState implements
 		DevCardControllerState {

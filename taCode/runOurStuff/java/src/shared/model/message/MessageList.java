@@ -29,5 +29,10 @@ public class MessageList {
 	public void addLine(MessageLine line) {
 		
 	}
+
+	public boolean validate() {
+		if (lines == null) return false;
+		return true;
+	}
 	
 }

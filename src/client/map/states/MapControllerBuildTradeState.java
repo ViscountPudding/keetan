@@ -1,45 +1,43 @@
 package client.map.states;
 
+import model.EdgeLocation;
+import model.HexLocation;
+import model.ModelFacade;
+import model.VertexLocation;
 import shared.definitions.PieceType;
-import shared.model.ModelFacade;
-import shared.model.locations.EdgeLocation;
-import shared.model.locations.HexLocation;
-import shared.model.locations.VertexLocation;
 import shared.transferClasses.BuildCity;
 import shared.transferClasses.BuildRoad;
 import shared.transferClasses.BuildSettlement;
-import shared.transferClasses.RoadBuilding;
-import shared.transferClasses.Soldier;
 import client.data.RobPlayerInfo;
 import client.exceptions.ServerException;
-import client.server.ClientServerFacade;
+import client.server.ServerProxy;
 
 public class MapControllerBuildTradeState implements MapControllerState {
 
 	@Override
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		// TODO Auto-generated method stub
-		
+
 		//Maybe change this to the client-bound player (i.e. player index of whoever is on this machine)
-		
-		return ModelFacade.getInstance().canBuildRoad(ModelFacade.getInstance().whoseTurnIsItAnyway(), edgeLoc);
-		
+
+		return ModelFacade.canBuildRoad(ModelFacade.whoseTurnIsItAnyway(), edgeLoc);
+
 	}
 
 	@Override
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
 		// TODO Auto-generated method stub
-		
-		return ModelFacade.getInstance().canBuildSettlement(ModelFacade.getInstance().whoseTurnIsItAnyway(), vertLoc);
+
+		return ModelFacade.canBuildSettlement(ModelFacade.whoseTurnIsItAnyway(), vertLoc);
 	}
 
 	@Override
 	public boolean canPlaceCity(VertexLocation vertLoc) {
 		// TODO Auto-generated method stub
-		
+
 		//Can canPlaceCity in ModelFacade
-		
-		return ModelFacade.getInstance().canBuildCity(ModelFacade.getInstance().whoseTurnIsItAnyway(), vertLoc);
+
+		return ModelFacade.canBuildCity(ModelFacade.whoseTurnIsItAnyway(), vertLoc);
 	}
 
 	@Override
@@ -51,58 +49,49 @@ public class MapControllerBuildTradeState implements MapControllerState {
 	@Override
 	public void placeRoad(EdgeLocation edgeLoc) {
 		// TODO Auto-generated method stub
-		
-		//BuildRoad command = new BuildRoad(ModelFacade.getCurrentPlayer, edgeLoc, false)
-		//ClientServerFacade.sendTheThing(Not a real function) (command);
-		
-		BuildRoad command = new BuildRoad(ModelFacade.getInstance().whoseTurnIsItAnyway(), edgeLoc, false);
-		
+
+		BuildRoad command = new BuildRoad(ModelFacade.whoseTurnIsItAnyway(), edgeLoc, false);
+
 		try {
-			ClientServerFacade.getInstance().buildRoad(command);
+			ServerProxy.buildRoad(command);
 		} catch (ServerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("WHOOPS!");
 		}
-		
+
 	}
 
 	@Override
 	public void placeSettlement(VertexLocation vertLoc) {
 		// TODO Auto-generated method stub
-		
-		//BuildSettlement command = new BuildSettlement(currentPlayer, vertLoc, false);
-		//ClientServerFacade.sendTheThing(command);
 
-		BuildSettlement command = new BuildSettlement(ModelFacade.getInstance().whoseTurnIsItAnyway(), vertLoc, false);
-		
+		BuildSettlement command = new BuildSettlement(ModelFacade.whoseTurnIsItAnyway(), vertLoc, false);
+
 		try {
-			ClientServerFacade.getInstance().buildSettlement(command);
+			ServerProxy.buildSettlement(command);
 		} catch (ServerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("WHOOPS!");
 		}
-		
+
 	}
 
 	@Override
 	public void placeCity(VertexLocation vertLoc) {
 		// TODO Auto-generated method stub
 
-		//BuildCity command = new BuildCity(currentlyPlayer, vertLoc, false);
-		//ClientServerFacade.sendTheThing(command);
-		
-		BuildCity command = new BuildCity(ModelFacade.getInstance().whoseTurnIsItAnyway(), vertLoc, false);
-		
+		BuildCity command = new BuildCity(ModelFacade.whoseTurnIsItAnyway(), vertLoc, false);
+
 		try {
-			ClientServerFacade.getInstance().buildCity(command);
+			ServerProxy.buildCity(command);
 		} catch (ServerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("WHOOPS!");
 		}
-		
+
 	}
 
 	@Override
@@ -129,7 +118,7 @@ public class MapControllerBuildTradeState implements MapControllerState {
 //		// TODO Auto-generated method stub
 //		Soldier command = new Soldier(ModelFacade.getInstance().whoseTurnIsItAnyway(), victimIndex, location);
 //		try {
-//			ClientServerFacade.getInstance().soldier(command);
+//			ServerProxy.soldier(command);
 //		} catch (ServerException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
@@ -141,7 +130,7 @@ public class MapControllerBuildTradeState implements MapControllerState {
 //		// TODO Auto-generated method stub
 //		RoadBuilding command = new RoadBuilding(ModelFacade.getInstance().whoseTurnIsItAnyway(), roadOne, roadTwo);
 //		try {
-//			ClientServerFacade.getInstance().roadBuilding(command);
+//			ServerProxy.roadBuilding(command);
 //		} catch (ServerException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();

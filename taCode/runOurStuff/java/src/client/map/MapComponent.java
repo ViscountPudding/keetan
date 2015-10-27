@@ -23,15 +23,15 @@ import java.util.Map;
 
 import javax.swing.JComponent;
 
+import model.EdgeDirection;
+import model.EdgeLocation;
+import model.HexLocation;
+import model.VertexLocation;
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.definitions.PortType;
-import shared.model.locations.EdgeDirection;
-import shared.model.locations.EdgeLocation;
-import shared.model.locations.HexLocation;
-import shared.model.locations.VertexDirection;
-import shared.model.locations.VertexLocation;
+import shared.definitions.VertexDirection;
 import client.base.IController;
 import client.utils.ImageUtils;
 
@@ -347,14 +347,14 @@ public class MapComponent extends JComponent
 		// Compute edge points for the new hex
 		for (EdgeDirection edgeDir : EdgeDirection.values())
 		{
-			EdgeLocation edgeLoc = new EdgeLocation(hexLoc, edgeDir).getNormalizedLocation();
+			EdgeLocation edgeLoc = new EdgeLocation(hexLoc.getX(), hexLoc.getY(), edgeDir).getNormalizedLocation();
 			allEdgePoints.put(edgeLoc, getEdgePoint(edgeLoc));
 		}
 		
 		// Compute vertex points for the new hex
 		for (VertexDirection vertDir : VertexDirection.values())
 		{
-			VertexLocation vertLoc = new VertexLocation(hexLoc, vertDir).getNormalizedLocation();
+			VertexLocation vertLoc = new VertexLocation(hexLoc.getX(), hexLoc.getY(), vertDir).getNormalizedLocation();
 			allVertexPoints.put(vertLoc, getVertexPoint(vertLoc));
 		}
 		
@@ -704,7 +704,7 @@ public class MapComponent extends JComponent
 		
 		Point2D edgePoint = getEdgePoint(edgeLoc);
 		
-		List<Point2D> roadShape = translateShape(ROADS.get(edgeLoc.getDir()),
+		List<Point2D> roadShape = translateShape(ROADS.get(edgeLoc.getDirection()),
 												 edgePoint);
 		
 		Polygon poly = toPolygon(roadShape);
@@ -918,7 +918,7 @@ public class MapComponent extends JComponent
 	private double getPortRotation(EdgeLocation edgeLoc)
 	{
 		
-		return PORT_ROTATIONS.get(edgeLoc.getDir());
+		return PORT_ROTATIONS.get(edgeLoc.getDirection());
 	}
 	
 	private static Point2D getHexPoint(HexLocation hexLoc)
@@ -959,7 +959,7 @@ public class MapComponent extends JComponent
 		
 		Point2D hexPoint = getHexPoint(normEdgeLoc.getHexLoc());
 		
-		Point2D edgePoint = EDGE_POINTS.get(normEdgeLoc.getDir());
+		Point2D edgePoint = EDGE_POINTS.get(normEdgeLoc.getDirection());
 		
 		return add(hexPoint, edgePoint);
 	}
@@ -971,7 +971,7 @@ public class MapComponent extends JComponent
 		
 		Point2D hexPoint = getHexPoint(normVertLoc.getHexLoc());
 		
-		Point2D vertPoint = VERTEX_POINTS.get(normVertLoc.getDir());
+		Point2D vertPoint = VERTEX_POINTS.get(normVertLoc.getVertexDirection());
 		
 		return add(hexPoint, vertPoint);
 	}

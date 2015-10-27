@@ -1,10 +1,10 @@
 package client.maritime.states;
 
+import model.ModelFacade;
 import shared.definitions.ResourceType;
-import shared.model.ModelFacade;
 import shared.transferClasses.MaritimeTrade;
 import client.exceptions.ServerException;
-import client.server.ClientServerFacade;
+import client.server.ServerProxy;
 
 public class MaritimeTradeControllerBuildTradeState implements
 		MaritimeTradeControllerState {
@@ -18,9 +18,9 @@ public class MaritimeTradeControllerBuildTradeState implements
 	@Override
 	public void makeTrade(ResourceType input, ResourceType output, int ratio) {
 		// TODO Auto-generated method stub
-		MaritimeTrade command = new MaritimeTrade(ModelFacade.getInstance().whoseTurnIsItAnyway(), ratio, input, output);
+		MaritimeTrade command = new MaritimeTrade(ModelFacade.whoseTurnIsItAnyway(), ratio, input, output);
 		try {
-			ClientServerFacade.getInstance().maritimeTrade(command);
+			ServerProxy.maritimeTrade(command);
 		} catch (ServerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

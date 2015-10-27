@@ -88,6 +88,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		this.messageView = messageView;
 	}
 
+	
+	
+	
+	
+	
 	@Override
 	public void start() {
 		

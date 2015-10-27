@@ -1,6 +1,6 @@
 package shared.transferClasses;
 
-import shared.model.locations.HexLocation;
+import model.HexLocation;
 
 /**
  *

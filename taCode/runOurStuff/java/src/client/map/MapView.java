@@ -11,13 +11,13 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import model.EdgeLocation;
+import model.HexLocation;
+import model.VertexLocation;
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.definitions.PortType;
-import shared.model.locations.EdgeLocation;
-import shared.model.locations.HexLocation;
-import shared.model.locations.VertexLocation;
 import client.base.IController;
 import client.base.IView;
 import client.base.OverlayView;

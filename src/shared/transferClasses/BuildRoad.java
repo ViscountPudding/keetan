@@ -1,6 +1,6 @@
 package shared.transferClasses;
 
-import shared.model.locations.EdgeLocation;
+import model.EdgeLocation;
 
 /**
  * This class builds a road at the specified location
@@ -19,7 +19,7 @@ public class BuildRoad {
 
 	public BuildRoad(int playerIndex, EdgeLocation roadLocation, Boolean free) {
 		this.playerIndex = playerIndex;
-		this.roadLocation = new EdgeLocation(roadLocation);
+		this.roadLocation = roadLocation;
 		this.free = free;
 	}
 	

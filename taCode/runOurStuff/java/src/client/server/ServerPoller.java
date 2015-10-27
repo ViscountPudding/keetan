@@ -3,8 +3,8 @@ package client.server;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import shared.model.Model;
-import shared.model.ModelFacade;
+import model.Model;
+import model.ModelFacade;
 import client.exceptions.ServerException;
 
 /**

@@ -5,7 +5,7 @@ import client.base.Controller;
 import client.base.IAction;
 import client.exceptions.ServerException;
 import client.misc.IMessageView;
-import client.server.ClientServerFacade;
+import client.server.ServerProxy;
 
 
 /**
@@ -72,7 +72,7 @@ public class LoginController extends Controller implements ILoginController {
 		UserCredentials credentials = new UserCredentials(username, password);
 		
 		try {
-			ClientServerFacade.getInstance().login(credentials);
+			ServerProxy.login(credentials);
 
 			getLoginView().closeModal();
 			loginAction.execute();
@@ -109,8 +109,8 @@ public class LoginController extends Controller implements ILoginController {
 		UserCredentials credentials = new UserCredentials(username, password);
 		
 		try {
-			ClientServerFacade.getInstance().register(credentials);
-			ClientServerFacade.getInstance().login(credentials);
+			ServerProxy.register(credentials);
+			ServerProxy.login(credentials);
 
 			getLoginView().closeModal();
 			loginAction.execute();

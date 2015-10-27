@@ -1,7 +1,7 @@
 package client.domestic.states;
 
+import model.ResourceList;
 import shared.definitions.ResourceType;
-import shared.model.ResourceList;
 
 public interface DomesticTradeControllerState {
 

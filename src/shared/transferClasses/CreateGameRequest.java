@@ -49,7 +49,5 @@ public class CreateGameRequest {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	
+	}	
 }

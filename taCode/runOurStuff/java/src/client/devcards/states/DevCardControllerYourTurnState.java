@@ -1,9 +1,9 @@
 package client.devcards.states;
 
+import model.EdgeLocation;
+import model.HexLocation;
+import model.ModelFacade;
 import shared.definitions.ResourceType;
-import shared.model.ModelFacade;
-import shared.model.locations.EdgeLocation;
-import shared.model.locations.HexLocation;
 import shared.transferClasses.BuyDevCard;
 import shared.transferClasses.Monopoly;
 import shared.transferClasses.Monument;
@@ -11,7 +11,7 @@ import shared.transferClasses.RoadBuilding;
 import shared.transferClasses.Soldier;
 import shared.transferClasses.YearOfPlenty;
 import client.exceptions.ServerException;
-import client.server.ClientServerFacade;
+import client.server.ServerProxy;
 
 public class DevCardControllerYourTurnState implements DevCardControllerState {
 
@@ -34,9 +34,9 @@ public class DevCardControllerYourTurnState implements DevCardControllerState {
 	@Override
 	public void buyCard() {
 		// TODO Auto-generated method stub
-		BuyDevCard command = new BuyDevCard(ModelFacade.getInstance().whoseTurnIsItAnyway());
+		BuyDevCard command = new BuyDevCard(ModelFacade.whoseTurnIsItAnyway());
 		try {
-			ClientServerFacade.getInstance().buyDevCard(command);
+			ServerProxy.buyDevCard(command);
 		} catch (ServerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,9 +58,9 @@ public class DevCardControllerYourTurnState implements DevCardControllerState {
 	@Override
 	public void playMonopolyCard(ResourceType resource) {
 		// TODO Auto-generated method stub
-		Monopoly command = new Monopoly(ModelFacade.getInstance().whoseTurnIsItAnyway(), resource);
+		Monopoly command = new Monopoly(ModelFacade.whoseTurnIsItAnyway(), resource);
 		try {
-			ClientServerFacade.getInstance().monopoly(command);
+			ServerProxy.monopoly(command);
 		} catch (ServerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -70,9 +70,9 @@ public class DevCardControllerYourTurnState implements DevCardControllerState {
 	@Override
 	public void playRoadBuildCard(EdgeLocation roadOne, EdgeLocation roadTwo) {
 		// TODO Auto-generated method stub
-		RoadBuilding command = new RoadBuilding(ModelFacade.getInstance().whoseTurnIsItAnyway(), roadOne, roadTwo);
+		RoadBuilding command = new RoadBuilding(ModelFacade.whoseTurnIsItAnyway(), roadOne, roadTwo);
 		try {
-			ClientServerFacade.getInstance().roadBuilding(command);
+			ServerProxy.roadBuilding(command);
 		} catch (ServerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -82,9 +82,9 @@ public class DevCardControllerYourTurnState implements DevCardControllerState {
 	@Override
 	public void playSoldierCard(int victimIndex, HexLocation location) {
 		// TODO Auto-generated method stub
-		Soldier command = new Soldier(ModelFacade.getInstance().whoseTurnIsItAnyway(), victimIndex, location);
+		Soldier command = new Soldier(ModelFacade.whoseTurnIsItAnyway(), victimIndex, location);
 		try {
-			ClientServerFacade.getInstance().soldier(command);
+			ServerProxy.soldier(command);
 		} catch (ServerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -94,9 +94,9 @@ public class DevCardControllerYourTurnState implements DevCardControllerState {
 	@Override
 	public void playYearOfPlentyCard(ResourceType resourceOne, ResourceType resourceTwo) {
 		// TODO Auto-generated method stub
-		YearOfPlenty command = new YearOfPlenty(ModelFacade.getInstance().whoseTurnIsItAnyway(), resourceOne, resourceTwo);
+		YearOfPlenty command = new YearOfPlenty(ModelFacade.whoseTurnIsItAnyway(), resourceOne, resourceTwo);
 		try {
-			ClientServerFacade.getInstance().yearOfPlenty(command);
+			ServerProxy.yearOfPlenty(command);
 		} catch (ServerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,9 +106,9 @@ public class DevCardControllerYourTurnState implements DevCardControllerState {
 	@Override
 	public void playMonumentCard() {
 		// TODO Auto-generated method stub
-		Monument commmand = new Monument(ModelFacade.getInstance().whoseTurnIsItAnyway());
+		Monument commmand = new Monument(ModelFacade.whoseTurnIsItAnyway());
 		try {
-			ClientServerFacade.getInstance().monument(commmand);
+			ServerProxy.monument(commmand);
 		} catch (ServerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

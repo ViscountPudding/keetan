@@ -1,16 +1,14 @@
 package client.map.states;
 
+import model.EdgeLocation;
+import model.HexLocation;
+import model.ModelFacade;
+import model.VertexLocation;
 import shared.definitions.PieceType;
-import shared.model.ModelFacade;
-import shared.model.locations.EdgeLocation;
-import shared.model.locations.HexLocation;
-import shared.model.locations.VertexLocation;
-import shared.transferClasses.RoadBuilding;
 import shared.transferClasses.RobPlayer;
-import shared.transferClasses.Soldier;
 import client.data.RobPlayerInfo;
 import client.exceptions.ServerException;
-import client.server.ClientServerFacade;
+import client.server.ServerProxy;
 
 public class MapControllerThieveryState implements MapControllerState {
 
@@ -60,7 +58,7 @@ public class MapControllerThieveryState implements MapControllerState {
 	@Override
 	public void placeRobber(HexLocation hexLoc) {
 		// TODO Auto-generated method stub
-		ModelFacade.getInstance().placeRobber(hexLoc);
+		ModelFacade.placeRobber(hexLoc);
 	}
 
 	@Override
@@ -81,7 +79,7 @@ public class MapControllerThieveryState implements MapControllerState {
 //		// TODO Auto-generated method stub
 //		Soldier command = new Soldier(ModelFacade.getInstance().whoseTurnIsItAnyway(), victimIndex, location);
 //		try {
-//			ClientServerFacade.getInstance().soldier(command);
+//			ServerProxy.soldier(command);
 //		} catch (ServerException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
@@ -93,7 +91,7 @@ public class MapControllerThieveryState implements MapControllerState {
 //		// TODO Auto-generated method stub
 //		RoadBuilding command = new RoadBuilding(ModelFacade.getInstance().whoseTurnIsItAnyway(), roadOne, roadTwo);
 //		try {
-//			ClientServerFacade.getInstance().roadBuilding(command);
+//			ServerProxy.roadBuilding(command);
 //		} catch (ServerException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
@@ -103,9 +101,9 @@ public class MapControllerThieveryState implements MapControllerState {
 	@Override
 	public void robPlayer(RobPlayerInfo victim) {
 		// TODO Auto-generated method stub
-		RobPlayer command = new RobPlayer(ModelFacade.getInstance().whoseTurnIsItAnyway(), victim.getId(), ModelFacade.getInstance().findRobber());
+		RobPlayer command = new RobPlayer(ModelFacade.whoseTurnIsItAnyway(), victim.getId(), ModelFacade.findRobber());
 		try {
-			ClientServerFacade.getInstance().robPlayer(command);
+			ServerProxy.robPlayer(command);
 		} catch (ServerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

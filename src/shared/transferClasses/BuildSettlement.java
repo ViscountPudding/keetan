@@ -1,6 +1,6 @@
 package shared.transferClasses;
 
-import shared.model.locations.VertexLocation;
+import model.VertexLocation;
 
 /**
  * This class builds a Settlement at the specified location

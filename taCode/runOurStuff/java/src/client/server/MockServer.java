@@ -5,9 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import shared.Converter;
-import shared.model.Model;
-import shared.model.TradeOffer;
+import model.Model;
+import model.TradeOffer;
+import shared.json.Converter;
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
 import shared.transferClasses.BuildCity;

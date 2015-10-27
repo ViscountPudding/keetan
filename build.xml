@@ -55,7 +55,7 @@
         <antcall target="build"/>
     </target>
     <target name="Converter">
-        <java classname="shared.Converter" failonerror="true" fork="yes">
+        <java classname="shared.json.Converter" failonerror="true" fork="yes">
             <classpath refid="catana.classpath"/>
         </java>
     </target>

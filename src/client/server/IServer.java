@@ -1,8 +1,8 @@
 package client.server;
 import java.util.ArrayList;
 
-import shared.model.Model;
-import shared.model.TradeOffer;
+import model.Model;
+import model.TradeOffer;
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
 import shared.transferClasses.BuildCity;

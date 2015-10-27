@@ -1,6 +1,6 @@
 package shared.transferClasses;
 
-import shared.model.locations.EdgeLocation;
+import model.EdgeLocation;
 
 
 /**
@@ -15,8 +15,8 @@ public class RoadBuilding {
 
 	public RoadBuilding(int playerIndex, EdgeLocation spotOne, EdgeLocation spotTwo) {
 		this.playerIndex = playerIndex;
-		this.spotOne = new EdgeLocation(spotOne);
-		this.spotTwo = new EdgeLocation(spotTwo);
+		this.spotOne = spotOne;
+		this.spotTwo = spotTwo;
 	}
 
 	private String type = "Road_Building";

@@ -12,7 +12,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Scanner;
 
-import shared.Converter;
+import shared.json.Converter;
 import client.exceptions.ServerException;
 
 /**
@@ -123,7 +123,7 @@ public class ClientCommunicator {
 			
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				InputStream responseBody = connection.getInputStream();
-				handleCookie(command, connection);
+				handleCookie(command, connection);				
 				return Converter.fromJson(responseBody, classOfReturnObject);
 			}
 			else {
