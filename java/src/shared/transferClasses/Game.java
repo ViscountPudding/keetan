@@ -1,11 +1,12 @@
 package shared.transferClasses;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
 	private String title;
 	private int id;
-	private ArrayList<Player> players;
+	private List<Player> players;
 	
 	public Game(String title, int id) {
 		this.title = title;
@@ -13,11 +14,11 @@ public class Game {
 		this.players = new ArrayList<Player>(4);
 	}
 
-	public ArrayList<Player> getPlayers() {
+	public List<Player> getPlayers() {
 		return this.players;
 	}
 	
-	public void setPlayers(ArrayList<Player> players) {
+	public void setPlayers(List<Player> players) {
 		this.players = players;
 	}
 	

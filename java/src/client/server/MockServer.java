@@ -28,20 +28,20 @@ import shared.transferClasses.Soldier;
 import shared.transferClasses.UserCredentials;
 import shared.transferClasses.YearOfPlenty;
 import client.exceptions.ServerException;
-import client.model.Model;
 import client.model.TradeOffer;
+import client.model.TransferModel;
 
 public class MockServer implements IServer  {
 	
 	@Override
-	public Model getModel(int version) throws ServerException {
+	public TransferModel getModel(int version) throws ServerException {
 		String content = null;
 		try {
 			content = new String(Files.readAllBytes(Paths.get("Utilities/model.txt")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return Converter.fromJson(content, Model.class);
+		return Converter.fromJson(content, TransferModel.class);
 	}
 	
 	@Override

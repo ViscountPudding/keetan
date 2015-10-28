@@ -1,11 +1,7 @@
 package client.domestic.states;
 
 import shared.definitions.ResourceType;
-import client.exceptions.ServerException;
-import client.model.ModelFacade;
 import client.model.ResourceList;
-import client.model.TradeOffer;
-import client.server.ServerProxy;
 
 public class DomesticTradeControllerBuildTradeState implements
 		DomesticTradeControllerState {
@@ -36,14 +32,7 @@ public class DomesticTradeControllerBuildTradeState implements
 	public void sendTradeOffer(ResourceList offer, int receiver, ResourceList request) {
 		// TODO Auto-generated method stub
 		//OfferTrade command = new OfferTrade(ModelFacade.getInstance().whoseTurnIsItAnyway(), offer, receiver);
-		TradeOffer command = new TradeOffer(ModelFacade.whoseTurnIsItAnyway(), receiver, offer, request);
-		
-		try {
-			ServerProxy.offerTrade(command);
-		} catch (ServerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//TradeOffer command = new TradeOffer(ModelFacade.whoseTurnIsItAnyway(), receiver, offer, request);
 
 	}
 

@@ -27,9 +27,9 @@ public class TurnTracker {
 	public int getCurrentTurn() {
 		return currentTurn;
 	}
-	/*public void setCurrentTurn(int currentTurn) {
+	public void setCurrentTurn(int currentTurn) {
 		this.currentTurn = currentTurn;
-	}*/
+	}
 	public int getCurrentPlayer() {
 		return currentPlayer;
 	}

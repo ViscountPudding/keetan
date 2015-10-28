@@ -4,8 +4,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import client.exceptions.ServerException;
-import client.model.Model;
 import client.model.ModelFacade;
+import client.model.TransferModel;
 
 /**
  * This class is used to 
@@ -28,7 +28,7 @@ public class ServerPoller {
 		 */
 		@Override
 		public void run() {
-			Model model;
+			TransferModel model;
 			try {
 				model = targetServer.getModel(modelFacade.getModelVersion());
 			}

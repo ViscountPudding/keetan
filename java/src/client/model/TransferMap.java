@@ -3,7 +3,7 @@ package client.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Map {
+public class TransferMap {
 	private List<Hex> hexes;
 	private List<Port> ports;
 	private List<Road> roads;
@@ -12,7 +12,7 @@ public class Map {
 	private int radius;
 	private HexLocation robber;
 
-	public Map() {
+	public TransferMap() {
 		hexes = new ArrayList<Hex>();
 		ports = new ArrayList<Port>();
 		settlements = new ArrayList<VertexObject>();

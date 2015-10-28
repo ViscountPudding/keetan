@@ -1,22 +1,24 @@
 package shared.transferClasses;
 
+import shared.definitions.CatanColor;
+
 public class Player {
-	private String color;
+	private CatanColor color;
 	private String name;
 	private int id;
 	
-	public Player(String color, String name, int id) {
+	public Player(CatanColor color, String name, int id) {
 		super();
 		this.color = color;
 		this.name = name;
 		this.id = id;
 	}
 	
-	public String getColor() {
+	public CatanColor getColor() {
 		return color;
 	}
 	
-	public void setColor(String color) {
+	public void setColor(CatanColor color) {
 		this.color = color;
 	}
 	

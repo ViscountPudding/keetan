@@ -5,9 +5,8 @@ public class TradeOffer {
 	private int sender; // The index of the person offering the trade
 	private int reciever; // The index of the person the trade is offered to
 	private ResourceList offer; // Positive=offered, Negative=requested
-	private ResourceList request;
 
-	public TradeOffer(int sender, int receiver, ResourceList offer, ResourceList request) {
+	public TradeOffer(int sender, int reciever, ResourceList offer) {
 		this.sender = sender;
 		this.reciever = reciever;
 		this.offer = offer;

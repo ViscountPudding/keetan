@@ -9,6 +9,7 @@ import client.model.HexLocation;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
@@ -36,7 +37,7 @@ public class HexTypeAdapter implements JsonSerializer<Hex>, JsonDeserializer<Hex
 		hex.setHexLocation((HexLocation) jdc.deserialize(jsonHex.get("location"), HexLocation.class));
 		
 		JsonElement resource = jsonHex.get("resource");
-		if (resource != null) {
+		if (resource != null && !(resource instanceof JsonNull) && HexType.fromString(resource.getAsString()) != null) {
 			hex.setType(HexType.fromString(resource.getAsString()));
 			hex.setChitNumber(jsonHex.get("number").getAsInt());
 		}

@@ -26,8 +26,9 @@ import shared.transferClasses.Soldier;
 import shared.transferClasses.UserCredentials;
 import shared.transferClasses.YearOfPlenty;
 import client.exceptions.ServerException;
-import client.model.Model;
 import client.model.TradeOffer;
+import client.model.TransferModel;
+
 
 /**
  * This class is a facade which will interperate requests recieved from a server and 
@@ -73,8 +74,8 @@ public class ServerProxy {
 		communicator.send("/games/join", joinGameRequest);
 	}
 
-	public static Model getModel(int version) throws ServerException {
-		return communicator.send("/game/model", version, Model.class);
+	public static TransferModel getModel(int version) throws ServerException {
+		return communicator.send("/game/model", version, TransferModel.class);
 	}
 
 	public static void addAI(AddAIRequest addAIRequest) throws ServerException {

@@ -25,8 +25,8 @@ import client.join.SelectColorView;
 import client.login.LoginController;
 import client.login.LoginView;
 import client.misc.MessageView;
-import client.model.Model;
 import client.model.ModelFacade;
+import client.model.TransferModel;
 import client.server.ServerProxy;
 
 /**
@@ -55,7 +55,7 @@ public class Catan extends JFrame
 			
 			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.GREEN));
 			
-			Model model = ServerProxy.getModel(-1);
+			TransferModel model = ServerProxy.getModel(-1);
 			System.out.println(Converter.toJson(model.getBank()));
 			System.out.println(Converter.toJson(model.getMap()));
 			ModelFacade.updateModel(model);

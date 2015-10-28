@@ -24,8 +24,8 @@ import shared.transferClasses.UserCredentials;
 import shared.transferClasses.YearOfPlenty;
 import client.exceptions.IllegalActionException;
 import client.exceptions.ServerException;
-import client.model.Model;
 import client.model.TradeOffer;
+import client.model.TransferModel;
 
 /**
  * This interface is used by a client to send requests to a Settlers of Catan Server.
@@ -80,7 +80,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public Model getModel(int version)
+	abstract public TransferModel getModel(int version)
 			throws ServerException;
 	
 	/**

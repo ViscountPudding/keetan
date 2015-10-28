@@ -3,9 +3,8 @@ package client.model;
 import java.util.List;
 
 
-
 public class ModelFacade {
-	private static Model model = null;
+	private static TransferModel model = null;
 	
 	/**
 	 * Updates the model if the given model's version is newer.
@@ -14,7 +13,7 @@ public class ModelFacade {
 	 * the model is updated to the given model.
 	 * @param model - the model to check for an update
 	 */
-	public static void updateModel(Model model) {
+	public static void updateModel(TransferModel model) {
 		if (ModelFacade.model == null) {
 			setModel(model);
 		}
@@ -38,7 +37,7 @@ public class ModelFacade {
 		return true;
 	}
 	
-	private static void setModel(Model model) {
+	private static void setModel(TransferModel model) {
 		ModelFacade.model = model;
 	}
 

@@ -36,8 +36,8 @@ import client.exceptions.ServerException;
 import client.model.EdgeLocation;
 import client.model.HexLocation;
 import client.model.TradeOffer;
-import client.server.ClientServerFacade;
 import client.server.IServer;
+import client.server.MockServer;
 
 /**
  * This class is a compilation of JUnit tests to see if the client server works
@@ -50,7 +50,7 @@ public class ProxyServerUnitTests {
 	
 	@Before
 	public void setup() {
-		server = new ClientServerFacade("localhost:8081");
+		server = new MockServer(); //This is not the way it should be
 		rand = new Random();
 
 		UserCredentials creds = new UserCredentials("Pig", "canFly");
@@ -338,7 +338,7 @@ public class ProxyServerUnitTests {
 	@Test
 	public void offerTradeTest() {
 		try {
-			server.offerTrade(new TradeOffer(0, 0, null, null));
+			server.offerTrade(new TradeOffer(0, 0, null));
 		}
 		catch (ServerException e) {
 			if (e.getReason().equals("An IOException occurred")) {

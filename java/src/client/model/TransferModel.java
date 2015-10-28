@@ -5,24 +5,23 @@ import java.util.List;
 
 import shared.transferClasses.Player;
 
-public class Model {
+public class TransferModel {
 	private DevCardList deck;
 	private ResourceList bank;
 	private MessageList chat;
 	private MessageList log;
-	private Map map;
+	private TransferMap map;
 	private List<Player> players;
 	private TradeOffer tradeOffer;
 	private TurnTracker turnTracker;
 	private int version;
 	private int winner;
 	
-	public Model() {
+	public TransferModel() {
 		players = new ArrayList<Player>();
 	}
 	
 	public boolean validate() {
-		boolean valid = true;
 		if (deck == null || !deck.validate()) return false;
 		if (bank == null || !bank.validate()) return false;
 		if (chat == null || !chat.validate()) return false;
@@ -55,11 +54,11 @@ public class Model {
 		this.log = log;
 	}
 
-	public Map getMap() {
+	public TransferMap getMap() {
 		return map;
 	}
 
-	public void setMap(Map map) {
+	public void setMap(TransferMap map) {
 		this.map = map;
 	}
 

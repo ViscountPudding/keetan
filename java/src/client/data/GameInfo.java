@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import shared.transferClasses.Game;
+import shared.transferClasses.Player;
+
 /**
  * Used to pass game information into views<br>
  * <br>
@@ -28,6 +31,17 @@ public class GameInfo
 		players = new ArrayList<PlayerInfo>();
 	}
 	
+	public GameInfo(Game game) {
+		setId(game.getId());
+		setTitle(game.getTitle());
+		List<Player> playerList = game.getPlayers();
+		players = new ArrayList<PlayerInfo>();
+		int i = 0;
+		for (Player player : playerList) {
+			players.add(new PlayerInfo(player, i++));
+		}
+	}
+
 	public int getId()
 	{
 		return id;

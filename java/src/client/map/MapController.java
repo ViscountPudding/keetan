@@ -1,6 +1,7 @@
 package client.map;
 
 import shared.definitions.CatanColor;
+import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import client.base.Controller;
 import client.data.RobPlayerInfo;
@@ -52,11 +53,13 @@ public class MapController extends Controller implements IMapController {
 	
 	protected void initFromModel() {
 		
-//		for (Hex hex : ModelFacade.getHexes()) {
-//			getView().addHex(hex.getLocation(), hex.getType());
-//			getView().addNumber(hex.getLocation(), hex.getChitNumber());
-//		}
-//		getView().placeRobber(ModelFacade.findRobber());
+		for (Hex hex : ModelFacade.getHexes()) {
+			getView().addHex(hex.getLocation(), hex.getType());
+			if (hex.getType() != HexType.DESERT && hex.getType() != HexType.WATER) {
+				getView().addNumber(hex.getLocation(), hex.getChitNumber());
+			}
+		}
+		getView().placeRobber(ModelFacade.findRobber());
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {

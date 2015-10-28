@@ -1,10 +1,17 @@
 package client.join;
 
+import java.util.List;
+
 import shared.definitions.CatanColor;
+import shared.transferClasses.Game;
+import shared.transferClasses.JoinGameRequest;
 import client.base.Controller;
 import client.base.IAction;
 import client.data.GameInfo;
+import client.data.PlayerInfo;
+import client.exceptions.ServerException;
 import client.misc.IMessageView;
+import client.server.ServerProxy;
 
 
 /**
@@ -95,7 +102,17 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	
 	@Override
 	public void start() {
-		
+		try {
+			List<Game> gameList = ServerProxy.getGamesList();
+			GameInfo[] games = new GameInfo[gameList.size()];
+			for (int i = 0; i < games.length; i++) {
+				games[i] = new GameInfo(gameList.get(i));
+			}
+			getJoinGameView().setGames(games, new PlayerInfo());
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		getJoinGameView().showModal();
 	}
 
@@ -119,7 +136,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void startJoinGame(GameInfo game) {
-
+		
 		getSelectColorView().showModal();
 	}
 
@@ -132,6 +149,12 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void joinGame(CatanColor color) {
 		
+		try {
+			ServerProxy.joinGame(new JoinGameRequest(0, color));
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// If join succeeded
 		getSelectColorView().closeModal();
 		getJoinGameView().closeModal();

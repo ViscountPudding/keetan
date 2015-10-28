@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import shared.definitions.CatanColor;
@@ -8,7 +10,7 @@ import shared.transferClasses.Game;
 import shared.transferClasses.JoinGameRequest;
 import shared.transferClasses.UserCredentials;
 import client.exceptions.ServerException;
-import client.model.Model;
+import client.model.TransferModel;
 import client.server.ServerProxy;
 
 
@@ -16,6 +18,18 @@ import client.server.ServerProxy;
 
 public class TestingMain {
 	public static void main(String[] args) {
+		
+		
+		File file = new File("/users/guest/d/djoshuac/workspace/catana-nuts/WHATNO");
+		try {
+			file.createNewFile();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		
 		ServerProxy.initialize("localhost:8081");
 		
 		UserCredentials fox = new UserCredentials("StarFox", "nintendo64");
@@ -44,7 +58,7 @@ public class TestingMain {
 			
 			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.GREEN));
 			
-			Model model = ServerProxy.getModel(-1);
+			TransferModel model = ServerProxy.getModel(-1);
 			System.out.println(Converter.toJson(model.getBank()));
 			System.out.println(Converter.toJson(model.getMap()));
 			
