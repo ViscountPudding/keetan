@@ -69,53 +69,92 @@ public class LoginController extends Controller implements ILoginController {
 	public void signIn() {
 		String username = getLoginView().getLoginUsername();
 		String password = getLoginView().getLoginPassword();
-		UserCredentials credentials = new UserCredentials(username, password);
-		
+			
 		try {
+			UserCredentials credentials = new UserCredentials(username, password);
 			ServerProxy.login(credentials);
 
 			getLoginView().closeModal();
 			loginAction.execute();
-		} catch (ServerException e) {
-			messageView.setMessage(e.getReason());
+		}
+		catch (ServerException e) {
+			showModalError(e.getReason());
 		}
 	}
 
+	private void showModalError(String errorMessage) {
+		messageView.setMessage(errorMessage);
+		messageView.setTitle("Error");
+		messageView.showModal();
+	}
+	
+	/**
+	 * this variable is used by validation to show the input was valid
+	 */
+	private static final String VALID = "VALID";
+	
+	/**
+	 * Checks the username based on certain conditions.
+	 * @param username
+	 * @return
+	 */
+	private String validateUsername(String username) {
+		final int MIN_UNAME_LENGTH = 3;
+        final int MAX_UNAME_LENGTH = 7;
+
+        if (username.length() < MIN_UNAME_LENGTH) {
+            return "Username must be at least " + MIN_UNAME_LENGTH + " characters long";
+        }
+        else if (username.length() > MAX_UNAME_LENGTH) {
+            return "Username cannot be longer than " + MAX_UNAME_LENGTH + " characters";
+        }
+        else
+        {
+            for (char c : username.toCharArray())
+            {
+                if (!Character.isLetterOrDigit(c)
+                        && c != '_' && c != '-')
+                {
+                    return "Username must consist of only letters, digits, underscores or hyphens. Example \"2F_Wa-e\"";
+                }
+            }
+        }
+        return VALID;
+	}
+	
 	@Override
 	public void register() {
 		String username = getLoginView().getRegisterUsername();
 		String password = getLoginView().getRegisterPassword();
-		if (username.contains(" ")) {
-			System.out.println("Username cannot have a space in it");
-			messageView.setMessage("Username cannot have a space in it");
-			return;
-		}
-		if (username.length() < 3) {
-			System.out.println("Username must be at least 3 characters long");
-			messageView.setMessage("Username must be at least 3 characters long");
-			return;
-		}
-		if (!password.equals(getLoginView().getRegisterPasswordRepeat())) {
-			System.out.println(password + " no match");
-			messageView.setMessage("Passwords don't match");
-			return;
-		}
-		if (password.length() < 6) {
-			System.out.println("Password too short");
-			messageView.setMessage("Password must be at least 6 characters long");
-			return;
-		}
-		System.out.println(password + " match!");
-		UserCredentials credentials = new UserCredentials(username, password);
 		
-		try {
-			ServerProxy.register(credentials);
-			ServerProxy.login(credentials);
+		if (validateUsername(username) != VALID) {
+			
+		}
+		
+		if (username.contains(" ")) {
+			showModalError("Username cannot have a space in it");
+		}
+		else if (username.length() < 3) {
+			showModalError("Username must be at least 3 characters long");
+		}
+		else if (!password.equals(getLoginView().getRegisterPasswordRepeat())) {
+			showModalError("Passwords don't match");
+		}
+		else if (password.length() < 6) {
+			showModalError("Password must be at least 6 characters long");
+		}
+		else {
+			try {
+				UserCredentials credentials = new UserCredentials(username, password);
+				ServerProxy.register(credentials);
+				ServerProxy.login(credentials);
 
-			getLoginView().closeModal();
-			loginAction.execute();
-		} catch (ServerException e) {
-			messageView.setMessage(e.getReason());
+				getLoginView().closeModal();
+				loginAction.execute();
+			}
+			catch (ServerException e) {
+				showModalError(e.getReason());
+			}
 		}
 	}
 
