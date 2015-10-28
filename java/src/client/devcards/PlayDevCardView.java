@@ -403,15 +403,15 @@ class ResourceCardChooser extends ButtonGroupPanel {
 		ButtonModel selection = getSelection();
 		
 		if (selection == wood.getModel())
-			return ResourceType.wood;
+			return ResourceType.WOOD;
 		else if (selection == brick.getModel())
-			return ResourceType.brick;
+			return ResourceType.BRICK;
 		else if (selection == sheep.getModel())
-			return ResourceType.sheep;
+			return ResourceType.SHEEP;
 		else if (selection == wheat.getModel())
-			return ResourceType.wheat;
+			return ResourceType.WHEAT;
 		else if (selection == ore.getModel())
-			return ResourceType.ore;
+			return ResourceType.ORE;
 		else
 			return null;
 	}

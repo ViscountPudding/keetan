@@ -1,6 +1,6 @@
 package shared.transferClasses;
 
-import model.EdgeLocation;
+import client.model.EdgeLocation;
 
 
 /**

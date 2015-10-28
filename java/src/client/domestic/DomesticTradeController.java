@@ -1,10 +1,10 @@
 package client.domestic;
 
-import model.ResourceList;
 import shared.definitions.ResourceType;
 import client.base.Controller;
 import client.domestic.states.DomesticTradeControllerState;
 import client.misc.IWaitView;
+import client.model.ResourceList;
 
 
 /**
@@ -84,19 +84,19 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void decreaseResourceAmount(ResourceType resource) {
 		switch(resource) {
-		case wood:
+		case WOOD:
 			theList.setWood(theList.getWood() - 1);
 			break;
-		case brick:
+		case BRICK:
 			theList.setBrick(theList.getBrick() - 1);
 			break;
-		case sheep:
+		case SHEEP:
 			theList.setSheep(theList.getSheep() - 1);
 			break;
-		case wheat:
+		case WHEAT:
 			theList.setWheat(theList.getWheat() - 1);
 			break;
-		case ore:
+		case ORE:
 			theList.setOre(theList.getOre() - 1);
 			break;
 		}
@@ -105,19 +105,19 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void increaseResourceAmount(ResourceType resource) {
 		switch(resource) {
-		case wood:
+		case WOOD:
 			theList.setWood(theList.getWood() + 1);
 			break;
-		case brick:
+		case BRICK:
 			theList.setBrick(theList.getBrick() + 1);
 			break;
-		case sheep:
+		case SHEEP:
 			theList.setSheep(theList.getSheep() + 1);
 			break;
-		case wheat:
+		case WHEAT:
 			theList.setWheat(theList.getWheat() + 1);
 			break;
-		case ore:
+		case ORE:
 			theList.setOre(theList.getOre() + 1);
 			break;
 		}
@@ -174,19 +174,19 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void setResourceToReceive(ResourceType resource) {
 		switch(resource) {
-		case wood:
+		case WOOD:
 			theList.setWood(1);
 			break;
-		case brick:
+		case BRICK:
 			theList.setBrick(1);
 			break;
-		case sheep:
+		case SHEEP:
 			theList.setSheep(1);
 			break;
-		case wheat:
+		case WHEAT:
 			theList.setWheat(1);
 			break;
-		case ore:
+		case ORE:
 			theList.setOre(1);
 			break;
 		}
@@ -195,19 +195,19 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void setResourceToSend(ResourceType resource) {
 		switch(resource) {
-		case wood:
+		case WOOD:
 			theList.setWood(-1);
 			break;
-		case brick:
+		case BRICK:
 			theList.setBrick(-1);
 			break;
-		case sheep:
+		case SHEEP:
 			theList.setSheep(-1);
 			break;
-		case wheat:
+		case WHEAT:
 			theList.setWheat(-1);
 			break;
-		case ore:
+		case ORE:
 			theList.setOre(-1);
 			break;
 		}
@@ -216,19 +216,19 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void unsetResource(ResourceType resource) {
 		switch(resource) {
-		case wood:
+		case WOOD:
 			theList.setWood(0);
 			break;
-		case brick:
+		case BRICK:
 			theList.setBrick(0);
 			break;
-		case sheep:
+		case SHEEP:
 			theList.setSheep(0);
 			break;
-		case wheat:
+		case WHEAT:
 			theList.setWheat(0);
 			break;
-		case ore:
+		case ORE:
 			theList.setOre(0);
 			break;
 		}

@@ -1,10 +1,10 @@
 package client.map.states;
 
-import model.EdgeLocation;
-import model.HexLocation;
-import model.VertexLocation;
 import shared.definitions.PieceType;
 import client.data.RobPlayerInfo;
+import client.model.EdgeLocation;
+import client.model.HexLocation;
+import client.model.VertexLocation;
 
 public class MapControllerRollingDiceState implements MapControllerState {
 

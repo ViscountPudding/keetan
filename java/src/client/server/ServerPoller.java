@@ -3,9 +3,9 @@ package client.server;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import model.Model;
-import model.ModelFacade;
 import client.exceptions.ServerException;
+import client.model.Model;
+import client.model.ModelFacade;
 
 /**
  * This class is used to 

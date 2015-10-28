@@ -1,14 +1,14 @@
 package client.map;
 
-import model.EdgeLocation;
-import model.HexLocation;
-import model.VertexLocation;
 import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
 import client.base.Controller;
 import client.data.RobPlayerInfo;
 import client.map.states.MapControllerSetupState;
 import client.map.states.MapControllerState;
+import client.model.EdgeLocation;
+import client.model.HexLocation;
+import client.model.VertexLocation;
 
 
 /**

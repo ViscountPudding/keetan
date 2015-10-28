@@ -1,13 +1,13 @@
 package client.map.states;
 
-import model.EdgeLocation;
-import model.HexLocation;
-import model.ModelFacade;
-import model.VertexLocation;
 import shared.definitions.PieceType;
 import shared.transferClasses.RobPlayer;
 import client.data.RobPlayerInfo;
 import client.exceptions.ServerException;
+import client.model.EdgeLocation;
+import client.model.HexLocation;
+import client.model.ModelFacade;
+import client.model.VertexLocation;
 import client.server.ServerProxy;
 
 public class MapControllerThieveryState implements MapControllerState {

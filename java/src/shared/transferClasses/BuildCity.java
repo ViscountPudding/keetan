@@ -1,6 +1,7 @@
 package shared.transferClasses;
 
-import model.VertexLocation;
+import client.model.VertexLocation;
+
 
 /**
  * This class builds a city at the specified location

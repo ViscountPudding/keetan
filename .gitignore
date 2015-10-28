@@ -4,4 +4,4 @@ bin/**
 .metadata/**
 .recommenders
 .recommenders/*
-taCode/demo/logs
+demo/logs

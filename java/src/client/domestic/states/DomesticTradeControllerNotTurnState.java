@@ -1,7 +1,7 @@
 package client.domestic.states;
 
-import model.ResourceList;
 import shared.definitions.ResourceType;
+import client.model.ResourceList;
 
 public class DomesticTradeControllerNotTurnState implements
 		DomesticTradeControllerState {

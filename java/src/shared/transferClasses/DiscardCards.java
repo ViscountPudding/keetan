@@ -1,7 +1,6 @@
 package shared.transferClasses;
 
-import model.ResourceList;
-
+import client.model.ResourceList;
 
 /**
  * Discards the specified resource cards

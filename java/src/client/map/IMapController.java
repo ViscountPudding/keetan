@@ -1,11 +1,11 @@
 package client.map;
 
-import model.EdgeLocation;
-import model.HexLocation;
-import model.VertexLocation;
 import shared.definitions.PieceType;
 import client.base.IController;
 import client.data.RobPlayerInfo;
+import client.model.EdgeLocation;
+import client.model.HexLocation;
+import client.model.VertexLocation;
 
 /**
  * Interface for the map controller

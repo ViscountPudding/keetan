@@ -23,15 +23,16 @@ import java.util.Map;
 
 import javax.swing.JComponent;
 
-import model.EdgeLocation;
-import model.HexLocation;
-import model.VertexLocation;
 import shared.definitions.CatanColor;
+import shared.definitions.EdgeDirection;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.definitions.PortType;
 import shared.definitions.VertexDirection;
 import client.base.IController;
+import client.model.EdgeLocation;
+import client.model.HexLocation;
+import client.model.VertexLocation;
 import client.utils.ImageUtils;
 
 // Wood, Brick, Sheep, Wheat, Ore, Desert, Water
@@ -799,7 +800,7 @@ public class MapComponent extends JComponent
 	private void
 			drawPort(Graphics2D g2, EdgeLocation edgeLoc, PortType portType)
 	{
-		Point2D imageLoc = getHexPoint(edgeLoc.getHexLoc());
+		Point2D imageLoc = getHexPoint(edgeLoc.getHexLocation());
 		drawRotatedImage(g2, getPortImage(portType), imageLoc,
 						 getPortRotation(edgeLoc));
 	}
@@ -956,7 +957,7 @@ public class MapComponent extends JComponent
 		
 		EdgeLocation normEdgeLoc = edgeLoc.getNormalizedLocation();
 		
-		Point2D hexPoint = getHexPoint(normEdgeLoc.getHexLoc());
+		Point2D hexPoint = getHexPoint(normEdgeLoc.getHexLocation());
 		
 		Point2D edgePoint = EDGE_POINTS.get(normEdgeLoc.getDirection());
 		
@@ -968,9 +969,9 @@ public class MapComponent extends JComponent
 		
 		VertexLocation normVertLoc = vertLoc.getNormalizedLocation();
 		
-		Point2D hexPoint = getHexPoint(normVertLoc.getHexLoc());
+		Point2D hexPoint = getHexPoint(normVertLoc.getHexLocation());
 		
-		Point2D vertPoint = VERTEX_POINTS.get(normVertLoc.getVertexDirection());
+		Point2D vertPoint = VERTEX_POINTS.get(normVertLoc.getDirection());
 		
 		return add(hexPoint, vertPoint);
 	}

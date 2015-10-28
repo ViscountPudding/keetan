@@ -1,4 +1,4 @@
-package shared.model;
+package client.model;
 
 public enum Status {
 	//Rolling, Robbing, Playing, Discarding, FirstRound, SecondRound

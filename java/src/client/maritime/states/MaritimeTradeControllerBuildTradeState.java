@@ -1,9 +1,9 @@
 package client.maritime.states;
 
-import model.ModelFacade;
 import shared.definitions.ResourceType;
 import shared.transferClasses.MaritimeTrade;
 import client.exceptions.ServerException;
+import client.model.ModelFacade;
 import client.server.ServerProxy;
 
 public class MaritimeTradeControllerBuildTradeState implements

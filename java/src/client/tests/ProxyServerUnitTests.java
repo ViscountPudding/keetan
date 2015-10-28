@@ -9,10 +9,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import shared.model.TradeOffer;
-import shared.model.locations.EdgeDirection;
-import shared.model.locations.EdgeLocation;
-import shared.model.locations.HexLocation;
+import shared.definitions.CatanColor;
+import shared.definitions.EdgeDirection;
+import shared.definitions.ResourceType;
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
 import shared.transferClasses.BuildCity;
@@ -34,6 +33,9 @@ import shared.transferClasses.Soldier;
 import shared.transferClasses.UserCredentials;
 import shared.transferClasses.YearOfPlenty;
 import client.exceptions.ServerException;
+import client.model.EdgeLocation;
+import client.model.HexLocation;
+import client.model.TradeOffer;
 import client.server.ClientServerFacade;
 import client.server.IServer;
 
@@ -56,7 +58,7 @@ public class ProxyServerUnitTests {
 			server.register(creds);
 
 			server.createGame(new CreateGameRequest(false, false, false, "The Three Little Pigs"));
-			JoinGameRequest joinGameRequest = new JoinGameRequest(0, "blue");
+			JoinGameRequest joinGameRequest = new JoinGameRequest(0, CatanColor.BLUE);
 			server.joinGame(joinGameRequest);
 
 			server.addAI(new AddAIRequest("LARGEST_ARMY"));
@@ -141,7 +143,7 @@ public class ProxyServerUnitTests {
 	@Test
 	public void joinGameTest() {
 		try {
-			server.joinGame(new JoinGameRequest(8, "red"));
+			server.joinGame(new JoinGameRequest(8, CatanColor.RED));
 		}
 		catch (ServerException e) {
 			if (e.getReason().equals("An IOException occurred")) {
@@ -238,7 +240,7 @@ public class ProxyServerUnitTests {
 	@Test
 	public void yearOfPlentyTest() {
 		try {
-			server.yearOfPlenty(new YearOfPlenty(0, Resource.BRICK, Resource.ORE));
+			server.yearOfPlenty(new YearOfPlenty(0, ResourceType.BRICK, ResourceType.ORE));
 		}
 		catch (ServerException e) {
 			if (e.getReason().equals("An IOException occurred")) {
@@ -251,8 +253,8 @@ public class ProxyServerUnitTests {
 	public void roadBuildingTest() {
 		try {
 			server.roadBuilding(new RoadBuilding(0,
-					new EdgeLocation(new HexLocation(0, 0), EdgeDirection.North),
-					new EdgeLocation(new HexLocation(0, 1), EdgeDirection.North)));
+					new EdgeLocation(0, 0, EdgeDirection.North),
+					new EdgeLocation(1, 1, EdgeDirection.North)));
 		}
 		catch (ServerException e) {
 			if (e.getReason().equals("An IOException occurred")) {
@@ -276,7 +278,7 @@ public class ProxyServerUnitTests {
 	@Test
 	public void monopolyTest() {
 		try {
-			server.monopoly(new Monopoly(0, Resource.SHEEP));
+			server.monopoly(new Monopoly(0, ResourceType.SHEEP));
 		}
 		catch (ServerException e) {
 			if (e.getReason().equals("An IOException occurred")) {

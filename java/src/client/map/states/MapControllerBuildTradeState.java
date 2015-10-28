@@ -1,15 +1,15 @@
 package client.map.states;
 
-import model.EdgeLocation;
-import model.HexLocation;
-import model.ModelFacade;
-import model.VertexLocation;
 import shared.definitions.PieceType;
 import shared.transferClasses.BuildCity;
 import shared.transferClasses.BuildRoad;
 import shared.transferClasses.BuildSettlement;
 import client.data.RobPlayerInfo;
 import client.exceptions.ServerException;
+import client.model.EdgeLocation;
+import client.model.HexLocation;
+import client.model.ModelFacade;
+import client.model.VertexLocation;
 import client.server.ServerProxy;
 
 public class MapControllerBuildTradeState implements MapControllerState {

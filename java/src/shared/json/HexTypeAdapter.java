@@ -2,9 +2,9 @@ package shared.json;
 
 import java.lang.reflect.Type;
 
-import model.Hex;
-import model.HexLocation;
 import shared.definitions.ResourceType;
+import client.model.Hex;
+import client.model.HexLocation;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -41,6 +41,5 @@ public class HexTypeAdapter implements JsonSerializer<Hex>, JsonDeserializer<Hex
 			hex.setChitNumber(jsonHex.get("number").getAsInt());
 		}
 		return hex;
-	} 
-
+	}
 }

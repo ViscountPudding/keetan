@@ -1,4 +1,4 @@
-package shared.model.message;
+package client.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +23,16 @@ public class MessageList {
 	}
 
 	/**
+	 * @pre lines must not be null
 	 * @param line is the MessageLine the user wishes to add
 	 * @post The most recent MessageLine in MessageList.getLines() is line.
 	 */
 	public void addLine(MessageLine line) {
-		
+		lines.add(line);
 	}
 
 	public boolean validate() {
-		if (lines == null) return false;
+		assert false; // unimplemented
 		return true;
 	}
 	

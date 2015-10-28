@@ -113,42 +113,42 @@ public class DiscardView extends OverlayView implements IDiscardView
 		resources = new HashMap<>();
 		resourceList = new ArrayList<>();
 		
-		Resource brick = new Resource(ResourceType.brick);
+		Resource brick = new Resource(ResourceType.BRICK);
 		brick.setResourceImage(brickImage);
 		brick.setUpArrowImage(upImage);
 		brick.setDownArrowImage(downImage);
 		
-		Resource ore = new Resource(ResourceType.ore);
+		Resource ore = new Resource(ResourceType.ORE);
 		ore.setResourceImage(oreImage);
 		ore.setUpArrowImage(upImage);
 		ore.setDownArrowImage(downImage);
 		
-		Resource sheep = new Resource(ResourceType.sheep);
+		Resource sheep = new Resource(ResourceType.SHEEP);
 		sheep.setResourceImage(sheepImage);
 		sheep.setUpArrowImage(upImage);
 		sheep.setDownArrowImage(downImage);
 		
-		Resource wheat = new Resource(ResourceType.wheat);
+		Resource wheat = new Resource(ResourceType.WHEAT);
 		wheat.setResourceImage(wheatImage);
 		wheat.setUpArrowImage(upImage);
 		wheat.setDownArrowImage(downImage);
 		
-		Resource wood = new Resource(ResourceType.wood);
+		Resource wood = new Resource(ResourceType.WOOD);
 		wood.setResourceImage(woodImage);
 		wood.setUpArrowImage(upImage);
 		wood.setDownArrowImage(downImage);
 		
-		resourceList.add(ResourceType.wood);
-		resourceList.add(ResourceType.brick);
-		resourceList.add(ResourceType.sheep);
-		resourceList.add(ResourceType.wheat);
-		resourceList.add(ResourceType.ore);
+		resourceList.add(ResourceType.WOOD);
+		resourceList.add(ResourceType.BRICK);
+		resourceList.add(ResourceType.SHEEP);
+		resourceList.add(ResourceType.WHEAT);
+		resourceList.add(ResourceType.ORE);
 		
-		resources.put(ResourceType.brick, brick);
-		resources.put(ResourceType.ore, ore);
-		resources.put(ResourceType.sheep, sheep);
-		resources.put(ResourceType.wheat, wheat);
-		resources.put(ResourceType.wood, wood);
+		resources.put(ResourceType.BRICK, brick);
+		resources.put(ResourceType.ORE, ore);
+		resources.put(ResourceType.SHEEP, sheep);
+		resources.put(ResourceType.WHEAT, wheat);
+		resources.put(ResourceType.WOOD, wood);
 	}
 
 	private void initializeView()
@@ -354,7 +354,7 @@ public class DiscardView extends OverlayView implements IDiscardView
 		
 		public Resource()
 		{
-			this(ResourceType.brick, 0, 0, false, false);
+			this(ResourceType.BRICK, 0, 0, false, false);
 		}
 
 		public Resource(ResourceType type)

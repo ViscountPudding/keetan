@@ -1,6 +1,7 @@
 package shared.transferClasses;
 
-import model.EdgeLocation;
+import client.model.EdgeLocation;
+
 
 /**
  * This class builds a road at the specified location

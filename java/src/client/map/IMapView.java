@@ -1,13 +1,13 @@
 package client.map;
 
-import model.EdgeLocation;
-import model.HexLocation;
-import model.VertexLocation;
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.definitions.PortType;
 import client.base.IView;
+import client.model.EdgeLocation;
+import client.model.HexLocation;
+import client.model.VertexLocation;
 
 /**
  * Interface for the map view

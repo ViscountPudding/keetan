@@ -1,8 +1,6 @@
 package client.server;
 import java.util.ArrayList;
 
-import model.Model;
-import model.TradeOffer;
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
 import shared.transferClasses.BuildCity;
@@ -26,6 +24,8 @@ import shared.transferClasses.UserCredentials;
 import shared.transferClasses.YearOfPlenty;
 import client.exceptions.IllegalActionException;
 import client.exceptions.ServerException;
+import client.model.Model;
+import client.model.TradeOffer;
 
 /**
  * This interface is used by a client to send requests to a Settlers of Catan Server.

@@ -1,4 +1,4 @@
-package shared.model.message;
+package client.model;
 
 /**
  * This class contains a message a player wishes to send, along with the identity of the player

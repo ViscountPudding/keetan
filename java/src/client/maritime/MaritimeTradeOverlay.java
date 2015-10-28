@@ -138,19 +138,19 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 		getore.setVisible(false);
 
 		//Restore the correct resource type, setting it to disabled
-		if 		(selectedResource == ResourceType.wood)		
+		if 		(selectedResource == ResourceType.WOOD)		
 			{	getwood.setVisible(true); 	getwood.setEnabled(false);	}
 
-		else if (selectedResource == ResourceType.brick)
+		else if (selectedResource == ResourceType.BRICK)
 			{	getbrick.setVisible(true);	getbrick.setEnabled(false);	}
 		
-		else if (selectedResource == ResourceType.sheep)
+		else if (selectedResource == ResourceType.SHEEP)
 			{	getsheep.setVisible(true);	getsheep.setEnabled(false);	}
 		
-		else if (selectedResource == ResourceType.wheat)
+		else if (selectedResource == ResourceType.WHEAT)
 			{	getwheat.setVisible(true);	getwheat.setEnabled(false);	}
 		
-		else if (selectedResource == ResourceType.ore)
+		else if (selectedResource == ResourceType.ORE)
 			{	getore.setVisible(true);	getore.setEnabled(false);	}
 
 		//displays the undo button
@@ -171,19 +171,19 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 		giveore.setVisible(false);
 
 		//Restore the correct resource type, setting it to disabled
-		if 		(selectedResource == ResourceType.wood)		
+		if 		(selectedResource == ResourceType.WOOD)		
 			{	givewood.setVisible(true); 	givewood.setEnabled(false);	}
 
-		else if (selectedResource == ResourceType.brick)
+		else if (selectedResource == ResourceType.BRICK)
 			{	givebrick.setVisible(true);	givebrick.setEnabled(false);	}
 		
-		else if (selectedResource == ResourceType.sheep)
+		else if (selectedResource == ResourceType.SHEEP)
 			{	givesheep.setVisible(true);	givesheep.setEnabled(false);	}
 		
-		else if (selectedResource == ResourceType.wheat)
+		else if (selectedResource == ResourceType.WHEAT)
 			{	givewheat.setVisible(true);	givewheat.setEnabled(false);	}
 		
-		else if (selectedResource == ResourceType.ore)
+		else if (selectedResource == ResourceType.ORE)
 			{	giveore.setVisible(true);	giveore.setEnabled(false);	}
 
 		//displays the undo button
@@ -228,11 +228,11 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 		
 		//Enable only the ones that are available
 		for (ResourceType res : enabledResources) {
-			if		(res == ResourceType.wood)	{ getwood.setEnabled(true);}
-			else if (res == ResourceType.brick)	{getbrick.setEnabled(true);} 
-			else if (res == ResourceType.sheep)	{getsheep.setEnabled(true);} 
-			else if (res == ResourceType.wheat)	{getwheat.setEnabled(true);} 
-			else if (res == ResourceType.ore)	{  getore.setEnabled(true);} 
+			if		(res == ResourceType.WOOD)	{ getwood.setEnabled(true);}
+			else if (res == ResourceType.BRICK)	{getbrick.setEnabled(true);} 
+			else if (res == ResourceType.SHEEP)	{getsheep.setEnabled(true);} 
+			else if (res == ResourceType.WHEAT)	{getwheat.setEnabled(true);} 
+			else if (res == ResourceType.ORE)	{  getore.setEnabled(true);} 
 		}
 	}
 
@@ -258,11 +258,11 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 		
 		//Re-enable the available ones
 		for (ResourceType res : enabledResources) {
-			if		(res == ResourceType.wood)	{ givewood.setEnabled(true);}
-			else if (res == ResourceType.brick)	{givebrick.setEnabled(true);} 
-			else if (res == ResourceType.sheep)	{givesheep.setEnabled(true);} 
-			else if (res == ResourceType.wheat)	{givewheat.setEnabled(true);} 
-			else if (res == ResourceType.ore)	{  giveore.setEnabled(true);} 
+			if		(res == ResourceType.WOOD)	{ givewood.setEnabled(true);}
+			else if (res == ResourceType.BRICK)	{givebrick.setEnabled(true);} 
+			else if (res == ResourceType.SHEEP)	{givesheep.setEnabled(true);} 
+			else if (res == ResourceType.WHEAT)	{givewheat.setEnabled(true);} 
+			else if (res == ResourceType.ORE)	{  giveore.setEnabled(true);} 
 		}
 	}
 
@@ -287,19 +287,19 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 				{getController().unsetGiveValue();hideGetOptions();}
 
 				else if (e.getSource() == givewood) 
-				{getController().setGiveResource(ResourceType.wood);}
+				{getController().setGiveResource(ResourceType.WOOD);}
 
 				else if (e.getSource() == givebrick) 
-				{getController().setGiveResource(ResourceType.brick);}
+				{getController().setGiveResource(ResourceType.BRICK);}
 
 				else if (e.getSource() == givesheep) 
-				{getController().setGiveResource(ResourceType.sheep);}
+				{getController().setGiveResource(ResourceType.SHEEP);}
 
 				else if (e.getSource() == givewheat) 
-				{getController().setGiveResource(ResourceType.wheat);}
+				{getController().setGiveResource(ResourceType.WHEAT);}
 
 				else if (e.getSource() == giveore) 
-				{getController().setGiveResource(ResourceType.ore);}
+				{getController().setGiveResource(ResourceType.ORE);}
 			}
 		};
 		getActionListener = new ActionListener() {
@@ -310,19 +310,19 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 				{getController().unsetGetValue();}
 
 				else if (e.getSource() == getwood) 
-				{getController().setGetResource(ResourceType.wood);}
+				{getController().setGetResource(ResourceType.WOOD);}
 
 				else if (e.getSource() == getbrick) 
-				{getController().setGetResource(ResourceType.brick);}
+				{getController().setGetResource(ResourceType.BRICK);}
 
 				else if (e.getSource() == getsheep) 
-				{getController().setGetResource(ResourceType.sheep);}
+				{getController().setGetResource(ResourceType.SHEEP);}
 
 				else if (e.getSource() == getwheat) 
-				{getController().setGetResource(ResourceType.wheat);}
+				{getController().setGetResource(ResourceType.WHEAT);}
 
 				else if (e.getSource() == getore) 
-				{getController().setGetResource(ResourceType.ore);}
+				{getController().setGetResource(ResourceType.ORE);}
 			}
 		};
 	}

@@ -1,6 +1,6 @@
 package shared.transferClasses;
 
-import model.HexLocation;
+import client.model.HexLocation;
 
 /**
  * This class moves the robber, selecting the new robber position and player to rob.

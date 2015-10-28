@@ -11,9 +11,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-import model.EdgeLocation;
-import model.HexLocation;
-import model.VertexLocation;
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
@@ -23,6 +20,9 @@ import client.base.IView;
 import client.base.OverlayView;
 import client.base.PanelView;
 import client.data.RobPlayerInfo;
+import client.model.EdgeLocation;
+import client.model.HexLocation;
+import client.model.VertexLocation;
 
 /**
  * Implementation for the map view

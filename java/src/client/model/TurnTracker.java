@@ -1,4 +1,4 @@
-package shared.model;
+package client.model;
 
 /**
  * Contains information about the current turn

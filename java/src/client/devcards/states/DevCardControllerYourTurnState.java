@@ -1,8 +1,5 @@
 package client.devcards.states;
 
-import model.EdgeLocation;
-import model.HexLocation;
-import model.ModelFacade;
 import shared.definitions.ResourceType;
 import shared.transferClasses.BuyDevCard;
 import shared.transferClasses.Monopoly;
@@ -11,6 +8,9 @@ import shared.transferClasses.RoadBuilding;
 import shared.transferClasses.Soldier;
 import shared.transferClasses.YearOfPlenty;
 import client.exceptions.ServerException;
+import client.model.EdgeLocation;
+import client.model.HexLocation;
+import client.model.ModelFacade;
 import client.server.ServerProxy;
 
 public class DevCardControllerYourTurnState implements DevCardControllerState {

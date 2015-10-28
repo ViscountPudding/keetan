@@ -1,4 +1,4 @@
-package shared.model;
+package client.model;
 
 /**
  * Contains a list of development cards
@@ -60,5 +60,14 @@ public class DevCardList {
 	
 	public int getTotalCards() {
 		return monopoly + monument + roadBuilding + soldier + yearOfPlenty;
+	}
+
+	public boolean validate() {
+		if (monopoly < 0 || monopoly > 2) return false;
+		if (monument < 0 || monument > 5) return false;
+		if (roadBuilding < 0 || roadBuilding > 2) return false;
+		if (soldier < 0 || soldier > 14) return false;
+		if (yearOfPlenty < 0 || yearOfPlenty > 2) return false;
+		return true;
 	}
 }

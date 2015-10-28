@@ -2,8 +2,6 @@ package client.server;
 
 import java.util.ArrayList;
 
-import shared.model.Model;
-import shared.model.TradeOffer;
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
 import shared.transferClasses.BuildCity;
@@ -26,6 +24,8 @@ import shared.transferClasses.Soldier;
 import shared.transferClasses.UserCredentials;
 import shared.transferClasses.YearOfPlenty;
 import client.exceptions.ServerException;
+import client.model.Model;
+import client.model.TradeOffer;
 
 /**
  * This class is a facade which will interperate requests recieved from a server and 

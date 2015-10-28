@@ -1,10 +1,10 @@
 package client.domestic.states;
 
-import model.ModelFacade;
-import model.ResourceList;
-import model.TradeOffer;
 import shared.definitions.ResourceType;
 import client.exceptions.ServerException;
+import client.model.ModelFacade;
+import client.model.ResourceList;
+import client.model.TradeOffer;
 import client.server.ServerProxy;
 
 public class DomesticTradeControllerBuildTradeState implements

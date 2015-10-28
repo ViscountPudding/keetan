@@ -5,8 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import model.Model;
-import model.TradeOffer;
 import shared.json.Converter;
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
@@ -30,6 +28,8 @@ import shared.transferClasses.Soldier;
 import shared.transferClasses.UserCredentials;
 import shared.transferClasses.YearOfPlenty;
 import client.exceptions.ServerException;
+import client.model.Model;
+import client.model.TradeOffer;
 
 public class MockServer implements IServer  {
 	

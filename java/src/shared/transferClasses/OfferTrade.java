@@ -1,6 +1,6 @@
 package shared.transferClasses;
 
-import model.ResourceList;
+import client.model.ResourceList;
 
 
 /**
