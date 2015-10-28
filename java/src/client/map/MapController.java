@@ -7,7 +7,9 @@ import client.data.RobPlayerInfo;
 import client.map.states.MapControllerSetupState;
 import client.map.states.MapControllerState;
 import client.model.EdgeLocation;
+import client.model.Hex;
 import client.model.HexLocation;
+import client.model.ModelFacade;
 import client.model.VertexLocation;
 
 
@@ -50,9 +52,11 @@ public class MapController extends Controller implements IMapController {
 	
 	protected void initFromModel() {
 		
-		//<temp>
-		
-		//</temp>
+//		for (Hex hex : ModelFacade.getHexes()) {
+//			getView().addHex(hex.getLocation(), hex.getType());
+//			getView().addNumber(hex.getLocation(), hex.getChitNumber());
+//		}
+//		getView().placeRobber(ModelFacade.findRobber());
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {

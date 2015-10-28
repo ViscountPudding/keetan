@@ -10,7 +10,6 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 
-@SuppressWarnings("unused")
 public class RoundedButton extends JButton
 {
 	private static final long serialVersionUID = 3193769590459118040L;   

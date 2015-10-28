@@ -1,5 +1,7 @@
 package client.model;
 
+import java.util.List;
+
 
 
 public class ModelFacade {
@@ -19,6 +21,10 @@ public class ModelFacade {
 		else if (model.getVersion() > ModelFacade.model.getVersion()) {
 			setModel(model);
 		}
+	}
+	
+	public static List<Hex> getHexes() {
+		return model.getMap().getHexes();
 	}
 	
 	/**
@@ -61,13 +67,18 @@ public class ModelFacade {
 		return false;
 	}
 
-	public static void placeRobber(HexLocation hexLoc) {
+	public static void placeRobber(HexLocation hexLocation) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Queries the hex location of the robber.
+	 * @pre ModelFacade.updateModel() must have been called with a valid model
+	 * @post see return
+	 * @return the hex location of the robber
+	 */
 	public static HexLocation findRobber() {
-		// TODO Auto-generated method stub
-		return null;
+		return model.getMap().getRobber();
 	}
 }

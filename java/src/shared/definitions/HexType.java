@@ -23,6 +23,28 @@ public enum HexType {
 	DESERT,
 
     @SerializedName("WATER")
-	WATER
+	WATER;
+
+	public static HexType fromString(String aString) {
+		if (aString == null) return null;
+		switch (aString) {
+		case "wood":
+			return HexType.WOOD;
+		case "brick":
+			return HexType.BRICK;
+		case "sheep":
+			return HexType.SHEEP;
+		case "wheat":
+			return HexType.WHEAT;
+		case "ore":
+			return HexType.ORE;
+		case "DESERT":
+			return HexType.DESERT;
+		case "WATER":
+			return HexType.WATER;
+		default:
+			return null;
+		}
+	}
 }
 

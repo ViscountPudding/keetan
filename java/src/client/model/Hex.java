@@ -1,6 +1,6 @@
 package client.model;
 
-import shared.definitions.ResourceType;
+import shared.definitions.HexType;
 
 /**
  * This interface is used so that the Map's list of hexes can include the DesertHex which
@@ -9,15 +9,15 @@ import shared.definitions.ResourceType;
  */
 public class Hex {
 	private HexLocation location;
-	private ResourceType resource;
+	private HexType resource;
 	private int number;
 	
 	public void setHexLocation(HexLocation location) {
 		this.location = location;
 	}
 	
-	public void setResource(ResourceType resource) {
-		this.resource = resource;
+	public void setType(HexType type) {
+		this.resource = type;
 	}
 	
 	public void setChitNumber(int chitNumber) {
@@ -28,7 +28,7 @@ public class Hex {
 		return this.location;
 	}
 	
-	public ResourceType getResource() {
+	public HexType getType() {
 		return this.resource;
 	}
 	

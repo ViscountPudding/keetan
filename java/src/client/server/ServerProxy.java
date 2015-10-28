@@ -1,6 +1,7 @@
 package client.server;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
@@ -58,7 +59,7 @@ public class ServerProxy {
 		communicator.send("/user/register", userCredentials);		
 	}
 
-	public static ArrayList<Game> getGamesList() throws ServerException {
+	public static List<Game> getGamesList() throws ServerException {
 		return communicator.send("/games/list", null, ArrayList.class);
 	}
 
@@ -80,7 +81,7 @@ public class ServerProxy {
 		communicator.send("/game/addAI", addAIRequest);
 	}
 
-	public static ArrayList<String> listAITypes() throws ServerException {
+	public static List<String> listAITypes() throws ServerException {
 		return communicator.send("/game/listAI", null, ArrayList.class);
 	}
 

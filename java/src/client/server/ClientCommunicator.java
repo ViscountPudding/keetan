@@ -9,7 +9,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.Scanner;
 
 import shared.json.Converter;
@@ -36,9 +35,7 @@ public class ClientCommunicator {
 	private static final int DEFAULT_TIMEOUT = 5000;
 	
 	private String urlEncodedUserCookie;
-	private String decodedUserCookie;
 	private String urlEncodedGameCookie;
-	private String decodedGameCookie;
 	
 	/**
 	 * Constructs a ClientCommunicator object
@@ -231,18 +228,15 @@ public class ClientCommunicator {
 	
 
 
-	@SuppressWarnings("deprecation")
 	private void handleCookie(String command, HttpURLConnection connection) {
 		if (command.equals("/user/login")){
 			urlEncodedUserCookie = connection.getHeaderField("Set-cookie");
 			urlEncodedUserCookie = urlEncodedUserCookie.replace("catan.user=", "");
 			urlEncodedUserCookie = urlEncodedUserCookie.replace(";Path=/;", "");
-			decodedUserCookie = URLDecoder.decode(urlEncodedUserCookie);
 		} else if (command.equals("/games/join")) {
 			urlEncodedGameCookie = connection.getHeaderField("Set-cookie");
 			urlEncodedGameCookie = urlEncodedGameCookie.replace("catan.game=", "");
 			urlEncodedGameCookie = urlEncodedGameCookie.replace(";Path=/;", "");
-			decodedGameCookie = URLDecoder.decode(urlEncodedGameCookie);
 		}
 		
 	}

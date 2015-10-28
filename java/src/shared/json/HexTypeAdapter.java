@@ -2,7 +2,7 @@ package shared.json;
 
 import java.lang.reflect.Type;
 
-import shared.definitions.ResourceType;
+import shared.definitions.HexType;
 import client.model.Hex;
 import client.model.HexLocation;
 
@@ -21,8 +21,8 @@ public class HexTypeAdapter implements JsonSerializer<Hex>, JsonDeserializer<Hex
 			JsonSerializationContext jsc) {
 		JsonObject jsonHex = new JsonObject();
 		jsonHex.add("location", jsc.serialize(hex.getLocation()));
-		if (hex.getResource() != null) {
-			jsonHex.add("resource", jsc.serialize(hex.getResource()));
+		if (hex.getType() != null && hex.getType() != HexType.WATER && hex.getType() != HexType.DESERT) {
+			jsonHex.add("resource", jsc.serialize(hex.getType()));
 			jsonHex.add("number", jsc.serialize(hex.getChitNumber()));
 		}
 		return jsonHex;
@@ -37,8 +37,12 @@ public class HexTypeAdapter implements JsonSerializer<Hex>, JsonDeserializer<Hex
 		
 		JsonElement resource = jsonHex.get("resource");
 		if (resource != null) {
-			hex.setResource(ResourceType.fromString(resource.getAsString()));
+			hex.setType(HexType.fromString(resource.getAsString()));
 			hex.setChitNumber(jsonHex.get("number").getAsInt());
+		}
+		else {
+			hex.setType(HexType.DESERT);
+			hex.setChitNumber(-1);
 		}
 		return hex;
 	}

@@ -1,11 +1,21 @@
 package client.main;
 
+import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import shared.definitions.CatanColor;
+import shared.json.Converter;
+import shared.transferClasses.CreateGameRequest;
+import shared.transferClasses.CreateGameResponse;
+import shared.transferClasses.Game;
+import shared.transferClasses.JoinGameRequest;
+import shared.transferClasses.UserCredentials;
 import client.base.IAction;
 import client.catan.CatanPanel;
+import client.exceptions.ServerException;
 import client.join.JoinGameController;
 import client.join.JoinGameView;
 import client.join.NewGameView;
@@ -15,6 +25,8 @@ import client.join.SelectColorView;
 import client.login.LoginController;
 import client.login.LoginView;
 import client.misc.MessageView;
+import client.model.Model;
+import client.model.ModelFacade;
 import client.server.ServerProxy;
 
 /**
@@ -28,7 +40,33 @@ public class Catan extends JFrame
 
 	public Catan()
 	{
-		System.out.println("Set window??");
+		ServerProxy.initialize("localhost:8081");
+		System.out.println("ServerProxy Started");
+		
+		UserCredentials fox = new UserCredentials("StarFox", "nintendo64");
+		try {
+			ServerProxy.register(fox);
+		}
+		catch (ServerException e) {}
+		try {
+			ServerProxy.login(fox);
+			List<Game> games = ServerProxy.getGamesList();
+			CreateGameResponse cgr = ServerProxy.createGame(new CreateGameRequest(false, false, false, "Slippy's Game " + games.size()));
+			
+			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.GREEN));
+			
+			Model model = ServerProxy.getModel(-1);
+			System.out.println(Converter.toJson(model.getBank()));
+			System.out.println(Converter.toJson(model.getMap()));
+			ModelFacade.updateModel(model);
+			System.out.println("ModelFacade updated with model");
+		}
+		catch (ServerException e) {
+			System.err.println("Server Exception in Catan.run(): " + e.getReason());
+		}
+		
+		
+		
 		client.base.OverlayView.setWindow(this);
 
 		this.setTitle("Settlers of Catan");
@@ -107,8 +145,6 @@ public class Catan extends JFrame
 				loginView.setController(loginController);
 				loginView.setController(loginController);
 
-
-				ServerProxy.initialize("localhost:8081");
 				loginController.start();
 			}
 		});
