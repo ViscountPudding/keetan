@@ -1,8 +1,3 @@
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import shared.definitions.CatanColor;
 import shared.json.Converter;
 import shared.transferClasses.CreateGameRequest;
@@ -33,6 +28,10 @@ public class TestingMain {
 		
 		
 		try {
+			ServerProxy.register(wolf);
+			ServerProxy.register(leon);
+			ServerProxy.register(pigma);
+			ServerProxy.register(andrew);
 			ServerProxy.register(fox);
 			ServerProxy.register(peppy);
 			ServerProxy.register(falco);
@@ -58,12 +57,12 @@ public class TestingMain {
 			System.out.println(Converter.toJson(model.getBank()));
 			System.out.println(Converter.toJson(model.getMap()));
 			
-			ServerProxy.login(fox);
+			ServerProxy.login(wolf);
 			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.YELLOW));
-			ServerProxy.login(peppy);
-			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.RED));
-			ServerProxy.login(falco);
-			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.BLUE));
+//			ServerProxy.login(peppy);
+//			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.RED));
+//			ServerProxy.login(falco);
+//			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.BLUE));
 			
 			model = ServerProxy.getModel(-1);
 			System.out.println(Converter.toJson(model.getBank()));

@@ -38,7 +38,9 @@ public class GameInfo
 		players = new ArrayList<PlayerInfo>();
 		int i = 0;
 		for (Player player : playerList) {
-			players.add(new PlayerInfo(player, i++));
+			if (player.getName() != null) {
+				players.add(new PlayerInfo(player, i++));
+			}
 		}
 	}
 
