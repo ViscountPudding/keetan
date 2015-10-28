@@ -60,8 +60,8 @@ public class ServerProxy {
 		communicator.send("/user/register", userCredentials);		
 	}
 
-	public static List<Game> getGamesList() throws ServerException {
-		return communicator.send("/games/list", null, ArrayList.class);
+	public static Game[] getGamesList() throws ServerException {
+		return communicator.send("/games/list", null, Game[].class);
 	}
 
 	public static CreateGameResponse createGame(CreateGameRequest createGameRequest)

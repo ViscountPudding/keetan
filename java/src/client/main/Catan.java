@@ -50,8 +50,8 @@ public class Catan extends JFrame
 		catch (ServerException e) {}
 		try {
 			ServerProxy.login(fox);
-			List<Game> games = ServerProxy.getGamesList();
-			CreateGameResponse cgr = ServerProxy.createGame(new CreateGameRequest(false, false, false, "Slippy's Game " + games.size()));
+			Game[] games = ServerProxy.getGamesList();
+			CreateGameResponse cgr = ServerProxy.createGame(new CreateGameRequest(false, false, false, "Slippy's Game " + games.length));
 			
 			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.GREEN));
 			

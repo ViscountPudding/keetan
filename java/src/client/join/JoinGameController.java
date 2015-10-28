@@ -103,10 +103,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void start() {
 		try {
-			List<Game> gameList = ServerProxy.getGamesList();
-			GameInfo[] games = new GameInfo[gameList.size()];
+			Game[] gameArray = ServerProxy.getGamesList();
+			GameInfo[] games = new GameInfo[gameArray.length];
 			for (int i = 0; i < games.length; i++) {
-				games[i] = new GameInfo(gameList.get(i));
+				games[i] = new GameInfo(gameArray[i]);
 			}
 			getJoinGameView().setGames(games, new PlayerInfo());
 		} catch (ServerException e) {

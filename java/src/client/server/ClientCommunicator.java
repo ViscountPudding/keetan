@@ -1,5 +1,6 @@
 package client.server;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -9,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 import shared.json.Converter;
@@ -120,7 +122,13 @@ public class ClientCommunicator {
 			
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				InputStream responseBody = connection.getInputStream();
-				handleCookie(command, connection);				
+				handleCookie(command, connection);
+				
+				java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
+				String toPrint = s.hasNext() ? s.next() : "";
+				System.out.println(toPrint);
+				responseBody = new ByteArrayInputStream(toPrint.getBytes(StandardCharsets.UTF_8));
+				
 				return Converter.fromJson(responseBody, classOfReturnObject);
 			}
 			else {

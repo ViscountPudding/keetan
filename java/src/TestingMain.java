@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import shared.definitions.CatanColor;
@@ -17,25 +18,19 @@ import client.server.ServerProxy;
 
 
 public class TestingMain {
-	public static void main(String[] args) {
-		
-		
-		File file = new File("/users/guest/d/djoshuac/workspace/catana-nuts/WHATNO");
-		try {
-			file.createNewFile();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		
-		
+	public static void main(String[] args) {		
 		ServerProxy.initialize("localhost:8081");
 		
-		UserCredentials fox = new UserCredentials("StarFox", "nintendo64");
+		UserCredentials fox = new UserCredentials("Star_Fox", "WhereYouGoing");
 		UserCredentials peppy = new UserCredentials("Harey_Mentor", "DoABarrelRoll");
 		UserCredentials falco = new UserCredentials("Bird_Rival", "GeezeFox");
-		UserCredentials slippy = new UserCredentials("Frog_Mechanic", "WhatGenderAmI");
+		UserCredentials slippy = new UserCredentials("Frog_Mechanic", "HELPMEIAMBEINGSHOT");
+		
+		UserCredentials wolf = new UserCredentials("Wolf", "CantLetYouDoThat");
+		UserCredentials leon = new UserCredentials("Leon", "AnnoyingBirdIAmTheGreatLeon");
+		UserCredentials pigma = new UserCredentials("Pigma", "DaddyScreamedRealGood");
+		UserCredentials andrew = new UserCredentials("Andrew", "UNCLEANDROOOOOOOOSS");
+		
 		
 		try {
 			ServerProxy.register(fox);
@@ -53,8 +48,9 @@ public class TestingMain {
 			ServerProxy.login(falco);
 			ServerProxy.login(slippy);
 			
-			List<Game> games = ServerProxy.getGamesList();
-			CreateGameResponse cgr = ServerProxy.createGame(new CreateGameRequest(false, false, false, "Slippy's Game " + games.size()));
+			Game[] games = ServerProxy.getGamesList();
+			CreateGameResponse cgr = ServerProxy.createGame(new CreateGameRequest(false, false, false, "Slippy's Game " + games.length));
+			System.out.println(games[0].getTitle());
 			
 			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.GREEN));
 			
