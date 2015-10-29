@@ -1,7 +1,7 @@
 package client.data;
 
 import shared.definitions.CatanColor;
-import shared.transferClasses.Player;
+import shared.transferClasses.GetPlayer;
 
 /**
  * Used to pass player information into views<br>
@@ -31,7 +31,7 @@ public class PlayerInfo
 		setColor(CatanColor.WHITE);
 	}
 	
-	public PlayerInfo(Player player, int index) {
+	public PlayerInfo(GetPlayer player, int index) {
 		setId(player.getId());
 		setPlayerIndex(index);
 		setName(player.getName());

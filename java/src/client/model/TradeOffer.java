@@ -3,12 +3,12 @@ package client.model;
 
 public class TradeOffer {
 	private int sender; // The index of the person offering the trade
-	private int reciever; // The index of the person the trade is offered to
+	private int receiver; // The index of the person the trade is offered to
 	private ResourceList offer; // Positive=offered, Negative=requested
 
-	public TradeOffer(int sender, int reciever, ResourceList offer) {
+	public TradeOffer(int sender, int receiver, ResourceList offer) {
 		this.sender = sender;
-		this.reciever = reciever;
+		this.receiver = receiver;
 		this.offer = offer;
 	}
 
@@ -20,12 +20,12 @@ public class TradeOffer {
 		this.sender = sender;
 	}
 
-	public int getReciever() {
-		return reciever;
+	public int getReceiver() {
+		return receiver;
 	}
 
-	public void setReciever(int reciever) {
-		this.reciever = reciever;
+	public void setReceiver(int receiver) {
+		this.receiver = receiver;
 	}
 
 	public ResourceList getOffer() {
