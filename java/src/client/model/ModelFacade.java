@@ -5,7 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import shared.definitions.ResourceType;
 import shared.definitions.VertexDirection;
+
 
 public class ModelFacade {
 	private static ClientModel model = null;
@@ -99,7 +101,10 @@ public class ModelFacade {
 		return false; //Awwww... found no settlements or cities for you... how sad....
 	}
 	
-
+	public boolean canReceiveResource(int resource_amount, ResourceType resource_type) {
+		return model.getDataLump().getBank().hasResource(resource_type, resource_amount);
+	}
+	
 	public int getModelVersion() {
 		return model.getDataLump().getVersion();
 	}
@@ -218,6 +223,75 @@ public class ModelFacade {
 		return false;
 	}
 
+	public boolean canDomesticTrade(TradeOffer offer) {
+		int currentPlayer = model.getDataLump().getTurnTracker().getCurrentPlayer();
+		if(offer.getSender() != currentPlayer && offer.getReceiver() != currentPlayer) {
+			return false;
+		}
+		
+		//Check if sender has enough resources
+		ResourceList sendOffer = offer.getOffer();
+		ResourceList sendResources = model.getDataLump().getPlayers().get(offer.getSender()).getResources();
+		if(sendOffer.getBrick() > sendResources.getBrick()
+				|| sendOffer.getOre() > sendResources.getOre()
+				|| sendOffer.getSheep() > sendResources.getSheep()
+				|| sendOffer.getWheat() > sendResources.getWheat()
+				|| sendOffer.getWood() > sendResources.getWood()) {
+			return false;
+		}
+		
+		//THIS DOESN'T ACTUALLY WORK. Need to split offer into the send (negatives) and receives (positives)
+		
+		//Check if receiver has enough resources
+		ResourceList receiveOffer = offer.getOffer();
+		ResourceList receiveResources = model.getDataLump().getPlayers().get(offer.getReceiver()).getResources();
+		if(receiveOffer.getBrick() > receiveResources.getBrick()
+				|| receiveOffer.getOre() > receiveResources.getOre()
+				|| receiveOffer.getSheep() > receiveResources.getSheep()
+				|| receiveOffer.getWheat() > receiveResources.getWheat()
+				|| receiveOffer.getWood() > receiveResources.getWood()) {
+			return false;
+		}
+		
+		//Passed all checks
+		return true;
+	}
+	
+	public boolean canMaritimeTrade(int playerIndex, ResourceType tradeResource, ResourceType desiredResource) {
+		Player player = model.getDataLump().getPlayers().get(playerIndex);
+		
+		//int tradeRatio = getTradeRatio(playerIndex, tradeResource);
+		
+		int tradeRatio = 0; //Need to figure this out as well
+		
+		return player.getResources().hasResource(tradeResource, tradeRatio) && model.getDataLump().getBank().hasResource(desiredResource, 1);
+	}
+	
+	public boolean canBuyDevelopmentCard(int playerIndex) {
+		ResourceList rList = model.getDataLump().getPlayers().get(playerIndex).getResources();
+		if(model.getDataLump().getTurnTracker().getCurrentPlayer() != playerIndex) {
+			return false;
+		}
+		else if(rList.getOre() == 0 || rList.getSheep() == 0 || rList.getWheat() == 0) {
+			return false;
+		}
+		else if(model.getDataLump().getDeck().getTotalCards() > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean canLoseCardsFromDieRoll(int playerIndex) {
+		return model.getDataLump().getPlayers().get(playerIndex).getResources().getTotalCards() > 7;
+	}
+	
+	public boolean canWin(int playerIndex) {
+		return model.getDataLump().getTurnTracker().getCurrentPlayer() == playerIndex && 
+				model.getDataLump().getPlayers().get(playerIndex).getVictoryPoints() > 9;
+	}
+	
 	/**
 	 * Queries the hex location of the robber.
 	 * @pre ModelFacade.updateModel() must have been called with a valid model
