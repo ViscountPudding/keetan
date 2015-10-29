@@ -10,7 +10,6 @@ public class TradeOffer {
 		this.sender = sender;
 		this.reciever = reciever;
 		this.offer = offer;
-		this.reciever = reciever;
 	}
 
 	public int getSender() {

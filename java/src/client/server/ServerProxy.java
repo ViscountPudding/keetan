@@ -18,6 +18,7 @@ import shared.transferClasses.JoinGameRequest;
 import shared.transferClasses.MaritimeTrade;
 import shared.transferClasses.Monopoly;
 import shared.transferClasses.Monument;
+import shared.transferClasses.OfferTrade;
 import shared.transferClasses.RoadBuilding;
 import shared.transferClasses.RobPlayer;
 import shared.transferClasses.RollNumber;
@@ -139,7 +140,7 @@ public class ServerProxy {
 		communicator.send("/moves/buildCity", buildCity, String.class);
 	}
 
-	public static void offerTrade(TradeOffer offer) throws ServerException {
+	public static void offerTrade(OfferTrade offer) throws ServerException {
 		communicator.send("/moves/offerTrade", offer, String.class);
 	}
 

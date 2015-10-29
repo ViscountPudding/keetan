@@ -126,7 +126,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void sendTradeOffer() {
 		
-		ResourceList offer = new ResourceList(0,0,0,0,0);
+/*		ResourceList offer = new ResourceList(0,0,0,0,0);
 		ResourceList request = new ResourceList(0,0,0,0,0);
 		
 		if(theList.getWood() >= 0) {
@@ -161,6 +161,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		}
 		
 		state.sendTradeOffer(offer, target, request);
+*/
+		
+		state.sendTradeOffer(theList, target);
 		
 		getTradeOverlay().closeModal();
 //		getWaitOverlay().showModal();

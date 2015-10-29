@@ -25,7 +25,7 @@ public class DomesticTradeControllerNotTurnState implements
 	}
 
 	@Override
-	public void sendTradeOffer(ResourceList offer, int receiver, ResourceList request) {
+	public void sendTradeOffer(ResourceList offer, int receiver) {
 		// TODO Auto-generated method stub
 
 	}

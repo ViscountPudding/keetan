@@ -11,7 +11,7 @@ public interface DomesticTradeControllerState {
 
 	void increaseResourceAmount(ResourceType resource);
 
-	void sendTradeOffer(ResourceList offer, int receiver, ResourceList request);
+	void sendTradeOffer(ResourceList offer, int receiver);
 
 	void setPlayerToTradeWith(int playerIndex);
 

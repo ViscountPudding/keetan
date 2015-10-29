@@ -58,7 +58,9 @@ public class MapControllerThieveryState implements MapControllerState {
 	@Override
 	public void placeRobber(HexLocation hexLoc) {
 		// TODO Auto-generated method stub
-		ModelFacade.placeRobber(hexLoc);
+		//ModelFacade.placeRobber(hexLoc);
+		
+		//FIIIIIIIIIIX THIIIIIIIS AAAAAAT SOOOOOOME POOOOOOOIINT
 	}
 
 	@Override
