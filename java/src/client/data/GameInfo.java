@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import shared.transferClasses.Game;
-import shared.transferClasses.Player;
+import shared.transferClasses.GetPlayer;
 
 /**
  * Used to pass game information into views<br>
@@ -34,10 +34,10 @@ public class GameInfo
 	public GameInfo(Game game) {
 		setId(game.getId());
 		setTitle(game.getTitle());
-		List<Player> playerList = game.getPlayers();
+		List<GetPlayer> playerList = game.getPlayers();
 		players = new ArrayList<PlayerInfo>();
 		int i = 0;
-		for (Player player : playerList) {
+		for (GetPlayer player : playerList) {
 			if (player.getName() != null) {
 				players.add(new PlayerInfo(player, i++));
 			}

@@ -3,7 +3,7 @@ package client.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import shared.transferClasses.Player;
+import shared.transferClasses.GetPlayer;
 
 public class TransferModel {
 	private DevCardList deck;

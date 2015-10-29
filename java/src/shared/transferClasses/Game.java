@@ -6,27 +6,27 @@ import java.util.List;
 public class Game {
 	private String title;
 	private int id;
-	private List<Player> players;
+	private List<GetPlayer> players;
 	
 	public Game(String title, int id) {
 		this.title = title;
 		this.id = id;
-		this.players = new ArrayList<Player>(4);
+		this.players = new ArrayList<GetPlayer>(4);
 	}
 
-	public List<Player> getPlayers() {
+	public List<GetPlayer> getPlayers() {
 		return this.players;
 	}
 	
-	public void setPlayers(List<Player> players) {
+	public void setPlayers(List<GetPlayer> players) {
 		this.players = players;
 	}
 	
-	public Player getPlayer(int index) {
+	public GetPlayer getPlayer(int index) {
 		return this.players.get(index);
 	}
 	
-	public void setPlayer(int index, Player player) {
+	public void setPlayer(int index, GetPlayer player) {
 		this.players.set(index, player);
 	}
 	

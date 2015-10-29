@@ -121,37 +121,32 @@ public class ModelFacade {
 			return false;
 		}
 		
+		List<VertexLocation> nearbyVertices = model.getAdjacentVertices(vertLoc);
 		
-		
-		
-		/*
-		VertexValue vertexValue = model.getMap().getVertices().get(location.getNormalizedLocation());
-		Player player = model.getPlayers().get(playerIndex);
-		//Check for unplaced settlements
-		if(player.getUnplacedSettlements() == 0) {
-			return false;
-		}
-		//Does player have enough resources?
-		ResourceList rList = player.getResources();
-		if(rList.getBrick() == 0 || rList.getSheep() == 0 || rList.getWheat() == 0 || rList.getWood() == 0) {
-			return false;
-		}
-		//Is the distance rule obeyed?
-		for(VertexValue vertex : model.getMap().getAdjacentVertices(vertexValue.getLocation())) {
-			if(vertex.getSettlement() != null || vertex.getCity() != null) {
-				System.out.println(vertex);
+		for(VertexLocation point : nearbyVertices) {
+			if(model.getSettlements().get(point.getNormalizedLocation()) != null) {
+				return false;
+			}
+			else if(model.getCities().get(point.getNormalizedLocation()) != null) {
 				return false;
 			}
 		}
-		//Is there an adjacent road?
-		for(EdgeValue edge : model.getMap().getNearbyEdges(vertexValue.getLocation())) {
-			if(edge.getRoad() == null) {}
-			else if(edge.getRoad().getPlayerIndex() == playerIndex) {
-				return true;
+		
+		ResourceList rList = model.getDataLump().getPlayers().get(playerIndex).getResources();
+		
+		if(rList.getBrick() == 0 || rList.getSheep() == 0 || rList.getWheat() == 0 || rList.getWood() == 0) {
+			return false;
+		}
+		
+		List<EdgeLocation> nearbyEdges = model.getNearbyEdges(vertLoc);
+		
+		for(EdgeLocation face : nearbyEdges) {
+			if(model.getRoads().get(face.getNormalizedLocation()) != null) {
+				if(model.getRoads().get(face.getNormalizedLocation()).getOwner() == playerIndex){
+					return true;
+				}
 			}
 		}
-		return false;
-		*/
 		
 		return false;
 	}
@@ -163,6 +158,22 @@ public class ModelFacade {
 			return false;
 		}
 		
+		ResourceList rList = model.getDataLump().getPlayers().get(playerIndex).getResources();
+		
+		if(rList.getOre() < 3 || rList.getWheat() < 2) {
+			return false;
+		}
+		
+		if(model.getSettlements().get(vertLoc) != null) {
+			if(model.getSettlements().get(vertLoc.getNormalizedLocation()).getOwner() == playerIndex) {
+				return true;
+			}
+			
+			else {
+				return false;
+			}
+		}
+
 		return false;
 	}
 
@@ -171,6 +182,37 @@ public class ModelFacade {
 		
 		if(playerIndex != ModelFacade.whoseTurnIsItAnyway()) {
 			return false;
+		}
+		
+		ResourceList rList = model.getDataLump().getPlayers().get(playerIndex).getResources();
+		
+		if(rList.getBrick() == 0 || rList.getWood() == 0) {
+			return false;
+		}
+		
+		List<VertexLocation> points = model.getNearbyVertices(edgeLoc);
+		
+		for(VertexLocation point : points) {
+			if(model.getSettlements().get(point.getNormalizedLocation()) != null) {
+				if(model.getSettlements().get(point.getNormalizedLocation()).getOwner() == playerIndex) {
+					return true;
+				}
+			}
+			else if(model.getCities().get(point.getNormalizedLocation()) != null) {
+				if(model.getCities().get(point.getNormalizedLocation()).getOwner() == playerIndex) {
+					return true;
+				}
+			}
+		}
+		
+		List<EdgeLocation> nearbyEdges = model.getAdjacentEdges(edgeLoc);
+		
+		for(EdgeLocation nearbyEdge : nearbyEdges) {
+			if(model.getRoads().get(nearbyEdge.getNormalizedLocation()) != null) {
+				if(model.getRoads().get(nearbyEdge.getNormalizedLocation()).getOwner() == playerIndex) {
+					return true;
+				}
+			}
 		}
 		
 		return false;
