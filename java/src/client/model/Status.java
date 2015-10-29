@@ -1,8 +1,9 @@
 package client.model;
 
+/**
+ * These are the statuses the SwaggerServer uses
+ * @author djoshuac
+ */
 public enum Status {
-	//Rolling, Robbing, Playing, Discarding, FirstRound, SecondRound
-	//status (string) = ['Rolling' or 'Robbing' or 'Playing' or 'Discarding' or 'FirstRound' or 'SecondRound']: What's happening now,
-	
-	Setting, DoubleBuilding, DoubleWaiting, Rolling, Robbing, Playing, Waiting
+	Rolling, Robbing, Playing, Discarding, FirstRound, SecondRound
 }

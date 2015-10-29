@@ -89,63 +89,84 @@ public class LoginController extends Controller implements ILoginController {
 	}
 	
 	/**
-	 * this variable is used by validation to show the input was valid
-	 */
-	private static final String VALID = "VALID";
-	
-	/**
 	 * Checks the username based on certain conditions.
-	 * @param username
-	 * @return
+	 * <ul>
+	 * <li>username must be at least 3 characters long</li>
+	 * <li>username cannot exceed 7 characters</li>
+	 * <li>username can only contain letters, digits, underscores, and hyphens (Underscore: '_', Hyphen: '-')</li>
+	 * </ul>
+	 * @pre username must not be null
+	 * @param username - the username to check
+	 * @post see return
+	 * @return true if the username is valid, false if otherwise
 	 */
-	private String validateUsername(String username) {
-		final int MIN_UNAME_LENGTH = 3;
-        final int MAX_UNAME_LENGTH = 7;
-
-        if (username.length() < MIN_UNAME_LENGTH) {
-            return "Username must be at least " + MIN_UNAME_LENGTH + " characters long";
+	private boolean validateUsername(String username) {
+        if (username.length() < 3) {
+            return false;
         }
-        else if (username.length() > MAX_UNAME_LENGTH) {
-            return "Username cannot be longer than " + MAX_UNAME_LENGTH + " characters";
+        else if (username.length() > 7) {
+            return false;
         }
-        else
-        {
-            for (char c : username.toCharArray())
-            {
-                if (!Character.isLetterOrDigit(c)
-                        && c != '_' && c != '-')
-                {
-                    return "Username must consist of only letters, digits, underscores or hyphens. Example \"2F_Wa-e\"";
+        else {
+            for (char c : username.toCharArray()) {
+                if (!Character.isLetterOrDigit(c) && c != '_' && c != '-') {
+                    return false;
                 }
             }
         }
-        return VALID;
+        return true;
 	}
+	
+	/**
+	 * Checks the password based on certain conditions.
+	 * <ul>
+	 * <li>passwords musts match</li>
+	 * <li>password cannot exceed 5 characters</li>
+	 * <li>password can only contain letters, digits, underscores, and hyphens (Underscore: '_', Hyphen: '-')</li>
+	 * </ul>
+	 * @param password1 - the first password
+	 * @param password2 - the password to double check
+	 * @return boolean true - if passwords match and are valid, false - if otherwise
+	 */
+	private boolean validatePasswords(String password1, String password2) {
+		if (!password1.equals(password2)) {
+			return false;
+		}
+		else {
+			if (password1.length() < 5) {
+                return false;
+            }
+			else {
+				for (char c : password1.toCharArray()) {
+                    if (!Character.isLetterOrDigit(c) && c != '_' && c != '-') {
+                        return false;
+                    }
+                }
+            }
+		}
+		return true;
+	}
+
 	
 	@Override
 	public void register() {
 		String username = getLoginView().getRegisterUsername();
-		String password = getLoginView().getRegisterPassword();
+		String password1 = getLoginView().getRegisterPassword();
+		String password2 = getLoginView().getRegisterPassword();
 		
-		if (validateUsername(username) != VALID) {
-			
+		if (!validateUsername(username)) {
+			showModalError("Username must be at least 3 characters long." +
+					"<br>Username cannot be longer than  7 characters." +
+					"<br>Username must consist of only letters, digits, underscores or hyphens. Example \"2F_Wa-e\"");
 		}
-		
-		if (username.contains(" ")) {
-			showModalError("Username cannot have a space in it");
-		}
-		else if (username.length() < 3) {
-			showModalError("Username must be at least 3 characters long");
-		}
-		else if (!password.equals(getLoginView().getRegisterPasswordRepeat())) {
-			showModalError("Passwords don't match");
-		}
-		else if (password.length() < 6) {
-			showModalError("Password must be at least 6 characters long");
+		else if (!validatePasswords(password1, password2)) {
+			showModalError("Password must be at least 5 characters long." +
+					"<br>Password must consist of only letters, digits, underscores or hyphens. Example \"Five-2Fishy_Wal-ee\"" +
+					"<br>Password must match Password (Again)");
 		}
 		else {
 			try {
-				UserCredentials credentials = new UserCredentials(username, password);
+				UserCredentials credentials = new UserCredentials(username, password1);
 				ServerProxy.register(credentials);
 				ServerProxy.login(credentials);
 
@@ -157,6 +178,5 @@ public class LoginController extends Controller implements ILoginController {
 			}
 		}
 	}
-
 }
 

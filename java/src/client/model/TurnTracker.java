@@ -24,15 +24,6 @@ public class TurnTracker {
 		this.largestArmy = largestArmy;
 	}
 	
-	public int getCurrentTurn() {
-		return currentTurn;
-	}
-	public void setCurrentTurn(int currentTurn) {
-		this.currentTurn = currentTurn;
-	}
-	public int getCurrentPlayer() {
-		return currentPlayer;
-	}
 	/**
 	 * @pre The player whose turn it is has ended their turn.
 	 * @post The next player gains control; if applicable, the overall turn number increments.
@@ -44,6 +35,16 @@ public class TurnTracker {
 		else {
 			currentPlayer++;
 		}
+	}
+	
+	public int getCurrentTurn() {
+		return currentTurn;
+	}
+	public void setCurrentTurn(int currentTurn) {
+		this.currentTurn = currentTurn;
+	}
+	public int getCurrentPlayer() {
+		return currentPlayer;
 	}
 	public int getLongestRoad() {
 		return longestRoad;
@@ -59,5 +60,14 @@ public class TurnTracker {
 	}
 	public void setPlayerTurn(int playerIndex) {
 		currentPlayer = playerIndex;
+	}
+	public Status getStatus() {
+		return status;
+	}
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+	public void setCurrentPlayer(int currentPlayer) {
+		this.currentPlayer = currentPlayer;
 	}
 }
