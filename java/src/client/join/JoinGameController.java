@@ -10,6 +10,7 @@ import client.data.GameInfo;
 import client.data.PlayerInfo;
 import client.exceptions.ServerException;
 import client.misc.IMessageView;
+import client.model.ModelFacade;
 import client.server.ServerProxy;
 
 
@@ -162,13 +163,13 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void startJoinGame(GameInfo game) {
-		
+		ModelFacade.setGameInfo(game);
 		getSelectColorView().showModal();
 	}
 
 	@Override
 	public void cancelJoinGame() {
-	
+		ModelFacade.clearGameInfo();
 		getJoinGameView().closeModal();
 	}
 
@@ -176,7 +177,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	public void joinGame(CatanColor color) {
 		
 		try {
-			ServerProxy.joinGame(new JoinGameRequest(0, color));
+			ServerProxy.joinGame(new JoinGameRequest(ModelFacade.getGameInfo().getId(), color));
 			// If join succeeded
 			getSelectColorView().closeModal();
 			getJoinGameView().closeModal();

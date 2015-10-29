@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import client.data.GameInfo;
+import client.data.PlayerInfo;
 import shared.definitions.ResourceType;
 import shared.definitions.VertexDirection;
 
@@ -303,5 +305,53 @@ public class ModelFacade {
 	 */
 	public static HexLocation findRobber() {
 		return model.getDataLump().getMap().getRobber();
+	}
+
+	/**
+	 * This function sets the data for the game the user is interacting with, namely
+	 * <ul>
+	 * <li>A game the user is trying to join.
+	 * <li>A game that the user is playing in.
+	 * <ul>
+	 * @pre model must not be null
+	 * @post game info is set to given
+	 * @param game - the game info to store
+	 */
+	public static void setGameInfo(GameInfo game) {
+		model.setGameInfo(game);
+	}
+	public static GameInfo getGameInfo() {
+		return model.getGameInfo();
+	}
+	
+	/**
+	 * This function clears the current game info the user is trying to interact with.
+	 * @pre model must not be null
+	 * @post game info is set to null
+	 */
+	public static void clearGameInfo() {
+		model.setGameInfo(null);
+	}
+	
+	/**
+	 * This function sets the data for the player info of the user
+	 * @pre model must not be null
+	 * @post player info is set to given
+	 * @param player - the player info to store
+	 */
+	public static void setPlayerInfo(PlayerInfo player) {
+		model.setPlayerInfo(player);
+	}
+	public static PlayerInfo getPlayerInfo() {
+		return model.getPlayerInfo();
+	}
+	
+	/**
+	 * This function clears the current player info of the user
+	 * @pre model must not be null
+	 * @post player info is set to null
+	 */
+	public static void clearPlayernfo() {
+		model.setPlayerInfo(null);
 	}
 }

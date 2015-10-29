@@ -6,6 +6,7 @@ import java.util.List;
 
 import shared.definitions.EdgeDirection;
 import shared.definitions.VertexDirection;
+import client.data.GameInfo;
 import client.data.PlayerInfo;
 
 public class ClientModel {
@@ -22,14 +23,38 @@ public class ClientModel {
 	
 	
 	
-	PlayerInfo thisPlayer;
 	
 	private HashMap<HexLocation, Hex> hexes;
 	private HashMap<EdgeLocation, Road> roads;
 	private HashMap<VertexLocation, VertexObject> settlements;
 	private HashMap<VertexLocation, VertexObject> cities;
 	
+	/**
+	 * This is where we store the model that the server sends to the client for updates
+	 */
 	private TransferModel dataLump; //GG TAs
+	
+	/**
+	 * This is where we store the info for user's player
+	 */
+	private PlayerInfo playerInfo;
+	
+	/**
+	 * This is where we store the info for user's game the are currently playing or considering joining
+	 */
+	private GameInfo gameInfo;
+
+	public GameInfo getGameInfo() {
+		return gameInfo;
+	}
+
+	public void setGameInfo(GameInfo gameInfo) {
+		this.gameInfo = gameInfo;
+	}
+
+	public void setPlayerInfo(PlayerInfo playerInfo) {
+		this.playerInfo = playerInfo;
+	}
 
 	public ClientModel() {
 		hexes = new HashMap<HexLocation, Hex>();
@@ -40,8 +65,8 @@ public class ClientModel {
 		dataLump = null;
 	}
 	
-	public PlayerInfo getThisPlayer() {
-		return thisPlayer;
+	public PlayerInfo getPlayerInfo() {
+		return this.playerInfo;
 	}
 
 	public HashMap<HexLocation, Hex> getHexes() {
