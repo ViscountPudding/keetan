@@ -1,16 +1,13 @@
 package client.map;
 
 import shared.definitions.CatanColor;
-import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import client.base.Controller;
 import client.data.RobPlayerInfo;
 import client.map.states.MapControllerSetupState;
 import client.map.states.MapControllerState;
 import client.model.EdgeLocation;
-import client.model.Hex;
 import client.model.HexLocation;
-import client.model.ModelFacade;
 import client.model.VertexLocation;
 
 
@@ -53,13 +50,14 @@ public class MapController extends Controller implements IMapController {
 	
 	protected void initFromModel() {
 		
-		for (Hex hex : ModelFacade.getHexes()) {
-			getView().addHex(hex.getLocation(), hex.getType());
-			if (hex.getType() != HexType.DESERT && hex.getType() != HexType.WATER) {
-				getView().addNumber(hex.getLocation(), hex.getChitNumber());
-			}
-		}
-		getView().placeRobber(ModelFacade.findRobber());
+		// This code is to be run WHEN the modelFacade tells the controller it has updated for the first time
+//		for (Hex hex : ModelFacade.getHexes()) {
+//			getView().addHex(hex.getLocation(), hex.getType());
+//			if (hex.getType() != HexType.DESERT && hex.getType() != HexType.WATER) {
+//				getView().addNumber(hex.getLocation(), hex.getChitNumber());
+//			}
+//		}
+//		getView().placeRobber(ModelFacade.findRobber());
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {

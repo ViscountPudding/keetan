@@ -39,34 +39,7 @@ public class Catan extends JFrame
 	private CatanPanel catanPanel;
 
 	public Catan()
-	{
-		ServerProxy.initialize("localhost:8081");
-		System.out.println("ServerProxy Started");
-		
-		UserCredentials fox = new UserCredentials("StarFox", "nintendo64");
-		try {
-			ServerProxy.register(fox);
-		}
-		catch (ServerException e) {}
-		try {
-			ServerProxy.login(fox);
-			Game[] games = ServerProxy.getGamesList();
-			CreateGameResponse cgr = ServerProxy.createGame(new CreateGameRequest(false, false, false, "Slippy's Game " + games.length));
-			
-			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.GREEN));
-			
-			TransferModel model = ServerProxy.getModel(-1);
-			System.out.println(Converter.toJson(model.getBank()));
-			System.out.println(Converter.toJson(model.getMap()));
-			ModelFacade.updateModel(model);
-			System.out.println("ModelFacade updated with model");
-		}
-		catch (ServerException e) {
-			System.err.println("Server Exception in Catan.run(): " + e.getReason());
-		}
-		
-		
-		
+	{		
 		client.base.OverlayView.setWindow(this);
 
 		this.setTitle("Settlers of Catan");
@@ -145,6 +118,9 @@ public class Catan extends JFrame
 				loginView.setController(loginController);
 				loginView.setController(loginController);
 
+				
+				ServerProxy.initialize("localhost:8081");
+				System.out.println("ServerProxy Started");
 				loginController.start();
 			}
 		});

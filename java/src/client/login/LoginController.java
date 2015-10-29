@@ -65,6 +65,18 @@ public class LoginController extends Controller implements ILoginController {
 		getLoginView().showModal();
 	}
 
+	/**
+	 * Shows an error dialog message to the user.
+	 * @pre messageView cannot be null, errorMessage cannot be null
+	 * @post the given errorMessage is displayed in a modal dialog
+	 * @param errorMessage - the message to display in the dialog
+	 */
+	private void showModalError(String errorMessage) {
+		messageView.setMessage(errorMessage);
+		messageView.setTitle("Error");
+		messageView.showModal();
+	}
+	
 	@Override
 	public void signIn() {
 		String username = getLoginView().getLoginUsername();
@@ -81,12 +93,11 @@ public class LoginController extends Controller implements ILoginController {
 			showModalError(e.getReason());
 		}
 	}
-
-	private void showModalError(String errorMessage) {
-		messageView.setMessage(errorMessage);
-		messageView.setTitle("Error");
-		messageView.showModal();
-	}
+	
+	/**
+	 * This constant is returned by validate functions if the parameters passed are valid
+	 */
+	private static final String VALID_CONST = "VALID";
 	
 	/**
 	 * Checks the username based on certain conditions.
@@ -98,23 +109,25 @@ public class LoginController extends Controller implements ILoginController {
 	 * @pre username must not be null
 	 * @param username - the username to check
 	 * @post see return
-	 * @return true if the username is valid, false if otherwise
+	 * @return LoginController.VALID_CONST if valid, reason why invalid if otherwise.
 	 */
-	private boolean validateUsername(String username) {
-        if (username.length() < 3) {
-            return false;
+	private String validateUsername(String username) {
+		int minlength = 3;
+		int maxlength = 7;
+        if (username.length() < minlength) {
+            return "Usernames must be at least " + minlength + " characters long";
         }
-        else if (username.length() > 7) {
-            return false;
+        else if (username.length() > maxlength) {
+            return "Usernames cannot be longer than " + maxlength + " characters";
         }
         else {
             for (char c : username.toCharArray()) {
                 if (!Character.isLetterOrDigit(c) && c != '_' && c != '-') {
-                    return false;
+                    return "Usernames may only consist letters, digits, underscores or hyphens";
                 }
             }
         }
-        return true;
+        return LoginController.VALID_CONST;
 	}
 	
 	/**
@@ -126,25 +139,26 @@ public class LoginController extends Controller implements ILoginController {
 	 * </ul>
 	 * @param password1 - the first password
 	 * @param password2 - the password to double check
-	 * @return boolean true - if passwords match and are valid, false - if otherwise
+	 * @return LoginController.VALID_CONST if valid, reason why invalid if otherwise.
 	 */
-	private boolean validatePasswords(String password1, String password2) {
+	private String validatePasswords(String password1, String password2) {
+		int minlength = 5;
 		if (!password1.equals(password2)) {
-			return false;
+			return "Paswords don't match";
 		}
 		else {
-			if (password1.length() < 5) {
-                return false;
+			if (password1.length() < minlength) {
+                return  "Passwords must be at least " + minlength + " charaters long";
             }
 			else {
 				for (char c : password1.toCharArray()) {
                     if (!Character.isLetterOrDigit(c) && c != '_' && c != '-') {
-                        return false;
+                        return "Passwords may only consist letters, digits, underscores or hyphens";
                     }
                 }
             }
 		}
-		return true;
+		return LoginController.VALID_CONST;
 	}
 
 	
@@ -152,17 +166,13 @@ public class LoginController extends Controller implements ILoginController {
 	public void register() {
 		String username = getLoginView().getRegisterUsername();
 		String password1 = getLoginView().getRegisterPassword();
-		String password2 = getLoginView().getRegisterPassword();
+		String password2 = getLoginView().getRegisterPasswordRepeat();
 		
-		if (!validateUsername(username)) {
-			showModalError("Username must be at least 3 characters long." +
-					"<br>Username cannot be longer than  7 characters." +
-					"<br>Username must consist of only letters, digits, underscores or hyphens. Example \"2F_Wa-e\"");
+		if (LoginController.VALID_CONST != validateUsername(username)) {
+			showModalError(validateUsername(username));
 		}
-		else if (!validatePasswords(password1, password2)) {
-			showModalError("Password must be at least 5 characters long." +
-					"<br>Password must consist of only letters, digits, underscores or hyphens. Example \"Five-2Fishy_Wal-ee\"" +
-					"<br>Password must match Password (Again)");
+		else if (LoginController.VALID_CONST != validatePasswords(password1, password2)) {
+			showModalError(validatePasswords(password1, password2));
 		}
 		else {
 			try {

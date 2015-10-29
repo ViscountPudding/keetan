@@ -1,8 +1,7 @@
 package client.join;
 
-import java.util.List;
-
 import shared.definitions.CatanColor;
+import shared.transferClasses.CreateGameRequest;
 import shared.transferClasses.Game;
 import shared.transferClasses.JoinGameRequest;
 import client.base.Controller;
@@ -98,6 +97,17 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	
 	
 	
+	/**
+	 * Shows an error dialog message to the user.
+	 * @pre messageView cannot be null, errorMessage cannot be null
+	 * @post the given errorMessage is displayed in a modal dialog
+	 * @param errorMessage - the message to display in the dialog
+	 */
+	private void showModalError(String errorMessage) {
+		messageView.setMessage(errorMessage);
+		messageView.setTitle("Error");
+		messageView.showModal();
+	}
 	
 	
 	@Override
@@ -131,7 +141,23 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void createNewGame() {
 		
-		getNewGameView().closeModal();
+		boolean randHex = getNewGameView().getRandomlyPlaceHexes();
+		boolean randChits = getNewGameView().getRandomlyPlaceNumbers();
+		boolean randPorts = getNewGameView().getUseRandomPorts();
+		String gameTitle = getNewGameView().getTitle();
+		
+		if (gameTitle == null || gameTitle.equals("")) {
+			showModalError("Input a title for the game");
+		}
+		else {
+			try {
+				ServerProxy.createGame(new CreateGameRequest(randHex, randChits, randPorts, gameTitle));
+				getNewGameView().closeModal();
+			}
+			catch (ServerException e) {
+				showModalError(e.getReason());
+			}
+		}
 	}
 
 	@Override
@@ -151,14 +177,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		
 		try {
 			ServerProxy.joinGame(new JoinGameRequest(0, color));
-		} catch (ServerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// If join succeeded
+			getSelectColorView().closeModal();
+			getJoinGameView().closeModal();
+			joinAction.execute();
 		}
-		// If join succeeded
-		getSelectColorView().closeModal();
-		getJoinGameView().closeModal();
-		joinAction.execute();
+		catch (ServerException e) {
+			showModalError(e.getReason());
+		}
 	}
 
 }

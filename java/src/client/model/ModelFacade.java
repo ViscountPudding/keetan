@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import shared.definitions.VertexDirection;
 
 public class ModelFacade {
-	private static ClientModel model = null;
+	private static ClientModel model = new ClientModel();
 	
 	/**
 	 * Updates the model if the given model's version is newer.
@@ -18,6 +18,9 @@ public class ModelFacade {
 	 * @param model - the model to check for an update
 	 */
 	public static void updateModel(TransferModel lump) {
+		if (model == null) {
+			model = new ClientModel();
+		}
 		if (model.getDataLump() == null) {
 			model.update(lump);
 		}
