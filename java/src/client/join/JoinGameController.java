@@ -11,6 +11,7 @@ import client.data.PlayerInfo;
 import client.exceptions.ServerException;
 import client.misc.IMessageView;
 import client.model.ModelFacade;
+import client.server.ServerPoller;
 import client.server.ServerProxy;
 
 
@@ -110,9 +111,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		messageView.showModal();
 	}
 	
-	
-	@Override
-	public void start() {
+	/**
+	 * Refreshes the game list in the join game veiw
+	 */
+	private void refreshGameList() {
 		try {
 			Game[] gameArray = ServerProxy.getGamesList();
 			GameInfo[] games = new GameInfo[gameArray.length];
@@ -121,9 +123,13 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			}
 			getJoinGameView().setGames(games, new PlayerInfo());
 		} catch (ServerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			showModalError(e.getReason());
 		}
+	}
+	
+	@Override
+	public void start() {
+		refreshGameList();
 		getJoinGameView().showModal();
 	}
 
@@ -135,13 +141,12 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void cancelCreateNewGame() {
-		
+		refreshGameList();
 		getNewGameView().closeModal();
 	}
 
 	@Override
 	public void createNewGame() {
-		
 		boolean randHex = getNewGameView().getRandomlyPlaceHexes();
 		boolean randChits = getNewGameView().getRandomlyPlaceNumbers();
 		boolean randPorts = getNewGameView().getUseRandomPorts();
@@ -153,6 +158,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		else {
 			try {
 				ServerProxy.createGame(new CreateGameRequest(randHex, randChits, randPorts, gameTitle));
+				refreshGameList();
 				getNewGameView().closeModal();
 			}
 			catch (ServerException e) {
@@ -170,6 +176,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void cancelJoinGame() {
 		ModelFacade.clearGameInfo();
+		refreshGameList();
 		getJoinGameView().closeModal();
 	}
 
@@ -181,6 +188,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			// If join succeeded
 			getSelectColorView().closeModal();
 			getJoinGameView().closeModal();
+			ServerPoller.start();
 			joinAction.execute();
 		}
 		catch (ServerException e) {

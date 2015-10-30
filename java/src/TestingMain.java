@@ -7,6 +7,7 @@ import shared.transferClasses.JoinGameRequest;
 import shared.transferClasses.UserCredentials;
 import client.exceptions.ServerException;
 import client.model.TransferModel;
+import client.server.ServerPoller;
 import client.server.ServerProxy;
 
 
@@ -67,6 +68,8 @@ public class TestingMain {
 			model = ServerProxy.getModel(-1);
 			System.out.println(Converter.toJson(model.getBank()));
 			System.out.println(Converter.toJson(model.getMap()));
+			
+			ServerPoller.start();
 		}
 		catch (ServerException e) {
 			System.err.println("Bad stuff: " + e.getReason());

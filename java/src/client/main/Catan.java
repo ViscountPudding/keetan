@@ -1,21 +1,11 @@
 package client.main;
 
-import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import shared.definitions.CatanColor;
-import shared.json.Converter;
-import shared.transferClasses.CreateGameRequest;
-import shared.transferClasses.CreateGameResponse;
-import shared.transferClasses.Game;
-import shared.transferClasses.JoinGameRequest;
-import shared.transferClasses.UserCredentials;
 import client.base.IAction;
 import client.catan.CatanPanel;
-import client.exceptions.ServerException;
 import client.join.JoinGameController;
 import client.join.JoinGameView;
 import client.join.NewGameView;
@@ -25,8 +15,6 @@ import client.join.SelectColorView;
 import client.login.LoginController;
 import client.login.LoginView;
 import client.misc.MessageView;
-import client.model.ModelFacade;
-import client.model.TransferModel;
 import client.server.ServerProxy;
 
 /**

@@ -12,7 +12,7 @@ import shared.definitions.VertexDirection;
 
 
 public class ModelFacade {
-	private static ClientModel model = new ClientModel();
+	private static final ClientModel model = new ClientModel();
 	
 	/**
 	 * Updates the model if the given model's version is newer.
@@ -22,19 +22,9 @@ public class ModelFacade {
 	 * @param model - the model to check for an update
 	 */
 	public static void updateModel(TransferModel lump) {
-		if (model == null) {
-			model = new ClientModel();
-		}
-		if (model.getDataLump() == null) {
+		if (getModelVersion() < lump.getVersion()) {
 			model.update(lump);
 		}
-		else if (model.getDataLump().getVersion() > ModelFacade.model.getDataLump().getVersion()) {
-			model.update(lump);
-		}
-	}
-	
-	public static void initialize() {
-		model = new ClientModel();
 	}
 	
 	public static List<Hex> getHexes() {
@@ -106,11 +96,11 @@ public class ModelFacade {
 		return false; //Awwww... found no settlements or cities for you... how sad....
 	}
 	
-	public boolean canReceiveResource(int resource_amount, ResourceType resource_type) {
+	public static boolean canReceiveResource(int resource_amount, ResourceType resource_type) {
 		return model.getDataLump().getBank().hasResource(resource_type, resource_amount);
 	}
 	
-	public int getModelVersion() {
+	public static int getModelVersion() {
 		return model.getDataLump().getVersion();
 	}
 

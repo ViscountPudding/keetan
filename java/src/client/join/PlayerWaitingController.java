@@ -19,9 +19,11 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		return (IPlayerWaitingView)super.getView();
 	}
 
+	
+	
 	@Override
 	public void start() {
-
+		
 		getView().showModal();
 	}
 

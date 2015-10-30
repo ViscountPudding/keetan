@@ -123,12 +123,6 @@ public class ClientCommunicator {
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				InputStream responseBody = connection.getInputStream();
 				handleCookie(command, connection);
-				
-				java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A");
-				String toPrint = s.hasNext() ? s.next() : "";
-				System.out.println(toPrint);
-				responseBody = new ByteArrayInputStream(toPrint.getBytes(StandardCharsets.UTF_8));
-				
 				return Converter.fromJson(responseBody, classOfReturnObject);
 			}
 			else {
