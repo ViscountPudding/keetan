@@ -439,7 +439,6 @@ public class ClientModel {
 					SouthEdge = false;
 				}
 		
-		HexLocation cousinCoordinates = null;
 		VertexDirection cousinDirection = null;
 		
 		int newX = 0;
@@ -648,7 +647,6 @@ public class ClientModel {
 		EdgeDirection faceOne = null;
 		EdgeDirection faceTwo = null;
 		
-		HexLocation newCoordinates = null;
 		int newX = 0;
 		int newY = 0;
 		
