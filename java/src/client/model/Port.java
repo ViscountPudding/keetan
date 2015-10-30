@@ -1,6 +1,5 @@
 package client.model;
 
-import shared.definitions.Direction;
 import shared.definitions.EdgeDirection;
 import shared.definitions.ResourceType;
 

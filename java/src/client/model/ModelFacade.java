@@ -11,9 +11,7 @@ import shared.definitions.EdgeDirection;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.definitions.VertexDirection;
-import shared.model.Resource;
-import shared.model.gamemap.Port;
-import shared.model.gamemap.VertexValue;
+
 
 
 public class ModelFacade {
@@ -223,7 +221,7 @@ public class ModelFacade {
 		return false;
 	}
 
-	public boolean canDomesticTrade(TradeOffer offer) {
+	public static boolean canDomesticTrade(TradeOffer offer) {
 		int currentPlayer = model.getDataLump().getTurnTracker().getCurrentPlayer();
 		if(offer.getSender() != currentPlayer && offer.getReceiver() != currentPlayer) {
 			return false;
@@ -295,21 +293,17 @@ public class ModelFacade {
 		return true;
 	}
 	
-	public boolean canMaritimeTrade(int playerIndex, ResourceType tradeResource, ResourceType desiredResource) {
+	public static boolean canMaritimeTrade(int playerIndex, ResourceType tradeResource, ResourceType desiredResource) {
 		Player player = model.getDataLump().getPlayers().get(playerIndex);
 		
-		//int tradeRatio = getTradeRatio(playerIndex, tradeResource);
-		
-		int tradeRatio = 0; //Need to figure this out as well
+		int tradeRatio = getTradeRatio(playerIndex, tradeResource);
 		
 		return player.getResources().hasResource(tradeResource, tradeRatio) && model.getDataLump().getBank().hasResource(desiredResource, 1);
 	}
 	
-	public int getTradeRatio(int playerIndex, ResourceType tradeResource) {
+	public static int getTradeRatio(int playerIndex, ResourceType tradeResource) {
+		
 		int ratio = 4;
-		PortType resourcePort = tradeResource.getPortType();
-		
-		
 		
 		for (Port port : model.getDataLump().getMap().getPorts()) {
 			
@@ -318,21 +312,38 @@ public class ModelFacade {
 			
 			EdgeDirection direction = port.getDirection();
 			
-			for (VertexLocation vertex : model.getDataLump().getMap().getNearbyVertices(port.getEdge())) {
-				if (vertex.getPlayerIndexOfOwner() == playerIndex) {
-					if (ratio == 4 && port.getType() == PortType.THREE) {
-						ratio = 3;
-					}
-					else if (port.getType() == resourcePort){
-						return 2;
+			EdgeLocation relativeEdge = new EdgeLocation(x, y, direction);
+			
+			for (VertexLocation vertex : model.getNearbyVertices(relativeEdge)) {
+				
+				if(model.getSettlements().get(vertex.getNormalizedLocation()) != null) {
+					if(model.getSettlements().get(vertex.getNormalizedLocation()).getOwner() == playerIndex) {
+						if (ratio == 4 && port.getRatio() == 3) {
+							ratio = 3;
+						}
+						else if (tradeResource == port.getResource()){
+							return 2;
+						}
 					}
 				}
+				
+				else if(model.getCities().get(vertex.getNormalizedLocation()) != null) {
+					if(model.getCities().get(vertex.getNormalizedLocation()).getOwner() == playerIndex) {
+						if (ratio == 4 && port.getRatio() == 3) {
+							ratio = 3;
+						}
+						else if (tradeResource == port.getResource()){
+							return 2;
+						}
+					}
+				}
+				
 			}
 		}
 		return ratio;
 	}
 	
-	public boolean canBuyDevelopmentCard(int playerIndex) {
+	public static boolean canBuyDevelopmentCard(int playerIndex) {
 		ResourceList rList = model.getDataLump().getPlayers().get(playerIndex).getResources();
 		if(model.getDataLump().getTurnTracker().getCurrentPlayer() != playerIndex) {
 			return false;
@@ -348,11 +359,11 @@ public class ModelFacade {
 		}
 	}
 	
-	public boolean canLoseCardsFromDieRoll(int playerIndex) {
+	public static boolean canLoseCardsFromDieRoll(int playerIndex) {
 		return model.getDataLump().getPlayers().get(playerIndex).getResources().getTotalCards() > 7;
 	}
 	
-	public boolean canWin(int playerIndex) {
+	public static boolean canWin(int playerIndex) {
 		return model.getDataLump().getTurnTracker().getCurrentPlayer() == playerIndex && 
 				model.getDataLump().getPlayers().get(playerIndex).getVictoryPoints() > 9;
 	}
