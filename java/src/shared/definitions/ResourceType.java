@@ -38,5 +38,22 @@ public enum ResourceType {
 			return null;
 		}
 	}
+	
+	public PortType getPortType() {
+		switch (this) {
+		case BRICK:
+			return PortType.BRICK;
+		case ORE:
+			return PortType.ORE;
+		case SHEEP:
+			return PortType.SHEEP;
+		case WHEAT:
+			return PortType.WHEAT;
+		case WOOD:
+			return PortType.WOOD;
+		default:
+			return null;
+		}
+	}
 }
 

@@ -1,15 +1,16 @@
 package client.model;
 
 import shared.definitions.Direction;
+import shared.definitions.EdgeDirection;
 import shared.definitions.ResourceType;
 
 public class Port {
 	private ResourceType resource;
 	private HexLocation location;
-	private Direction direction;
+	private EdgeDirection direction;
 	private int ratio;
 
-	public Port(ResourceType resource, HexLocation location, Direction direction, int ratio) {
+	public Port(ResourceType resource, HexLocation location, EdgeDirection direction, int ratio) {
 		setResource(resource);
 		setLocation(location);
 		setDirection(direction);
@@ -32,11 +33,11 @@ public class Port {
 		this.location = location;
 	}
 
-	public Direction getDirection() {
+	public EdgeDirection getDirection() {
 		return direction;
 	}
 
-	public void setDirection(Direction direction) {
+	public void setDirection(EdgeDirection direction) {
 		this.direction = direction;
 	}
 

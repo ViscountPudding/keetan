@@ -7,8 +7,13 @@ import java.util.Map.Entry;
 
 import client.data.GameInfo;
 import client.data.PlayerInfo;
+import shared.definitions.EdgeDirection;
+import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.definitions.VertexDirection;
+import shared.model.Resource;
+import shared.model.gamemap.Port;
+import shared.model.gamemap.VertexValue;
 
 
 public class ModelFacade {
@@ -234,27 +239,65 @@ public class ModelFacade {
 			return false;
 		}
 		
+		ResourceList theList = offer.getOffer();
+		
+		ResourceList theOffer = new ResourceList(0,0,0,0,0);
+		ResourceList theRequest = new ResourceList(0,0,0,0,0);
+		
+		
+		if(theList.getWood() >= 0) {
+			theRequest.setWood(theList.getWood());
+		}
+		else {
+			theOffer.setWood(Math.abs(theList.getWood()));
+		}
+		if(theList.getBrick() >= 0) {
+			theRequest.setBrick(theList.getBrick());
+		}
+		else {
+			theOffer.setBrick(Math.abs(theList.getBrick()));
+		}
+		if(theList.getSheep() >= 0) {
+			theRequest.setSheep(theList.getSheep());
+		}
+		else {
+			theOffer.setSheep(Math.abs(theList.getSheep()));
+		}
+		if(theList.getWheat() >= 0) {
+			theRequest.setWheat(theList.getWheat());
+		}
+		else  {
+			theOffer.setWheat(Math.abs(theList.getWheat()));
+		}
+		if(theList.getOre() >= 0) {
+			theRequest.setOre(theList.getOre());
+		}
+		else {
+			theOffer.setOre(Math.abs(theList.getOre()));
+		}
+		
+		
 		//Check if sender has enough resources
-		ResourceList sendOffer = offer.getOffer();
+		
 		ResourceList sendResources = model.getDataLump().getPlayers().get(offer.getSender()).getResources();
-		if(sendOffer.getBrick() > sendResources.getBrick()
-				|| sendOffer.getOre() > sendResources.getOre()
-				|| sendOffer.getSheep() > sendResources.getSheep()
-				|| sendOffer.getWheat() > sendResources.getWheat()
-				|| sendOffer.getWood() > sendResources.getWood()) {
+		if(theOffer.getBrick() > sendResources.getBrick()
+				|| theOffer.getOre() > sendResources.getOre()
+				|| theOffer.getSheep() > sendResources.getSheep()
+				|| theOffer.getWheat() > sendResources.getWheat()
+				|| theOffer.getWood() > sendResources.getWood()) {
 			return false;
 		}
 		
 		//THIS DOESN'T ACTUALLY WORK. Need to split offer into the send (negatives) and receives (positives)
 		
 		//Check if receiver has enough resources
-		ResourceList receiveOffer = offer.getOffer();
+		
 		ResourceList receiveResources = model.getDataLump().getPlayers().get(offer.getReceiver()).getResources();
-		if(receiveOffer.getBrick() > receiveResources.getBrick()
-				|| receiveOffer.getOre() > receiveResources.getOre()
-				|| receiveOffer.getSheep() > receiveResources.getSheep()
-				|| receiveOffer.getWheat() > receiveResources.getWheat()
-				|| receiveOffer.getWood() > receiveResources.getWood()) {
+		if(theRequest.getBrick() > receiveResources.getBrick()
+				|| theRequest.getOre() > receiveResources.getOre()
+				|| theRequest.getSheep() > receiveResources.getSheep()
+				|| theRequest.getWheat() > receiveResources.getWheat()
+				|| theRequest.getWood() > receiveResources.getWood()) {
 			return false;
 		}
 		
@@ -270,6 +313,33 @@ public class ModelFacade {
 		int tradeRatio = 0; //Need to figure this out as well
 		
 		return player.getResources().hasResource(tradeResource, tradeRatio) && model.getDataLump().getBank().hasResource(desiredResource, 1);
+	}
+	
+	public int getTradeRatio(int playerIndex, ResourceType tradeResource) {
+		int ratio = 4;
+		PortType resourcePort = tradeResource.getPortType();
+		
+		
+		
+		for (Port port : model.getDataLump().getMap().getPorts()) {
+			
+			int x = port.getLocation().getX();
+			int y = port.getLocation().getY();
+			
+			EdgeDirection direction = port.getDirection();
+			
+			for (VertexLocation vertex : model.getDataLump().getMap().getNearbyVertices(port.getEdge())) {
+				if (vertex.getPlayerIndexOfOwner() == playerIndex) {
+					if (ratio == 4 && port.getType() == PortType.THREE) {
+						ratio = 3;
+					}
+					else if (port.getType() == resourcePort){
+						return 2;
+					}
+				}
+			}
+		}
+		return ratio;
 	}
 	
 	public boolean canBuyDevelopmentCard(int playerIndex) {
