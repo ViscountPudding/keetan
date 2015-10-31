@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
 import shared.definitions.EdgeDirection;
-import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.definitions.VertexDirection;
 

@@ -9,20 +9,7 @@ import shared.definitions.VertexDirection;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
 
-public class ClientModel {
-
-	/**
-	 * TOOOOOO DOOOOOO
-	 * add the getAdjacentVertices and getCousinVertex function (change them to return locations instead of values)
-	 * add the getNearbyVertices function (change it to return locations instead of values)
-	 * CHANGE getNearbyEdges to get the third edge (if I'm thinking right you don't need to do any rim crap so hooray for that)
-	 * 
-	 * Also in ModelFacade finish implementing the canDo methods
-	 * 
-	 */
-	
-	
-	
+public class ClientModel {	
 	
 	private HashMap<HexLocation, Hex> hexes;
 	private HashMap<EdgeLocation, Road> roads;
