@@ -24,7 +24,7 @@ public class ModelFacadeUnitTests {
 		brickPlayers.add(new Player("Fu", 0, CatanColor.BLUE, 123));
 		brickPlayers.add(new Player("Rin", 1, CatanColor.GREEN, 456));
 		brickPlayers.add(new Player("Ka", 2, CatanColor.RED, 789));
-		
+		brickPlayers.add(new Player("Zan", 3, CatanColor.PURPLE, 000));
 		
 	}
 
