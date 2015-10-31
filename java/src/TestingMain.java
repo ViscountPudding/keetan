@@ -5,7 +5,10 @@ import shared.transferClasses.CreateGameResponse;
 import shared.transferClasses.Game;
 import shared.transferClasses.JoinGameRequest;
 import shared.transferClasses.UserCredentials;
+import client.data.PlayerInfo;
 import client.exceptions.ServerException;
+import client.model.ModelFacade;
+import client.model.Player;
 import client.model.TransferModel;
 import client.server.ServerPoller;
 import client.server.ServerProxy;
@@ -66,10 +69,17 @@ public class TestingMain {
 //			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.BLUE));
 			
 			model = ServerProxy.getModel(-1);
+			ModelFacade.updateModel(model);
 			System.out.println(Converter.toJson(model.getBank()));
 			System.out.println(Converter.toJson(model.getMap()));
 			
 			ServerPoller.start();
+			
+			
+			for (PlayerInfo player : ModelFacade.getPlayers()) {
+				System.out.println(player.getName());
+			}
+			
 		}
 		catch (ServerException e) {
 			System.err.println("Bad stuff: " + e.getReason());

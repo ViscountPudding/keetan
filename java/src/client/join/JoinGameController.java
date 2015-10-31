@@ -1,5 +1,7 @@
 package client.join;
 
+import java.util.Observable;
+
 import shared.definitions.CatanColor;
 import shared.transferClasses.CreateGameRequest;
 import shared.transferClasses.Game;
@@ -41,6 +43,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		setNewGameView(newGameView);
 		setSelectColorView(selectColorView);
 		setMessageView(messageView);
+		
+		ModelFacade.addObserver(this);
 	}
 	
 	public IJoinGameView getJoinGameView() {
@@ -135,7 +139,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void startCreateNewGame() {
-		
 		getNewGameView().showModal();
 	}
 
@@ -188,6 +191,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			// If join succeeded
 			getSelectColorView().closeModal();
 			getJoinGameView().closeModal();
+			
+			System.out.println("ServerPoller started");
 			ServerPoller.start();
 			joinAction.execute();
 		}
@@ -196,5 +201,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		}
 	}
 
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO perhaps once the game is finished this controller should take over again
+	}
 }
 

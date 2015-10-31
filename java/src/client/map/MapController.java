@@ -1,5 +1,7 @@
 package client.map;
 
+import java.util.Observable;
+
 import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
 import client.base.Controller;
@@ -128,6 +130,12 @@ public class MapController extends Controller implements IMapController {
 	
 	public void robPlayer(RobPlayerInfo victim) {	
 		state.robPlayer(victim);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

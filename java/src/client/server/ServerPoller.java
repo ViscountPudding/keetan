@@ -66,7 +66,7 @@ public class ServerPoller {
 			timer.cancel();
 			timer.purge();
 			timer = null;
-			start(delay, period);
+			start(period, delay);
 		}
 	}
 	/**
@@ -80,7 +80,7 @@ public class ServerPoller {
 	 * System.currentTimeMillis() is less than zero
 	 */
 	public static void start(long period) {
-		start(NO_DELAY, period);
+		start(period, NO_DELAY);
 	}
 	/**
 	 * Starts a timer to poll the target server at regular intervals.
@@ -92,7 +92,7 @@ public class ServerPoller {
 	 * System.currentTimeMillis() is less than zero
 	 */
 	public static void start() {
-		start(NO_DELAY, ONE_SECOND);
+		start(ONE_SECOND, NO_DELAY);
 	}
 	
 	/**

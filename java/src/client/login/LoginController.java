@@ -1,5 +1,7 @@
 package client.login;
 
+import java.util.Observable;
+
 import shared.transferClasses.UserCredentials;
 import client.base.Controller;
 import client.base.IAction;
@@ -187,6 +189,11 @@ public class LoginController extends Controller implements ILoginController {
 				showModalError(e.getReason());
 			}
 		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// do nothing
 	}
 }
 

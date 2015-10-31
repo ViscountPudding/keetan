@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Observer;
 
-import client.data.GameInfo;
-import client.data.PlayerInfo;
 import shared.definitions.EdgeDirection;
-import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.definitions.VertexDirection;
+import client.data.GameInfo;
+import client.data.PlayerInfo;
 
 
 
 public class ModelFacade {
 	private static final ClientModel model = new ClientModel();
+	private static final List<Observer> observers = new ArrayList<Observer>();
 	
 	/**
 	 * Updates the model if the given model's version is newer.
@@ -27,6 +28,7 @@ public class ModelFacade {
 	public static void updateModel(TransferModel lump) {
 		if (getModelVersion() < lump.getVersion()) {
 			model.update(lump);
+			notifyObserversOfChange();
 		}
 	}
 	
@@ -104,7 +106,12 @@ public class ModelFacade {
 	}
 	
 	public static int getModelVersion() {
-		return model.getDataLump().getVersion();
+		if (model.getDataLump() == null) {
+			return -1;
+		}
+		else {
+			return model.getDataLump().getVersion();
+		}
 	}
 
 	public static int whoseTurnIsItAnyway() {
@@ -424,5 +431,46 @@ public class ModelFacade {
 	 */
 	public static void clearPlayernfo() {
 		model.setPlayerInfo(null);
+	}
+	
+	/**
+	 * This function returns the player info for the current game
+	 * @pre model cannot be null, model.getGameInfo() cannot return null
+	 * @post see return
+	 * @return The player information array for the players in the current game
+	 */
+	public static PlayerInfo[] getPlayers() {
+		List<PlayerInfo> playerList = model.getGameInfo().getPlayers();
+		int numPlayers = 0;
+		for (PlayerInfo info : playerList) {
+			numPlayers++;
+		}
+		
+		PlayerInfo[] players = new PlayerInfo[numPlayers];
+		for (int i = 0; i < numPlayers; i++) {
+			players[i] = playerList.get(i);
+		}
+		return players;
+	}
+	
+	/**
+	 * Adds the given observer to the notify list to be notified when the model is updated
+	 * @param observer - the observer to add
+	 * @pre none
+	 * @post the given observer will be notified when the model is updated.
+	 */
+	public static void addObserver(Observer observer) {
+		observers.add(observer);
+	}
+	
+	/**
+	 * Notifies the list of observers that the model has changed
+	 * @pre none
+	 * @post each observer is notified
+	 */
+	private static void notifyObserversOfChange() {
+		for (Observer observer : observers) {
+			observer.notify();
+		}
 	}
 }

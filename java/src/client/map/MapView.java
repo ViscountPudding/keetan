@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -214,6 +215,12 @@ public class MapView extends PanelView implements IMapView
 		{
 			overlay.cancelDrop();
 			overlay.closeModal();
+		}
+
+		@Override
+		public void update(Observable o, Object arg) {
+			// TODO Auto-generated method stub
+			
 		}
 	};
 	
