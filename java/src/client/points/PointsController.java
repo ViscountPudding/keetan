@@ -46,7 +46,7 @@ public class PointsController extends Controller implements IPointsController {
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update() {
 		// TODO Auto-generated method stub
 		
 	}
