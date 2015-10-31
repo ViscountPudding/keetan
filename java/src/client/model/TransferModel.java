@@ -19,15 +19,6 @@ public class TransferModel {
 	public TransferModel() {
 		players = new ArrayList<Player>();
 	}
-	
-	public boolean validate() {
-		if (deck == null || !deck.validate()) return false;
-		if (bank == null || !bank.validate()) return false;
-		if (chat == null || !chat.validate()) return false;
-		if (log == null || !log.validate()) return false;
-		if (map == null || !map.validate(players.size())) return false;
-		return true;
-	}
 			
 	public ResourceList getBank() {
 		return bank;

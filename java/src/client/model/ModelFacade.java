@@ -283,8 +283,6 @@ public class ModelFacade {
 			return false;
 		}
 		
-		//THIS DOESN'T ACTUALLY WORK. Need to split offer into the send (negatives) and receives (positives)
-		
 		//Check if receiver has enough resources
 		
 		ResourceList receiveResources = model.getDataLump().getPlayers().get(offer.getReceiver()).getResources();
@@ -344,7 +342,6 @@ public class ModelFacade {
 						}
 					}
 				}
-				
 			}
 		}
 		return ratio;
@@ -443,7 +440,9 @@ public class ModelFacade {
 		List<PlayerInfo> playerList = model.getGameInfo().getPlayers();
 		int numPlayers = 0;
 		for (PlayerInfo info : playerList) {
-			numPlayers++;
+			if(info != null) {
+				numPlayers++;
+			}
 		}
 		
 		PlayerInfo[] players = new PlayerInfo[numPlayers];
