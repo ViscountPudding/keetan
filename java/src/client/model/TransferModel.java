@@ -3,6 +3,7 @@ package client.model;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class TransferModel {
 	private DevCardList deck;
 	private ResourceList bank;

@@ -1,8 +1,5 @@
 package client.server;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
 import shared.transferClasses.BuildCity;
@@ -27,7 +24,6 @@ import shared.transferClasses.Soldier;
 import shared.transferClasses.UserCredentials;
 import shared.transferClasses.YearOfPlenty;
 import client.exceptions.ServerException;
-import client.model.TradeOffer;
 import client.model.TransferModel;
 
 
@@ -83,8 +79,8 @@ public class ServerProxy {
 		communicator.send("/game/addAI", addAIRequest);
 	}
 
-	public static List<String> listAITypes() throws ServerException {
-		return communicator.send("/game/listAI", null, ArrayList.class);
+	public static String[] listAITypes() throws ServerException {
+		return communicator.send("/game/listAI", null, String[].class);
 	}
 
 	public static void sendChat(SendChat sendChat) throws ServerException {
