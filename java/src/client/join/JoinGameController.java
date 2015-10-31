@@ -1,7 +1,5 @@
 package client.join;
 
-import java.util.Observable;
-
 import shared.definitions.CatanColor;
 import shared.transferClasses.CreateGameRequest;
 import shared.transferClasses.Game;
@@ -202,8 +200,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
-		// TODO perhaps once the game is finished this controller should take over again
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

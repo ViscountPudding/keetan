@@ -253,7 +253,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update() {
 		// TODO Auto-generated method stub
 		
 	}

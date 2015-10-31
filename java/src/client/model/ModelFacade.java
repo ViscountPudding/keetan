@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Observer;
 
 import shared.definitions.EdgeDirection;
 import shared.definitions.ResourceType;
 import shared.definitions.VertexDirection;
+import client.base.Observer;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
 
@@ -469,7 +469,7 @@ public class ModelFacade {
 	 */
 	private static void notifyObserversOfChange() {
 		for (Observer observer : observers) {
-			observer.notify();
+			observer.update();
 		}
 	}
 }

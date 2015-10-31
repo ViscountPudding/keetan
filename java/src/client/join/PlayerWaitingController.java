@@ -59,7 +59,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update() {
 		if (ModelFacade.getPlayers().length == 4) {
 			refreshPlayerInfo();
 			getView().closeModal();

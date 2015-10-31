@@ -192,7 +192,7 @@ public class LoginController extends Controller implements ILoginController {
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update() {
 		// do nothing
 	}
 }

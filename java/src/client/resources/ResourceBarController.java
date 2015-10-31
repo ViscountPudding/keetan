@@ -73,7 +73,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update() {
 		// TODO Auto-generated method stub
 		
 	}

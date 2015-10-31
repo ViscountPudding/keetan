@@ -10,7 +10,7 @@ import client.model.VertexLocation;
 /**
  * Interface for the map controller
  */
-public interface IMapController extends IController
+public interface IMapController extends IController 
 {
 	
 	/**
