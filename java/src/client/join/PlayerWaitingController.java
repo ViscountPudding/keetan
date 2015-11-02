@@ -31,9 +31,9 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	 * Refreshes the game list in the join game veiw
 	 */
 	private void refreshPlayerInfo() {
-		PlayerInfo[] info - ModelFacade.getJoinedPlayersInfo();
-		numberOfJoinedPlayers =
-		getView().setPlayers(ModelFacade.getJoinedPlayersInfo());
+		PlayerInfo[] info = ModelFacade.getJoinedPlayersInfo();
+		numberOfJoinedPlayers = info.length;
+		getView().setPlayers(info);
 		getView().showModal();
 	}
 	
