@@ -4,6 +4,10 @@ bin/**
 .metadata/**
 .recommenders
 java/build/*
+java/build/**
+java/build
 java/dist/*
+java/dist
+java/dist/**
 .recommenders/*
 demo/logs
