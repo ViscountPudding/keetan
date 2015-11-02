@@ -426,7 +426,7 @@ public class ModelFacade {
 	 * @pre model must not be null
 	 * @post player info is set to null
 	 */
-	public static void clearPlayernfo() {
+	public static void clearPlayerInfo() {
 		model.setPlayerInfo(null);
 	}
 	
