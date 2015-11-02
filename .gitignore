@@ -3,5 +3,7 @@ bin/**
 .metadata
 .metadata/**
 .recommenders
+java/build/*
+java/dist/*
 .recommenders/*
 demo/logs
