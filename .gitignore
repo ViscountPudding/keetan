@@ -8,6 +8,8 @@ java/build/**
 java/build
 java/dist/*
 java/dist
+java/dist/catan-server.jar
+java/dist/catan-client.jar
 java/dist/**
 .recommenders/*
 demo/logs
