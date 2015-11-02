@@ -33,7 +33,6 @@ public class ServerPoller {
 			try {
 				model = ServerProxy.getModel(ModelFacade.getModelVersion());
 				ModelFacade.updateModel(model);
-				System.out.println(Converter.toJson(model));
 			}
 			catch (ServerException e) {
 				System.err.println(e.getReason());
