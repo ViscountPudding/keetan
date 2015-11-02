@@ -1,9 +1,8 @@
 package client.join;
 
-import java.util.Observable;
-
 import shared.transferClasses.AddAIRequest;
 import client.base.Controller;
+import client.data.PlayerInfo;
 import client.exceptions.ServerException;
 import client.model.ModelFacade;
 import client.server.ServerProxy;
@@ -23,6 +22,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	@Override
 	public IPlayerWaitingView getView() {
 
+		numberOfJoinedPlayers = 0;
 		return (IPlayerWaitingView)super.getView();
 	}
 	
@@ -31,7 +31,10 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	 * Refreshes the game list in the join game veiw
 	 */
 	private void refreshPlayerInfo() {
-		getView().setPlayers(ModelFacade.getPlayers());
+		PlayerInfo[] info - ModelFacade.getJoinedPlayersInfo();
+		numberOfJoinedPlayers =
+		getView().setPlayers(ModelFacade.getJoinedPlayersInfo());
+		getView().showModal();
 	}
 	
 	@Override
@@ -58,13 +61,19 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		}
 	}
 
+	/**
+	 * The number of players shown to the view
+	 */
+	private int numberOfJoinedPlayers;
+	
 	@Override
 	public void update() {
-		if (ModelFacade.getPlayers().length == 4) {
-			refreshPlayerInfo();
+		if (ModelFacade.getJoinedPlayersInfo().length == 4) {
+			System.out.println("No change has four");
 			getView().closeModal();
 		}
 		else {
+			System.out.println("Change!");
 			refreshPlayerInfo();
 		}
 	}

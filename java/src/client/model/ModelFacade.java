@@ -105,8 +105,15 @@ public class ModelFacade {
 		return model.getDataLump().getBank().hasResource(resource_type, resource_amount);
 	}
 	
+	/**
+	 * Returns the transfer model's version, -1 if current transfer model is null
+	 * @returns -1 if no model version yet, otherwise it returns the models version
+	 */
 	public static int getModelVersion() {
 		if (model.getDataLump() == null) {
+			return -1;
+		}
+		else if (model.getGameInfo().getPlayers().size() != 4) {
 			return -1;
 		}
 		else {
@@ -436,7 +443,7 @@ public class ModelFacade {
 	 * @post see return
 	 * @return The player information array for the players in the current game
 	 */
-	public static PlayerInfo[] getPlayers() {
+	public static PlayerInfo[] getJoinedPlayersInfo() {
 		List<PlayerInfo> playerList = model.getGameInfo().getPlayers();
 		int numPlayers = 0;
 		for (PlayerInfo info : playerList) {
@@ -468,6 +475,7 @@ public class ModelFacade {
 	 * @post each observer is notified
 	 */
 	private static void notifyObserversOfChange() {
+		System.out.println("Notify observers");
 		for (Observer observer : observers) {
 			observer.update();
 		}

@@ -114,7 +114,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	}
 	
 	/**
-	 * Refreshes the game list in the join game veiw
+	 * Refreshes the game list in the join game view
 	 */
 	private void refreshGameList() {
 		try {

@@ -164,11 +164,11 @@ public class Player {
 		return name;
 	}
 
-	public int getPlayerIndex() {
+	public int getIndex() {
 		return playerIndex;
 	}
 
-	public int getPlayerID() {
+	public int getID() {
 		return playerID;
 	}
 	

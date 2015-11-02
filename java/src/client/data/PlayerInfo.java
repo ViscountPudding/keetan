@@ -1,5 +1,6 @@
 package client.data;
 
+import client.model.Player;
 import shared.definitions.CatanColor;
 import shared.transferClasses.GetPlayer;
 
@@ -33,6 +34,13 @@ public class PlayerInfo
 	
 	public PlayerInfo(GetPlayer player, int index) {
 		setId(player.getId());
+		setPlayerIndex(index);
+		setName(player.getName());
+		setColor(player.getColor());
+	}
+
+	public PlayerInfo(Player player, int index) {
+		setId(player.getID());
 		setPlayerIndex(index);
 		setName(player.getName());
 		setColor(player.getColor());

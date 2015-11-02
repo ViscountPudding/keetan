@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import client.model.Player;
+import client.model.TransferModel;
 import shared.transferClasses.Game;
 import shared.transferClasses.GetPlayer;
 
@@ -71,7 +73,30 @@ public class GameInfo
 	
 	public List<PlayerInfo> getPlayers()
 	{
-		return Collections.unmodifiableList(players);
+		return players;
+	}
+	
+	/**
+	 * clears all player info from this game info object
+	 */
+	public void clearPlayers() {
+		players.clear();
+	}
+	
+	
+	/**
+	 * Updates this games information based on the retrieved data lump
+	 * @param newLump
+	 */
+	public void update(TransferModel newLump) {
+		clearPlayers();
+		List<Player> players = newLump.getPlayers();
+		for (int i = 0; i < players.size(); i++) {
+			Player p = players.get(i);
+			if (p != null) {
+				addPlayer(new PlayerInfo(p, i));
+			}
+		}
 	}
 }
 

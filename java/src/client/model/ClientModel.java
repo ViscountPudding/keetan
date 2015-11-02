@@ -94,6 +94,8 @@ public class ClientModel {
 		for(VertexObject city : newLump.getMap().getCities()) {
 			cities.put(city.getLocation().getNormalizedLocation(), city);
 		}
+		
+		this.gameInfo.update(newLump);
 	}
 	
 	///THINGS!
