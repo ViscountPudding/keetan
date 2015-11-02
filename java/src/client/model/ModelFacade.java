@@ -125,6 +125,10 @@ public class ModelFacade {
 		return model.getDataLump().getTurnTracker().getCurrentPlayer();
 	}
 
+	public static Status whatStateMightItBe() {
+		return model.getDataLump().getTurnTracker().getStatus();
+	}
+	
 	public static boolean canBuildSettlement(int playerIndex, VertexLocation vertLoc) {
 		
 		if(playerIndex != ModelFacade.whoseTurnIsItAnyway()) {

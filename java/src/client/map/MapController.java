@@ -6,10 +6,16 @@ import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
 import client.base.Controller;
 import client.data.RobPlayerInfo;
+import client.map.states.MapControllerDoublePlaceState;
+import client.map.states.MapControllerDoubleWaitState;
+import client.map.states.MapControllerNotTurnState;
+import client.map.states.MapControllerRollingDiceState;
 import client.map.states.MapControllerSetupState;
 import client.map.states.MapControllerState;
 import client.model.EdgeLocation;
 import client.model.HexLocation;
+import client.model.ModelFacade;
+import client.model.Status;
 import client.model.VertexLocation;
 
 
@@ -136,6 +142,36 @@ public class MapController extends Controller implements IMapController {
 	public void update() {
 		// TODO Auto-generated method stub
 		
+		if(ModelFacade.whoseTurnIsItAnyway() != ModelFacade.getPlayerInfo().getPlayerIndex()) {
+			if(ModelFacade.whatStateMightItBe() == Status.FirstRound || ModelFacade.whatStateMightItBe() == Status.SecondRound) {
+				state = new MapControllerDoubleWaitState();			
+			}
+			else {
+				state = new MapControllerNotTurnState();
+			}
+		}
+		else {
+			switch(ModelFacade.whatStateMightItBe()) {
+			case Rolling:
+					state = new MapControllerRollingDiceState();
+				break;
+			case Discarding:
+				break;
+			case FirstRound:
+				state = new MapControllerDoublePlaceState();
+				break;
+			case Playing:
+				break;
+			case Robbing:
+				break;
+			case SecondRound:
+				state = new MapControllerDoublePlaceState();
+				break;
+			default:
+				break;
+		}
+		
+		}
 	}
 	
 }

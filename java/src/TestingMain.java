@@ -76,7 +76,7 @@ public class TestingMain {
 			ServerPoller.start();
 			
 			
-			for (PlayerInfo player : ModelFacade.getPlayers()) {
+			for (PlayerInfo player : ModelFacade.getJoinedPlayersInfo()) {
 				System.out.println(player.getName());
 			}
 			
