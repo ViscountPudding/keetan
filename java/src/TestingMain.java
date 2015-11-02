@@ -8,7 +8,6 @@ import shared.transferClasses.UserCredentials;
 import client.data.PlayerInfo;
 import client.exceptions.ServerException;
 import client.model.ModelFacade;
-import client.model.Player;
 import client.model.TransferModel;
 import client.server.ServerPoller;
 import client.server.ServerProxy;
