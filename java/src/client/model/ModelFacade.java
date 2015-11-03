@@ -34,6 +34,11 @@ public class ModelFacade {
 		}
 	}
 	
+	public static void forceUpdateModel(TransferModel lump) {
+		model.update(lump);
+		notifyObserversOfChange();
+	}
+	
 	public static List<Hex> getHexes() {
 		return model.getDataLump().getMap().getHexes();
 	}
@@ -222,6 +227,10 @@ public class ModelFacade {
 			return false;
 		}
 		
+		if(model.getRoads().get(edgeLoc.getNormalizedLocation()) != null) {
+			return false;
+		}
+		
 		ResourceList rList = model.getDataLump().getPlayers().get(playerIndex).getResources();
 		
 		if(rList.getBrick() == 0 || rList.getWood() == 0) {
@@ -345,7 +354,7 @@ public class ModelFacade {
 			
 			EdgeDirection direction = port.getDirection();
 			
-			EdgeLocation relativeEdge = new EdgeLocation(x, y, direction);
+			EdgeLocation relativeEdge = (new EdgeLocation(x, y, direction)).getNormalizedLocation();
 			
 			for (VertexLocation vertex : model.getNearbyVertices(relativeEdge)) {
 				
