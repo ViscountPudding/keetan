@@ -640,7 +640,6 @@ public class MapComponent extends JComponent
 	
 	private void drawHexes(Graphics2D g2)
 	{
-		
 		for (Map.Entry<HexLocation, HexType> entry : hexes.entrySet())
 		{
 			
