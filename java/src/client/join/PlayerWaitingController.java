@@ -17,12 +17,12 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		super(view);
 		
 		ModelFacade.addObserver(this);
+		numberOfShownJoinedPlayers = 0;
 	}
 
 	@Override
 	public IPlayerWaitingView getView() {
 
-		numberOfJoinedPlayers = 0;
 		return (IPlayerWaitingView)super.getView();
 	}
 	
@@ -32,7 +32,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	 */
 	private void refreshPlayerInfo() {
 		PlayerInfo[] info = ModelFacade.getJoinedPlayersInfo();
-		numberOfJoinedPlayers = info.length;
+		numberOfShownJoinedPlayers = info.length;
 		getView().setPlayers(info);
 		getView().showModal();
 	}
@@ -64,16 +64,20 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	/**
 	 * The number of players shown to the view
 	 */
-	private int numberOfJoinedPlayers;
+	private int numberOfShownJoinedPlayers;
 	
 	@Override
 	public void update() {
+		PlayerInfo[] joinedPlayerInfo = ModelFacade.getJoinedPlayersInfo();
+		
 		if (ModelFacade.getJoinedPlayersInfo().length == 4) {
-			System.out.println("No change has four");
+			numberOfShownJoinedPlayers = 0;
 			getView().closeModal();
 		}
+		else if (joinedPlayerInfo.length == numberOfShownJoinedPlayers) {
+			// do nothing
+		}
 		else {
-			System.out.println("Change!");
 			refreshPlayerInfo();
 		}
 	}
