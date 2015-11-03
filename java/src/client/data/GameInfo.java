@@ -1,13 +1,13 @@
 package client.data;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import client.model.Player;
-import client.model.TransferModel;
+import shared.definitions.CatanColor;
 import shared.transferClasses.Game;
 import shared.transferClasses.GetPlayer;
+import client.model.Player;
+import client.model.TransferModel;
 
 /**
  * Used to pass game information into views<br>
@@ -97,6 +97,28 @@ public class GameInfo
 				addPlayer(new PlayerInfo(p, i));
 			}
 		}
+	}
+
+	public PlayerInfo getPlayerInfo(String name) {
+		for (PlayerInfo player : players) {
+			if (name.equals(player.getName())) {
+				return player;
+			}
+		}
+		return null;
+	}
+	
+	public PlayerInfo getPlayerInfo(CatanColor color) {
+		for (PlayerInfo player : players) {
+			if (color == player.getColor()) {
+				return player;
+			}
+		}
+		return null;
+	}
+	
+	public PlayerInfo getPlayerInfo(int playerIndex) {
+		return players.get(playerIndex);
 	}
 }
 

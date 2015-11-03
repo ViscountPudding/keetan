@@ -25,10 +25,6 @@ public class LogEntry
 		this.color = color;
 		this.message = message;
 	}
-	
-	public LogEntry(MessageLine line, GameInfo gameInfo) {
-		// TODO??//
-	}
 
 	public CatanColor getColor()
 	{
