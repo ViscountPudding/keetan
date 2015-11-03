@@ -5,6 +5,7 @@ import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.definitions.PortType;
 import client.base.Controller;
+import client.data.PlayerInfo;
 import client.data.RobPlayerInfo;
 import client.map.states.MapControllerBuildTradeState;
 import client.map.states.MapControllerDoublePlaceState;
@@ -19,8 +20,10 @@ import client.model.Hex;
 import client.model.HexLocation;
 import client.model.ModelFacade;
 import client.model.Port;
+import client.model.Road;
 import client.model.Status;
 import client.model.VertexLocation;
+import client.model.VertexObject;
 
 
 /**
@@ -67,25 +70,63 @@ public class MapController extends Controller implements IMapController {
 				getView().addNumber(hex.getLocation(), hex.getChitNumber());
 			}
 		}
+		
+		for(Road road : ModelFacade.getRoads()) {
+			PlayerInfo owner = ModelFacade.getGameInfo().getPlayerInfo(road.getOwner());
+			getView().placeRoad(road.getLocation(), owner.getColor());
+		}
+		
+		for(VertexObject settlement : ModelFacade.getSettlements()) {
+			PlayerInfo owner = ModelFacade.getGameInfo().getPlayerInfo(settlement.getOwner());
+			getView().placeSettlement(settlement.getLocation(), owner.getColor());
+		}
+		
+		for(VertexObject city : ModelFacade.getCities()) {
+			PlayerInfo owner = ModelFacade.getGameInfo().getPlayerInfo(city.getOwner());
+			getView().placeSettlement(city.getLocation(), owner.getColor());
+		}
+		
 		for(Port port : ModelFacade.getPorts()) {
-			System.out.println(port);
-			
 			if(port != null) {
 				if(port.getResource() == null) {
 					getView().addPort(new EdgeLocation(port.getLocation().getX(), port.getLocation().getY(), port.getDirection()), PortType.THREE);
 				}
 				else {
-				getView().addPort(new EdgeLocation(port.getLocation().getX(), port.getLocation().getY(),
+					getView().addPort(new EdgeLocation(port.getLocation().getX(), port.getLocation().getY(),
 						port.getDirection()), port.getResource().getPortType());
 				}
 			}
 		}
 		
-		
-		
-		System.out.println("GG TAs");
+		drawWater();
 	}
 
+	protected void drawWater() {
+		//HARDCODED FOR REASONS!
+		/*
+		getView().addHex(new HexLocation(3,0), HexType.WATER);
+		getView().addHex(new HexLocation(3,1), HexType.WATER);
+		getView().addHex(new HexLocation(3,2), HexType.WATER);
+		getView().addHex(new HexLocation(3,3), HexType.WATER);
+		getView().addHex(new HexLocation(2,3), HexType.WATER);
+		getView().addHex(new HexLocation(1,3), HexType.WATER);
+		getView().addHex(new HexLocation(0,3), HexType.WATER);
+		getView().addHex(new HexLocation(-1,2), HexType.WATER);
+		getView().addHex(new HexLocation(-2,1), HexType.WATER);
+		getView().addHex(new HexLocation(-3,0), HexType.WATER);
+		getView().addHex(new HexLocation(-3,-1), HexType.WATER);
+		getView().addHex(new HexLocation(-3,-2), HexType.WATER);
+		getView().addHex(new HexLocation(-3,-3), HexType.WATER);
+		getView().addHex(new HexLocation(-2,-3), HexType.WATER);
+		getView().addHex(new HexLocation(-1,-3), HexType.WATER);
+		getView().addHex(new HexLocation(0,-3), HexType.WATER);
+		getView().addHex(new HexLocation(1,-2), HexType.WATER);
+		getView().addHex(new HexLocation(2,-1), HexType.WATER);
+		*/
+		getView().addHex(new HexLocation(1,1), HexType.WATER);
+		getView().addHex(new HexLocation(0,3), HexType.WATER);	
+	}
+	
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		return state.canPlaceRoad(edgeLoc);
 		//return true;
