@@ -102,6 +102,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			theList.setOre(theList.getOre() - 1);
 			break;
 		}
+		
+		getTradeOverlay().setResourceAmount(resource, "-1");
 	}
 
 	@Override
@@ -123,6 +125,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			theList.setOre(theList.getOre() + 1);
 			break;
 		}
+		
+		getTradeOverlay().setResourceAmount(resource, "1");
 	}
 
 	@Override

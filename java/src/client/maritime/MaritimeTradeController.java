@@ -5,6 +5,7 @@ import java.util.Observable;
 import shared.definitions.ResourceType;
 import client.base.Controller;
 import client.maritime.states.MaritimeTradeControllerState;
+import client.model.ModelFacade;
 
 
 /**
@@ -55,15 +56,10 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	@Override
 	public void makeTrade() {
 
-		//Need a way to get the trade ratio from the ModelFacade
+		int ratio = ModelFacade.getTradeRatio(ModelFacade.whoseTurnIsItAnyway(), get);
 		
-//		Resource desiredResource;
-//			
-//		
-//		int ratio = ModelFacade.getInstance().getTradeRatio(ModelFacade.getInstance().whoseTurnIsItAnyway(), desiredResource);
-//		
-//		getTradeOverlay().closeModal();
-//		state.makeTrade(give, get, ratio);  //WILL BE A DIFFERENT NUMBER!
+		getTradeOverlay().closeModal();
+		state.makeTrade(give, get, ratio);  //WILL BE A DIFFERENT NUMBER!
 	}
 
 	@Override

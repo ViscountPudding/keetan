@@ -59,6 +59,18 @@ public class ModelFacade {
 		return model.getDataLump().getMap().getPorts();
 	}
 	
+	public static Player getThisPlayer() {
+		return model.getDataLump().getPlayers().get(model.getPlayerInfo().getIndex());
+	}
+	
+	public static Player getAPlayer(int index) {
+		return model.getDataLump().getPlayers().get(index);
+	}
+	
+	public static int getWinner() {
+		return model.getDataLump().getWinner();
+	}
+	
 	/**
 	* @pre ModelFacade must be initialized and must have a current valid model
 	* @param playerIndex - the index of the player in question

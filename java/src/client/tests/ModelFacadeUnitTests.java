@@ -30,6 +30,7 @@ import client.model.TradeOffer;
 import client.model.TransferModel;
 import client.model.VertexLocation;
 import client.model.VertexObject;
+import client.server.ClientServer;
 import client.server.ServerProxy;
 
 public class ModelFacadeUnitTests {
@@ -41,7 +42,7 @@ public class ModelFacadeUnitTests {
 		UserCredentials ka = new UserCredentials("Ka_", "Fire_");
 		UserCredentials zan = new UserCredentials("Zan", "Mountain");
 		
-		ServerProxy.initialize("localhost:8081");
+		ServerProxy.initialize(new ClientServer("localhost", "8081"));
 		
 		try {
 			ServerProxy.register(fu);

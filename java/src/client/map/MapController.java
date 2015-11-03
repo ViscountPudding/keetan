@@ -34,8 +34,6 @@ public class MapController extends Controller implements IMapController {
 
 	private MapControllerState state;
 
-	boolean inited;
-
 	public MapController(IMapView view, IRobView robView) {
 		super(view);
 
@@ -43,8 +41,6 @@ public class MapController extends Controller implements IMapController {
 
 		// This might be wrong
 		state = new MapControllerSetupState();
-
-		inited = false;
 
 		ModelFacade.addObserver(this);
 	}
@@ -125,10 +121,7 @@ public class MapController extends Controller implements IMapController {
 
 
 	protected void drawWater() {
-<<<<<<< HEAD
 		// HARDCODED FOR REASONS!
-=======
->>>>>>> branch 'nuts' of https://github.com/willvdb/catana.git
 		getView().addHex(new HexLocation(0, 3), HexType.WATER);
 		getView().addHex(new HexLocation(-1, 3), HexType.WATER);
 		getView().addHex(new HexLocation(-2, 3), HexType.WATER);
@@ -148,12 +141,7 @@ public class MapController extends Controller implements IMapController {
 		getView().addHex(new HexLocation(2, 1), HexType.WATER);
 		getView().addHex(new HexLocation(1, 2), HexType.WATER);
 	}
-
-<<<<<<< HEAD
-=======
-
 	
->>>>>>> branch 'nuts' of https://github.com/willvdb/catana.git
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		return state.canPlaceRoad(edgeLoc);
 		// return true;
@@ -229,13 +217,10 @@ public class MapController extends Controller implements IMapController {
 	public void update() {
 		// TODO Auto-generated method stub
 		if (ModelFacade.getModelVersion() != -1) {
-			if (inited == false) {
-				inited = true;
-				initFromModel();
-			}
 
-			if (ModelFacade.whoseTurnIsItAnyway() != ModelFacade
-					.getPlayerInfo().getIndex()) {
+			initFromModel();
+			
+			if (ModelFacade.whoseTurnIsItAnyway() != ModelFacade.getPlayerInfo().getIndex()) {
 				if (ModelFacade.whatStateMightItBe() == Status.FirstRound
 						|| ModelFacade.whatStateMightItBe() == Status.SecondRound) {
 					state = new MapControllerDoubleWaitState();
@@ -251,6 +236,7 @@ public class MapController extends Controller implements IMapController {
 					break;
 				case FirstRound:
 					state = new MapControllerDoublePlaceState();
+					startMove(PieceType.ROAD, true, true);
 					break;
 				case Playing:
 					state = new MapControllerBuildTradeState();
@@ -265,11 +251,6 @@ public class MapController extends Controller implements IMapController {
 					state = new MapControllerNotTurnState();
 					break;
 				}
-<<<<<<< HEAD
-
-=======
-			
->>>>>>> branch 'nuts' of https://github.com/willvdb/catana.git
 			}
 		}
 	}

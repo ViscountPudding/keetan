@@ -3,6 +3,8 @@ package client.points;
 import java.util.Observable;
 
 import client.base.Controller;
+import client.model.ModelFacade;
+import client.model.Player;
 
 
 /**
@@ -24,6 +26,8 @@ public class PointsController extends Controller implements IPointsController {
 		
 		setFinishedView(finishedView);
 		
+		ModelFacade.addObserver(this);
+		
 		initFromModel();
 	}
 	
@@ -40,15 +44,21 @@ public class PointsController extends Controller implements IPointsController {
 	}
 
 	private void initFromModel() {
-		//<temp>		
-		getPointsView().setPoints(5);
-		//</temp>
+		getPointsView().setPoints(ModelFacade.getThisPlayer().getVictoryPoints());
+		
+		if(ModelFacade.getWinner() == ModelFacade.getPlayerInfo().getIndex()) {
+			getFinishedView().setWinner(ModelFacade.getThisPlayer().getName(), true);
+		}
+		else if(ModelFacade.getWinner() != -1) {
+			getFinishedView().setWinner(ModelFacade.getAPlayer(ModelFacade.getWinner()).getName(), false);
+		}
+		
 	}
 
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
+		initFromModel();
 	}
 	
 }
