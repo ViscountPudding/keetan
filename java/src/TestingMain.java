@@ -12,6 +12,7 @@ import client.data.PlayerInfo;
 import client.exceptions.ServerException;
 import client.model.MessageLine;
 import client.model.ModelFacade;
+import client.model.Port;
 import client.model.TransferModel;
 import client.server.ServerPoller;
 import client.server.ServerProxy;
@@ -55,7 +56,7 @@ public class TestingMain {
 			ServerProxy.login(slippy);
 			
 			Game[] games = ServerProxy.getGamesList();
-			CreateGameResponse cgr = ServerProxy.createGame(new CreateGameRequest(false, false, false, "Slippy's Game " + games.length));
+			CreateGameResponse cgr = ServerProxy.createGame(new CreateGameRequest(true, true, true, "Slippy's Game " + games.length));
 			System.out.println(games[0].getTitle());
 			
 			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.GREEN));
@@ -91,6 +92,12 @@ public class TestingMain {
 			for (int i = 0; i < lines.size(); i++) {
 				System.out.println(lines.get(i).getSource() + " " + lines.get(i).getMessage());
 			}
+			
+			List<Port> ports = model.getMap().getPorts();
+			for (Port p : ports) {
+				System.out.println(p.getLocation().getX() + " " + p.getLocation().getY() + " " + p.getDirection());
+			}
+			
 			
 			System.out.println(lines.size());
 			

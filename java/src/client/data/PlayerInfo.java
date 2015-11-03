@@ -46,6 +46,10 @@ public class PlayerInfo
 		setColor(player.getColor());
 	}
 
+	public PlayerInfo(String username) {
+		this.name = username;
+	}
+
 	public int getID()
 	{
 		return id;

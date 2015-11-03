@@ -177,6 +177,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void cancelJoinGame() {
 		ModelFacade.clearGameInfo();
+		ModelFacade.clearPlayerInfo();
 		refreshGameList();
 		getJoinGameView().closeModal();
 	}
@@ -191,6 +192,12 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			getJoinGameView().closeModal();
 			
 			System.out.println("ServerPoller started");
+
+			// update the model so that the proper player info can set retrieved
+			ModelFacade.updateModel(ServerProxy.getModel(-1));
+			GameInfo game = ModelFacade.getGameInfo();			
+			ModelFacade.setPlayerInfo(game.getPlayerInfo(ModelFacade.getUsername()));
+
 			ServerPoller.start();
 			joinAction.execute();
 		}

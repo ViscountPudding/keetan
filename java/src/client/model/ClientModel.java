@@ -20,7 +20,11 @@ public class ClientModel {
 	 * This is where we store the model that the server sends to the client for updates
 	 */
 	private TransferModel dataLump; //GG TAs
-	
+
+	/**
+	 * The username of the user
+	 */
+	private String username;
 	/**
 	 * This is where we store the info for user's player
 	 */
@@ -53,6 +57,9 @@ public class ClientModel {
 	}
 	
 	public PlayerInfo getPlayerInfo() {
+		if (this.playerInfo == null) {
+			this.playerInfo.getColor();
+		}
 		return this.playerInfo;
 	}
 
@@ -713,5 +720,12 @@ public class ClientModel {
 		
 		
 		return nearbyEdges;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getUsername() {
+		return username;
 	}
 }

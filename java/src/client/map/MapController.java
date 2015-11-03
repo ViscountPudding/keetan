@@ -75,7 +75,7 @@ public class MapController extends Controller implements IMapController {
 					getView().addPort(new EdgeLocation(port.getLocation().getX(), port.getLocation().getY(), port.getDirection()), PortType.THREE);
 				}
 				else {
-				getView().addPort(new EdgeLocation(port.getLocation().getX(), port.getLocation().getY(),
+					getView().addPort(new EdgeLocation(port.getLocation().getX(), port.getLocation().getY(),
 						port.getDirection()), port.getResource().getPortType());
 				}
 			}

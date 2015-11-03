@@ -443,6 +443,7 @@ public class ModelFacade {
 	 * @param player - the player info to store
 	 */
 	public static void setPlayerInfo(PlayerInfo player) {
+		System.out.println("Set player info: " + player.getColor());
 		model.setPlayerInfo(player);
 	}
 	public static PlayerInfo getPlayerInfo() {
@@ -512,5 +513,13 @@ public class ModelFacade {
 		}
 		
 		return chatLog;
+	}
+	
+	public static void setUsername(String username) {
+		System.out.println("Set username to: " + username);
+		model.setUsername(username);
+	}
+	public static String getUsername() {
+		return model.getUsername();
 	}
 }
