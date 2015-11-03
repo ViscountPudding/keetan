@@ -6,6 +6,7 @@ import shared.transferClasses.CreateGameRequest;
 import shared.transferClasses.CreateGameResponse;
 import shared.transferClasses.Game;
 import shared.transferClasses.JoinGameRequest;
+import shared.transferClasses.SendChat;
 import shared.transferClasses.UserCredentials;
 import client.data.PlayerInfo;
 import client.exceptions.ServerException;
@@ -65,22 +66,34 @@ public class TestingMain {
 			
 			ServerProxy.login(wolf);
 			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.YELLOW));
-//			ServerProxy.login(peppy);
-//			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.RED));
-//			ServerProxy.login(falco);
-//			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.BLUE));
+			ServerProxy.login(peppy);
+			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.RED));
+			ServerProxy.login(falco);
+			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.BLUE));
 			
 			model = ServerProxy.getModel(-1);
-			
-			
-			List<MessageLine> lines = model.getChat().getLines();
-			for (int i = 0; i < lines.size(); i++) {
-				
-			}
-			
 			ModelFacade.updateModel(model);
 			System.out.println(Converter.toJson(model.getBank()));
 			System.out.println(Converter.toJson(model.getMap()));
+			
+			ServerProxy.sendChat(new SendChat(0, "HEYOU"));
+			model = ServerProxy.sendChat(new SendChat(0, "Guys"));
+			
+			List<MessageLine> lines = model.getChat().getLines();
+			for (int i = 0; i < lines.size(); i++) {
+				System.out.println(lines.get(i).getSource() + lines.get(i).getMessage());
+			}
+			
+			ServerProxy.sendChat(new SendChat(1, "What Slippy!!!??"));
+			model = ServerProxy.sendChat(new SendChat(0, "I uh..."));
+			
+			lines = model.getChat().getLines();
+			for (int i = 0; i < lines.size(); i++) {
+				System.out.println(lines.get(i).getSource() + " " + lines.get(i).getMessage());
+			}
+			
+			System.out.println(lines.size());
+			
 			
 			ServerPoller.start();
 			

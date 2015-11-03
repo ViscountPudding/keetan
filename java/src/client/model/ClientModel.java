@@ -95,7 +95,15 @@ public class ClientModel {
 			cities.put(city.getLocation().getNormalizedLocation(), city);
 		}
 		
-		this.gameInfo.update(newLump);
+		updateGameInfo();
+	}
+	private void updateGameInfo() {
+		if (gameInfo == null) {
+			gameInfo = new GameInfo();
+		}
+		else {
+			gameInfo.update(dataLump);
+		}
 	}
 	
 	///THINGS!

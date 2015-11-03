@@ -122,6 +122,13 @@ public class ClientCommunicator {
 			
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				InputStream responseBody = connection.getInputStream();
+				
+//				java.util.Scanner s = new java.util.Scanner(responseBody).useDelimiter("\\A"); If you want to see SwaggerModel
+//			    String joe = s.hasNext() ? s.next() : "";
+//			    System.out.println(joe);
+//			    
+//				responseBody = new ByteArrayInputStream(joe.getBytes(StandardCharsets.UTF_8));
+				
 				handleCookie(command, connection);
 				return Converter.fromJson(responseBody, classOfReturnObject);
 			}

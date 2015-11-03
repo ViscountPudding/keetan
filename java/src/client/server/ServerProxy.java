@@ -83,8 +83,8 @@ public class ServerProxy {
 		return communicator.send("/game/listAI", null, String[].class);
 	}
 
-	public static void sendChat(SendChat sendChat) throws ServerException {
-		communicator.send("/moves/sendChat", sendChat, String.class);
+	public static TransferModel sendChat(SendChat sendChat) throws ServerException {
+		return communicator.send("/moves/sendChat", sendChat, TransferModel.class);
 	}
 
 	public static void rollDice(RollNumber rollNumber) throws ServerException {

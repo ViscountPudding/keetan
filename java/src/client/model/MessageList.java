@@ -29,11 +29,5 @@ public class MessageList {
 	 */
 	public void addLine(MessageLine line) {
 		lines.add(line);
-	}
-
-	public boolean validate() {
-		assert false; // unimplemented
-		return true;
-	}
-	
+	}	
 }

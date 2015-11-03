@@ -29,6 +29,4 @@ public class MessageLine {
 	public void setSource(String source) {
 		this.source = source;
 	}
-	
-	
 }
