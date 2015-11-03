@@ -15,6 +15,7 @@ import client.join.SelectColorView;
 import client.login.LoginController;
 import client.login.LoginView;
 import client.misc.MessageView;
+import client.server.ClientServer;
 import client.server.ServerProxy;
 
 /**
@@ -107,7 +108,7 @@ public class Catan extends JFrame
 				loginView.setController(loginController);
 
 				
-				ServerProxy.initialize("localhost:8081");
+				ServerProxy.initialize(new ClientServer("localhost", "8081"));
 				System.out.println("ServerProxy Started");
 				loginController.start();
 			}

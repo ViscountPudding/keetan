@@ -359,7 +359,7 @@ public class MapComponent extends JComponent
 		}
 		
 		// Repaint
-		this.repaint();
+		//this.repaint();
 	}
 	
 	public void addNumber(HexLocation hexLoc, int num)
@@ -367,7 +367,7 @@ public class MapComponent extends JComponent
 		
 		numbers.put(hexLoc, num);
 		
-		this.repaint();
+		//this.repaint();
 	}
 	
 	public void placeRoad(EdgeLocation edgeLoc, CatanColor color)
@@ -375,7 +375,7 @@ public class MapComponent extends JComponent
 		
 		roads.put(edgeLoc.getNormalizedLocation(), color);
 		
-		this.repaint();
+		//this.repaint();
 	}
 	
 	public void placeSettlement(VertexLocation vertLoc, CatanColor color)

@@ -122,8 +122,13 @@ public class MapController extends Controller implements IMapController {
 		}
 	}
 
+
+
 	protected void drawWater() {
+<<<<<<< HEAD
 		// HARDCODED FOR REASONS!
+=======
+>>>>>>> branch 'nuts' of https://github.com/willvdb/catana.git
 		getView().addHex(new HexLocation(0, 3), HexType.WATER);
 		getView().addHex(new HexLocation(-1, 3), HexType.WATER);
 		getView().addHex(new HexLocation(-2, 3), HexType.WATER);
@@ -144,6 +149,11 @@ public class MapController extends Controller implements IMapController {
 		getView().addHex(new HexLocation(1, 2), HexType.WATER);
 	}
 
+<<<<<<< HEAD
+=======
+
+	
+>>>>>>> branch 'nuts' of https://github.com/willvdb/catana.git
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		return state.canPlaceRoad(edgeLoc);
 		// return true;
@@ -255,7 +265,11 @@ public class MapController extends Controller implements IMapController {
 					state = new MapControllerNotTurnState();
 					break;
 				}
+<<<<<<< HEAD
 
+=======
+			
+>>>>>>> branch 'nuts' of https://github.com/willvdb/catana.git
 			}
 		}
 	}
