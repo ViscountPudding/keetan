@@ -1,6 +1,7 @@
 package client.communication;
 
 import shared.definitions.CatanColor;
+import client.model.MessageLine;
 
 /**
  * Message (or entry) displayed in the LogComponent
@@ -24,6 +25,10 @@ public class LogEntry
 		this.message = message;
 	}
 	
+	public LogEntry(MessageLine line) {
+		// TODO??//
+	}
+
 	public CatanColor getColor()
 	{
 		return color;

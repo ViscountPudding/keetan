@@ -26,37 +26,37 @@ public class PlayerInfo
 	
 	public PlayerInfo()
 	{
-		setId(-1);
+		setID(-1);
 		setPlayerIndex(-1);
 		setName("");
 		setColor(CatanColor.WHITE);
 	}
 	
 	public PlayerInfo(GetPlayer player, int index) {
-		setId(player.getId());
+		setID(player.getId());
 		setPlayerIndex(index);
 		setName(player.getName());
 		setColor(player.getColor());
 	}
 
 	public PlayerInfo(Player player, int index) {
-		setId(player.getID());
+		setID(player.getID());
 		setPlayerIndex(index);
 		setName(player.getName());
 		setColor(player.getColor());
 	}
 
-	public int getId()
+	public int getID()
 	{
 		return id;
 	}
 	
-	public void setId(int id)
+	public void setID(int id)
 	{
 		this.id = id;
 	}
 	
-	public int getPlayerIndex()
+	public int getIndex()
 	{
 		return playerIndex;
 	}

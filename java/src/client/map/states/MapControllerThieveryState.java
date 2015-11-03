@@ -103,7 +103,7 @@ public class MapControllerThieveryState implements MapControllerState {
 	@Override
 	public void robPlayer(RobPlayerInfo victim) {
 		// TODO Auto-generated method stub
-		RobPlayer command = new RobPlayer(ModelFacade.whoseTurnIsItAnyway(), victim.getId(), ModelFacade.findRobber());
+		RobPlayer command = new RobPlayer(ModelFacade.whoseTurnIsItAnyway(), victim.getID(), ModelFacade.findRobber());
 		try {
 			ServerProxy.robPlayer(command);
 		} catch (ServerException e) {

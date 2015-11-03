@@ -9,6 +9,7 @@ import shared.definitions.EdgeDirection;
 import shared.definitions.ResourceType;
 import shared.definitions.VertexDirection;
 import client.base.Observer;
+import client.communication.LogEntry;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
 
@@ -483,5 +484,16 @@ public class ModelFacade {
 		for (Observer observer : observers) {
 			observer.update();
 		}
+	}
+	
+	public static List<LogEntry> getChatLog() {
+		MessageList chat = model.getDataLump().getChat();
+		List<LogEntry> chatLog = new ArrayList<LogEntry>();
+		
+		for (MessageLine line : chat.getLines()) {
+			chatLog.add(new LogEntry(line));
+		}
+		
+		return chatLog;
 	}
 }

@@ -68,6 +68,10 @@ public class TestingMain {
 //			ServerProxy.joinGame(new JoinGameRequest(cgr.getId(), CatanColor.BLUE));
 			
 			model = ServerProxy.getModel(-1);
+			
+			
+			model.getChat().getLines();
+			
 			ModelFacade.updateModel(model);
 			System.out.println(Converter.toJson(model.getBank()));
 			System.out.println(Converter.toJson(model.getMap()));
