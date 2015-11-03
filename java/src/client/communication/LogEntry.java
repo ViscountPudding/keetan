@@ -1,8 +1,6 @@
 package client.communication;
 
 import shared.definitions.CatanColor;
-import client.data.GameInfo;
-import client.model.MessageLine;
 
 /**
  * Message (or entry) displayed in the LogComponent

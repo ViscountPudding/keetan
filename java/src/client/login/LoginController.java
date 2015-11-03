@@ -5,8 +5,10 @@ import java.util.Observable;
 import shared.transferClasses.UserCredentials;
 import client.base.Controller;
 import client.base.IAction;
+import client.data.PlayerInfo;
 import client.exceptions.ServerException;
 import client.misc.IMessageView;
+import client.model.ModelFacade;
 import client.server.ServerProxy;
 
 
@@ -88,6 +90,7 @@ public class LoginController extends Controller implements ILoginController {
 			UserCredentials credentials = new UserCredentials(username, password);
 			ServerProxy.login(credentials);
 
+			ModelFacade.setUsername(username);
 			getLoginView().closeModal();
 			loginAction.execute();
 		}
@@ -182,6 +185,7 @@ public class LoginController extends Controller implements ILoginController {
 				ServerProxy.register(credentials);
 				ServerProxy.login(credentials);
 
+				ModelFacade.setUsername(username);
 				getLoginView().closeModal();
 				loginAction.execute();
 			}
