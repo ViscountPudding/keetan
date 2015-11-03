@@ -35,123 +35,123 @@ import client.model.TransferModel;
  */
 
 public class ServerProxy {
-	private static ClientCommunicator communicator = null;
+	private static IServer server = null;
 	
 	/**
 	 * Initializes this ServerProxy to target the given server.
 	 * @pre targetServer must specify a valid server
-	 * @param targetServer - a string that follows the form "[IP-address]:[port-number]
+	 * @param targetServer - the IServer to target
 	 * @post ServerProxy will now target the given server
 	 */
-	public static void initialize(String targetServer) {
-		communicator = new ClientCommunicator(targetServer);
+	public static void initialize(IServer targetServer) {
+		server = targetServer;
 	}
 
 	//server functions
 	public static void login(UserCredentials userCredentials) throws ServerException {
-		communicator.send("/user/login", userCredentials);
+		server.login(userCredentials);
 	}
 
 	public static void register(UserCredentials userCredentials)
 			throws ServerException {
-		communicator.send("/user/register", userCredentials);		
+		server.register(userCredentials);		
 	}
 
 	public static Game[] getGamesList() throws ServerException {
-		return communicator.send("/games/list", null, Game[].class);
+		return server.getGamesList();
 	}
 
 	public static CreateGameResponse createGame(CreateGameRequest createGameRequest)
 			throws ServerException {
-		return communicator.send("/games/create", createGameRequest, CreateGameResponse.class);
+		return server.createGame(createGameRequest);
 	}
 
 	public static void joinGame(JoinGameRequest joinGameRequest)
 			throws ServerException {
-		communicator.send("/games/join", joinGameRequest);
+		server.joinGame(joinGameRequest);
 	}
 
 	public static TransferModel getModel(int version) throws ServerException {
-		return communicator.send("/game/model", version, TransferModel.class);
+		return server.getModel(version);
 	}
 
 	public static void addAI(AddAIRequest addAIRequest) throws ServerException {
-		communicator.send("/game/addAI", addAIRequest);
+		server.addAI(addAIRequest);
 	}
 
 	public static String[] listAITypes() throws ServerException {
-		return communicator.send("/game/listAI", null, String[].class);
+		return server.listAITypes();
 	}
 
 	public static TransferModel sendChat(SendChat sendChat) throws ServerException {
-		return communicator.send("/moves/sendChat", sendChat, TransferModel.class);
+		return server.sendChat(sendChat);
 	}
 
-	public static void rollDice(RollNumber rollNumber) throws ServerException {
-		communicator.send("/moves/rollDice", rollNumber, String.class);
+	public static TransferModel rollDice(RollNumber rollNumber) throws ServerException {
+		return server.rollDice(rollNumber);
 	}
 
-	public static void robPlayer(RobPlayer robPlayer) throws ServerException {
-		communicator.send("/moves/robPlayer", robPlayer, String.class);
+	public static TransferModel robPlayer(RobPlayer robPlayer) throws ServerException {
+		return server.robPlayer(robPlayer);
 	}
 
-	public static void finishTurn(FinishTurn finishTurn) throws ServerException {
-		communicator.send("/moves/finishTurn", finishTurn, String.class);
+	public static TransferModel finishTurn(FinishTurn finishTurn) throws ServerException {
+		return server.finishTurn(finishTurn);
 	}
 
-	public static void buyDevCard(BuyDevCard buyDevCard) throws ServerException {
-		communicator.send("/moves/buyDevCard", buyDevCard, String.class);
+	public static TransferModel buyDevCard(BuyDevCard buyDevCard) throws ServerException {
+		return server.buyDevCard(buyDevCard);
 	}
 
-	public static void yearOfPlenty(YearOfPlenty yearOfPlenty) throws ServerException {
-		communicator.send("/moves/yearOfPlenty", yearOfPlenty, String.class);
+	public static TransferModel yearOfPlenty(YearOfPlenty yearOfPlenty) throws ServerException {
+		return server.yearOfPlenty(yearOfPlenty);
 	}
 
-	public static void roadBuilding(RoadBuilding roadBuilding)  throws ServerException {
-		communicator.send("/moves/Road_Building", roadBuilding, String.class);
+	public static TransferModel roadBuilding(RoadBuilding roadBuilding)  throws ServerException {
+		return server.roadBuilding(roadBuilding);
 	}
 
-	public static void soldier(Soldier soldier) throws ServerException {
-		communicator.send("/moves/Soldier", soldier, String.class);
+	public static TransferModel soldier(Soldier soldier) throws ServerException {
+		return server.soldier(soldier);
 	}
 
-	public static void monopoly(Monopoly monopoly) throws ServerException {
-		communicator.send("/moves/Monopoly", monopoly, String.class);
+	public static TransferModel monopoly(Monopoly monopoly) throws ServerException {
+		return server.monopoly(monopoly);
 	}
 
-	public static void monument(Monument monument) throws ServerException {
-		communicator.send("/moves/Monument", monument, String.class);
+	public static TransferModel monument(Monument monument) throws ServerException {
+		return server.monument(monument);
 	}
 
-	public static void buildRoad(BuildRoad buildRoad) throws ServerException {
-		communicator.send("/moves/buildRoad", buildRoad, String.class);
+	public static TransferModel buildRoad(BuildRoad buildRoad) throws ServerException {
+		return server.buildRoad(buildRoad);
 	}
 
-	public static void buildSettlement(BuildSettlement buildSettlement)
+	public static TransferModel buildSettlement(BuildSettlement buildSettlement)
 			throws ServerException {
-		communicator.send("/moves/buildSettlement", buildSettlement, String.class);
+		return server.buildSettlement(buildSettlement);
 	}
 
-	public static void buildCity(BuildCity buildCity) throws ServerException {
-		communicator.send("/moves/buildCity", buildCity, String.class);
+	public static TransferModel buildCity(BuildCity buildCity) throws ServerException {
+		return server.buildCity(buildCity);
 	}
 
-	public static void offerTrade(OfferTrade offer) throws ServerException {
-		communicator.send("/moves/offerTrade", offer, String.class);
+	public static TransferModel offerTrade(OfferTrade offer) throws ServerException {
+		return server.offerTrade(offer);
 	}
 
-	public static void respondToTrade(AcceptTrade acceptTrade)
+	public static TransferModel respondToTrade(AcceptTrade acceptTrade)
 			throws ServerException {
-		communicator.send("/moves/acceptTrade", acceptTrade, String.class);
+		return server.respondToTrade(acceptTrade);
 	}
 
-	public static void maritimeTrade(MaritimeTrade maritimeTrade)
+	public static TransferModel maritimeTrade(MaritimeTrade maritimeTrade)
 			throws ServerException {
-		communicator.send("/moves/maritimeTrade", maritimeTrade, String.class);
+		return server.maritimeTrade(maritimeTrade);
 	}
 
-	public static void discardCards(DiscardCards discardCards)
+	public static TransferModel discardCards(DiscardCards discardCards)
 			throws ServerException {
-		communicator.send("/moves/discardCards", discardCards, String.class);
+		return server.discardCards(discardCards);
 	}
 }

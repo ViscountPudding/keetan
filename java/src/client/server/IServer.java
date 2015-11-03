@@ -8,6 +8,7 @@ import shared.transferClasses.BuildRoad;
 import shared.transferClasses.BuildSettlement;
 import shared.transferClasses.BuyDevCard;
 import shared.transferClasses.CreateGameRequest;
+import shared.transferClasses.CreateGameResponse;
 import shared.transferClasses.DiscardCards;
 import shared.transferClasses.FinishTurn;
 import shared.transferClasses.Game;
@@ -15,6 +16,7 @@ import shared.transferClasses.JoinGameRequest;
 import shared.transferClasses.MaritimeTrade;
 import shared.transferClasses.Monopoly;
 import shared.transferClasses.Monument;
+import shared.transferClasses.OfferTrade;
 import shared.transferClasses.RoadBuilding;
 import shared.transferClasses.RobPlayer;
 import shared.transferClasses.RollNumber;
@@ -54,7 +56,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ArrayList<Game> getGamesList()
+	abstract public Game[] getGamesList()
 			throws ServerException;
 
 	/**
@@ -63,7 +65,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public Game createGame(CreateGameRequest createGameRequest)
+	abstract public CreateGameResponse createGame(CreateGameRequest createGameRequest)
 			throws ServerException;
 	
 	/**
@@ -96,7 +98,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public ArrayList<String> listAITypes()
+	abstract public String[] listAITypes()
 			throws ServerException;
 	
 	/**
@@ -105,7 +107,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public void sendChat(SendChat sendChat)
+	abstract public TransferModel sendChat(SendChat sendChat)
 			throws ServerException;
 	
 	/**
@@ -114,7 +116,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public void rollDice(RollNumber rollNumber)
+	abstract public TransferModel rollDice(RollNumber rollNumber)
 			throws ServerException;
 
 	/**
@@ -123,7 +125,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public void robPlayer(RobPlayer robPlayer)
+	abstract public TransferModel robPlayer(RobPlayer robPlayer)
 			throws ServerException;
 
 	/**
@@ -132,7 +134,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public void finishTurn(FinishTurn finishTurn)
+	abstract public TransferModel finishTurn(FinishTurn finishTurn)
 			throws ServerException;
 	
 	/**
@@ -141,7 +143,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException=
 	 */
-	abstract public void buyDevCard(BuyDevCard buyDevCard)
+	abstract public TransferModel buyDevCard(BuyDevCard buyDevCard)
 			throws ServerException;
 
 	/**
@@ -150,7 +152,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public void yearOfPlenty(YearOfPlenty yearOfPlenty)
+	abstract public TransferModel yearOfPlenty(YearOfPlenty yearOfPlenty)
 			throws ServerException;
 
 	/**
@@ -159,7 +161,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public void roadBuilding(RoadBuilding roadBuilding)
+	abstract public TransferModel roadBuilding(RoadBuilding roadBuilding)
 			throws ServerException;
 
 	/**
@@ -168,7 +170,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public void soldier(Soldier soldier)
+	abstract public TransferModel soldier(Soldier soldier)
 			throws ServerException;
 
 	/**
@@ -177,7 +179,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public void monopoly(Monopoly monopoly)
+	abstract public TransferModel monopoly(Monopoly monopoly)
 			throws ServerException;
 
 	/**
@@ -186,7 +188,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public void monument(Monument monument)
+	abstract public TransferModel monument(Monument monument)
 			throws ServerException;
 	
 	/**
@@ -195,7 +197,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public void buildRoad(BuildRoad buildRoad)
+	abstract public TransferModel buildRoad(BuildRoad buildRoad)
 			throws ServerException;
 
 	/**
@@ -204,7 +206,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public void buildSettlement(BuildSettlement buildSettlement)
+	abstract public TransferModel buildSettlement(BuildSettlement buildSettlement)
 			throws ServerException;
 
 	/**
@@ -214,7 +216,7 @@ public interface IServer {
 	 * @throws ServerException
 	 * @throws IllegalActionException
 	 */
-	abstract public void buildCity(BuildCity buildCity)
+	abstract public TransferModel buildCity(BuildCity buildCity)
 			throws ServerException;
 
 	/**
@@ -223,7 +225,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public void offerTrade(TradeOffer offer)
+	abstract public TransferModel offerTrade(OfferTrade offer)
 			throws ServerException;
 	
 	/**
@@ -232,7 +234,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public void respondToTrade(AcceptTrade acceptTrade)
+	abstract public TransferModel respondToTrade(AcceptTrade acceptTrade)
 			throws ServerException;
 
 	/**
@@ -241,7 +243,7 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public void maritimeTrade(MaritimeTrade maritimeTrade)
+	abstract public TransferModel maritimeTrade(MaritimeTrade maritimeTrade)
 			throws ServerException;
 
 	/**
@@ -250,6 +252,6 @@ public interface IServer {
 	 * @return
 	 * @throws ServerException
 	 */
-	abstract public void discardCards(DiscardCards discardCards)
+	abstract public TransferModel discardCards(DiscardCards discardCards)
 			throws ServerException;
 }
