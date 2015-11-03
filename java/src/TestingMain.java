@@ -1,3 +1,5 @@
+import java.util.List;
+
 import shared.definitions.CatanColor;
 import shared.json.Converter;
 import shared.transferClasses.CreateGameRequest;
@@ -7,6 +9,7 @@ import shared.transferClasses.JoinGameRequest;
 import shared.transferClasses.UserCredentials;
 import client.data.PlayerInfo;
 import client.exceptions.ServerException;
+import client.model.MessageLine;
 import client.model.ModelFacade;
 import client.model.TransferModel;
 import client.server.ServerPoller;
@@ -70,7 +73,10 @@ public class TestingMain {
 			model = ServerProxy.getModel(-1);
 			
 			
-			model.getChat().getLines();
+			List<MessageLine> lines = model.getChat().getLines();
+			for (int i = 0; i < lines.size(); i++) {
+				
+			}
 			
 			ModelFacade.updateModel(model);
 			System.out.println(Converter.toJson(model.getBank()));

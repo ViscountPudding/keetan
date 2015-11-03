@@ -40,7 +40,7 @@ public class MapController extends Controller implements IMapController {
 		//This might be wrong
 		state = new MapControllerSetupState();
 		
-		initFromModel();
+		ModelFacade.addObserver(this);
 	}
 	
 	public void set_state(MapControllerState newState) {
@@ -60,16 +60,6 @@ public class MapController extends Controller implements IMapController {
 	}
 	
 	protected void initFromModel() {
-		
-		// This code is to be run WHEN the modelFacade tells the controller it has updated for the first time
-//		for (Hex hex : ModelFacade.getHexes()) {
-//			getView().addHex(hex.getLocation(), hex.getType());
-//			if (hex.getType() != HexType.DESERT && hex.getType() != HexType.WATER) {
-//				getView().addNumber(hex.getLocation(), hex.getChitNumber());
-//			}
-//		}
-//		getView().placeRobber(ModelFacade.findRobber());
-		
 		for(Hex hex : ModelFacade.getHexes()) {
 			getView().addHex(hex.getLocation(), hex.getType());
 			if(hex.getType() != HexType.DESERT && hex.getType() != HexType.WATER) {
@@ -79,6 +69,7 @@ public class MapController extends Controller implements IMapController {
 		for(Port port : ModelFacade.getPorts()) {
 			getView().addPort(new EdgeLocation(port.getLocation().getX(), port.getLocation().getY(), port.getDirection()), port.getResource().getPortType());
 		}
+		System.out.println("GG TAs");
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
@@ -154,39 +145,42 @@ public class MapController extends Controller implements IMapController {
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
-		if(ModelFacade.whoseTurnIsItAnyway() != ModelFacade.getPlayerInfo().getPlayerIndex()) {
-			if(ModelFacade.whatStateMightItBe() == Status.FirstRound || ModelFacade.whatStateMightItBe() == Status.SecondRound) {
-				state = new MapControllerDoubleWaitState();			
+		if (ModelFacade.getModelVersion() != -1) {
+			initFromModel();
+			
+			if(ModelFacade.whoseTurnIsItAnyway() != ModelFacade.getPlayerInfo().getIndex()) {
+				if(ModelFacade.whatStateMightItBe() == Status.FirstRound || ModelFacade.whatStateMightItBe() == Status.SecondRound) {
+					state = new MapControllerDoubleWaitState();			
+				}
+				else {
+					state = new MapControllerNotTurnState();
+				}
 			}
 			else {
-				state = new MapControllerNotTurnState();
+				switch(ModelFacade.whatStateMightItBe()) {
+				case Rolling:
+					state = new MapControllerRollingDiceState();
+					break;
+				case Discarding:
+					break;
+				case FirstRound:
+					state = new MapControllerDoublePlaceState();
+					break;
+				case Playing:
+					state = new MapControllerBuildTradeState();
+					break;
+				case Robbing:
+					state = new MapControllerThieveryState();
+					break;
+				case SecondRound:
+					state = new MapControllerDoublePlaceState();
+					break;
+				default:
+					state = new MapControllerNotTurnState();
+					break;
 			}
-		}
-		else {
-			switch(ModelFacade.whatStateMightItBe()) {
-			case Rolling:
-				state = new MapControllerRollingDiceState();
-				break;
-			case Discarding:
-				break;
-			case FirstRound:
-				state = new MapControllerDoublePlaceState();
-				break;
-			case Playing:
-				state = new MapControllerBuildTradeState();
-				break;
-			case Robbing:
-				state = new MapControllerThieveryState();
-				break;
-			case SecondRound:
-				state = new MapControllerDoublePlaceState();
-				break;
-			default:
-				state = new MapControllerNotTurnState();
-				break;
-		}
-		
+			
+			}
 		}
 	}
 	
