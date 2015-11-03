@@ -96,6 +96,10 @@ public class ClientModel {
 		
 		for(VertexObject settlement : newLump.getMap().getSettlements()) {
 			settlements.put(settlement.getLocation().getNormalizedLocation(), settlement);
+			if (settlements.containsKey(settlement.getLocation().getNormalizedLocation())){
+				System.out.println("Hooray");
+				System.out.println(settlements.get(settlement.getLocation().getNormalizedLocation()));
+			}
 		}
 		
 		for(VertexObject city : newLump.getMap().getCities()) {

@@ -88,5 +88,28 @@ public class VertexLocation {
 		assert false; //unimplemented
 		return false;
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((direction == null) ? 0 : direction.hashCode());
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if (o == null){
+			return false;
+		}
+		if (o.getClass() != this.getClass()){
+			return false;
+		}
+		if (((VertexLocation)o).getX() != this.getX() || ((VertexLocation)o).getY() != this.getY() || ((VertexLocation)o).getDirection() != this.getDirection()){
+			return false;
+		}
+		return true;
+	}
 }
 

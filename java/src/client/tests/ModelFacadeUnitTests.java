@@ -131,39 +131,43 @@ public class ModelFacadeUnitTests {
 		}
 		Player player = tModel.getPlayers().get(0);
 		//Set resources high enough, and build in empty spot
-		player.setResources(new ResourceList(1,1,1,1,0));
+		player.setResources(new ResourceList(1,1,1,1,1));
+		tModel.getMap().addRoad(new Road(0, new EdgeLocation(-2,0,EdgeDirection.NorthEast)));
+		tModel.getMap().addRoad(new Road(0, new EdgeLocation(-2,0,EdgeDirection.NorthWest)));
 		ModelFacade.forceUpdateModel(tModel);
-		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(0,0,VertexDirection.East)),true);
+		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(-2,0,VertexDirection.East)),true);
 		
 		//Test border cases for resources
 		player.setResources(new ResourceList(1,1,1,0,1));
 		ModelFacade.forceUpdateModel(tModel);
-		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(0,0,VertexDirection.East)),false);
+		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(-2,0,VertexDirection.East)),false);
 		player.setResources(new ResourceList(1,1,0,1,1));
 		ModelFacade.forceUpdateModel(tModel);
-		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(0,0,VertexDirection.East)),false);
-		player.setResources(new ResourceList(1,0,1,1,1));
+		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(-2,0,VertexDirection.East)),false);
+		player.setResources(new ResourceList(1,1,1,1,0));
 		ModelFacade.forceUpdateModel(tModel);
-		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(0,0,VertexDirection.East)),false);
+		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(-2,0,VertexDirection.East)),false);
 		player.setResources(new ResourceList(0,1,1,1,1));
 		ModelFacade.forceUpdateModel(tModel);
-		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(0,0,VertexDirection.East)),false);
+		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(-2,0,VertexDirection.East)),false);
 		
 		//Build in spot with previous settlement
-		tModel.getMap().addCity(new VertexObject(0,new VertexLocation(0,0,VertexDirection.East)));
+		tModel.getMap().addCity(new VertexObject(0,new VertexLocation(-2,0,VertexDirection.East)));
 		ModelFacade.forceUpdateModel(tModel);
-		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(0,0,VertexDirection.East)),false);
+		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(-2,0,VertexDirection.East)),false);
 		
 		//Build too close to other settlement
-		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(0,0,VertexDirection.NorthEast)),false);
+		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(-2,0,VertexDirection.NorthEast)),false);
 		
 		//Build two spots away from other settlement
-		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(0,0,VertexDirection.NorthWest)),true);
+		player.setResources(new ResourceList(1,1,1,1,1));
+		ModelFacade.updateModel(tModel);
+		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(-2,0,VertexDirection.NorthWest)),true);
 		
 		//Build with not enough resources.
 		player.setResources(new ResourceList(0,0,0,0,0));
 		ModelFacade.forceUpdateModel(tModel);
-		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(0,0,VertexDirection.West)),false);
+		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(-2,0,VertexDirection.West)),false);
 		
 	}
 
@@ -219,19 +223,19 @@ public class ModelFacadeUnitTests {
 		Player player = tModel.getPlayers().get(0);
 		//Set resources high enough, and add test roads
 		player.setResources(new ResourceList(1,1,1,1,1));
-		tModel.getMap().addRoad(new Road(0, new EdgeLocation(0,0,EdgeDirection.North)));
-		tModel.getMap().addRoad(new Road(1, new EdgeLocation(0,0,EdgeDirection.NorthWest)));
+		tModel.getMap().addRoad(new Road(0, new EdgeLocation(-1,-1,EdgeDirection.North)));
+		tModel.getMap().addRoad(new Road(1, new EdgeLocation(-1,-1,EdgeDirection.NorthWest)));
 		ModelFacade.forceUpdateModel(tModel);
 		
-		assertEquals(ModelFacade.canBuildRoad(0, new EdgeLocation(0,0,EdgeDirection.NorthEast)),true);
-		assertEquals(ModelFacade.canBuildRoad(0, new EdgeLocation(0,0,EdgeDirection.SouthWest)),false);
-		assertEquals(ModelFacade.canBuildRoad(0, new EdgeLocation(0,0,EdgeDirection.North)),false);
-		assertEquals(ModelFacade.canBuildRoad(0, new EdgeLocation(0,0,EdgeDirection.NorthWest)),false);
+		assertEquals(ModelFacade.canBuildRoad(0, new EdgeLocation(-1,-1,EdgeDirection.NorthEast)),true);
+		assertEquals(ModelFacade.canBuildRoad(0, new EdgeLocation(-1,-1,EdgeDirection.SouthWest)),false);
+		assertEquals(ModelFacade.canBuildRoad(0, new EdgeLocation(-1,-1,EdgeDirection.North)),false);
+		assertEquals(ModelFacade.canBuildRoad(0, new EdgeLocation(-1,-1,EdgeDirection.NorthWest)),false);
 		
 		//Set resources low
 		player.setResources(new ResourceList(0,0,0,0,0));
 		ModelFacade.forceUpdateModel(tModel);
-		assertEquals(ModelFacade.canBuildRoad(0, new EdgeLocation(0,0,EdgeDirection.NorthEast)),false);
+		assertEquals(ModelFacade.canBuildRoad(0, new EdgeLocation(-1,-1,EdgeDirection.NorthEast)),false);
 	}
 
 	@Test

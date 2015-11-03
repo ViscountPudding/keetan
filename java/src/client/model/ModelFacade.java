@@ -208,7 +208,7 @@ public class ModelFacade {
 
 	public static boolean canBuildCity(int playerIndex, VertexLocation vertLoc) {
 		// TODO Auto-generated method stub
-		
+		vertLoc = vertLoc.getNormalizedLocation();
 		if(playerIndex != ModelFacade.whoseTurnIsItAnyway()) {
 			return false;
 		}
@@ -219,6 +219,7 @@ public class ModelFacade {
 			return false;
 		}
 		
+		VertexObject x = model.getSettlements().get(vertLoc);
 		if(model.getSettlements().get(vertLoc) != null) {
 			if(model.getSettlements().get(vertLoc.getNormalizedLocation()).getOwner() == playerIndex) {
 				return true;
