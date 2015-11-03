@@ -37,6 +37,9 @@ public class ModelFacade {
 		return model.getDataLump().getMap().getHexes();
 	}
 	
+	public static List<Port> getPorts() {
+		return model.getDataLump().getMap().getPorts();
+	}
 	
 	/**
 	* @pre ModelFacade must be initialized and must have a current valid model

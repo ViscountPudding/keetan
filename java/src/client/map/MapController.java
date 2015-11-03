@@ -1,20 +1,23 @@
 package client.map;
 
-import java.util.Observable;
-
 import shared.definitions.CatanColor;
+import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import client.base.Controller;
 import client.data.RobPlayerInfo;
+import client.map.states.MapControllerBuildTradeState;
 import client.map.states.MapControllerDoublePlaceState;
 import client.map.states.MapControllerDoubleWaitState;
 import client.map.states.MapControllerNotTurnState;
 import client.map.states.MapControllerRollingDiceState;
 import client.map.states.MapControllerSetupState;
 import client.map.states.MapControllerState;
+import client.map.states.MapControllerThieveryState;
 import client.model.EdgeLocation;
+import client.model.Hex;
 import client.model.HexLocation;
 import client.model.ModelFacade;
+import client.model.Port;
 import client.model.Status;
 import client.model.VertexLocation;
 
@@ -66,6 +69,16 @@ public class MapController extends Controller implements IMapController {
 //			}
 //		}
 //		getView().placeRobber(ModelFacade.findRobber());
+		
+		for(Hex hex : ModelFacade.getHexes()) {
+			getView().addHex(hex.getLocation(), hex.getType());
+			if(hex.getType() != HexType.DESERT && hex.getType() != HexType.WATER) {
+				getView().addNumber(hex.getLocation(), hex.getChitNumber());
+			}
+		}
+		for(Port port : ModelFacade.getPorts()) {
+			getView().addPort(new EdgeLocation(port.getLocation().getX(), port.getLocation().getY(), port.getDirection()), port.getResource().getPortType());
+		}
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
@@ -153,7 +166,7 @@ public class MapController extends Controller implements IMapController {
 		else {
 			switch(ModelFacade.whatStateMightItBe()) {
 			case Rolling:
-					state = new MapControllerRollingDiceState();
+				state = new MapControllerRollingDiceState();
 				break;
 			case Discarding:
 				break;
@@ -161,13 +174,16 @@ public class MapController extends Controller implements IMapController {
 				state = new MapControllerDoublePlaceState();
 				break;
 			case Playing:
+				state = new MapControllerBuildTradeState();
 				break;
 			case Robbing:
+				state = new MapControllerThieveryState();
 				break;
 			case SecondRound:
 				state = new MapControllerDoublePlaceState();
 				break;
 			default:
+				state = new MapControllerNotTurnState();
 				break;
 		}
 		
