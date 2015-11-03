@@ -101,31 +101,30 @@ public class MapController extends Controller implements IMapController {
 		drawWater();
 	}
 
+
+
 	protected void drawWater() {
-		//HARDCODED FOR REASONS!
-		/*
-		getView().addHex(new HexLocation(3,0), HexType.WATER);
-		getView().addHex(new HexLocation(3,1), HexType.WATER);
-		getView().addHex(new HexLocation(3,2), HexType.WATER);
-		getView().addHex(new HexLocation(3,3), HexType.WATER);
-		getView().addHex(new HexLocation(2,3), HexType.WATER);
-		getView().addHex(new HexLocation(1,3), HexType.WATER);
-		getView().addHex(new HexLocation(0,3), HexType.WATER);
-		getView().addHex(new HexLocation(-1,2), HexType.WATER);
-		getView().addHex(new HexLocation(-2,1), HexType.WATER);
-		getView().addHex(new HexLocation(-3,0), HexType.WATER);
-		getView().addHex(new HexLocation(-3,-1), HexType.WATER);
-		getView().addHex(new HexLocation(-3,-2), HexType.WATER);
-		getView().addHex(new HexLocation(-3,-3), HexType.WATER);
-		getView().addHex(new HexLocation(-2,-3), HexType.WATER);
-		getView().addHex(new HexLocation(-1,-3), HexType.WATER);
-		getView().addHex(new HexLocation(0,-3), HexType.WATER);
-		getView().addHex(new HexLocation(1,-2), HexType.WATER);
-		getView().addHex(new HexLocation(2,-1), HexType.WATER);
-		*/
-		getView().addHex(new HexLocation(1,1), HexType.WATER);
-		getView().addHex(new HexLocation(0,3), HexType.WATER);	
+		getView().addHex(new HexLocation(0, 3), HexType.WATER);
+		getView().addHex(new HexLocation(-1, 3), HexType.WATER);
+		getView().addHex(new HexLocation(-2, 3), HexType.WATER);
+		getView().addHex(new HexLocation(-3, 3), HexType.WATER);
+		getView().addHex(new HexLocation(-3, 2), HexType.WATER);
+		getView().addHex(new HexLocation(-3, 1), HexType.WATER);
+		getView().addHex(new HexLocation(-3, 0), HexType.WATER);
+		getView().addHex(new HexLocation(-2, -1), HexType.WATER);
+		getView().addHex(new HexLocation(-1, -2), HexType.WATER);
+		getView().addHex(new HexLocation(0, -3), HexType.WATER);
+		getView().addHex(new HexLocation(1, -3), HexType.WATER);
+		getView().addHex(new HexLocation(2, -3), HexType.WATER);
+		getView().addHex(new HexLocation(3, -3), HexType.WATER);
+		getView().addHex(new HexLocation(3, -2), HexType.WATER);
+		getView().addHex(new HexLocation(3, -1), HexType.WATER);
+		getView().addHex(new HexLocation(3, 0), HexType.WATER);
+		getView().addHex(new HexLocation(2, 1), HexType.WATER);
+		getView().addHex(new HexLocation(1, 2), HexType.WATER);
 	}
+
+
 	
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		return state.canPlaceRoad(edgeLoc);
@@ -233,7 +232,7 @@ public class MapController extends Controller implements IMapController {
 				default:
 					state = new MapControllerNotTurnState();
 					break;
-			}
+				}
 			
 			}
 		}
