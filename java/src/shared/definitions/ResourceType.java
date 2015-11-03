@@ -52,7 +52,7 @@ public enum ResourceType {
 		case WOOD:
 			return PortType.WOOD;
 		default:
-			return null;
+			return PortType.THREE;
 		}
 	}
 }

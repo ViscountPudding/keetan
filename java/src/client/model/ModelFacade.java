@@ -37,6 +37,18 @@ public class ModelFacade {
 		return model.getDataLump().getMap().getHexes();
 	}
 	
+	public static List<Road> getRoads() {
+		return model.getDataLump().getMap().getRoads();
+	}
+	
+	public static List<VertexObject> getSettlements() {
+		return model.getDataLump().getMap().getSettlements();
+	}
+	
+	public static List<VertexObject> getCities() {
+		return model.getDataLump().getMap().getCities();
+	}
+	
 	public static List<Port> getPorts() {
 		return model.getDataLump().getMap().getPorts();
 	}

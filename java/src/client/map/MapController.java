@@ -3,6 +3,7 @@ package client.map;
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
+import shared.definitions.PortType;
 import client.base.Controller;
 import client.data.RobPlayerInfo;
 import client.map.states.MapControllerBuildTradeState;
@@ -67,8 +68,21 @@ public class MapController extends Controller implements IMapController {
 			}
 		}
 		for(Port port : ModelFacade.getPorts()) {
-			getView().addPort(new EdgeLocation(port.getLocation().getX(), port.getLocation().getY(), port.getDirection()), port.getResource().getPortType());
+			System.out.println(port);
+			
+			if(port != null) {
+				if(port.getResource() == null) {
+					getView().addPort(new EdgeLocation(port.getLocation().getX(), port.getLocation().getY(), port.getDirection()), PortType.THREE);
+				}
+				else {
+				getView().addPort(new EdgeLocation(port.getLocation().getX(), port.getLocation().getY(),
+						port.getDirection()), port.getResource().getPortType());
+				}
+			}
 		}
+		
+		
+		
 		System.out.println("GG TAs");
 	}
 
