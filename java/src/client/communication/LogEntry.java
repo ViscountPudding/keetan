@@ -1,6 +1,7 @@
 package client.communication;
 
 import shared.definitions.CatanColor;
+import client.data.GameInfo;
 import client.model.MessageLine;
 
 /**
@@ -25,7 +26,7 @@ public class LogEntry
 		this.message = message;
 	}
 	
-	public LogEntry(MessageLine line) {
+	public LogEntry(MessageLine line, GameInfo gameInfo) {
 		// TODO??//
 	}
 

@@ -506,7 +506,7 @@ public class ModelFacade {
 		List<LogEntry> chatLog = new ArrayList<LogEntry>();
 		
 		for (MessageLine line : chat.getLines()) {
-			chatLog.add(new LogEntry(line));
+			chatLog.add(new LogEntry(line, getGameInfo()));
 		}
 		
 		return chatLog;
