@@ -80,35 +80,8 @@ public class ModelFacadeUnitTests {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
-	public void test() {
-		
-		TransferModel headBrick = null;
-		
-		try {
-			headBrick = ServerProxy.getModel(-1);
-		} catch (ServerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		if(headBrick == null) {
-			fail("Didn't get a transfer model");
-		}
-		
-		testUpdateModel(headBrick);
-		
-	}
-	
-	public void testUpdateModel(TransferModel headBrick) {
-		
-		ModelFacade.updateModel(headBrick);
-		
-		assertEquals(19, ModelFacade.getHexes().size());
-		assertEquals(4, headBrick.getPlayers().size());	
-	}
-	
 	public void testCanProduceResource() {
 		TransferModel tModel = null;
 		try {
@@ -130,7 +103,8 @@ public class ModelFacadeUnitTests {
 		assertEquals(ModelFacade.canProduceResource(1, new HexLocation(0,0)),true);
 		assertEquals(ModelFacade.canProduceResource(2, new HexLocation(0,0)),false);
 	}
-	
+
+	@Test
 	public void testCanReceiveResource() {
 		TransferModel tModel = null;
 		try {
@@ -146,7 +120,8 @@ public class ModelFacadeUnitTests {
 		assertEquals(ModelFacade.canReceiveResource(5,ResourceType.BRICK),true);
 		assertEquals(ModelFacade.canReceiveResource(6,ResourceType.BRICK),false);
 	}
-	
+
+	@Test
 	public void testCanBuildSettlement() {
 		TransferModel tModel = null;
 		try {
@@ -192,7 +167,8 @@ public class ModelFacadeUnitTests {
 		assertEquals(ModelFacade.canBuildSettlement(0, new VertexLocation(0,0,VertexDirection.West)),false);
 		
 	}
-	
+
+	@Test
 	public void testCanBuildCity() {
 		TransferModel tModel = null;
 		try {
@@ -232,6 +208,7 @@ public class ModelFacadeUnitTests {
 		
 	}
 
+	@Test
 	public void testCanBuildRoad() {
 		TransferModel tModel = null;
 		try {
@@ -257,7 +234,8 @@ public class ModelFacadeUnitTests {
 		ModelFacade.updateModel(tModel);
 		assertEquals(ModelFacade.canBuildRoad(0, new EdgeLocation(0,0,EdgeDirection.NorthEast)),false);
 	}
-	
+
+	@Test
 	public void testCanDomesticTrade() {
 		TransferModel tModel = null;
 		try {
@@ -288,7 +266,8 @@ public class ModelFacadeUnitTests {
 		trade = new TradeOffer(2,1,new ResourceList(-1,1,0,0,0));
 		assertEquals(ModelFacade.canDomesticTrade(trade),false);
 	}
-	
+
+	@Test
 	public void testCanMaritimeTrade() {
 		TransferModel tModel = null;
 		try {
@@ -323,7 +302,8 @@ public class ModelFacadeUnitTests {
 		ModelFacade.updateModel(tModel);
 		assertEquals(ModelFacade.canMaritimeTrade(0, ResourceType.BRICK, ResourceType.WOOD),false);
 	}
-	
+
+	@Test
 	public void testCanBuyDevelopmentCard() {
 		TransferModel tModel = null;
 		try {
@@ -348,7 +328,8 @@ public class ModelFacadeUnitTests {
 		ModelFacade.updateModel(tModel);
 		assertEquals(ModelFacade.canBuyDevelopmentCard(0),false);
 	}
-	
+
+	@Test
 	public void testCanLoseCardsFromDieRoll() {
 		TransferModel tModel = null;
 		try {
@@ -365,7 +346,8 @@ public class ModelFacadeUnitTests {
 		ModelFacade.updateModel(tModel);
 		assertEquals(ModelFacade.canLoseCardsFromDieRoll(0),false);
 	}
-	
+
+	@Test
 	public void testCanWin() {
 		TransferModel tModel = null;
 		try {
