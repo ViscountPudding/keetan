@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import shared.definitions.CatanColor;
 import shared.definitions.EdgeDirection;
 import shared.definitions.ResourceType;
 import shared.definitions.VertexDirection;
@@ -506,7 +507,8 @@ public class ModelFacade {
 		List<LogEntry> chatLog = new ArrayList<LogEntry>();
 		
 		for (MessageLine line : chat.getLines()) {
-			chatLog.add(new LogEntry(getGameInfo().getPlayerColor(line.getSource()), line.getMessage()));
+			CatanColor color = getGameInfo().getPlayerInfo(line.getSource()).getColor();
+			chatLog.add(new LogEntry(color, line.getMessage()));
 		}
 		
 		return chatLog;
