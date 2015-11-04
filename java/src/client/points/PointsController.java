@@ -44,6 +44,7 @@ public class PointsController extends Controller implements IPointsController {
 	}
 
 	private void initFromModel() {
+		/*
 		getPointsView().setPoints(ModelFacade.getThisPlayer().getVictoryPoints());
 		
 		if(ModelFacade.getWinner() == ModelFacade.getPlayerInfo().getIndex()) {
@@ -52,7 +53,8 @@ public class PointsController extends Controller implements IPointsController {
 		else if(ModelFacade.getWinner() != -1) {
 			getFinishedView().setWinner(ModelFacade.getAPlayer(ModelFacade.getWinner()).getName(), false);
 		}
-		
+		*/
+		getPointsView().setPoints(5);
 	}
 
 	@Override
