@@ -110,24 +110,66 @@ public class ServerMovesFacade {
 	public void monument(int gameID, Monument monument) {		
 	}
 
+	/**
+     * @pre A player offers a trade
+     * @post All players begin trading as described in the rules
+     * @param gameID The ID of the game to modify
+     * @param plenty The transfer object containing relevant data
+     */
 	public void offerTrade(int gameID, OfferTrade offer) {		
 	}
 	
+     /**
+     * @pre A player plays a Road Building card
+     * @post The player places two roads as described in the rules
+     * @param gameID The ID of the game to modify
+     * @param plenty The transfer object containing relevant data
+     */
 	public void roadBuilding(int gameID, RoadBuilding roadBuild) {		
 	}
 	
+     /**
+     * @pre A player plays a soldier or rolls a seven
+     * @post The player steals a card as described in the rules
+     * @param gameID The ID of the game to modify
+     * @param plenty The transfer object containing relevant data
+     */
 	public void robPlayer(int gameID, RobPlayer robbery) {		
 	}
 	
+     /**
+     * @pre A player begins their turn by rolling the dice
+     * @post All players receive resources as described in the rules
+     * @param gameID The ID of the game to modify
+     * @param plenty The transfer object containing relevant data
+     */
 	public void rollNumber(int gameID, RollNumber roll) {		
 	}
 	
+     /**
+     * @pre A player sends a chat message
+     * @post The chat log updates to include the new message
+     * @param gameID The ID of the game to modify
+     * @param plenty The transfer object containing relevant data
+     */
 	public void sendChat(int gameID, SendChat chat) {	
 	}
 	
+     /**
+     * @pre A player plays a Soldier card
+     * @post The player moves the robber and robs a player as described in the rules
+     * @param gameID The ID of the game to modify
+     * @param plenty The transfer object containing relevant data
+     */
 	public void soldier(int gameID, Soldier soldier) {		
 	}
 	
+     /**
+     * @pre A player plays a Year Of Plenty card
+     * @post The player receives resources as described in the rules
+     * @param gameID The ID of the game to modify
+     * @param plenty The transfer object containing relevant data
+     */
 	public void yearOfPlenty(int gameID, YearOfPlenty plenty) {		
 	}
 }
