@@ -21,6 +21,10 @@ import shared.transferClasses.YearOfPlenty;
 public class ServerMovesFacade {
 
 	/**
+	 * Server Facade that handles all "moves" commands for all games
+	 */
+	
+	/**
 	 * @pre Somebody has accepted a trade
 	 * @param gameID the ID of the game
 	 * @param accept the information regarding the trade
