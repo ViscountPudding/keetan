@@ -2,7 +2,6 @@ package client.tests;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import org.junit.After;
@@ -25,6 +24,7 @@ import shared.transferClasses.JoinGameRequest;
 import shared.transferClasses.MaritimeTrade;
 import shared.transferClasses.Monopoly;
 import shared.transferClasses.Monument;
+import shared.transferClasses.OfferTrade;
 import shared.transferClasses.RoadBuilding;
 import shared.transferClasses.RobPlayer;
 import shared.transferClasses.RollNumber;
@@ -35,7 +35,7 @@ import shared.transferClasses.YearOfPlenty;
 import client.exceptions.ServerException;
 import client.model.EdgeLocation;
 import client.model.HexLocation;
-import client.model.TradeOffer;
+import client.model.ResourceList;
 import client.server.IServer;
 import client.server.MockServer;
 
@@ -118,8 +118,7 @@ public class ProxyServerUnitTests {
 	@Test
 	public void listGamesTest() {
 		try {
-			ArrayList<Game> games = server.getGamesList();
-			games.size();
+			Game[] games = server.getGamesList();
 		}
 		catch (ServerException e) {
 			if (e.getReason().equals("An IOException occurred")) {
@@ -167,8 +166,7 @@ public class ProxyServerUnitTests {
 	@Test
 	public void listAITypesTest() {
 		try {
-			ArrayList<String> aiTypes = server.listAITypes();
-			aiTypes.size();
+			String[] aiTypes = server.listAITypes();
 		}
 		catch (ServerException e) {
 			if (e.getReason().equals("An IOException occurred")) {
@@ -338,7 +336,7 @@ public class ProxyServerUnitTests {
 	@Test
 	public void offerTradeTest() {
 		try {
-			server.offerTrade(new TradeOffer(0, 0, null));
+			server.offerTrade(new OfferTrade(0, new ResourceList(0, -1, 1, 0, 0), 1));
 		}
 		catch (ServerException e) {
 			if (e.getReason().equals("An IOException occurred")) {

@@ -1,6 +1,4 @@
 package client.server;
-import java.util.ArrayList;
-
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
 import shared.transferClasses.BuildCity;
@@ -26,7 +24,6 @@ import shared.transferClasses.UserCredentials;
 import shared.transferClasses.YearOfPlenty;
 import client.exceptions.IllegalActionException;
 import client.exceptions.ServerException;
-import client.model.TradeOffer;
 import client.model.TransferModel;
 
 /**

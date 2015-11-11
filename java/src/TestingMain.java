@@ -14,6 +14,8 @@ import client.model.MessageLine;
 import client.model.ModelFacade;
 import client.model.Port;
 import client.model.TransferModel;
+import client.server.ClientServer;
+import client.server.MockServer;
 import client.server.ServerPoller;
 import client.server.ServerProxy;
 
@@ -22,7 +24,17 @@ import client.server.ServerProxy;
 
 public class TestingMain {
 	public static void main(String[] args) {		
-		ServerProxy.initialize("localhost:8081");
+		ServerProxy.initialize(new MockServer());
+		//ServerProxy.initialize(new ClientServer("localhost", "8081"));
+		
+		try {
+			TransferModel modeling = ServerProxy.getModel(-1);
+			System.out.println(Converter.toJson(modeling));
+		}
+		catch (ServerException e1) {
+			System.err.println(e1.getReason());
+		}
+		
 		
 		UserCredentials fox = new UserCredentials("Star_Fox", "WhereYouGoing");
 		UserCredentials peppy = new UserCredentials("Harey_Mentor", "DoABarrelRoll");
@@ -74,6 +86,7 @@ public class TestingMain {
 			
 			model = ServerProxy.getModel(-1);
 			ModelFacade.updateModel(model);
+			System.out.println(Converter.toJson(model));
 			System.out.println(Converter.toJson(model.getBank()));
 			System.out.println(Converter.toJson(model.getMap()));
 			

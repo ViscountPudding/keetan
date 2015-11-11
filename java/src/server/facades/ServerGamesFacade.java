@@ -7,6 +7,11 @@ import shared.transferClasses.CreateGameResponse;
 import shared.transferClasses.Game;
 import shared.transferClasses.JoinGameRequest;
 
+/**
+ * A facade that executes commands associated with user login and registration
+ * and games creation, joining, and listing.
+ * @author djoshuac
+ */
 public class ServerGamesFacade {
 	
 	/**

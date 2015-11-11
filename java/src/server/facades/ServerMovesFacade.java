@@ -18,11 +18,10 @@ import shared.transferClasses.SendChat;
 import shared.transferClasses.Soldier;
 import shared.transferClasses.YearOfPlenty;
 
+/**
+ * Server Facade that handles all "moves" commands for all games
+ */
 public class ServerMovesFacade {
-
-	/**
-	 * Server Facade that handles all "moves" commands for all games
-	 */
 	
 	/**
 	 * @pre Somebody has accepted a trade
