@@ -1,5 +1,8 @@
 package client.server;
 
+import java.util.List;
+import java.util.Map;
+
 import shared.transferClasses.AcceptTrade;
 import shared.transferClasses.AddAIRequest;
 import shared.transferClasses.BuildCity;
@@ -26,16 +29,29 @@ import shared.transferClasses.YearOfPlenty;
 import client.exceptions.ServerException;
 import client.model.TransferModel;
 
-public class ClientServer implements IServer {
-	private ClientCommunicator communicator;
+public class NewClientServer implements IServer {
+	private NewClientCommunicator communicator;
 	
-	public ClientServer (String host, String port) {
-		communicator = new ClientCommunicator(host + ":" + port);
+	public NewClientServer (String host, String port) {
+		communicator = new NewClientCommunicator(host + ":" + port);
 	}
 	
 	@Override
 	public void login(UserCredentials userCredentials) throws ServerException {
+		
+		communicator.addRequestHeader("User", "Joe");
+		communicator.addRequestHeader("Game", "Joe's Game");
 		communicator.send("/user/login", userCredentials);
+
+		Map<String, List<String>> headers = communicator.getResponseHeadersForLastSend();
+		System.out.println("\n\nResponse Headers");
+		for (String field : headers.keySet()) {
+			System.out.print(field + ": [");
+			for (String value : headers.get(field)) {
+				System.out.print(value + ", ");
+			}
+			System.out.println("]");
+		}
 	}
 
 	@Override

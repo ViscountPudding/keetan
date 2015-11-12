@@ -18,10 +18,7 @@ import shared.transferClasses.SendChat;
 import shared.transferClasses.Soldier;
 import shared.transferClasses.YearOfPlenty;
 
-/**
- * Server Facade that handles all "moves" commands for all games
- */
-public class ServerMovesFacade implements IMovesFacade {
+public class MockMovesFacade implements IMovesFacade {
 
 	@Override
 	public void acceptTrade(int gameID, AcceptTrade accept) {
@@ -124,5 +121,5 @@ public class ServerMovesFacade implements IMovesFacade {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 }
